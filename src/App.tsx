@@ -15,6 +15,7 @@ import Schedule from "./pages/Schedule";
 import Resources from "./pages/Resources";
 import Reports from "./pages/Reports";
 import Users from "./pages/Users";
+import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -37,7 +38,7 @@ const App = () => (
             <Route path="resources" element={<Resources />} />
             <Route path="reports" element={<Reports />} />
             <Route path="users" element={<Users />} />
-            <Route path="settings" element={<NotFound />} />
+            <Route path="settings" element={<Settings />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
