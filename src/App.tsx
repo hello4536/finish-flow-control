@@ -9,7 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import Jobs from "./pages/Jobs";
 import Workflows from "./pages/Workflows";
 import Materials from "./pages/Materials";
-import Inventory from "./pages/Inventory";
+import Inventory from "./pages/inventory";
 import Quality from "./pages/Quality";
 import NotFound from "./pages/NotFound";
 
