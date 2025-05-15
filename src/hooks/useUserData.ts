@@ -32,7 +32,13 @@ export function useUserData() {
         throw error;
       }
 
-      setUsers(data || []);
+      // Validate and transform the status to ensure it's either "active" or "inactive"
+      const typedUsers = data?.map(user => ({
+        ...user,
+        status: user.status === "active" ? "active" : "inactive",
+      })) as User[] || [];
+
+      setUsers(typedUsers);
     } catch (error) {
       console.error("Error fetching users:", error);
       toast({
@@ -58,8 +64,14 @@ export function useUserData() {
       }
 
       if (data) {
-        setUsers((prevUsers) => [...prevUsers, data[0]]);
-        return data[0];
+        // Validate and transform the status
+        const newUser = {
+          ...data[0],
+          status: data[0].status === "active" ? "active" : "inactive"
+        } as User;
+        
+        setUsers((prevUsers) => [...prevUsers, newUser]);
+        return newUser;
       }
     } catch (error) {
       console.error("Error adding user:", error);
@@ -86,10 +98,16 @@ export function useUserData() {
       }
 
       if (data) {
+        // Validate and transform the status
+        const updatedUser = {
+          ...data[0],
+          status: data[0].status === "active" ? "active" : "inactive"
+        } as User;
+        
         setUsers((prevUsers) =>
-          prevUsers.map((user) => (user.id === id ? { ...user, ...data[0] } : user))
+          prevUsers.map((user) => (user.id === id ? updatedUser : user))
         );
-        return data[0];
+        return updatedUser;
       }
     } catch (error) {
       console.error("Error updating user:", error);
