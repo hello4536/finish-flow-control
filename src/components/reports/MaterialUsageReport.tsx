@@ -66,77 +66,83 @@ export function MaterialUsageReport({ dateRange, detailed = false }: MaterialUsa
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <ChartContainer config={chartConfig} className="aspect-[4/3]">
-        <div className="text-center mb-2 font-medium">Material Composition</div>
-        <ResponsiveContainer width="100%" height={200}>
-          <PieChart>
-            <Pie
-              data={materials}
-              cx="50%"
-              cy="50%"
-              labelLine={false}
-              outerRadius={80}
-              fill="#8884d8"
-              dataKey="value"
-              label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-            >
-              {materials.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={entry.color} />
-              ))}
-            </Pie>
-            <ChartTooltip
-              content={({ active, payload }) => {
-                if (active && payload && payload.length) {
-                  return (
-                    <div className="rounded-lg border bg-background p-2 shadow-md">
-                      <div className="font-medium">{payload[0].name}</div>
-                      <div className="text-sm text-muted-foreground">
-                        {payload[0].value}%
+        {/* Wrap multiple elements in a single fragment */}
+        <>
+          <div className="text-center mb-2 font-medium">Material Composition</div>
+          <ResponsiveContainer width="100%" height={200}>
+            <PieChart>
+              <Pie
+                data={materials}
+                cx="50%"
+                cy="50%"
+                labelLine={false}
+                outerRadius={80}
+                fill="#8884d8"
+                dataKey="value"
+                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+              >
+                {materials.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.color} />
+                ))}
+              </Pie>
+              <ChartTooltip
+                content={({ active, payload }) => {
+                  if (active && payload && payload.length) {
+                    return (
+                      <div className="rounded-lg border bg-background p-2 shadow-md">
+                        <div className="font-medium">{payload[0].name}</div>
+                        <div className="text-sm text-muted-foreground">
+                          {payload[0].value}%
+                        </div>
                       </div>
-                    </div>
-                  );
-                }
-                return null;
-              }}
-            />
-          </PieChart>
-        </ResponsiveContainer>
+                    );
+                  }
+                  return null;
+                }}
+              />
+            </PieChart>
+          </ResponsiveContainer>
+        </>
       </ChartContainer>
 
       <ChartContainer config={chartConfig} className="aspect-[4/3]">
-        <div className="text-center mb-2 font-medium">Waste Management</div>
-        <ResponsiveContainer width="100%" height={200}>
-          <PieChart>
-            <Pie
-              data={waste}
-              cx="50%"
-              cy="50%"
-              labelLine={false}
-              outerRadius={80}
-              fill="#8884d8"
-              dataKey="value"
-              label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-            >
-              {waste.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={entry.color} />
-              ))}
-            </Pie>
-            <ChartTooltip
-              content={({ active, payload }) => {
-                if (active && payload && payload.length) {
-                  return (
-                    <div className="rounded-lg border bg-background p-2 shadow-md">
-                      <div className="font-medium">{payload[0].name}</div>
-                      <div className="text-sm text-muted-foreground">
-                        {payload[0].value}%
+        {/* Wrap multiple elements in a single fragment */}
+        <>
+          <div className="text-center mb-2 font-medium">Waste Management</div>
+          <ResponsiveContainer width="100%" height={200}>
+            <PieChart>
+              <Pie
+                data={waste}
+                cx="50%"
+                cy="50%"
+                labelLine={false}
+                outerRadius={80}
+                fill="#8884d8"
+                dataKey="value"
+                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+              >
+                {waste.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.color} />
+                ))}
+              </Pie>
+              <ChartTooltip
+                content={({ active, payload }) => {
+                  if (active && payload && payload.length) {
+                    return (
+                      <div className="rounded-lg border bg-background p-2 shadow-md">
+                        <div className="font-medium">{payload[0].name}</div>
+                        <div className="text-sm text-muted-foreground">
+                          {payload[0].value}%
+                        </div>
                       </div>
-                    </div>
-                  );
-                }
-                return null;
-              }}
-            />
-          </PieChart>
-        </ResponsiveContainer>
+                    );
+                  }
+                  return null;
+                }}
+              />
+            </PieChart>
+          </ResponsiveContainer>
+        </>
       </ChartContainer>
     </div>
   );
