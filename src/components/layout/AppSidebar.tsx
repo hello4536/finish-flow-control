@@ -83,8 +83,8 @@ export function AppSidebar() {
         return `${baseClasses} ${item.color} text-white shadow-md font-medium`;
       }
       
-      // Inactive state with hover effect
-      return `${baseClasses} text-white/90 hover:bg-white/20 hover:text-white`;
+      // Inactive state with navy blue text and hover effect
+      return `${baseClasses} text-finish-blue-900 hover:bg-white/20 hover:text-white`;
     };
   };
   
