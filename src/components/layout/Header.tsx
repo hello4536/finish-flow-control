@@ -21,10 +21,10 @@ import { Input } from "@/components/ui/input";
 const Header: React.FC = () => {
   return (
     <header className="flex h-16 items-center border-b px-4 bg-white dark:bg-card">
-      <SidebarTrigger className="mr-4" />
+      <SidebarTrigger className="mr-4 text-primary" />
       
       <div className="flex items-center space-x-4 lg:space-x-6">
-        <h1 className="hidden text-xl font-bold md:block">FinishFlow</h1>
+        <h1 className="hidden text-xl font-bold md:block">Finish<span className="text-accent">Flow</span></h1>
       </div>
       
       <div className="ml-auto flex items-center space-x-4">
@@ -40,8 +40,8 @@ const Header: React.FC = () => {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="relative">
-              <Bell className="h-5 w-5" />
-              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-[10px] text-destructive-foreground">
+              <Bell className="h-5 w-5 text-primary" />
+              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[10px] text-accent-foreground">
                 3
               </span>
             </Button>
@@ -74,7 +74,7 @@ const Header: React.FC = () => {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon">
-              <User className="h-5 w-5" />
+              <User className="h-5 w-5 text-primary" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
