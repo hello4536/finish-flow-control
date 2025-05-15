@@ -26,97 +26,25 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-interface ScheduleEvent {
-  id: string;
-  title: string;
-  date: string;
-  time: string;
-  type: 'job' | 'meeting' | 'delivery';
-  status: 'scheduled' | 'completed' | 'cancelled';
-  assignedTo?: string;
-}
-
-const mockEvents: ScheduleEvent[] = [
-  {
-    id: 'E-001',
-    title: 'Cabinet Finishing Job #J-1008',
-    date: 'May 15, 2025',
-    time: '9:00 AM - 12:00 PM',
-    type: 'job',
-    status: 'scheduled',
-    assignedTo: 'Alex Johnson'
-  },
-  {
-    id: 'E-002',
-    title: 'Team Status Meeting',
-    date: 'May 15, 2025',
-    time: '1:00 PM - 2:00 PM',
-    type: 'meeting',
-    status: 'scheduled'
-  },
-  {
-    id: 'E-003',
-    title: 'Material Delivery',
-    date: 'May 16, 2025',
-    time: '10:30 AM',
-    type: 'delivery',
-    status: 'scheduled'
-  },
-  {
-    id: 'E-004',
-    title: 'Desk Refinishing Job #J-1010',
-    date: 'May 17, 2025',
-    time: '8:00 AM - 4:00 PM',
-    type: 'job',
-    status: 'scheduled',
-    assignedTo: 'Maria Rodriguez'
-  },
-  {
-    id: 'E-005',
-    title: 'Client Consultation',
-    date: 'May 18, 2025',
-    time: '2:00 PM - 3:00 PM',
-    type: 'meeting',
-    status: 'scheduled'
-  },
-  {
-    id: 'E-006',
-    title: 'Door Refinishing Job #J-1012',
-    date: 'May 19, 2025',
-    time: '9:00 AM - 5:00 PM',
-    type: 'job',
-    status: 'scheduled',
-    assignedTo: 'John Smith'
-  },
-  {
-    id: 'E-007',
-    title: 'Supply Inventory Review',
-    date: 'May 20, 2025',
-    time: '11:00 AM - 12:00 PM',
-    type: 'meeting',
-    status: 'scheduled'
-  },
-  {
-    id: 'E-008',
-    title: 'Bookshelf Finishing Job #J-1015',
-    date: 'May 21, 2025',
-    time: '8:00 AM - 3:00 PM',
-    type: 'job',
-    status: 'scheduled',
-    assignedTo: 'Sarah Lee'
-  }
-];
+import { useScheduleData } from "@/hooks/useScheduleData";
+import { format, parseISO } from "date-fns";
 
 const ScheduleList: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("all");
+  const { events, isLoading, deleteEvent } = useScheduleData();
   
-  const filteredEvents = mockEvents.filter(event => {
+  const filteredEvents = events.filter(event => {
     const matchesSearch = event.title.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesFilter = filter === "all" || event.type === filter;
     return matchesSearch && matchesFilter;
   });
+
+  const handleDelete = (eventId: string) => {
+    if (confirm("Are you sure you want to delete this event?")) {
+      deleteEvent.mutate(eventId);
+    }
+  };
 
   return (
     <Card>
@@ -153,7 +81,7 @@ const ScheduleList: React.FC = () => {
 
             <div className="flex space-x-2">
               <Button variant="outline" size="sm">Export</Button>
-              <Button size="sm">Refresh</Button>
+              <Button size="sm" onClick={() => window.location.reload()}>Refresh</Button>
             </div>
           </div>
 
@@ -171,28 +99,41 @@ const ScheduleList: React.FC = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredEvents.map((event) => (
-                  <TableRow key={event.id}>
-                    <TableCell className="font-medium">{event.id}</TableCell>
-                    <TableCell>{event.title}</TableCell>
-                    <TableCell>{event.date}</TableCell>
-                    <TableCell>{event.time}</TableCell>
-                    <TableCell>
-                      <Badge className={
-                        event.type === 'job' ? 'bg-accent' : 
-                        event.type === 'meeting' ? 'bg-primary' : 
-                        'bg-green-500'
-                      }>
-                        {event.type.charAt(0).toUpperCase() + event.type.slice(1)}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>{event.assignedTo || '-'}</TableCell>
-                    <TableCell className="text-right">
-                      <Button variant="ghost" size="sm">View</Button>
-                    </TableCell>
+                {isLoading ? (
+                  <TableRow>
+                    <TableCell colSpan={7} className="text-center py-4">Loading events...</TableCell>
                   </TableRow>
-                ))}
-                {filteredEvents.length === 0 && (
+                ) : filteredEvents.length > 0 ? (
+                  filteredEvents.map((event) => (
+                    <TableRow key={event.id}>
+                      <TableCell className="font-medium">{event.event_id}</TableCell>
+                      <TableCell>{event.title}</TableCell>
+                      <TableCell>{format(new Date(event.date), 'MMM d, yyyy')}</TableCell>
+                      <TableCell>{event.time}</TableCell>
+                      <TableCell>
+                        <Badge className={
+                          event.type === 'job' ? 'bg-accent' : 
+                          event.type === 'meeting' ? 'bg-primary' : 
+                          'bg-green-500'
+                        }>
+                          {event.type.charAt(0).toUpperCase() + event.type.slice(1)}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>{event.assigned_to || '-'}</TableCell>
+                      <TableCell className="text-right">
+                        <Button variant="ghost" size="sm">View</Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          onClick={() => handleDelete(event.id)}
+                          className="text-red-500 hover:text-red-600"
+                        >
+                          Delete
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
                   <TableRow>
                     <TableCell colSpan={7} className="text-center py-4 text-muted-foreground">
                       No events found matching your criteria.

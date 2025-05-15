@@ -3,7 +3,17 @@ import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Clock, CalendarDays, Calendar as CalendarIcon } from "lucide-react";
 
-const ScheduleHeader: React.FC = () => {
+interface ScheduleHeaderProps {
+  jobCount: number;
+  meetingCount: number;
+  weeklyEventCount: number;
+}
+
+const ScheduleHeader: React.FC<ScheduleHeaderProps> = ({ 
+  jobCount, 
+  meetingCount, 
+  weeklyEventCount 
+}) => {
   return (
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
@@ -16,7 +26,7 @@ const ScheduleHeader: React.FC = () => {
             <div className="flex justify-between items-center">
               <div>
                 <p className="text-sm font-medium">Scheduled Jobs</p>
-                <h3 className="text-3xl font-bold">18</h3>
+                <h3 className="text-3xl font-bold">{jobCount}</h3>
               </div>
               <CalendarDays className="h-8 w-8 opacity-75" />
             </div>
@@ -28,7 +38,7 @@ const ScheduleHeader: React.FC = () => {
             <div className="flex justify-between items-center">
               <div>
                 <p className="text-sm font-medium">Upcoming Meetings</p>
-                <h3 className="text-3xl font-bold">6</h3>
+                <h3 className="text-3xl font-bold">{meetingCount}</h3>
               </div>
               <Clock className="h-8 w-8 text-muted-foreground" />
             </div>
@@ -40,7 +50,7 @@ const ScheduleHeader: React.FC = () => {
             <div className="flex justify-between items-center">
               <div>
                 <p className="text-sm font-medium">This Week</p>
-                <h3 className="text-3xl font-bold">8</h3>
+                <h3 className="text-3xl font-bold">{weeklyEventCount}</h3>
               </div>
               <CalendarIcon className="h-8 w-8 text-muted-foreground" />
             </div>

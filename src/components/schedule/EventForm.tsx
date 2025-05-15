@@ -1,6 +1,6 @@
 
-import React, { useState } from "react";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import React, { useState, useEffect } from "react";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,15 +11,29 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
+import { useScheduleData } from "@/hooks/useScheduleData";
+import { v4 as uuidv4 } from "@/lib/utils";
 
-const EventForm: React.FC = () => {
+interface EventFormProps {
+  selectedDate?: Date;
+}
+
+const EventForm: React.FC<EventFormProps> = ({ selectedDate }) => {
   const [title, setTitle] = useState("");
-  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [date, setDate] = useState<Date | undefined>(selectedDate || new Date());
   const [time, setTime] = useState("");
   const [type, setType] = useState<"job" | "meeting" | "delivery">("job");
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
   const { toast } = useToast();
+  const { addEvent } = useScheduleData();
+
+  // Update local date when selectedDate prop changes
+  useEffect(() => {
+    if (selectedDate) {
+      setDate(selectedDate);
+    }
+  }, [selectedDate]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,10 +47,17 @@ const EventForm: React.FC = () => {
       return;
     }
 
-    // In a real app, this would save the data to a backend
-    toast({
-      title: "Event Added",
-      description: `${title} has been added to your schedule.`,
+    // Add event to database
+    addEvent.mutate({
+      event_id: `E-${uuidv4().substring(0, 6)}`,
+      title,
+      date: format(date, 'yyyy-MM-dd'),
+      time,
+      type,
+      status: 'scheduled',
+      location: location || null,
+      description: description || null,
+      assigned_to: null
     });
     
     // Reset form
@@ -140,7 +161,13 @@ const EventForm: React.FC = () => {
             />
           </div>
           
-          <Button type="submit" className="w-full">Add Event</Button>
+          <Button 
+            type="submit" 
+            className="w-full"
+            disabled={addEvent.isPending}
+          >
+            {addEvent.isPending ? "Adding..." : "Add Event"}
+          </Button>
         </form>
       </CardContent>
     </Card>

@@ -261,6 +261,54 @@ export type Database = {
         }
         Relationships: []
       }
+      schedule_events: {
+        Row: {
+          assigned_to: string | null
+          created_at: string
+          date: string
+          description: string | null
+          end_time: string | null
+          event_id: string
+          id: string
+          location: string | null
+          status: string
+          time: string
+          title: string
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          assigned_to?: string | null
+          created_at?: string
+          date: string
+          description?: string | null
+          end_time?: string | null
+          event_id: string
+          id?: string
+          location?: string | null
+          status?: string
+          time: string
+          title: string
+          type: string
+          updated_at?: string
+        }
+        Update: {
+          assigned_to?: string | null
+          created_at?: string
+          date?: string
+          description?: string | null
+          end_time?: string | null
+          event_id?: string
+          id?: string
+          location?: string | null
+          status?: string
+          time?: string
+          title?: string
+          type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       suppliers: {
         Row: {
           contact: string
