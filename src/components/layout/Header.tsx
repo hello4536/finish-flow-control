@@ -1,26 +1,11 @@
-
 import React from "react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { 
-  Bell,
-  Search,
-  Settings,
-  User,
-} from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { Bell, Search, Settings, User } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
 const Header: React.FC = () => {
-  return (
-    <header className="flex h-16 items-center border-b px-4 bg-white dark:bg-card">
+  return <header className="flex h-16 items-center border-b px-4 py-0 my-0 bg-slate-50">
       <SidebarTrigger className="mr-4 text-primary" />
       
       <div className="flex items-center space-x-4 lg:space-x-6">
@@ -30,11 +15,7 @@ const Header: React.FC = () => {
       <div className="ml-auto flex items-center space-x-4">
         <div className="relative hidden md:block">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input
-            type="search"
-            placeholder="Search..."
-            className="w-[200px] lg:w-[300px] pl-8"
-          />
+          <Input type="search" placeholder="Search..." className="w-[200px] lg:w-[300px] pl-8" />
         </div>
 
         <DropdownMenu>
@@ -90,8 +71,6 @@ const Header: React.FC = () => {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-    </header>
-  );
+    </header>;
 };
-
 export default Header;
