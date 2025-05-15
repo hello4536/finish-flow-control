@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -18,8 +18,46 @@ import {
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import JobsTable from "./JobsTable";
+import { useToast } from "@/hooks/use-toast";
 
 const JobsList: React.FC = () => {
+  const { toast } = useToast();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+
+  const handleExport = () => {
+    toast({
+      title: "Export Jobs",
+      description: "Exporting jobs to CSV. This feature is coming soon.",
+    });
+  };
+
+  const handleFilter = () => {
+    toast({
+      title: "Advanced Filters",
+      description: "Advanced filtering options will be available soon.",
+    });
+  };
+
+  const handleRefresh = () => {
+    toast({
+      title: "Refreshing Jobs",
+      description: "Job list refreshed successfully.",
+    });
+  };
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleStatusChange = (value: string) => {
+    setStatusFilter(value);
+    toast({
+      title: "Filter Applied",
+      description: `Showing ${value === "all" ? "all jobs" : value + " jobs"}.`,
+    });
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -38,9 +76,15 @@ const JobsList: React.FC = () => {
                   type="search"
                   placeholder="Search jobs..."
                   className="w-[220px] pl-8"
+                  value={searchQuery}
+                  onChange={handleSearch}
                 />
               </div>
-              <Select defaultValue="all">
+              <Select 
+                defaultValue="all" 
+                value={statusFilter}
+                onValueChange={handleStatusChange}
+              >
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="Filter by status" />
                 </SelectTrigger>
@@ -55,9 +99,9 @@ const JobsList: React.FC = () => {
             </div>
 
             <div className="flex space-x-2">
-              <Button variant="outline" size="sm">Export</Button>
-              <Button variant="outline" size="sm">Filter</Button>
-              <Button size="sm">Refresh</Button>
+              <Button variant="outline" size="sm" onClick={handleExport}>Export</Button>
+              <Button variant="outline" size="sm" onClick={handleFilter}>Filter</Button>
+              <Button size="sm" onClick={handleRefresh}>Refresh</Button>
             </div>
           </div>
 

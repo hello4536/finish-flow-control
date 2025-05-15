@@ -10,8 +10,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useToast } from "@/hooks/use-toast";
 
 const JobsTable: React.FC = () => {
+  const { toast } = useToast();
+  
+  const handleViewJob = (jobId: string, jobName: string) => {
+    toast({
+      title: `Viewing Job: ${jobId}`,
+      description: `Details for ${jobName} will be displayed soon.`,
+    });
+  };
+
   return (
     <div className="rounded-lg border">
       <Table>
@@ -39,7 +49,7 @@ const JobsTable: React.FC = () => {
               <Badge className="bg-finish-amber-500 whitespace-nowrap px-3">In Progress</Badge>
             </TableCell>
             <TableCell className="text-right">
-              <Button variant="ghost" size="sm">View</Button>
+              <Button variant="ghost" size="sm" onClick={() => handleViewJob("J-1001", "Custom Dining Table")}>View</Button>
             </TableCell>
           </TableRow>
           <TableRow>
@@ -53,7 +63,7 @@ const JobsTable: React.FC = () => {
               <Badge className="bg-finish-amber-500 whitespace-nowrap px-3">In Progress</Badge>
             </TableCell>
             <TableCell className="text-right">
-              <Button variant="ghost" size="sm">View</Button>
+              <Button variant="ghost" size="sm" onClick={() => handleViewJob("J-1002", "Kitchen Cabinet Doors")}>View</Button>
             </TableCell>
           </TableRow>
           <TableRow>
@@ -67,7 +77,7 @@ const JobsTable: React.FC = () => {
               <Badge className="bg-finish-amber-500 whitespace-nowrap px-3">In Progress</Badge>
             </TableCell>
             <TableCell className="text-right">
-              <Button variant="ghost" size="sm">View</Button>
+              <Button variant="ghost" size="sm" onClick={() => handleViewJob("J-1003", "Bookshelf")}>View</Button>
             </TableCell>
           </TableRow>
           <TableRow>
@@ -81,7 +91,7 @@ const JobsTable: React.FC = () => {
               <Badge className="bg-finish-amber-500 whitespace-nowrap px-3">In Progress</Badge>
             </TableCell>
             <TableCell className="text-right">
-              <Button variant="ghost" size="sm">View</Button>
+              <Button variant="ghost" size="sm" onClick={() => handleViewJob("J-1004", "Conference Table")}>View</Button>
             </TableCell>
           </TableRow>
           <TableRow>
@@ -95,7 +105,7 @@ const JobsTable: React.FC = () => {
               <Badge variant="outline">Upcoming</Badge>
             </TableCell>
             <TableCell className="text-right">
-              <Button variant="ghost" size="sm">View</Button>
+              <Button variant="ghost" size="sm" onClick={() => handleViewJob("J-1005", "Office Desk")}>View</Button>
             </TableCell>
           </TableRow>
           <TableRow>
@@ -109,7 +119,7 @@ const JobsTable: React.FC = () => {
               <Badge className="bg-finish-green-500">Complete</Badge>
             </TableCell>
             <TableCell className="text-right">
-              <Button variant="ghost" size="sm">View</Button>
+              <Button variant="ghost" size="sm" onClick={() => handleViewJob("J-1006", "Vintage Dresser Refinish")}>View</Button>
             </TableCell>
           </TableRow>
           <TableRow>
@@ -123,7 +133,7 @@ const JobsTable: React.FC = () => {
               <Badge variant="outline" className="bg-finish-red-500 text-white">On Hold</Badge>
             </TableCell>
             <TableCell className="text-right">
-              <Button variant="ghost" size="sm">View</Button>
+              <Button variant="ghost" size="sm" onClick={() => handleViewJob("J-1007", "Front Door Restoration")}>View</Button>
             </TableCell>
           </TableRow>
         </TableBody>
