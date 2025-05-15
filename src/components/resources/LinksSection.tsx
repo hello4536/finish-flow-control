@@ -41,7 +41,13 @@ const LinksSection: React.FC<LinksSectionProps> = ({ onCountChange }) => {
   // Add a new link
   const onSubmit = async (values: LinkFormValues) => {
     try {
-      await addLink.mutateAsync(values);
+      // We can safely assert the values here since they've passed Zod validation
+      const linkData = {
+        title: values.title,
+        url: values.url
+      };
+      
+      await addLink.mutateAsync(linkData);
       form.reset();
       
       toast({

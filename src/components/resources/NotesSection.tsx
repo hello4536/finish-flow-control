@@ -42,7 +42,13 @@ const NotesSection: React.FC<NotesSectionProps> = ({ onCountChange }) => {
   // Add a new note
   const onSubmit = async (values: NoteFormValues) => {
     try {
-      await addNote.mutateAsync(values);
+      // We can safely assert the values here since they've passed Zod validation
+      const noteData = {
+        title: values.title,
+        content: values.content
+      };
+      
+      await addNote.mutateAsync(noteData);
       form.reset();
       
       toast({
