@@ -110,90 +110,84 @@ export function EfficiencyReport({ dateRange, detailed = false }: EfficiencyRepo
       
       <div className={detailed ? "grid grid-cols-1 lg:grid-cols-2 gap-4" : ""}>
         <ChartContainer config={chartConfig} className="aspect-[4/3]">
-          {/* Wrap multiple elements in a single fragment */}
-          <>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart
-                data={efficiencyData}
-                margin={{
-                  top: 10,
-                  right: 10,
-                  left: 10,
-                  bottom: 20,
-                }}
-              >
-                <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis
-                  dataKey="name"
-                  scale="point"
-                  tick={{ fontSize: 12 }}
-                  tickLine={false}
-                  axisLine={false}
-                />
-                <YAxis
-                  tick={{ fontSize: 12 }}
-                  tickLine={false}
-                  axisLine={false}
-                  domain={[0, 100]}
-                />
-                <ChartTooltip content={<ChartTooltipContent />} />
-                <Legend />
-                <Bar
-                  dataKey="efficiency"
-                  fill="var(--color-efficiency)"
-                  radius={[4, 4, 0, 0]}
-                  maxBarSize={30}
-                />
-                <Bar
-                  dataKey="utilization"
-                  fill="var(--color-utilization)"
-                  radius={[4, 4, 0, 0]}
-                  maxBarSize={30}
-                />
-                <Bar
-                  dataKey="downtime"
-                  fill="var(--color-downtime)"
-                  radius={[4, 4, 0, 0]}
-                  maxBarSize={30}
-                />
-              </BarChart>
-            </ResponsiveContainer>
-          </>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart
+              data={efficiencyData}
+              margin={{
+                top: 10,
+                right: 10,
+                left: 10,
+                bottom: 20,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" vertical={false} />
+              <XAxis
+                dataKey="name"
+                scale="point"
+                tick={{ fontSize: 12 }}
+                tickLine={false}
+                axisLine={false}
+              />
+              <YAxis
+                tick={{ fontSize: 12 }}
+                tickLine={false}
+                axisLine={false}
+                domain={[0, 100]}
+              />
+              <ChartTooltip content={<ChartTooltipContent />} />
+              <Legend />
+              <Bar
+                dataKey="efficiency"
+                fill="var(--color-efficiency)"
+                radius={[4, 4, 0, 0]}
+                maxBarSize={30}
+              />
+              <Bar
+                dataKey="utilization"
+                fill="var(--color-utilization)"
+                radius={[4, 4, 0, 0]}
+                maxBarSize={30}
+              />
+              <Bar
+                dataKey="downtime"
+                fill="var(--color-downtime)"
+                radius={[4, 4, 0, 0]}
+                maxBarSize={30}
+              />
+            </BarChart>
+          </ResponsiveContainer>
         </ChartContainer>
         
         {detailed && (
           <ChartContainer config={chartConfig} className="aspect-[4/3]">
-            {/* Wrap multiple elements in a single fragment */}
-            <>
-              <div className="text-center mb-2 font-medium">KPI Performance</div>
-              <ResponsiveContainer width="100%" height={300}>
-                <RadarChart cx="50%" cy="50%" outerRadius="80%" data={kpiData}>
-                  <PolarGrid />
-                  <PolarAngleAxis dataKey="subject" />
-                  <PolarRadiusAxis angle={30} domain={[0, 100]} />
-                  <Radar
-                    name="Performance"
-                    dataKey="A"
-                    stroke="var(--color-A)"
-                    fill="var(--color-A)"
-                    fillOpacity={0.6}
-                  />
-                  <Tooltip content={({ active, payload }) => {
-                    if (active && payload && payload.length) {
-                      return (
-                        <div className="rounded-lg border bg-background p-2 shadow-md">
-                          <div className="font-medium">{payload[0].payload.subject}</div>
-                          <div className="text-sm text-muted-foreground">
-                            Score: {payload[0].value}%
-                          </div>
+            <div className="text-center mb-2 font-medium">KPI Performance</div>
+            <ResponsiveContainer width="100%" height={300}>
+              <RadarChart cx="50%" cy="50%" outerRadius="80%" data={kpiData}>
+                <PolarGrid />
+                <PolarAngleAxis dataKey="subject" />
+                <PolarRadiusAxis angle={30} domain={[0, 100]} />
+                <Radar
+                  name="Performance"
+                  dataKey="A"
+                  stroke="var(--color-A)"
+                  fill="var(--color-A)"
+                  fillOpacity={0.6}
+                />
+                <Tooltip content={({ active, payload }) => {
+                  if (active && payload && payload.length) {
+                    return (
+                      <div className="rounded-lg border bg-background p-2 shadow-md">
+                        <div className="font-medium">{payload[0].payload.subject}</div>
+                        <div className="text-sm text-muted-foreground">
+                          Score: {payload[0].value}%
                         </div>
-                      );
-                    }
-                    return null;
-                  }} />
-                </RadarChart>
-              </ResponsiveContainer>
-            </>
+                      </div>
+                    );
+                  }
+                  return null;
+                }} />
+              </RadarChart>
+            </ResponsiveContainer>
           </ChartContainer>
         )}
       </div>
