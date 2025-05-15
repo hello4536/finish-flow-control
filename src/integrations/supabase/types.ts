@@ -9,6 +9,75 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      certifications: {
+        Row: {
+          authority: string
+          certification_id: string
+          created_at: string
+          expiry: string
+          id: string
+          name: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          authority: string
+          certification_id: string
+          created_at?: string
+          expiry: string
+          id?: string
+          name: string
+          status: string
+          updated_at?: string
+        }
+        Update: {
+          authority?: string
+          certification_id?: string
+          created_at?: string
+          expiry?: string
+          id?: string
+          name?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      compliance_issues: {
+        Row: {
+          assignee: string
+          created_at: string
+          date: string
+          description: string
+          id: string
+          issue_id: string
+          status: string
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          assignee: string
+          created_at?: string
+          date: string
+          description: string
+          id?: string
+          issue_id: string
+          status: string
+          type: string
+          updated_at?: string
+        }
+        Update: {
+          assignee?: string
+          created_at?: string
+          date?: string
+          description?: string
+          id?: string
+          issue_id?: string
+          status?: string
+          type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       inventory_items: {
         Row: {
           allocated: number
@@ -152,6 +221,42 @@ export type Database = {
           status?: string
           type?: string
           unit?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      quality_inspections: {
+        Row: {
+          created_at: string
+          date: string
+          id: string
+          inspection_id: string
+          inspector: string
+          notes: string | null
+          product: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          id?: string
+          inspection_id: string
+          inspector: string
+          notes?: string | null
+          product: string
+          status: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          id?: string
+          inspection_id?: string
+          inspector?: string
+          notes?: string | null
+          product?: string
+          status?: string
           updated_at?: string
         }
         Relationships: []
