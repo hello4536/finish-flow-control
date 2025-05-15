@@ -109,8 +109,8 @@ export function AppSidebar() {
           </h1> : <span className="text-xl font-bold text-accent">F</span>}
       </div>
 
-      <SidebarContent className="bg-orange-50">
-        <SidebarGroup className="bg-orange-50">
+      <SidebarContent className="bg-sky-50">
+        <SidebarGroup>
           <SidebarGroupLabel className="text-accent font-semibold uppercase tracking-wider text-xs">
             Main
           </SidebarGroupLabel>
@@ -129,7 +129,7 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        <SidebarGroup className="bg-orange-50">
+        <SidebarGroup>
           <SidebarGroupLabel className="text-accent font-semibold uppercase tracking-wider text-xs">
             Administration
           </SidebarGroupLabel>
