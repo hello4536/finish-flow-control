@@ -1,3 +1,4 @@
+
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
@@ -70,14 +71,14 @@ export function AppSidebar() {
         {!collapsed ? <h1 className="text-xl font-bold text-gray-800">Finish<span className="text-accent">Flow</span></h1> : <span className="text-xl font-bold text-accent">F</span>}
       </div>
 
-      <SidebarContent className="bg-zinc-400">
-        <SidebarGroup className="bg-indigo-500">
+      <SidebarContent className="">
+        <SidebarGroup>
           <SidebarGroupLabel className="text-gray-500">
             Main
           </SidebarGroupLabel>
 
           <SidebarGroupContent>
-            <SidebarMenu className="bg-gray-300 rounded-sm">
+            <SidebarMenu>
               {mainItems.map(item => <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <NavLink to={item.url} end={item.url === "/"} className={getNavCls}>
@@ -96,7 +97,7 @@ export function AppSidebar() {
           </SidebarGroupLabel>
 
           <SidebarGroupContent>
-            <SidebarMenu className="bg-indigo-600">
+            <SidebarMenu>
               {adminItems.map(item => <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <NavLink to={item.url} className={getNavCls}>
