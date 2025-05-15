@@ -30,7 +30,12 @@ export const useScheduleData = (selectedDate?: Date) => {
       throw new Error(error.message);
     }
     
-    return data || [];
+    // Cast the data to ensure type safety
+    return (data || []).map(event => ({
+      ...event,
+      type: event.type as 'job' | 'meeting' | 'delivery',
+      status: event.status as 'scheduled' | 'completed' | 'cancelled'
+    }));
   };
   
   // Query to fetch events
