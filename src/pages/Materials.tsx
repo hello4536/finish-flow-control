@@ -146,9 +146,9 @@ const MaterialsPage: React.FC = () => {
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <Card className="card-hover rounded">
-          <CardHeader className="bg-blue-50 pb-2">
+          <CardHeader className="pb-2 bg-sky-50">
             <CardTitle className="flex items-center">
-              <Box className="mr-2 h-5 w-5 text-blue-600" />
+              <Box className="mr-2 h-5 w-5 text-blue-900" />
               Total Materials
             </CardTitle>
           </CardHeader>
@@ -159,9 +159,9 @@ const MaterialsPage: React.FC = () => {
         </Card>
         
         <Card className="card-hover">
-          <CardHeader className="bg-amber-50 pb-2">
-            <CardTitle className="flex items-center">
-              <PackageOpen className="mr-2 h-5 w-5 text-amber-600" />
+          <CardHeader className="pb-2 bg-orange-500">
+            <CardTitle className="flex items-center text-slate-50">
+              <PackageOpen className="mr-2 h-5 w-5 text-slate-50" />
               Low Stock Items
             </CardTitle>
           </CardHeader>
@@ -172,9 +172,9 @@ const MaterialsPage: React.FC = () => {
         </Card>
         
         <Card className="card-hover">
-          <CardHeader className="bg-green-50 pb-2">
-            <CardTitle className="flex items-center">
-              <Box className="mr-2 h-5 w-5 text-green-600" />
+          <CardHeader className="pb-2 bg-blue-900">
+            <CardTitle className="flex items-center text-slate-50">
+              <Box className="mr-2 h-5 w-5 text-slate-50" />
               Suppliers
             </CardTitle>
           </CardHeader>
