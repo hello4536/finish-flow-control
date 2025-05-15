@@ -48,6 +48,45 @@ export type Database = {
         }
         Relationships: []
       }
+      workflows: {
+        Row: {
+          active_jobs: number
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          status: string
+          steps: Json
+          trade: string
+          updated_at: string
+          workflow_number: string
+        }
+        Insert: {
+          active_jobs?: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          status: string
+          steps?: Json
+          trade: string
+          updated_at?: string
+          workflow_number: string
+        }
+        Update: {
+          active_jobs?: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          status?: string
+          steps?: Json
+          trade?: string
+          updated_at?: string
+          workflow_number?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

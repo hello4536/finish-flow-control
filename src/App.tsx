@@ -7,7 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MainLayout from "./components/layout/MainLayout";
 import Dashboard from "./pages/Dashboard";
 import Jobs from "./pages/jobs";
-import Workflows from "./pages/Workflows";
+import Workflows from "./pages/workflows";
 import Materials from "./pages/Materials";
 import Inventory from "./pages/inventory";
 import Quality from "./pages/Quality";
