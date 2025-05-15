@@ -10,6 +10,8 @@ export const ChartContainer = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div"> & {
     config: ChartConfig
+    // Change the children type from ReactNode to ReactNode (more permissive)
+    // This will allow any valid React children, including strings, arrays, etc.
     children: React.ReactNode
   }
 >(({ id, className, children, config, ...props }, ref) => {
