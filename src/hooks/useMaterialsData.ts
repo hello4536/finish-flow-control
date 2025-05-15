@@ -20,7 +20,22 @@ export function useMaterialsData() {
         .select('*');
 
       if (materialsError) throw materialsError;
-      setMaterials(materialsData || []);
+      
+      // Validate and type cast the materials data
+      const validMaterials = (materialsData || []).map(item => {
+        // Ensure status is one of the allowed values
+        let status: Material['status'] = 'In Stock'; // Default value
+        if (['In Stock', 'Low Stock', 'Critical Low', 'Out of Stock'].includes(item.status)) {
+          status = item.status as Material['status'];
+        }
+        
+        return {
+          ...item,
+          status,
+        } as Material;
+      });
+      
+      setMaterials(validMaterials);
       
       // Fetch suppliers
       const { data: suppliersData, error: suppliersError } = await supabase
