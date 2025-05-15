@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Recipe as RecipeIcon, Trash2, Plus } from "lucide-react";
+import { Utensils, Trash2, Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "@/hooks/use-toast";
 import { z } from "zod";
@@ -175,7 +175,7 @@ const RecipesSection: React.FC<RecipesSectionProps> = ({ onCountChange }) => {
         </div>
       ) : (
         <div className="text-center py-10 text-muted-foreground">
-          <RecipeIcon className="h-10 w-10 mx-auto mb-4 opacity-50" />
+          <Utensils className="h-10 w-10 mx-auto mb-4 opacity-50" />
           <p>No recipes saved yet</p>
           <p className="text-sm">Add your first recipe using the form above</p>
         </div>
