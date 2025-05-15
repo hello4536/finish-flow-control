@@ -28,9 +28,9 @@ const StatCards: React.FC<StatCardsProps> = ({
       </Card>
       
       <Card className="card-hover">
-        <CardHeader className="pb-2 bg-red-100">
-          <CardTitle className="flex items-center">
-            <PackageOpen className="mr-2 h-5 w-5 text-amber-600" />
+        <CardHeader className="pb-2 bg-orange-500">
+          <CardTitle className="flex items-center text-blue-900">
+            <PackageOpen className="mr-2 h-5 w-5 text-blue-900" />
             Low Stock Items
           </CardTitle>
         </CardHeader>
