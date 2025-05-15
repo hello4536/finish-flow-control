@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -134,7 +133,7 @@ const Jobs: React.FC = () => {
                     <TableCell>Alex Johnson</TableCell>
                     <TableCell>May 18, 2025</TableCell>
                     <TableCell>
-                      <Badge className="bg-finish-amber-500">In Progress</Badge>
+                      <Badge className="bg-finish-amber-500 whitespace-nowrap px-3">In Progress</Badge>
                     </TableCell>
                     <TableCell className="text-right">
                       <Button variant="ghost" size="sm">View</Button>
@@ -148,7 +147,7 @@ const Jobs: React.FC = () => {
                     <TableCell>Maria Rodriguez</TableCell>
                     <TableCell>May 17, 2025</TableCell>
                     <TableCell>
-                      <Badge className="bg-finish-amber-500">In Progress</Badge>
+                      <Badge className="bg-finish-amber-500 whitespace-nowrap px-3">In Progress</Badge>
                     </TableCell>
                     <TableCell className="text-right">
                       <Button variant="ghost" size="sm">View</Button>
@@ -162,7 +161,7 @@ const Jobs: React.FC = () => {
                     <TableCell>John Smith</TableCell>
                     <TableCell>May 19, 2025</TableCell>
                     <TableCell>
-                      <Badge className="bg-finish-amber-500">In Progress</Badge>
+                      <Badge className="bg-finish-amber-500 whitespace-nowrap px-3">In Progress</Badge>
                     </TableCell>
                     <TableCell className="text-right">
                       <Button variant="ghost" size="sm">View</Button>
@@ -176,7 +175,7 @@ const Jobs: React.FC = () => {
                     <TableCell>Sarah Lee</TableCell>
                     <TableCell>May 15, 2025</TableCell>
                     <TableCell>
-                      <Badge className="bg-finish-amber-500">In Progress</Badge>
+                      <Badge className="bg-finish-amber-500 whitespace-nowrap px-3">In Progress</Badge>
                     </TableCell>
                     <TableCell className="text-right">
                       <Button variant="ghost" size="sm">View</Button>
