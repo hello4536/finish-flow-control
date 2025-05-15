@@ -3,6 +3,7 @@ import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import { BarChart, Box, Calendar, CheckSquare, ClipboardList, Database, Home, PackageOpen, Settings, Users } from "lucide-react";
+
 export function AppSidebar() {
   const {
     state
@@ -65,15 +66,16 @@ export function AppSidebar() {
   }: {
     isActive: boolean;
   }) => isActive ? "bg-blue-600 text-white font-medium" : "hover:bg-blue-500 hover:text-white text-white";
-  return <Sidebar className={`${collapsed ? "w-14" : "w-60"} bg-blue-700`} collapsible="icon">
-      <SidebarTrigger className="m-2 self-end text-white" />
+  
+  return <Sidebar className={`${collapsed ? "w-14" : "w-60"} bg-blue-800`} collapsible="icon">
+      <SidebarTrigger className="m-2 self-end text-white hover:bg-blue-700" />
       <div className="flex items-center justify-center py-4">
-        {!collapsed ? <h1 className="text-xl font-bold text-white">Finish<span className="text-accent">Flow</span></h1> : <span className="text-xl font-bold text-accent">F</span>}
+        {!collapsed ? <h1 className="text-xl font-bold text-white">Finish<span className="text-yellow-400">Flow</span></h1> : <span className="text-xl font-bold text-yellow-400">F</span>}
       </div>
 
-      <SidebarContent className="">
+      <SidebarContent className="border-t border-blue-700">
         <SidebarGroup>
-          <SidebarGroupLabel className="text-white">
+          <SidebarGroupLabel className="text-blue-200 font-semibold">
             Main
           </SidebarGroupLabel>
 
@@ -92,7 +94,7 @@ export function AppSidebar() {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel className="text-white">
+          <SidebarGroupLabel className="text-blue-200 font-semibold">
             Administration
           </SidebarGroupLabel>
 
