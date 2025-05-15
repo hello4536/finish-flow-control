@@ -1,7 +1,8 @@
+
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
-import { BarChart, Box, Calendar, CheckSquare, ClipboardList, Database, Home, PackageOpen, Settings, Users } from "lucide-react";
+import { BarChart, Box, Calendar, CheckSquare, ClipboardList, Database, Home, PackageOpen, Settings, Users, Link } from "lucide-react";
 export function AppSidebar() {
   const {
     state
@@ -44,6 +45,11 @@ export function AppSidebar() {
     url: "/schedule",
     icon: Calendar,
     color: "bg-accent/70"
+  }, {
+    title: "Resources",
+    url: "/resources",
+    icon: Link,
+    color: "bg-accent/60"
   }];
   const adminItems = [{
     title: "Reports",
