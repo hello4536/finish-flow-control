@@ -1,9 +1,7 @@
-
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import { BarChart, Box, Calendar, CheckSquare, ClipboardList, Database, Home, PackageOpen, Settings, Users, Link, Palette } from "lucide-react";
-
 export function AppSidebar() {
   const {
     state
@@ -103,7 +101,6 @@ export function AppSidebar() {
       return `${baseClasses} hover:bg-accent/5`;
     };
   };
-  
   return <Sidebar className={`${collapsed ? "w-14" : "w-60"} bg-gradient-to-b from-primary to-primary/90 shadow-xl`} collapsible="icon">
       <SidebarTrigger className="m-2 self-end text-white hover:bg-primary/70" />
       <div className="flex items-center justify-center py-4 border-b border-white/10">
@@ -112,7 +109,7 @@ export function AppSidebar() {
           </h1> : <span className="text-xl font-bold text-accent">F</span>}
       </div>
 
-      <SidebarContent className="bg-slate-50">
+      <SidebarContent className="bg-sky-50">
         <SidebarGroup>
           <SidebarGroupLabel className="text-accent font-semibold uppercase tracking-wider text-xs">
             Main
