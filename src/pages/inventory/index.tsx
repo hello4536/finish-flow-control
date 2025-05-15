@@ -9,6 +9,7 @@ import InventoryTabs from "./components/InventoryTabs";
 import WarehouseSection from "./components/WarehouseSection";
 import { useInventoryData } from "@/hooks/useInventoryData";
 import { mockInventoryItems, mockWarehouses } from "./data/mockData"; // For seeding only
+import { supabase } from "@/integrations/supabase/client";
 
 const InventoryPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
