@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -13,7 +14,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 20%;
 
-    --primary: 222 47% 20%; /* Blue 700 instead of Navy blue */
+    --primary: 221 83% 53%; /* Brighter blue - more noticeable */
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 20% 96%;
@@ -34,13 +35,13 @@
 
     --radius: 0.5rem;
 
-    --sidebar-background: 222 47% 20%; /* Blue 700 instead of Navy blue */
+    --sidebar-background: 221 83% 53%; /* Brighter blue for sidebar */
     --sidebar-foreground: 0 0% 100%; /* White */
-    --sidebar-primary: 222 47% 20%; /* Blue 700 instead of Navy blue */
+    --sidebar-primary: 221 83% 53%; /* Matching blue */
     --sidebar-primary-foreground: 0 0% 98%;
     --sidebar-accent: 30 100% 60%; /* Light orange */
     --sidebar-accent-foreground: 222 47% 20%;
-    --sidebar-border: 222 47% 30%;
+    --sidebar-border: 221 83% 60%;
     --sidebar-ring: 30 100% 60%;
   }
 
