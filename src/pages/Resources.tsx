@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import LinksSection from '@/components/resources/LinksSection';
 import DocumentsSection from '@/components/resources/DocumentsSection';
 import NotesSection from '@/components/resources/NotesSection';
+import VendorsSection from '@/components/resources/VendorsSection';
 import { toast } from "@/hooks/use-toast";
 
 const Resources = () => {
@@ -12,11 +13,12 @@ const Resources = () => {
   const [counts, setCounts] = useState({
     links: 0,
     documents: 0,
-    notes: 0
+    notes: 0,
+    vendors: 0
   });
 
   // Update counts when resources change
-  const updateCounts = (type: 'links' | 'documents' | 'notes', count: number) => {
+  const updateCounts = (type: 'links' | 'documents' | 'notes' | 'vendors', count: number) => {
     setCounts(prev => ({
       ...prev,
       [type]: count
@@ -33,7 +35,7 @@ const Resources = () => {
       </div>
 
       <Tabs defaultValue="links" className="w-full">
-        <TabsList className="grid grid-cols-3 w-full max-w-md">
+        <TabsList className="grid grid-cols-4 w-full max-w-md">
           <TabsTrigger value="links" className="relative">
             Links
             {counts.links > 0 && (
@@ -55,6 +57,14 @@ const Resources = () => {
             {counts.notes > 0 && (
               <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 {counts.notes}
+              </span>
+            )}
+          </TabsTrigger>
+          <TabsTrigger value="vendors" className="relative">
+            Vendors
+            {counts.vendors > 0 && (
+              <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                {counts.vendors}
               </span>
             )}
           </TabsTrigger>
@@ -92,6 +102,18 @@ const Resources = () => {
             </CardHeader>
             <CardContent>
               <NotesSection onCountChange={(count) => updateCounts('notes', count)} />
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        <TabsContent value="vendors" className="mt-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Vendors</CardTitle>
+              <CardDescription>Manage your supplier and vendor contact information</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <VendorsSection onCountChange={(count) => updateCounts('vendors', count)} />
             </CardContent>
           </Card>
         </TabsContent>
