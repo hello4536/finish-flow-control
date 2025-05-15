@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -10,10 +9,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plus, CalendarDays, Calendar as CalendarIcon, List, Filter } from "lucide-react";
+import { Filter, CalendarDays, Calendar as CalendarIcon, List } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import ScheduleList from "@/components/schedule/ScheduleList";
 import ScheduleHeader from "@/components/schedule/ScheduleHeader";
+import EventForm from "@/components/schedule/EventForm";
 import { format } from "date-fns";
 
 const Schedule: React.FC = () => {
@@ -46,50 +46,54 @@ const Schedule: React.FC = () => {
               <Filter className="h-4 w-4" />
               Filter
             </Button>
-            <Button size="sm" className="flex items-center gap-2">
-              <Plus className="h-4 w-4" />
-              Add Event
-            </Button>
           </div>
         </div>
         
         <TabsContent value="calendar" className="mt-0">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex justify-between items-center">
-                <span>{date ? format(date, 'MMMM yyyy') : 'Calendar'}</span>
-                <div className="flex items-center gap-2">
-                  <Badge className="bg-accent">5 Jobs</Badge>
-                  <Badge variant="outline">3 Meetings</Badge>
-                </div>
-              </CardTitle>
-              <CardDescription>
-                View and manage your schedule in calendar format.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Calendar 
-                mode="single"
-                selected={date}
-                onSelect={handleDateChange}
-                className="rounded-md border shadow"
-              />
-              
-              {date && (
-                <div className="mt-6">
-                  <h3 className="text-lg font-medium mb-4">Events on {format(date, 'MMMM d, yyyy')}</h3>
-                  <div className="space-y-3">
-                    {getEventsForDate(date).map((event, index) => (
-                      <ScheduleEvent key={index} event={event} />
-                    ))}
-                    {getEventsForDate(date).length === 0 && (
-                      <p className="text-muted-foreground">No events scheduled for this day.</p>
-                    )}
-                  </div>
-                </div>
-              )}
-            </CardContent>
-          </Card>
+          <div className="grid gap-4 md:grid-cols-5">
+            <div className="md:col-span-3">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex justify-between items-center">
+                    <span>{date ? format(date, 'MMMM yyyy') : 'Calendar'}</span>
+                    <div className="flex items-center gap-2">
+                      <Badge className="bg-accent">5 Jobs</Badge>
+                      <Badge variant="outline">3 Meetings</Badge>
+                    </div>
+                  </CardTitle>
+                  <CardDescription>
+                    View and manage your schedule in calendar format.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Calendar 
+                    mode="single"
+                    selected={date}
+                    onSelect={handleDateChange}
+                    className="rounded-md border shadow"
+                  />
+                  
+                  {date && (
+                    <div className="mt-6">
+                      <h3 className="text-lg font-medium mb-4">Events on {format(date, 'MMMM d, yyyy')}</h3>
+                      <div className="space-y-3">
+                        {getEventsForDate(date).map((event, index) => (
+                          <ScheduleEvent key={index} event={event} />
+                        ))}
+                        {getEventsForDate(date).length === 0 && (
+                          <p className="text-muted-foreground">No events scheduled for this day.</p>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+            
+            <div className="md:col-span-2">
+              <EventForm />
+            </div>
+          </div>
         </TabsContent>
         
         <TabsContent value="list" className="mt-0">
