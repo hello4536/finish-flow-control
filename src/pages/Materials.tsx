@@ -146,7 +146,7 @@ const MaterialsPage: React.FC = () => {
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <Card className="card-hover rounded">
-          <CardHeader className="pb-2 bg-sky-50">
+          <CardHeader className="pb-2 bg-sky-100">
             <CardTitle className="flex items-center">
               <Box className="mr-2 h-5 w-5 text-blue-900" />
               Total Materials
