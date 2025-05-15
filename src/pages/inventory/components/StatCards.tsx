@@ -43,7 +43,7 @@ const StatCards: React.FC<StatCardsProps> = ({
       <Card className="card-hover">
         <CardHeader className="pb-2 bg-blue-900">
           <CardTitle className="flex items-center text-orange-500">
-            <Warehouse className="mr-2 h-5 w-5 text-green-600 rounded-none" />
+            <Warehouse className="mr-2 h-5 w-5 text-slate-50 rounded-none" />
             Warehouses
           </CardTitle>
         </CardHeader>
