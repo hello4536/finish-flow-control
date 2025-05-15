@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { 
   Card, 
   CardContent, 
@@ -45,61 +45,9 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { Search, UserPlus, User, MoreHorizontal, Edit, Trash2 } from "lucide-react";
+import { Search, UserPlus, User, MoreHorizontal, Edit, Trash2, Loader2 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
-
-// Mock user data
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: string;
-  status: "active" | "inactive";
-  lastLogin: string;
-}
-
-const mockUsers: User[] = [
-  { 
-    id: "1", 
-    name: "Alex Johnson", 
-    email: "alex@finishflow.com", 
-    role: "Admin", 
-    status: "active",
-    lastLogin: "2025-05-15T08:30:00" 
-  },
-  { 
-    id: "2", 
-    name: "Sarah Miller", 
-    email: "sarah@finishflow.com", 
-    role: "Manager", 
-    status: "active",
-    lastLogin: "2025-05-14T14:45:00" 
-  },
-  { 
-    id: "3", 
-    name: "David Chen", 
-    email: "david@finishflow.com", 
-    role: "Technician", 
-    status: "active",
-    lastLogin: "2025-05-15T09:15:00" 
-  },
-  { 
-    id: "4", 
-    name: "Emma Wilson", 
-    email: "emma@finishflow.com", 
-    role: "Operator", 
-    status: "inactive",
-    lastLogin: "2025-05-10T11:20:00" 
-  },
-  { 
-    id: "5", 
-    name: "Michael Brown", 
-    email: "michael@finishflow.com", 
-    role: "QC Specialist", 
-    status: "active",
-    lastLogin: "2025-05-14T16:30:00" 
-  },
-];
+import { useUserData, User as UserType } from "@/hooks/useUserData";
 
 // Form schema
 const userFormSchema = z.object({
@@ -110,12 +58,12 @@ const userFormSchema = z.object({
 });
 
 const Users: React.FC = () => {
-  const [users, setUsers] = useState<User[]>(mockUsers);
+  const { users, isLoading, addUser, updateUser, deleteUser } = useUserData();
   const [searchQuery, setSearchQuery] = useState("");
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [currentUser, setCurrentUser] = useState<UserType | null>(null);
   
   const form = useForm<z.infer<typeof userFormSchema>>({
     resolver: zodResolver(userFormSchema),
@@ -135,62 +83,70 @@ const Users: React.FC = () => {
   );
 
   // Handle add user
-  const handleAddUser = (data: z.infer<typeof userFormSchema>) => {
-    const newUser: User = {
-      id: (users.length + 1).toString(),
+  const handleAddUser = async (data: z.infer<typeof userFormSchema>) => {
+    const newUser = {
       name: data.name,
       email: data.email,
       role: data.role,
       status: data.status,
-      lastLogin: "Never",
+      last_login: null,
     };
     
-    setUsers([...users, newUser]);
-    setIsAddDialogOpen(false);
-    form.reset();
-    toast({
-      title: "User added",
-      description: `${data.name} has been added successfully.`,
-    });
+    const result = await addUser(newUser);
+    
+    if (result) {
+      setIsAddDialogOpen(false);
+      form.reset();
+      toast({
+        title: "User added",
+        description: `${data.name} has been added successfully.`,
+      });
+    }
   };
 
   // Handle edit user
-  const handleEditUser = (data: z.infer<typeof userFormSchema>) => {
+  const handleEditUser = async (data: z.infer<typeof userFormSchema>) => {
     if (currentUser) {
-      const updatedUsers = users.map((user) =>
-        user.id === currentUser.id
-          ? { ...user, name: data.name, email: data.email, role: data.role, status: data.status }
-          : user
-      );
+      const updatedData = {
+        name: data.name,
+        email: data.email,
+        role: data.role,
+        status: data.status,
+      };
       
-      setUsers(updatedUsers);
-      setIsEditDialogOpen(false);
-      setCurrentUser(null);
-      form.reset();
-      toast({
-        title: "User updated",
-        description: `${data.name} has been updated successfully.`,
-      });
+      const result = await updateUser(currentUser.id, updatedData);
+      
+      if (result) {
+        setIsEditDialogOpen(false);
+        setCurrentUser(null);
+        form.reset();
+        toast({
+          title: "User updated",
+          description: `${data.name} has been updated successfully.`,
+        });
+      }
     }
   };
 
   // Handle delete user
-  const handleDeleteUser = () => {
+  const handleDeleteUser = async () => {
     if (currentUser) {
-      const updatedUsers = users.filter((user) => user.id !== currentUser.id);
-      setUsers(updatedUsers);
-      setIsDeleteDialogOpen(false);
-      setCurrentUser(null);
-      toast({
-        title: "User deleted",
-        description: `${currentUser.name} has been deleted.`,
-        variant: "destructive",
-      });
+      const success = await deleteUser(currentUser.id);
+      
+      if (success) {
+        setIsDeleteDialogOpen(false);
+        setCurrentUser(null);
+        toast({
+          title: "User deleted",
+          description: `${currentUser.name} has been deleted.`,
+          variant: "destructive",
+        });
+      }
     }
   };
 
   // Open edit dialog with user data
-  const openEditDialog = (user: User) => {
+  const openEditDialog = (user: UserType) => {
     setCurrentUser(user);
     form.setValue("name", user.name);
     form.setValue("email", user.email);
@@ -200,8 +156,8 @@ const Users: React.FC = () => {
   };
 
   // Format date to readable format
-  const formatDate = (dateString: string) => {
-    if (dateString === "Never") return "Never";
+  const formatDate = (dateString: string | null) => {
+    if (!dateString) return "Never";
     
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
@@ -345,7 +301,16 @@ const Users: React.FC = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredUsers.length === 0 ? (
+                {isLoading ? (
+                  <TableRow>
+                    <TableCell colSpan={6} className="text-center py-8">
+                      <div className="flex justify-center items-center">
+                        <Loader2 className="h-6 w-6 animate-spin mr-2" />
+                        <span className="text-muted-foreground">Loading users...</span>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ) : filteredUsers.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
                       No users found
@@ -367,7 +332,7 @@ const Users: React.FC = () => {
                           {user.status === "active" ? "Active" : "Inactive"}
                         </Badge>
                       </TableCell>
-                      <TableCell>{formatDate(user.lastLogin)}</TableCell>
+                      <TableCell>{formatDate(user.last_login)}</TableCell>
                       <TableCell className="text-right">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
