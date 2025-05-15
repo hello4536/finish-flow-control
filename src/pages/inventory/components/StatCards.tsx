@@ -17,7 +17,7 @@ const StatCards: React.FC<StatCardsProps> = ({
       <Card className="card-hover">
         <CardHeader className="pb-2 bg-sky-100">
           <CardTitle className="flex items-center">
-            <Package className="mr-2 h-5 w-5 text-blue-600" />
+            <Package className="mr-2 h-5 w-5 text-blue-900" />
             Total Products
           </CardTitle>
         </CardHeader>
@@ -29,8 +29,8 @@ const StatCards: React.FC<StatCardsProps> = ({
       
       <Card className="card-hover">
         <CardHeader className="pb-2 bg-orange-500">
-          <CardTitle className="flex items-center text-blue-900">
-            <PackageOpen className="mr-2 h-5 w-5 text-blue-900" />
+          <CardTitle className="flex items-center text-slate-50">
+            <PackageOpen className="mr-2 h-5 w-5 text-slate-50" />
             Low Stock Items
           </CardTitle>
         </CardHeader>
@@ -42,7 +42,7 @@ const StatCards: React.FC<StatCardsProps> = ({
       
       <Card className="card-hover">
         <CardHeader className="pb-2 bg-blue-900">
-          <CardTitle className="flex items-center text-orange-500">
+          <CardTitle className="flex items-center text-slate-50">
             <Warehouse className="mr-2 h-5 w-5 text-slate-50 rounded-none" />
             Warehouses
           </CardTitle>
