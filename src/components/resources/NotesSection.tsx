@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Note, Trash2 } from "lucide-react";
+import { FileText, Trash2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "@/hooks/use-toast";
 import { z } from "zod";
@@ -109,7 +109,7 @@ const NotesSection: React.FC<NotesSectionProps> = ({ onCountChange }) => {
           />
           
           <Button type="submit" className="w-full md:w-auto">
-            <Note className="mr-2 h-4 w-4" />
+            <FileText className="mr-2 h-4 w-4" />
             Save Note
           </Button>
         </form>
@@ -143,7 +143,7 @@ const NotesSection: React.FC<NotesSectionProps> = ({ onCountChange }) => {
         </div>
       ) : (
         <div className="text-center py-10 text-muted-foreground">
-          <Note className="h-10 w-10 mx-auto mb-4 opacity-50" />
+          <FileText className="h-10 w-10 mx-auto mb-4 opacity-50" />
           <p>No notes created yet</p>
           <p className="text-sm">Add your first note using the form above</p>
         </div>

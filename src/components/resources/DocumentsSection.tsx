@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { Paperclip, FileText, FilePdf, Trash2, Upload, File } from "lucide-react";
+import { Paperclip, FileText, File, Trash2, Upload } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 
@@ -22,7 +22,7 @@ interface DocumentsSectionProps {
 
 // Helper function to get the appropriate icon based on file type
 const getFileIcon = (type: string) => {
-  if (type.includes('pdf')) return FilePdf;
+  if (type.includes('pdf')) return FileText;
   if (type.includes('text') || type.includes('doc')) return FileText;
   return File;
 };
