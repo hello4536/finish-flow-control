@@ -11,6 +11,7 @@ import Workflows from "./pages/Workflows";
 import Materials from "./pages/Materials";
 import Inventory from "./pages/inventory";
 import Quality from "./pages/Quality";
+import Schedule from "./pages/Schedule";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -29,7 +30,7 @@ const App = () => (
             <Route path="materials" element={<Materials />} />
             <Route path="inventory" element={<Inventory />} />
             <Route path="quality" element={<Quality />} />
-            <Route path="schedule" element={<NotFound />} />
+            <Route path="schedule" element={<Schedule />} />
             <Route path="reports" element={<NotFound />} />
             <Route path="users" element={<NotFound />} />
             <Route path="settings" element={<NotFound />} />
