@@ -14,44 +14,54 @@ export function AppSidebar() {
   const mainItems = [{
     title: "Dashboard",
     url: "/",
-    icon: Home
+    icon: Home,
+    color: "bg-finish-blue-500"
   }, {
     title: "Jobs",
     url: "/jobs",
-    icon: ClipboardList
+    icon: ClipboardList,
+    color: "bg-finish-green-500"
   }, {
     title: "Workflows",
     url: "/workflows",
-    icon: PackageOpen
+    icon: PackageOpen,
+    color: "bg-finish-amber-500"
   }, {
     title: "Materials",
     url: "/materials",
-    icon: Box
+    icon: Box,
+    color: "bg-finish-red-500"
   }, {
     title: "Inventory",
     url: "/inventory",
-    icon: Database
+    icon: Database,
+    color: "bg-finish-blue-400"
   }, {
     title: "QC & Compliance",
     url: "/quality",
-    icon: CheckSquare
+    icon: CheckSquare,
+    color: "bg-finish-green-600"
   }, {
     title: "Schedule",
     url: "/schedule",
-    icon: Calendar
+    icon: Calendar,
+    color: "bg-finish-amber-600"
   }];
   const adminItems = [{
     title: "Reports",
     url: "/reports",
-    icon: BarChart
+    icon: BarChart,
+    color: "bg-finish-blue-600"
   }, {
     title: "Users",
     url: "/users",
-    icon: Users
+    icon: Users,
+    color: "bg-finish-amber-400"
   }, {
     title: "Settings",
     url: "/settings",
-    icon: Settings
+    icon: Settings,
+    color: "bg-finish-gray-600"
   }];
   const isActive = (path: string) => {
     // Root path should only be active if exact match
@@ -61,53 +71,74 @@ export function AppSidebar() {
   };
   const isMainExpanded = mainItems.some(i => isActive(i.url));
   const isAdminExpanded = adminItems.some(i => isActive(i.url));
-  const getNavCls = ({
-    isActive
-  }: {
-    isActive: boolean;
-  }) => isActive ? "bg-blue-600 text-white font-medium" : "hover:bg-blue-500 hover:text-white text-white";
   
-  return <Sidebar className={`${collapsed ? "w-14" : "w-60"} bg-blue-800`} collapsible="icon">
-      <SidebarTrigger className="m-2 self-end text-white hover:bg-blue-700" />
+  // New function to generate NavLink classes with item-specific colors
+  const getNavCls = (item: { color: string }) => {
+    return ({ isActive }: { isActive: boolean }) => {
+      // Base classes for all items
+      const baseClasses = "flex items-center rounded-md transition-colors";
+      
+      // Active state with item-specific color
+      if (isActive) {
+        return `${baseClasses} ${item.color} text-white font-medium`;
+      }
+      
+      // Inactive state with hover effect using a lighter version of the color
+      return `${baseClasses} hover:bg-opacity-20 hover:${item.color} text-white`;
+    };
+  };
+  
+  return <Sidebar className={`${collapsed ? "w-14" : "w-60"} bg-gradient-to-b from-finish-blue-900 to-finish-blue-800`} collapsible="icon">
+      <SidebarTrigger className="m-2 self-end text-white hover:bg-finish-blue-700" />
       <div className="flex items-center justify-center py-4">
-        {!collapsed ? <h1 className="text-xl font-bold text-white">Finish<span className="text-yellow-400">Flow</span></h1> : <span className="text-xl font-bold text-yellow-400">F</span>}
+        {!collapsed ? (
+          <h1 className="text-xl font-bold text-white">
+            Finish<span className="text-finish-amber-400">Flow</span>
+          </h1>
+        ) : (
+          <span className="text-xl font-bold text-finish-amber-400">F</span>
+        )}
       </div>
 
-      <SidebarContent className="border-t border-blue-700">
+      <SidebarContent className="border-t border-finish-blue-700">
         <SidebarGroup>
-          <SidebarGroupLabel className="text-blue-200 font-semibold">
+          <SidebarGroupLabel className="text-finish-amber-100 font-semibold">
             Main
           </SidebarGroupLabel>
 
           <SidebarGroupContent>
             <SidebarMenu>
-              {mainItems.map(item => <SidebarMenuItem key={item.title}>
+              {mainItems.map(item => (
+                <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <NavLink to={item.url} end={item.url === "/"} className={getNavCls}>
+                    <NavLink to={item.url} end={item.url === "/"} className={getNavCls(item)}>
                       <item.icon className="mr-2 h-4 w-4" />
                       {!collapsed && <span>{item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
-                </SidebarMenuItem>)}
+                </SidebarMenuItem>
+              ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel className="text-blue-200 font-semibold">
+          <SidebarGroupLabel className="text-finish-amber-100 font-semibold">
             Administration
           </SidebarGroupLabel>
 
           <SidebarGroupContent>
             <SidebarMenu>
-              {adminItems.map(item => <SidebarMenuItem key={item.title}>
+              {adminItems.map(item => (
+                <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <NavLink to={item.url} className={getNavCls}>
+                    <NavLink to={item.url} className={getNavCls(item)}>
                       <item.icon className="mr-2 h-4 w-4" />
                       {!collapsed && <span>{item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
-                </SidebarMenuItem>)}
+                </SidebarMenuItem>
+              ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
