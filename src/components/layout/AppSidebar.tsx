@@ -1,4 +1,3 @@
-
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import {
@@ -75,7 +74,7 @@ export function AppSidebar() {
       </div>
 
       <SidebarContent>
-        <SidebarGroup defaultOpen={isMainExpanded}>
+        <SidebarGroup>
           <SidebarGroupLabel className="text-sidebar-foreground/60">
             Main
           </SidebarGroupLabel>
@@ -100,7 +99,7 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        <SidebarGroup defaultOpen={isAdminExpanded}>
+        <SidebarGroup>
           <SidebarGroupLabel className="text-sidebar-foreground/60">
             Administration
           </SidebarGroupLabel>
