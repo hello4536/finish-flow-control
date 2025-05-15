@@ -1,15 +1,16 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { FileText, Trash2 } from "lucide-react";
+import { FileText, Trash2, Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "@/hooks/use-toast";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useResourceNotes } from '@/hooks/useResourceNotes';
 
 const noteSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -18,19 +19,12 @@ const noteSchema = z.object({
 
 type NoteFormValues = z.infer<typeof noteSchema>;
 
-export interface ResourceNote {
-  id: string;
-  title: string;
-  content: string;
-  createdAt: Date;
-}
-
 interface NotesSectionProps {
   onCountChange: (count: number) => void;
 }
 
 const NotesSection: React.FC<NotesSectionProps> = ({ onCountChange }) => {
-  const [notes, setNotes] = useState<ResourceNote[]>([]);
+  const { notes, isLoading, addNote, deleteNote } = useResourceNotes();
   
   const form = useForm<NoteFormValues>({
     resolver: zodResolver(noteSchema),
@@ -40,37 +34,47 @@ const NotesSection: React.FC<NotesSectionProps> = ({ onCountChange }) => {
     },
   });
 
+  // Update parent component with count
+  React.useEffect(() => {
+    onCountChange(notes.length);
+  }, [notes.length, onCountChange]);
+
   // Add a new note
-  const onSubmit = (values: NoteFormValues) => {
-    const newNote: ResourceNote = {
-      id: crypto.randomUUID(),
-      title: values.title,
-      content: values.content,
-      createdAt: new Date(),
-    };
-    
-    const updatedNotes = [...notes, newNote];
-    setNotes(updatedNotes);
-    onCountChange(updatedNotes.length);
-    form.reset();
-    
-    toast({
-      title: "Note saved",
-      description: `"${values.title}" has been added to your notes`,
-    });
+  const onSubmit = async (values: NoteFormValues) => {
+    try {
+      await addNote.mutateAsync(values);
+      form.reset();
+      
+      toast({
+        title: "Note saved",
+        description: `"${values.title}" has been added to your notes`,
+      });
+    } catch (error) {
+      // Error is handled in the mutation
+    }
   };
 
   // Delete a note
-  const deleteNote = (id: string) => {
-    const updatedNotes = notes.filter(note => note.id !== id);
-    setNotes(updatedNotes);
-    onCountChange(updatedNotes.length);
-    
-    toast({
-      title: "Note removed",
-      description: "The note has been removed from your resources",
-    });
+  const handleDeleteNote = async (id: string) => {
+    try {
+      await deleteNote.mutateAsync(id);
+      
+      toast({
+        title: "Note removed",
+        description: "The note has been removed from your resources",
+      });
+    } catch (error) {
+      // Error is handled in the mutation
+    }
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center py-10">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -108,8 +112,16 @@ const NotesSection: React.FC<NotesSectionProps> = ({ onCountChange }) => {
             )}
           />
           
-          <Button type="submit" className="w-full md:w-auto">
-            <FileText className="mr-2 h-4 w-4" />
+          <Button 
+            type="submit" 
+            className="w-full md:w-auto"
+            disabled={addNote.isPending}
+          >
+            {addNote.isPending ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <FileText className="mr-2 h-4 w-4" />
+            )}
             Save Note
           </Button>
         </form>
@@ -126,7 +138,8 @@ const NotesSection: React.FC<NotesSectionProps> = ({ onCountChange }) => {
                     variant="ghost" 
                     size="icon" 
                     className="opacity-0 group-hover:opacity-100"
-                    onClick={() => deleteNote(note.id)}
+                    onClick={() => handleDeleteNote(note.id)}
+                    disabled={deleteNote.isPending}
                   >
                     <Trash2 className="h-4 w-4 text-destructive" />
                   </Button>

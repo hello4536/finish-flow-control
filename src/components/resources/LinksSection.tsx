@@ -1,14 +1,15 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Card, CardContent } from "@/components/ui/card";
-import { Link, Trash2, ExternalLink } from "lucide-react";
+import { Link, Trash2, ExternalLink, Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "@/hooks/use-toast";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useResourceLinks } from '@/hooks/useResourceLinks';
 
 const linkSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -17,19 +18,12 @@ const linkSchema = z.object({
 
 type LinkFormValues = z.infer<typeof linkSchema>;
 
-export interface ResourceLink {
-  id: string;
-  title: string;
-  url: string;
-  createdAt: Date;
-}
-
 interface LinksSectionProps {
   onCountChange: (count: number) => void;
 }
 
 const LinksSection: React.FC<LinksSectionProps> = ({ onCountChange }) => {
-  const [links, setLinks] = useState<ResourceLink[]>([]);
+  const { links, isLoading, addLink, deleteLink } = useResourceLinks();
   
   const form = useForm<LinkFormValues>({
     resolver: zodResolver(linkSchema),
@@ -39,37 +33,47 @@ const LinksSection: React.FC<LinksSectionProps> = ({ onCountChange }) => {
     },
   });
 
+  // Update parent component with count
+  React.useEffect(() => {
+    onCountChange(links.length);
+  }, [links.length, onCountChange]);
+
   // Add a new link
-  const onSubmit = (values: LinkFormValues) => {
-    const newLink: ResourceLink = {
-      id: crypto.randomUUID(),
-      title: values.title,
-      url: values.url,
-      createdAt: new Date(),
-    };
-    
-    const updatedLinks = [...links, newLink];
-    setLinks(updatedLinks);
-    onCountChange(updatedLinks.length);
-    form.reset();
-    
-    toast({
-      title: "Link saved",
-      description: `"${values.title}" has been added to your resources`,
-    });
+  const onSubmit = async (values: LinkFormValues) => {
+    try {
+      await addLink.mutateAsync(values);
+      form.reset();
+      
+      toast({
+        title: "Link saved",
+        description: `"${values.title}" has been added to your resources`,
+      });
+    } catch (error) {
+      // Error is handled in the mutation
+    }
   };
 
   // Delete a link
-  const deleteLink = (id: string) => {
-    const updatedLinks = links.filter(link => link.id !== id);
-    setLinks(updatedLinks);
-    onCountChange(updatedLinks.length);
-    
-    toast({
-      title: "Link removed",
-      description: "The link has been removed from your resources",
-    });
+  const handleDeleteLink = async (id: string) => {
+    try {
+      await deleteLink.mutateAsync(id);
+      
+      toast({
+        title: "Link removed",
+        description: "The link has been removed from your resources",
+      });
+    } catch (error) {
+      // Error is handled in the mutation
+    }
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center py-10">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -107,8 +111,16 @@ const LinksSection: React.FC<LinksSectionProps> = ({ onCountChange }) => {
               />
             </div>
             <div className="self-end">
-              <Button type="submit" className="w-full md:w-auto">
-                <Link className="mr-2 h-4 w-4" />
+              <Button 
+                type="submit" 
+                className="w-full md:w-auto"
+                disabled={addLink.isPending}
+              >
+                {addLink.isPending ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <Link className="mr-2 h-4 w-4" />
+                )}
                 Save Link
               </Button>
             </div>
@@ -137,7 +149,8 @@ const LinksSection: React.FC<LinksSectionProps> = ({ onCountChange }) => {
                   variant="ghost" 
                   size="icon" 
                   className="opacity-0 group-hover:opacity-100"
-                  onClick={() => deleteLink(link.id)}
+                  onClick={() => handleDeleteLink(link.id)}
+                  disabled={deleteLink.isPending}
                 >
                   <Trash2 className="h-4 w-4 text-destructive" />
                 </Button>

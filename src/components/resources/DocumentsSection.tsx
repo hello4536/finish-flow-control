@@ -1,20 +1,12 @@
 
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { Paperclip, FileText, File, Trash2, Upload } from "lucide-react";
-import { toast } from "@/hooks/use-toast";
+import { Paperclip, FileText, File, Trash2, Upload, Loader2 } from "lucide-react";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-
-export interface ResourceDocument {
-  id: string;
-  name: string;
-  type: string;
-  size: number;
-  createdAt: Date;
-  url: string; // This would be a blob URL in a real app
-}
+import { useResourceDocuments } from '@/hooks/useResourceDocuments';
+import { toast } from "@/hooks/use-toast";
 
 interface DocumentsSectionProps {
   onCountChange: (count: number) => void;
@@ -35,37 +27,31 @@ const formatFileSize = (bytes: number) => {
 };
 
 const DocumentsSection: React.FC<DocumentsSectionProps> = ({ onCountChange }) => {
-  const [documents, setDocuments] = useState<ResourceDocument[]>([]);
-  const fileInputRef = React.useRef<HTMLInputElement>(null);
+  const { documents, isLoading, uploadDocument, deleteDocument } = useResourceDocuments();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   
-  // Mock file upload (in a real app, this would handle actual file uploads)
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Update parent component with count
+  React.useEffect(() => {
+    onCountChange(documents.length);
+  }, [documents.length, onCountChange]);
+  
+  // Handle file change
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
     
-    const newDocuments: ResourceDocument[] = [];
-    
-    Array.from(files).forEach(file => {
-      // Create a blob URL (in a real app, this would be an actual storage URL)
-      const url = URL.createObjectURL(file);
-      
-      newDocuments.push({
-        id: crypto.randomUUID(),
-        name: file.name,
-        type: file.type,
-        size: file.size,
-        createdAt: new Date(),
-        url
-      });
-    });
-    
-    const updatedDocs = [...documents, ...newDocuments];
-    setDocuments(updatedDocs);
-    onCountChange(updatedDocs.length);
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      try {
+        await uploadDocument.mutateAsync(file);
+      } catch (error) {
+        // Error is handled in the mutation
+      }
+    }
     
     toast({
       title: "Documents uploaded",
-      description: `${newDocuments.length} document(s) have been uploaded`,
+      description: `${files.length} document(s) have been uploaded`,
     });
     
     // Reset the file input
@@ -75,27 +61,31 @@ const DocumentsSection: React.FC<DocumentsSectionProps> = ({ onCountChange }) =>
   };
 
   // Delete a document
-  const deleteDocument = (id: string) => {
-    const doc = documents.find(d => d.id === id);
-    if (doc?.url) {
-      // Revoke the blob URL to free up memory
-      URL.revokeObjectURL(doc.url);
+  const handleDeleteDocument = async (doc: any) => {
+    try {
+      await deleteDocument.mutateAsync(doc);
+      
+      toast({
+        title: "Document removed",
+        description: "The document has been removed from your resources",
+      });
+    } catch (error) {
+      // Error is handled in the mutation
     }
-    
-    const updatedDocs = documents.filter(doc => doc.id !== id);
-    setDocuments(updatedDocs);
-    onCountChange(updatedDocs.length);
-    
-    toast({
-      title: "Document removed",
-      description: "The document has been removed from your resources",
-    });
   };
 
   // Preview a document
-  const previewDocument = (doc: ResourceDocument) => {
+  const previewDocument = (doc: any) => {
     window.open(doc.url, '_blank');
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center py-10">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -113,8 +103,15 @@ const DocumentsSection: React.FC<DocumentsSectionProps> = ({ onCountChange }) =>
           accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,.csv,.xlsx"
           id="file-upload"
         />
-        <Button onClick={() => fileInputRef.current?.click()}>
-          <Upload className="mr-2 h-4 w-4" />
+        <Button 
+          onClick={() => fileInputRef.current?.click()}
+          disabled={uploadDocument.isPending}
+        >
+          {uploadDocument.isPending ? (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          ) : (
+            <Upload className="mr-2 h-4 w-4" />
+          )}
           Select Files
         </Button>
       </div>
@@ -162,8 +159,9 @@ const DocumentsSection: React.FC<DocumentsSectionProps> = ({ onCountChange }) =>
                       className="opacity-0 group-hover:opacity-100"
                       onClick={(e) => {
                         e.stopPropagation();
-                        deleteDocument(doc.id);
+                        handleDeleteDocument(doc);
                       }}
+                      disabled={deleteDocument.isPending}
                     >
                       <Trash2 className="h-4 w-4 text-destructive" />
                     </Button>

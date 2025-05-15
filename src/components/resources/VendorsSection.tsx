@@ -1,47 +1,35 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
-import { Phone, Mail, Trash2, PlusCircle } from "lucide-react";
+import { Phone, Mail, Trash2, PlusCircle, Loader2 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
-
-// Define the vendor interface
-interface Vendor {
-  id: string;
-  name: string;
-  contact: string;
-  phone: string;
-  email: string;
-}
+import { useResourceVendors } from "@/hooks/useResourceVendors";
 
 interface VendorsSectionProps {
   onCountChange: (count: number) => void;
 }
 
 const VendorsSection: React.FC<VendorsSectionProps> = ({ onCountChange }) => {
-  const [vendors, setVendors] = useState<Vendor[]>(() => {
-    const savedVendors = localStorage.getItem("vendors");
-    return savedVendors ? JSON.parse(savedVendors) : [];
-  });
-
-  const [newVendor, setNewVendor] = useState<Omit<Vendor, "id">>({
+  const { vendors, isLoading, addVendor, deleteVendor } = useResourceVendors();
+  
+  const [newVendor, setNewVendor] = useState({
     name: "",
     contact: "",
     phone: "",
     email: "",
   });
 
-  // Update localStorage whenever vendors change
-  useEffect(() => {
-    localStorage.setItem("vendors", JSON.stringify(vendors));
+  // Update parent component with count
+  React.useEffect(() => {
     onCountChange(vendors.length);
-  }, [vendors, onCountChange]);
+  }, [vendors.length, onCountChange]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    field: keyof Omit<Vendor, "id">
+    field: keyof typeof newVendor
   ) => {
     setNewVendor({
       ...newVendor,
@@ -49,7 +37,7 @@ const VendorsSection: React.FC<VendorsSectionProps> = ({ onCountChange }) => {
     });
   };
 
-  const addVendor = () => {
+  const handleAddVendor = async () => {
     // Basic validation
     if (!newVendor.name.trim()) {
       toast({
@@ -60,26 +48,39 @@ const VendorsSection: React.FC<VendorsSectionProps> = ({ onCountChange }) => {
       return;
     }
 
-    const vendor: Vendor = {
-      ...newVendor,
-      id: Date.now().toString(),
-    };
-
-    setVendors([...vendors, vendor]);
-    setNewVendor({ name: "", contact: "", phone: "", email: "" });
-    toast({
-      title: "Vendor Added",
-      description: `${vendor.name} has been added to your vendors list`,
-    });
+    try {
+      await addVendor.mutateAsync(newVendor);
+      setNewVendor({ name: "", contact: "", phone: "", email: "" });
+      
+      toast({
+        title: "Vendor Added",
+        description: `${newVendor.name} has been added to your vendors list`,
+      });
+    } catch (error) {
+      // Error is handled in the mutation
+    }
   };
 
-  const deleteVendor = (id: string) => {
-    setVendors(vendors.filter((vendor) => vendor.id !== id));
-    toast({
-      title: "Vendor Removed",
-      description: "Vendor has been removed from your list",
-    });
+  const handleDeleteVendor = async (id: string) => {
+    try {
+      await deleteVendor.mutateAsync(id);
+      
+      toast({
+        title: "Vendor Removed",
+        description: "Vendor has been removed from your list",
+      });
+    } catch (error) {
+      // Error is handled in the mutation
+    }
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center py-10">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -126,8 +127,16 @@ const VendorsSection: React.FC<VendorsSectionProps> = ({ onCountChange }) => {
             />
           </div>
         </div>
-        <Button onClick={addVendor} className="w-full md:w-auto flex items-center gap-2">
-          <PlusCircle className="h-4 w-4" />
+        <Button 
+          onClick={handleAddVendor} 
+          className="w-full md:w-auto flex items-center gap-2"
+          disabled={addVendor.isPending}
+        >
+          {addVendor.isPending ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <PlusCircle className="h-4 w-4" />
+          )}
           Add Vendor
         </Button>
       </div>
@@ -163,8 +172,9 @@ const VendorsSection: React.FC<VendorsSectionProps> = ({ onCountChange }) => {
                   <Button 
                     variant="ghost" 
                     size="icon" 
-                    onClick={() => deleteVendor(vendor.id)}
+                    onClick={() => handleDeleteVendor(vendor.id)}
                     className="text-muted-foreground hover:text-destructive"
+                    disabled={deleteVendor.isPending}
                   >
                     <Trash2 className="h-4 w-4" />
                   </Button>
