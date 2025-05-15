@@ -5,7 +5,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 const Header: React.FC = () => {
-  return <header className="flex h-16 items-center border-b px-4 py-0 my-0 bg-sky-50">
+  return <header className="flex h-16 items-center border-b px-4 py-0 my-0 bg-orange-50">
       <SidebarTrigger className="mr-4 text-primary" />
       
       <div className="flex items-center space-x-4 lg:space-x-6">
