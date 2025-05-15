@@ -3,6 +3,7 @@ import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import { BarChart, Box, Calendar, CheckSquare, ClipboardList, Database, Home, PackageOpen, Settings, Users, Link, Palette } from "lucide-react";
+
 export function AppSidebar() {
   const {
     state
@@ -14,7 +15,7 @@ export function AppSidebar() {
     title: "Dashboard",
     url: "/",
     icon: Home,
-    color: "bg-accent"
+    color: "bg-accent/90"
   }, {
     title: "Jobs",
     url: "/jobs",
@@ -24,12 +25,12 @@ export function AppSidebar() {
     title: "Workflows",
     url: "/workflows",
     icon: PackageOpen,
-    color: "bg-accent/80"
+    color: "bg-accent/90"
   }, {
     title: "Materials",
     url: "/materials",
     icon: Box,
-    color: "bg-accent/70"
+    color: "bg-accent/90"
   }, {
     title: "Inventory",
     url: "/inventory",
@@ -39,22 +40,22 @@ export function AppSidebar() {
     title: "QC & Compliance",
     url: "/quality",
     icon: CheckSquare,
-    color: "bg-accent/80"
+    color: "bg-accent/90"
   }, {
     title: "Schedule",
     url: "/schedule",
     icon: Calendar,
-    color: "bg-accent/70"
+    color: "bg-accent/90"
   }, {
     title: "Custom Creations",
     url: "/custom-creations",
     icon: Palette,
-    color: "bg-accent/65"
+    color: "bg-accent/90"
   }, {
     title: "Resources",
     url: "/resources",
     icon: Link,
-    color: "bg-accent/60"
+    color: "bg-accent/90"
   }];
   const adminItems = [{
     title: "Reports",
@@ -65,12 +66,12 @@ export function AppSidebar() {
     title: "Users",
     url: "/users",
     icon: Users,
-    color: "bg-accent/80"
+    color: "bg-accent/90"
   }, {
     title: "Settings",
     url: "/settings",
     icon: Settings,
-    color: "bg-accent/70"
+    color: "bg-accent/90"
   }];
   const isActive = (path: string) => {
     // Root path should only be active if exact match
@@ -81,7 +82,7 @@ export function AppSidebar() {
   const isMainExpanded = mainItems.some(i => isActive(i.url));
   const isAdminExpanded = adminItems.some(i => isActive(i.url));
 
-  // Updated function to generate NavLink classes with orange fill, navy text, and white border
+  // Updated function to generate NavLink classes with white fill, navy text, and orange border
   const getNavCls = (item: {
     color: string;
   }) => {
@@ -90,18 +91,19 @@ export function AppSidebar() {
     }: {
       isActive: boolean;
     }) => {
-      // Base classes for all items with light orange fill, navy text and white border
-      const baseClasses = "flex items-center rounded-md transition-colors p-2 bg-accent text-primary border border-white";
+      // Base classes with white fill, navy text and orange border
+      const baseClasses = "flex items-center rounded-md transition-colors p-2 bg-white text-primary border border-accent";
 
-      // Active state with darker shade and white text
+      // Active state with light blue background and navy text
       if (isActive) {
-        return `${baseClasses} ${item.color} text-primary-foreground shadow-md font-medium`;
+        return `${baseClasses} bg-accent/10 text-primary font-medium shadow-md`;
       }
 
       // Inactive state with hover effect
-      return `${baseClasses} hover:bg-accent/80 hover:text-primary-foreground`;
+      return `${baseClasses} hover:bg-accent/5`;
     };
   };
+  
   return <Sidebar className={`${collapsed ? "w-14" : "w-60"} bg-gradient-to-b from-primary to-primary/90 shadow-xl`} collapsible="icon">
       <SidebarTrigger className="m-2 self-end text-white hover:bg-primary/70" />
       <div className="flex items-center justify-center py-4 border-b border-white/10">
