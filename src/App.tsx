@@ -10,7 +10,7 @@ import Jobs from "./pages/jobs";
 import Workflows from "./pages/workflows";
 import Materials from "./pages/materials";
 import Inventory from "./pages/inventory";
-import Quality from "./pages/Quality";
+import Quality from "./pages/quality";
 import Schedule from "./pages/Schedule";
 import Resources from "./pages/Resources";
 import Reports from "./pages/Reports";
