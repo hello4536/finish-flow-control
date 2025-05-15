@@ -9,6 +9,45 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      inventory_items: {
+        Row: {
+          allocated: number
+          available: number
+          category: string
+          created_at: string
+          id: string
+          in_stock: number
+          location: string
+          name: string
+          sku: string
+          updated_at: string
+        }
+        Insert: {
+          allocated?: number
+          available?: number
+          category: string
+          created_at?: string
+          id?: string
+          in_stock?: number
+          location: string
+          name: string
+          sku: string
+          updated_at?: string
+        }
+        Update: {
+          allocated?: number
+          available?: number
+          category?: string
+          created_at?: string
+          id?: string
+          in_stock?: number
+          location?: string
+          name?: string
+          sku?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       jobs: {
         Row: {
           assigned_to: string | null
@@ -141,6 +180,36 @@ export type Database = {
           name?: string
           phone?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      warehouses: {
+        Row: {
+          capacity: number
+          created_at: string
+          id: string
+          location: string
+          name: string
+          updated_at: string
+          utilized: number
+        }
+        Insert: {
+          capacity?: number
+          created_at?: string
+          id?: string
+          location: string
+          name: string
+          updated_at?: string
+          utilized?: number
+        }
+        Update: {
+          capacity?: number
+          created_at?: string
+          id?: string
+          location?: string
+          name?: string
+          updated_at?: string
+          utilized?: number
         }
         Relationships: []
       }

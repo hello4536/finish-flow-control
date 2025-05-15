@@ -8,24 +8,14 @@ import {
 } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import InventoryTable from "./InventoryTable";
-
-interface InventoryItem {
-  id: number;
-  name: string;
-  sku: string;
-  category: string;
-  inStock: number;
-  allocated: number;
-  available: number;
-  location: string;
-}
+import { InventoryItem } from "@/types/inventory";
 
 interface InventoryTabsProps {
   activeTab: string;
   setActiveTab: (value: string) => void;
   filteredItems: InventoryItem[];
-  selectedItems: number[];
-  handleSelectItem: (id: number) => void;
+  selectedItems: string[];
+  handleSelectItem: (id: string) => void;
   handleSelectAll: () => void;
   handleDeleteSelected: () => void;
 }

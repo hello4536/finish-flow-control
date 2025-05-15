@@ -2,35 +2,33 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { mockInventoryItems, mockWarehouses } from "./data/mockData";
 import InventoryHeader from "./components/InventoryHeader";
 import StatCards from "./components/StatCards";
 import SearchBar from "./components/SearchBar";
 import InventoryTabs from "./components/InventoryTabs";
 import WarehouseSection from "./components/WarehouseSection";
+import { useInventoryData } from "@/hooks/useInventoryData";
+import { mockInventoryItems, mockWarehouses } from "./data/mockData"; // For seeding only
 
 const InventoryPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState("all");
-  const [selectedItems, setSelectedItems] = useState<number[]>([]);
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const { toast } = useToast();
+  const { 
+    inventoryItems, 
+    warehouses, 
+    isLoading, 
+    filterItems, 
+    deleteInventoryItem,
+    addInventoryItem,
+    fetchInventoryData
+  } = useInventoryData();
 
   // Filter inventory items based on search term and active tab
-  const filteredItems = mockInventoryItems.filter(item => {
-    const matchesSearch = 
-      item.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-      item.sku.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.category.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    if (activeTab === "all") return matchesSearch;
-    if (activeTab === "furniture") return matchesSearch && item.category === "Furniture";
-    if (activeTab === "kitchen") return matchesSearch && item.category === "Kitchen";
-    if (activeTab === "low") return matchesSearch && item.available < 10;
-    
-    return matchesSearch;
-  });
+  const filteredItems = filterItems(searchTerm, activeTab);
 
-  const handleSelectItem = (id: number) => {
+  const handleSelectItem = (id: string) => {
     setSelectedItems(prev => 
       prev.includes(id) 
         ? prev.filter(itemId => itemId !== id) 
@@ -46,30 +44,80 @@ const InventoryPage: React.FC = () => {
     }
   };
 
-  const handleDeleteSelected = () => {
+  const handleDeleteSelected = async () => {
     if (selectedItems.length === 0) return;
     
-    toast({
-      title: "Items deleted",
-      description: `${selectedItems.length} items have been removed from inventory.`,
-    });
-    
-    setSelectedItems([]);
+    try {
+      for (const id of selectedItems) {
+        await deleteInventoryItem(id);
+      }
+      
+      setSelectedItems([]);
+    } catch (error) {
+      console.error("Failed to delete selected items", error);
+    }
+  };
+
+  const seedSampleData = async () => {
+    try {
+      // Seed inventory items
+      for (const item of mockInventoryItems) {
+        await addInventoryItem({
+          name: item.name,
+          sku: item.sku + "-" + Date.now(), // Ensure uniqueness
+          category: item.category,
+          in_stock: item.inStock,
+          allocated: item.allocated,
+          available: item.available,
+          location: item.location
+        });
+      }
+      
+      // Seed warehouses
+      for (const warehouse of mockWarehouses) {
+        await supabase.from('warehouses').insert({
+          name: warehouse.name,
+          location: warehouse.location,
+          capacity: warehouse.capacity,
+          utilized: warehouse.utilized
+        });
+      }
+      
+      toast({
+        title: "Sample data added",
+        description: "Sample inventory items and warehouses have been added to the database.",
+      });
+      
+      await fetchInventoryData();
+    } catch (error: any) {
+      console.error("Error seeding sample data:", error);
+      toast({
+        title: "Error adding sample data",
+        description: error.message || "Failed to add sample data",
+        variant: "destructive",
+      });
+    }
   };
 
   // Calculate stats for the cards
-  const categoryCount = new Set(mockInventoryItems.map(m => m.category)).size;
-  const lowStockCount = mockInventoryItems.filter(m => m.available < 10).length;
+  const categoryCount = new Set(inventoryItems.map(m => m.category)).size;
+  const lowStockCount = inventoryItems.filter(m => m.available < 10).length;
 
   return (
     <div className="container mx-auto">
       <InventoryHeader />
       
+      <div className="flex justify-end mb-4">
+        <Button onClick={seedSampleData} variant="outline">
+          Seed Sample Data
+        </Button>
+      </div>
+      
       <StatCards 
-        totalProducts={mockInventoryItems.length}
+        totalProducts={inventoryItems.length}
         categoryCount={categoryCount}
         lowStockCount={lowStockCount}
-        warehouseCount={mockWarehouses.length}
+        warehouseCount={warehouses.length}
       />
       
       <div className="bg-white rounded-lg shadow-sm border p-6 mb-6">
@@ -78,18 +126,24 @@ const InventoryPage: React.FC = () => {
           <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
         </div>
         
-        <InventoryTabs
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          filteredItems={filteredItems}
-          selectedItems={selectedItems}
-          handleSelectItem={handleSelectItem}
-          handleSelectAll={handleSelectAll}
-          handleDeleteSelected={handleDeleteSelected}
-        />
+        {isLoading ? (
+          <div className="flex justify-center p-8">
+            <p>Loading inventory data...</p>
+          </div>
+        ) : (
+          <InventoryTabs
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            filteredItems={filteredItems}
+            selectedItems={selectedItems}
+            handleSelectItem={handleSelectItem}
+            handleSelectAll={handleSelectAll}
+            handleDeleteSelected={handleDeleteSelected}
+          />
+        )}
       </div>
 
-      <WarehouseSection warehouses={mockWarehouses} />
+      <WarehouseSection warehouses={warehouses} isLoading={isLoading} />
     </div>
   );
 };

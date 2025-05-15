@@ -2,20 +2,14 @@
 import React from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import WarehouseTable from "./WarehouseTable";
-
-interface Warehouse {
-  id: number;
-  name: string;
-  location: string;
-  capacity: number;
-  utilized: number;
-}
+import { Warehouse } from "@/types/inventory";
 
 interface WarehouseSectionProps {
   warehouses: Warehouse[];
+  isLoading: boolean;
 }
 
-const WarehouseSection: React.FC<WarehouseSectionProps> = ({ warehouses }) => {
+const WarehouseSection: React.FC<WarehouseSectionProps> = ({ warehouses, isLoading }) => {
   return (
     <Card>
       <CardHeader>
@@ -23,7 +17,13 @@ const WarehouseSection: React.FC<WarehouseSectionProps> = ({ warehouses }) => {
         <CardDescription>Current storage facilities and capacity utilization</CardDescription>
       </CardHeader>
       <CardContent>
-        <WarehouseTable warehouses={warehouses} />
+        {isLoading ? (
+          <div className="flex justify-center p-8">
+            <p>Loading warehouse data...</p>
+          </div>
+        ) : (
+          <WarehouseTable warehouses={warehouses} />
+        )}
       </CardContent>
     </Card>
   );
