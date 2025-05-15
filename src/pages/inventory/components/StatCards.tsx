@@ -1,25 +1,21 @@
-
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Package, PackageOpen, Warehouse } from "lucide-react";
-
 interface StatCardsProps {
   totalProducts: number;
   categoryCount: number;
   lowStockCount: number;
   warehouseCount: number;
 }
-
-const StatCards: React.FC<StatCardsProps> = ({ 
-  totalProducts, 
-  categoryCount, 
-  lowStockCount, 
-  warehouseCount 
+const StatCards: React.FC<StatCardsProps> = ({
+  totalProducts,
+  categoryCount,
+  lowStockCount,
+  warehouseCount
 }) => {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+  return <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
       <Card className="card-hover">
-        <CardHeader className="bg-blue-50 pb-2">
+        <CardHeader className="pb-2 bg-sky-100">
           <CardTitle className="flex items-center">
             <Package className="mr-2 h-5 w-5 text-blue-600" />
             Total Products
@@ -32,7 +28,7 @@ const StatCards: React.FC<StatCardsProps> = ({
       </Card>
       
       <Card className="card-hover">
-        <CardHeader className="bg-amber-50 pb-2">
+        <CardHeader className="pb-2 bg-red-100">
           <CardTitle className="flex items-center">
             <PackageOpen className="mr-2 h-5 w-5 text-amber-600" />
             Low Stock Items
@@ -45,9 +41,9 @@ const StatCards: React.FC<StatCardsProps> = ({
       </Card>
       
       <Card className="card-hover">
-        <CardHeader className="bg-green-50 pb-2">
-          <CardTitle className="flex items-center">
-            <Warehouse className="mr-2 h-5 w-5 text-green-600" />
+        <CardHeader className="pb-2 bg-blue-900">
+          <CardTitle className="flex items-center text-orange-500">
+            <Warehouse className="mr-2 h-5 w-5 text-green-600 rounded-none" />
             Warehouses
           </CardTitle>
         </CardHeader>
@@ -56,8 +52,6 @@ const StatCards: React.FC<StatCardsProps> = ({
           <p className="text-sm text-muted-foreground mt-1">Storage locations</p>
         </CardContent>
       </Card>
-    </div>
-  );
+    </div>;
 };
-
 export default StatCards;
