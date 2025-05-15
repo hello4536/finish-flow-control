@@ -9,6 +9,36 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      bookmarks: {
+        Row: {
+          category: string
+          created_at: string
+          id: string
+          notes: string | null
+          title: string
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          title: string
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          title?: string
+          updated_at?: string
+          url?: string
+        }
+        Relationships: []
+      }
       certifications: {
         Row: {
           authority: string
@@ -225,6 +255,33 @@ export type Database = {
         }
         Relationships: []
       }
+      paint_colors: {
+        Row: {
+          created_at: string
+          hex_code: string
+          id: string
+          name: string
+          notes: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          hex_code: string
+          id?: string
+          name: string
+          notes?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          hex_code?: string
+          id?: string
+          name?: string
+          notes?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       quality_inspections: {
         Row: {
           created_at: string
@@ -257,6 +314,33 @@ export type Database = {
           notes?: string | null
           product?: string
           status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      recipes: {
+        Row: {
+          created_at: string
+          id: string
+          instructions: string
+          materials: string
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          instructions: string
+          materials: string
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          instructions?: string
+          materials?: string
+          name?: string
           updated_at?: string
         }
         Relationships: []
@@ -305,6 +389,36 @@ export type Database = {
           time?: string
           title?: string
           type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      stains: {
+        Row: {
+          brand: string
+          color: string
+          created_at: string
+          id: string
+          name: string
+          notes: string | null
+          updated_at: string
+        }
+        Insert: {
+          brand: string
+          color: string
+          created_at?: string
+          id?: string
+          name: string
+          notes?: string | null
+          updated_at?: string
+        }
+        Update: {
+          brand?: string
+          color?: string
+          created_at?: string
+          id?: string
+          name?: string
+          notes?: string | null
           updated_at?: string
         }
         Relationships: []

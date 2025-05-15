@@ -1,14 +1,15 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { PaintBucket, Trash2, Plus } from "lucide-react";
+import { PaintBucket, Trash2, Plus, Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "@/hooks/use-toast";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { usePaintColors } from "@/hooks/usePaintColors";
 
 const colorSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -18,20 +19,12 @@ const colorSchema = z.object({
 
 type ColorFormValues = z.infer<typeof colorSchema>;
 
-export interface PaintColor {
-  id: string;
-  name: string;
-  hexCode: string;
-  notes?: string;
-  createdAt: Date;
-}
-
 interface PaintColorsSectionProps {
   onCountChange: (count: number) => void;
 }
 
 const PaintColorsSection: React.FC<PaintColorsSectionProps> = ({ onCountChange }) => {
-  const [colors, setColors] = useState<PaintColor[]>([]);
+  const { paintColors, isLoading, addPaintColor, deletePaintColor } = usePaintColors();
   
   const form = useForm<ColorFormValues>({
     resolver: zodResolver(colorSchema),
@@ -42,37 +35,19 @@ const PaintColorsSection: React.FC<PaintColorsSectionProps> = ({ onCountChange }
     },
   });
 
+  // Update parent component with count
+  React.useEffect(() => {
+    onCountChange(paintColors.length);
+  }, [paintColors.length, onCountChange]);
+
   // Add a new paint color
   const onSubmit = (values: ColorFormValues) => {
-    const newColor: PaintColor = {
-      id: crypto.randomUUID(),
+    addPaintColor.mutate({
       name: values.name,
       hexCode: values.hexCode,
-      notes: values.notes,
-      createdAt: new Date(),
-    };
-    
-    const updatedColors = [...colors, newColor];
-    setColors(updatedColors);
-    onCountChange(updatedColors.length);
+      notes: values.notes
+    });
     form.reset();
-    
-    toast({
-      title: "Color saved",
-      description: `"${values.name}" has been added to your collection`,
-    });
-  };
-
-  // Delete a paint color
-  const deleteColor = (id: string) => {
-    const updatedColors = colors.filter(color => color.id !== id);
-    setColors(updatedColors);
-    onCountChange(updatedColors.length);
-    
-    toast({
-      title: "Color removed",
-      description: "The color has been removed from your collection",
-    });
   };
 
   return (
@@ -129,32 +104,49 @@ const PaintColorsSection: React.FC<PaintColorsSectionProps> = ({ onCountChange }
             />
           </div>
           
-          <Button type="submit">
-            <Plus className="mr-2 h-4 w-4" />
-            Save Paint Color
+          <Button 
+            type="submit" 
+            disabled={addPaintColor.isPending}
+          >
+            {addPaintColor.isPending ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Saving...
+              </>
+            ) : (
+              <>
+                <Plus className="mr-2 h-4 w-4" />
+                Save Paint Color
+              </>
+            )}
           </Button>
         </form>
       </Form>
 
-      {colors.length > 0 ? (
+      {isLoading ? (
+        <div className="flex justify-center py-10">
+          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+        </div>
+      ) : paintColors.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {colors.map((color) => (
+          {paintColors.map((color) => (
             <Card key={color.id} className="group">
               <CardContent className="p-4 flex flex-col gap-2">
                 <div 
                   className="w-full h-24 rounded-md" 
-                  style={{ backgroundColor: color.hexCode }}
+                  style={{ backgroundColor: color.hex_code }}
                 />
                 <div className="flex justify-between items-center">
                   <div>
                     <h3 className="font-medium">{color.name}</h3>
-                    <p className="text-xs text-muted-foreground">{color.hexCode}</p>
+                    <p className="text-xs text-muted-foreground">{color.hex_code}</p>
                   </div>
                   <Button 
                     variant="ghost" 
                     size="icon" 
                     className="opacity-0 group-hover:opacity-100"
-                    onClick={() => deleteColor(color.id)}
+                    onClick={() => deletePaintColor.mutate(color.id)}
+                    disabled={deletePaintColor.isPending}
                   >
                     <Trash2 className="h-4 w-4 text-destructive" />
                   </Button>

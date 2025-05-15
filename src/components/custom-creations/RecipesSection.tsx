@@ -1,15 +1,16 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Utensils, Trash2, Plus } from "lucide-react";
+import { Utensils, Trash2, Plus, Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "@/hooks/use-toast";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRecipes } from "@/hooks/useRecipes";
 
 const recipeSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -19,20 +20,12 @@ const recipeSchema = z.object({
 
 type RecipeFormValues = z.infer<typeof recipeSchema>;
 
-export interface Recipe {
-  id: string;
-  name: string;
-  materials: string;
-  instructions: string;
-  createdAt: Date;
-}
-
 interface RecipesSectionProps {
   onCountChange: (count: number) => void;
 }
 
 const RecipesSection: React.FC<RecipesSectionProps> = ({ onCountChange }) => {
-  const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const { recipes, isLoading, addRecipe, deleteRecipe } = useRecipes();
   
   const form = useForm<RecipeFormValues>({
     resolver: zodResolver(recipeSchema),
@@ -43,37 +36,19 @@ const RecipesSection: React.FC<RecipesSectionProps> = ({ onCountChange }) => {
     },
   });
 
+  // Update parent component with count
+  React.useEffect(() => {
+    onCountChange(recipes.length);
+  }, [recipes.length, onCountChange]);
+
   // Add a new recipe
   const onSubmit = (values: RecipeFormValues) => {
-    const newRecipe: Recipe = {
-      id: crypto.randomUUID(),
+    addRecipe.mutate({
       name: values.name,
       materials: values.materials,
-      instructions: values.instructions,
-      createdAt: new Date(),
-    };
-    
-    const updatedRecipes = [...recipes, newRecipe];
-    setRecipes(updatedRecipes);
-    onCountChange(updatedRecipes.length);
+      instructions: values.instructions
+    });
     form.reset();
-    
-    toast({
-      title: "Recipe saved",
-      description: `"${values.name}" has been added to your collection`,
-    });
-  };
-
-  // Delete a recipe
-  const deleteRecipe = (id: string) => {
-    const updatedRecipes = recipes.filter(recipe => recipe.id !== id);
-    setRecipes(updatedRecipes);
-    onCountChange(updatedRecipes.length);
-    
-    toast({
-      title: "Recipe removed",
-      description: "The recipe has been removed from your collection",
-    });
   };
 
   return (
@@ -130,14 +105,30 @@ const RecipesSection: React.FC<RecipesSectionProps> = ({ onCountChange }) => {
             )}
           />
           
-          <Button type="submit">
-            <Plus className="mr-2 h-4 w-4" />
-            Save Recipe
+          <Button 
+            type="submit" 
+            disabled={addRecipe.isPending}
+          >
+            {addRecipe.isPending ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Saving...
+              </>
+            ) : (
+              <>
+                <Plus className="mr-2 h-4 w-4" />
+                Save Recipe
+              </>
+            )}
           </Button>
         </form>
       </Form>
 
-      {recipes.length > 0 ? (
+      {isLoading ? (
+        <div className="flex justify-center py-10">
+          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+        </div>
+      ) : recipes.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {recipes.map((recipe) => (
             <Card key={recipe.id} className="group">
@@ -148,7 +139,8 @@ const RecipesSection: React.FC<RecipesSectionProps> = ({ onCountChange }) => {
                     variant="ghost" 
                     size="icon" 
                     className="opacity-0 group-hover:opacity-100"
-                    onClick={() => deleteRecipe(recipe.id)}
+                    onClick={() => deleteRecipe.mutate(recipe.id)}
+                    disabled={deleteRecipe.isPending}
                   >
                     <Trash2 className="h-4 w-4 text-destructive" />
                   </Button>
@@ -166,7 +158,7 @@ const RecipesSection: React.FC<RecipesSectionProps> = ({ onCountChange }) => {
                   </div>
                   
                   <p className="text-xs text-muted-foreground">
-                    Created: {new Date(recipe.createdAt).toLocaleDateString()}
+                    Created: {new Date(recipe.created_at).toLocaleDateString()}
                   </p>
                 </div>
               </CardContent>

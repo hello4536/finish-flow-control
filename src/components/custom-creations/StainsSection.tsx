@@ -1,83 +1,57 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { SwatchBook, Trash2, Plus } from "lucide-react";
+import { SwatchBook, Trash2, Plus, Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "@/hooks/use-toast";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useStains } from "@/hooks/useStains";
 
 const stainSchema = z.object({
   name: z.string().min(1, "Name is required"),
-  baseColor: z.string().min(1, "Base color is required"),
-  mixRatio: z.string().min(1, "Mix ratio is required"),
+  brand: z.string().min(1, "Brand is required"),
+  color: z.string().min(1, "Color is required"),
   notes: z.string().optional(),
 });
 
 type StainFormValues = z.infer<typeof stainSchema>;
-
-export interface Stain {
-  id: string;
-  name: string;
-  baseColor: string;
-  mixRatio: string;
-  notes?: string;
-  createdAt: Date;
-}
 
 interface StainsSectionProps {
   onCountChange: (count: number) => void;
 }
 
 const StainsSection: React.FC<StainsSectionProps> = ({ onCountChange }) => {
-  const [stains, setStains] = useState<Stain[]>([]);
+  const { stains, isLoading, addStain, deleteStain } = useStains();
   
   const form = useForm<StainFormValues>({
     resolver: zodResolver(stainSchema),
     defaultValues: {
       name: "",
-      baseColor: "",
-      mixRatio: "",
+      brand: "",
+      color: "",
       notes: "",
     },
   });
 
+  // Update parent component with count
+  React.useEffect(() => {
+    onCountChange(stains.length);
+  }, [stains.length, onCountChange]);
+
   // Add a new stain
   const onSubmit = (values: StainFormValues) => {
-    const newStain: Stain = {
-      id: crypto.randomUUID(),
+    addStain.mutate({
       name: values.name,
-      baseColor: values.baseColor,
-      mixRatio: values.mixRatio,
-      notes: values.notes,
-      createdAt: new Date(),
-    };
-    
-    const updatedStains = [...stains, newStain];
-    setStains(updatedStains);
-    onCountChange(updatedStains.length);
+      brand: values.brand,
+      color: values.color,
+      notes: values.notes
+    });
     form.reset();
-    
-    toast({
-      title: "Stain saved",
-      description: `"${values.name}" has been added to your collection`,
-    });
-  };
-
-  // Delete a stain
-  const deleteStain = (id: string) => {
-    const updatedStains = stains.filter(stain => stain.id !== id);
-    setStains(updatedStains);
-    onCountChange(updatedStains.length);
-    
-    toast({
-      title: "Stain removed",
-      description: "The stain has been removed from your collection",
-    });
   };
 
   return (
@@ -101,12 +75,12 @@ const StainsSection: React.FC<StainsSectionProps> = ({ onCountChange }) => {
             
             <FormField
               control={form.control}
-              name="baseColor"
+              name="brand"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Base Color</FormLabel>
+                  <FormLabel>Brand</FormLabel>
                   <FormControl>
-                    <Input placeholder="Dark Oak" {...field} />
+                    <Input placeholder="Minwax" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -116,12 +90,12 @@ const StainsSection: React.FC<StainsSectionProps> = ({ onCountChange }) => {
           
           <FormField
             control={form.control}
-            name="mixRatio"
+            name="color"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Mix Ratio</FormLabel>
+                <FormLabel>Color</FormLabel>
                 <FormControl>
-                  <Input placeholder="1:2 ratio of tint to base" {...field} />
+                  <Input placeholder="Dark Walnut" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -146,14 +120,30 @@ const StainsSection: React.FC<StainsSectionProps> = ({ onCountChange }) => {
             )}
           />
           
-          <Button type="submit">
-            <Plus className="mr-2 h-4 w-4" />
-            Save Stain
+          <Button 
+            type="submit" 
+            disabled={addStain.isPending}
+          >
+            {addStain.isPending ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Saving...
+              </>
+            ) : (
+              <>
+                <Plus className="mr-2 h-4 w-4" />
+                Save Stain
+              </>
+            )}
           </Button>
         </form>
       </Form>
 
-      {stains.length > 0 ? (
+      {isLoading ? (
+        <div className="flex justify-center py-10">
+          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+        </div>
+      ) : stains.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {stains.map((stain) => (
             <Card key={stain.id} className="group">
@@ -164,17 +154,18 @@ const StainsSection: React.FC<StainsSectionProps> = ({ onCountChange }) => {
                     variant="ghost" 
                     size="icon" 
                     className="opacity-0 group-hover:opacity-100"
-                    onClick={() => deleteStain(stain.id)}
+                    onClick={() => deleteStain.mutate(stain.id)}
+                    disabled={deleteStain.isPending}
                   >
                     <Trash2 className="h-4 w-4 text-destructive" />
                   </Button>
                 </div>
                 <div className="mt-2 space-y-1">
                   <p className="text-sm">
-                    <span className="font-semibold">Base Color:</span> {stain.baseColor}
+                    <span className="font-semibold">Brand:</span> {stain.brand}
                   </p>
                   <p className="text-sm">
-                    <span className="font-semibold">Mix Ratio:</span> {stain.mixRatio}
+                    <span className="font-semibold">Color:</span> {stain.color}
                   </p>
                   {stain.notes && (
                     <p className="text-sm mt-2">
