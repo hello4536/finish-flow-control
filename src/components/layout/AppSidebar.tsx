@@ -2,7 +2,7 @@
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
-import { BarChart, Box, Calendar, CheckSquare, ClipboardList, Database, Home, PackageOpen, Settings, Users, Link } from "lucide-react";
+import { BarChart, Box, Calendar, CheckSquare, ClipboardList, Database, Home, PackageOpen, Settings, Users, Link, Palette } from "lucide-react";
 export function AppSidebar() {
   const {
     state
@@ -45,6 +45,11 @@ export function AppSidebar() {
     url: "/schedule",
     icon: Calendar,
     color: "bg-accent/70"
+  }, {
+    title: "Custom Creations",
+    url: "/custom-creations",
+    icon: Palette,
+    color: "bg-accent/65"
   }, {
     title: "Resources",
     url: "/resources",
