@@ -76,21 +76,21 @@ export function AppSidebar() {
   const getNavCls = (item: { color: string }) => {
     return ({ isActive }: { isActive: boolean }) => {
       // Base classes for all items
-      const baseClasses = "flex items-center rounded-md transition-colors";
+      const baseClasses = "flex items-center rounded-md transition-colors p-2";
       
       // Active state with item-specific color
       if (isActive) {
-        return `${baseClasses} ${item.color} text-white font-medium`;
+        return `${baseClasses} ${item.color} text-white shadow-md font-medium`;
       }
       
-      // Inactive state with hover effect using a lighter version of the color
-      return `${baseClasses} hover:bg-opacity-20 hover:${item.color} text-white`;
+      // Inactive state with hover effect
+      return `${baseClasses} text-white/90 hover:bg-white/20 hover:text-white`;
     };
   };
   
-  return <Sidebar className={`${collapsed ? "w-14" : "w-60"} bg-gradient-to-b from-finish-blue-900 to-finish-blue-800`} collapsible="icon">
+  return <Sidebar className={`${collapsed ? "w-14" : "w-60"} bg-gradient-to-b from-finish-blue-800 to-finish-blue-950 shadow-xl`} collapsible="icon">
       <SidebarTrigger className="m-2 self-end text-white hover:bg-finish-blue-700" />
-      <div className="flex items-center justify-center py-4">
+      <div className="flex items-center justify-center py-4 border-b border-white/10">
         {!collapsed ? (
           <h1 className="text-xl font-bold text-white">
             Finish<span className="text-finish-amber-400">Flow</span>
@@ -100,9 +100,9 @@ export function AppSidebar() {
         )}
       </div>
 
-      <SidebarContent className="border-t border-finish-blue-700">
+      <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="text-finish-amber-100 font-semibold">
+          <SidebarGroupLabel className="text-finish-amber-300 font-semibold uppercase tracking-wider text-xs">
             Main
           </SidebarGroupLabel>
 
@@ -112,7 +112,7 @@ export function AppSidebar() {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <NavLink to={item.url} end={item.url === "/"} className={getNavCls(item)}>
-                      <item.icon className="mr-2 h-4 w-4" />
+                      <item.icon className="mr-2 h-5 w-5" />
                       {!collapsed && <span>{item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
@@ -123,7 +123,7 @@ export function AppSidebar() {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel className="text-finish-amber-100 font-semibold">
+          <SidebarGroupLabel className="text-finish-amber-300 font-semibold uppercase tracking-wider text-xs">
             Administration
           </SidebarGroupLabel>
 
@@ -133,7 +133,7 @@ export function AppSidebar() {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <NavLink to={item.url} className={getNavCls(item)}>
-                      <item.icon className="mr-2 h-4 w-4" />
+                      <item.icon className="mr-2 h-5 w-5" />
                       {!collapsed && <span>{item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
