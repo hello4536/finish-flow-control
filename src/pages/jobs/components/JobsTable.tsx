@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -11,9 +11,55 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { format } from "date-fns";
+
+interface Job {
+  id: string;
+  job_number: string;
+  name: string;
+  current_step: string | null;
+  trade: string;
+  assigned_to: string | null;
+  due_date: string | null;
+  status: string;
+}
 
 const JobsTable: React.FC = () => {
   const { toast } = useToast();
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  useEffect(() => {
+    fetchJobs();
+  }, []);
+
+  const fetchJobs = async () => {
+    try {
+      setIsLoading(true);
+      const { data, error } = await supabase
+        .from("jobs")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        throw error;
+      }
+
+      if (data) {
+        setJobs(data);
+      }
+    } catch (error) {
+      console.error("Error fetching jobs:", error);
+      toast({
+        title: "Error fetching jobs",
+        description: "Please try again later.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
   
   const handleViewJob = (jobId: string, jobName: string) => {
     toast({
@@ -21,6 +67,38 @@ const JobsTable: React.FC = () => {
       description: `Details for ${jobName} will be displayed soon.`,
     });
   };
+
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case "in_progress":
+        return <Badge className="bg-finish-amber-500 whitespace-nowrap px-3">In Progress</Badge>;
+      case "complete":
+        return <Badge className="bg-finish-green-500">Complete</Badge>;
+      case "on_hold":
+        return <Badge variant="outline" className="bg-finish-red-500 text-white">On Hold</Badge>;
+      case "upcoming":
+        return <Badge variant="outline">Upcoming</Badge>;
+      default:
+        return <Badge variant="outline">{status}</Badge>;
+    }
+  };
+
+  const formatDate = (dateString: string | null) => {
+    if (!dateString) return "-";
+    try {
+      return format(new Date(dateString), "MMM dd, yyyy");
+    } catch (error) {
+      return dateString;
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center p-8">
+        <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="rounded-lg border">
@@ -38,104 +116,30 @@ const JobsTable: React.FC = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow>
-            <TableCell className="font-medium">J-1001</TableCell>
-            <TableCell>Custom Dining Table</TableCell>
-            <TableCell>Sanding</TableCell>
-            <TableCell>Wood Finishing</TableCell>
-            <TableCell>Alex Johnson</TableCell>
-            <TableCell>May 18, 2025</TableCell>
-            <TableCell>
-              <Badge className="bg-finish-amber-500 whitespace-nowrap px-3">In Progress</Badge>
-            </TableCell>
-            <TableCell className="text-right">
-              <Button variant="ghost" size="sm" onClick={() => handleViewJob("J-1001", "Custom Dining Table")}>View</Button>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="font-medium">J-1002</TableCell>
-            <TableCell>Kitchen Cabinet Doors</TableCell>
-            <TableCell>Final QC</TableCell>
-            <TableCell>Wood Finishing</TableCell>
-            <TableCell>Maria Rodriguez</TableCell>
-            <TableCell>May 17, 2025</TableCell>
-            <TableCell>
-              <Badge className="bg-finish-amber-500 whitespace-nowrap px-3">In Progress</Badge>
-            </TableCell>
-            <TableCell className="text-right">
-              <Button variant="ghost" size="sm" onClick={() => handleViewJob("J-1002", "Kitchen Cabinet Doors")}>View</Button>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="font-medium">J-1003</TableCell>
-            <TableCell>Bookshelf</TableCell>
-            <TableCell>Staining</TableCell>
-            <TableCell>Wood Finishing</TableCell>
-            <TableCell>John Smith</TableCell>
-            <TableCell>May 19, 2025</TableCell>
-            <TableCell>
-              <Badge className="bg-finish-amber-500 whitespace-nowrap px-3">In Progress</Badge>
-            </TableCell>
-            <TableCell className="text-right">
-              <Button variant="ghost" size="sm" onClick={() => handleViewJob("J-1003", "Bookshelf")}>View</Button>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="font-medium">J-1004</TableCell>
-            <TableCell>Conference Table</TableCell>
-            <TableCell>Sealing</TableCell>
-            <TableCell>Wood Finishing</TableCell>
-            <TableCell>Sarah Lee</TableCell>
-            <TableCell>May 15, 2025</TableCell>
-            <TableCell>
-              <Badge className="bg-finish-amber-500 whitespace-nowrap px-3">In Progress</Badge>
-            </TableCell>
-            <TableCell className="text-right">
-              <Button variant="ghost" size="sm" onClick={() => handleViewJob("J-1004", "Conference Table")}>View</Button>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="font-medium">J-1005</TableCell>
-            <TableCell>Office Desk</TableCell>
-            <TableCell>-</TableCell>
-            <TableCell>Wood Finishing</TableCell>
-            <TableCell>-</TableCell>
-            <TableCell>May 25, 2025</TableCell>
-            <TableCell>
-              <Badge variant="outline">Upcoming</Badge>
-            </TableCell>
-            <TableCell className="text-right">
-              <Button variant="ghost" size="sm" onClick={() => handleViewJob("J-1005", "Office Desk")}>View</Button>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="font-medium">J-1006</TableCell>
-            <TableCell>Vintage Dresser Refinish</TableCell>
-            <TableCell>Complete</TableCell>
-            <TableCell>Wood Refinishing</TableCell>
-            <TableCell>Alex Johnson</TableCell>
-            <TableCell>May 12, 2025</TableCell>
-            <TableCell>
-              <Badge className="bg-finish-green-500">Complete</Badge>
-            </TableCell>
-            <TableCell className="text-right">
-              <Button variant="ghost" size="sm" onClick={() => handleViewJob("J-1006", "Vintage Dresser Refinish")}>View</Button>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="font-medium">J-1007</TableCell>
-            <TableCell>Front Door Restoration</TableCell>
-            <TableCell>-</TableCell>
-            <TableCell>Exterior Paint</TableCell>
-            <TableCell>-</TableCell>
-            <TableCell>May 24, 2025</TableCell>
-            <TableCell>
-              <Badge variant="outline" className="bg-finish-red-500 text-white">On Hold</Badge>
-            </TableCell>
-            <TableCell className="text-right">
-              <Button variant="ghost" size="sm" onClick={() => handleViewJob("J-1007", "Front Door Restoration")}>View</Button>
-            </TableCell>
-          </TableRow>
+          {jobs.length > 0 ? (
+            jobs.map((job) => (
+              <TableRow key={job.id}>
+                <TableCell className="font-medium">{job.job_number}</TableCell>
+                <TableCell>{job.name}</TableCell>
+                <TableCell>{job.current_step || "-"}</TableCell>
+                <TableCell>{job.trade}</TableCell>
+                <TableCell>{job.assigned_to || "-"}</TableCell>
+                <TableCell>{formatDate(job.due_date)}</TableCell>
+                <TableCell>
+                  {getStatusBadge(job.status)}
+                </TableCell>
+                <TableCell className="text-right">
+                  <Button variant="ghost" size="sm" onClick={() => handleViewJob(job.job_number, job.name)}>View</Button>
+                </TableCell>
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
+                No jobs found. Create your first job by clicking the "Add New Job" button above.
+              </TableCell>
+            </TableRow>
+          )}
         </TableBody>
       </Table>
     </div>

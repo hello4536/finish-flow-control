@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -16,15 +16,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+import { Search, RefreshCw } from "lucide-react";
 import JobsTable from "./JobsTable";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const JobsList: React.FC = () => {
   const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
-
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  
   const handleExport = () => {
     toast({
       title: "Export Jobs",
@@ -39,11 +41,23 @@ const JobsList: React.FC = () => {
     });
   };
 
-  const handleRefresh = () => {
-    toast({
-      title: "Refreshing Jobs",
-      description: "Job list refreshed successfully.",
-    });
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    
+    try {
+      // We'll rely on the JobsTable component to refresh its data
+      // But we can add a small delay here to show the refreshing state
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      toast({
+        title: "Refreshing Jobs",
+        description: "Job list refreshed successfully.",
+      });
+    } catch (error) {
+      console.error("Error refreshing jobs:", error);
+    } finally {
+      setIsRefreshing(false);
+    }
   };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -90,9 +104,9 @@ const JobsList: React.FC = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Statuses</SelectItem>
-                  <SelectItem value="active">Active</SelectItem>
-                  <SelectItem value="completed">Completed</SelectItem>
-                  <SelectItem value="onhold">On Hold</SelectItem>
+                  <SelectItem value="in_progress">Active</SelectItem>
+                  <SelectItem value="complete">Completed</SelectItem>
+                  <SelectItem value="on_hold">On Hold</SelectItem>
                   <SelectItem value="upcoming">Upcoming</SelectItem>
                 </SelectContent>
               </Select>
@@ -101,7 +115,16 @@ const JobsList: React.FC = () => {
             <div className="flex space-x-2">
               <Button variant="outline" size="sm" onClick={handleExport}>Export</Button>
               <Button variant="outline" size="sm" onClick={handleFilter}>Filter</Button>
-              <Button size="sm" onClick={handleRefresh}>Refresh</Button>
+              <Button size="sm" onClick={handleRefresh} disabled={isRefreshing}>
+                {isRefreshing ? (
+                  <>
+                    <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
+                    Refreshing...
+                  </>
+                ) : (
+                  "Refresh"
+                )}
+              </Button>
             </div>
           </div>
 

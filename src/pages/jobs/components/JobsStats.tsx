@@ -1,43 +1,101 @@
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ClipboardList } from "lucide-react";
+import { ClipboardList, Clock, CheckCircle, AlertCircle } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 const JobsStats: React.FC = () => {
+  const [stats, setStats] = useState({
+    active: 0,
+    completed: 0,
+    onHold: 0,
+    loading: true
+  });
+
+  useEffect(() => {
+    async function fetchJobStats() {
+      try {
+        // Get active jobs (in_progress)
+        const { data: activeJobs, error: activeError } = await supabase
+          .from('jobs')
+          .select('id')
+          .eq('status', 'in_progress');
+          
+        // Get completed jobs this month
+        const now = new Date();
+        const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+        const { data: completedJobs, error: completedError } = await supabase
+          .from('jobs')
+          .select('id')
+          .eq('status', 'complete')
+          .gte('updated_at', firstDayOfMonth.toISOString());
+          
+        // Get on-hold jobs
+        const { data: onHoldJobs, error: onHoldError } = await supabase
+          .from('jobs')
+          .select('id')
+          .eq('status', 'on_hold');
+          
+        if (activeError || completedError || onHoldError) {
+          throw new Error('Error fetching job statistics');
+        }
+        
+        setStats({
+          active: activeJobs?.length || 0,
+          completed: completedJobs?.length || 0,
+          onHold: onHoldJobs?.length || 0,
+          loading: false
+        });
+      } catch (error) {
+        console.error('Error fetching job statistics:', error);
+        setStats(prev => ({ ...prev, loading: false }));
+      }
+    }
+    
+    fetchJobStats();
+  }, []);
+
+  const renderStatValue = (value: number, isLoading: boolean) => {
+    if (isLoading) {
+      return <div className="h-8 w-16 animate-pulse rounded bg-muted"></div>;
+    }
+    return <div className="text-3xl font-bold">{value}</div>;
+  };
+
   return (
     <div className="grid gap-4 md:grid-cols-3">
       <Card className="bg-primary text-primary-foreground">
         <CardHeader className="flex flex-row items-center justify-between pb-2">
           <CardTitle className="text-lg font-medium">Active Jobs</CardTitle>
-          <ClipboardList className="h-5 w-5" />
+          <Clock className="h-5 w-5" />
         </CardHeader>
         <CardContent>
-          <div className="text-3xl font-bold">24</div>
+          {renderStatValue(stats.active, stats.loading)}
         </CardContent>
       </Card>
       
       <Card>
         <CardHeader className="flex flex-row items-center justify-between pb-2">
           <CardTitle className="text-lg font-medium">Completed This Month</CardTitle>
-          <ClipboardList className="h-5 w-5 text-muted-foreground" />
+          <CheckCircle className="h-5 w-5 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-3xl font-bold">48</div>
+          {renderStatValue(stats.completed, stats.loading)}
         </CardContent>
       </Card>
       
       <Card>
         <CardHeader className="flex flex-row items-center justify-between pb-2">
           <CardTitle className="text-lg font-medium">On Hold</CardTitle>
-          <ClipboardList className="h-5 w-5 text-muted-foreground" />
+          <AlertCircle className="h-5 w-5 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-3xl font-bold">5</div>
+          {renderStatValue(stats.onHold, stats.loading)}
         </CardContent>
       </Card>
     </div>
