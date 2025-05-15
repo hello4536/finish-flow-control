@@ -1,3 +1,4 @@
+
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
@@ -72,19 +73,19 @@ export function AppSidebar() {
   const isMainExpanded = mainItems.some(i => isActive(i.url));
   const isAdminExpanded = adminItems.some(i => isActive(i.url));
   
-  // New function to generate NavLink classes with item-specific colors
+  // Updated function to generate NavLink classes with orange fill, navy text, and white border
   const getNavCls = (item: { color: string }) => {
     return ({ isActive }: { isActive: boolean }) => {
-      // Base classes for all items
-      const baseClasses = "flex items-center rounded-md transition-colors p-2";
+      // Base classes for all items with light orange fill, navy text and white border
+      const baseClasses = "flex items-center rounded-md transition-colors p-2 bg-accent text-primary border border-white";
       
-      // Active state with item-specific color
+      // Active state with darker shade and white text
       if (isActive) {
         return `${baseClasses} ${item.color} text-primary-foreground shadow-md font-medium`;
       }
       
-      // Inactive state with navy blue text and hover effect
-      return `${baseClasses} text-primary-foreground hover:bg-white/20 hover:text-white`;
+      // Inactive state with hover effect
+      return `${baseClasses} hover:bg-accent/80 hover:text-primary-foreground`;
     };
   };
   
