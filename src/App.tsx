@@ -13,6 +13,7 @@ import Inventory from "./pages/inventory";
 import Quality from "./pages/Quality";
 import Schedule from "./pages/Schedule";
 import Resources from "./pages/Resources";
+import Reports from "./pages/Reports";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -33,7 +34,7 @@ const App = () => (
             <Route path="quality" element={<Quality />} />
             <Route path="schedule" element={<Schedule />} />
             <Route path="resources" element={<Resources />} />
-            <Route path="reports" element={<NotFound />} />
+            <Route path="reports" element={<Reports />} />
             <Route path="users" element={<NotFound />} />
             <Route path="settings" element={<NotFound />} />
           </Route>
