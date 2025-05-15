@@ -8,7 +8,7 @@ import MainLayout from "./components/layout/MainLayout";
 import Dashboard from "./pages/Dashboard";
 import Jobs from "./pages/jobs";
 import Workflows from "./pages/workflows";
-import Materials from "./pages/Materials";
+import Materials from "./pages/materials";
 import Inventory from "./pages/inventory";
 import Quality from "./pages/Quality";
 import Schedule from "./pages/Schedule";

@@ -48,6 +48,102 @@ export type Database = {
         }
         Relationships: []
       }
+      material_suppliers: {
+        Row: {
+          created_at: string
+          id: string
+          material_id: string
+          supplier_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          material_id: string
+          supplier_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          material_id?: string
+          supplier_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "material_suppliers_material_id_fkey"
+            columns: ["material_id"]
+            isOneToOne: false
+            referencedRelation: "materials"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "material_suppliers_supplier_id_fkey"
+            columns: ["supplier_id"]
+            isOneToOne: false
+            referencedRelation: "suppliers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      materials: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          quantity: number
+          status: string
+          type: string
+          unit: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          quantity?: number
+          status: string
+          type: string
+          unit: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          quantity?: number
+          status?: string
+          type?: string
+          unit?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      suppliers: {
+        Row: {
+          contact: string
+          created_at: string
+          id: string
+          name: string
+          phone: string
+          updated_at: string
+        }
+        Insert: {
+          contact: string
+          created_at?: string
+          id?: string
+          name: string
+          phone: string
+          updated_at?: string
+        }
+        Update: {
+          contact?: string
+          created_at?: string
+          id?: string
+          name?: string
+          phone?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       workflows: {
         Row: {
           active_jobs: number
