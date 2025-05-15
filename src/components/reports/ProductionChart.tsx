@@ -2,71 +2,70 @@
 import React from "react";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from "recharts";
-
-type DateRange = "week" | "month" | "quarter" | "year";
+import { Skeleton } from "@/components/ui/skeleton";
+import { DateRange } from "@/hooks/useReportsData";
 
 interface ProductionChartProps {
   dateRange: DateRange;
   detailed?: boolean;
+  data: any[];
+  isLoading: boolean;
 }
 
-export function ProductionChart({ dateRange, detailed = false }: ProductionChartProps) {
-  // Generate mock data based on date range
-  const generateData = () => {
-    let data = [];
+export function ProductionChart({ dateRange, detailed = false, data, isLoading }: ProductionChartProps) {
+  // Format date labels based on date range
+  const formatData = () => {
+    if (!data || data.length === 0) return [];
     
-    switch(dateRange) {
-      case "week":
-        data = [
-          { name: "Mon", completed: 65, planned: 70, inProgress: 15 },
-          { name: "Tue", completed: 72, planned: 70, inProgress: 18 },
-          { name: "Wed", completed: 68, planned: 70, inProgress: 16 },
-          { name: "Thu", completed: 71, planned: 70, inProgress: 17 },
-          { name: "Fri", completed: 75, planned: 70, inProgress: 14 },
-          { name: "Sat", completed: 60, planned: 60, inProgress: 10 },
-          { name: "Sun", completed: 55, planned: 50, inProgress: 8 },
-        ];
-        break;
-      case "month":
-        data = Array.from({ length: detailed ? 30 : 10 }, (_, i) => ({
-          name: `${i + 1}${detailed ? "" : "th"}`,
-          completed: Math.floor(Math.random() * 30) + 60,
-          planned: 70,
-          inProgress: Math.floor(Math.random() * 20) + 10
-        }));
-        break;
-      case "quarter":
-        data = [
-          { name: "Jan", completed: 210, planned: 200, inProgress: 40 },
-          { name: "Feb", completed: 190, planned: 200, inProgress: 35 },
-          { name: "Mar", completed: 215, planned: 200, inProgress: 45 },
-        ];
-        break;
-      case "year":
-        data = [
-          { name: "Q1", completed: 615, planned: 600, inProgress: 120 },
-          { name: "Q2", completed: 650, planned: 600, inProgress: 130 },
-          { name: "Q3", completed: 630, planned: 600, inProgress: 125 },
-          { name: "Q4", completed: 670, planned: 600, inProgress: 135 },
-        ];
-        break;
-    }
-    
-    return data;
+    return data.map(item => {
+      let name = item.date;
+      
+      // Format the name based on date range
+      if (dateRange === "week") {
+        const date = new Date(item.date);
+        name = date.toLocaleDateString('en-US', { weekday: 'short' });
+      } else if (dateRange === "month") {
+        name = item.date.split('-')[2]; // Get day number
+      } else if (dateRange === "quarter") {
+        const date = new Date(item.date);
+        name = date.toLocaleDateString('en-US', { month: 'short' });
+      } else if (dateRange === "year") {
+        const date = new Date(item.date);
+        const quarter = Math.floor(date.getMonth() / 3) + 1;
+        name = `Q${quarter}`;
+      }
+      
+      return {
+        ...item,
+        name
+      };
+    });
   };
 
-  const data = generateData();
+  const formattedData = formatData();
   const chartConfig = {
     completed: { label: "Completed", theme: { light: "#0b2065", dark: "#2563eb" } }, // Navy blue
     planned: { label: "Planned", theme: { light: "#f59e0b", dark: "#f59e0b" } }, // Orange
     inProgress: { label: "In Progress", theme: { light: "#93c5fd", dark: "#60a5fa" } } // Light blue
   };
 
+  if (isLoading) {
+    return <Skeleton className="w-full h-[300px]" />;
+  }
+
+  if (!data || data.length === 0) {
+    return (
+      <div className="flex items-center justify-center h-[300px] border rounded-lg">
+        <p className="text-muted-foreground">No production data available</p>
+      </div>
+    );
+  }
+
   return (
     <ChartContainer config={chartConfig} className="aspect-[4/3]">
       <ResponsiveContainer width="100%" height={detailed ? 400 : 300}>
         <BarChart
-          data={data}
+          data={formattedData}
           margin={{
             top: 10,
             right: 10,
@@ -106,7 +105,8 @@ export function ProductionChart({ dateRange, detailed = false }: ProductionChart
           />
           {detailed && (
             <Bar
-              dataKey="inProgress"
+              dataKey="in_progress"
+              name="inProgress"
               fill="var(--color-inProgress)"
               radius={[4, 4, 0, 0]}
               maxBarSize={40}

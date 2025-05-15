@@ -108,6 +108,69 @@ export type Database = {
         }
         Relationships: []
       }
+      efficiency_kpis: {
+        Row: {
+          created_at: string
+          date_range: string
+          full_mark: number
+          id: string
+          score: number
+          subject: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          date_range: string
+          full_mark?: number
+          id?: string
+          score: number
+          subject: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          date_range?: string
+          full_mark?: number
+          id?: string
+          score?: number
+          subject?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      efficiency_reports: {
+        Row: {
+          created_at: string
+          date: string
+          date_range: string
+          downtime: number
+          efficiency: number
+          id: string
+          updated_at: string
+          utilization: number
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          date_range: string
+          downtime: number
+          efficiency: number
+          id?: string
+          updated_at?: string
+          utilization: number
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          date_range?: string
+          downtime?: number
+          efficiency?: number
+          id?: string
+          updated_at?: string
+          utilization?: number
+        }
+        Relationships: []
+      }
       inventory_items: {
         Row: {
           allocated: number
@@ -222,6 +285,39 @@ export type Database = {
           },
         ]
       }
+      material_usage: {
+        Row: {
+          category: string
+          color: string
+          created_at: string
+          date_range: string
+          id: string
+          material: string
+          updated_at: string
+          value: number
+        }
+        Insert: {
+          category: string
+          color: string
+          created_at?: string
+          date_range: string
+          id?: string
+          material: string
+          updated_at?: string
+          value: number
+        }
+        Update: {
+          category?: string
+          color?: string
+          created_at?: string
+          date_range?: string
+          id?: string
+          material?: string
+          updated_at?: string
+          value?: number
+        }
+        Relationships: []
+      }
       materials: {
         Row: {
           created_at: string
@@ -282,6 +378,39 @@ export type Database = {
         }
         Relationships: []
       }
+      production_reports: {
+        Row: {
+          completed: number
+          created_at: string
+          date: string
+          date_range: string
+          id: string
+          in_progress: number | null
+          planned: number
+          updated_at: string
+        }
+        Insert: {
+          completed: number
+          created_at?: string
+          date: string
+          date_range: string
+          id?: string
+          in_progress?: number | null
+          planned: number
+          updated_at?: string
+        }
+        Update: {
+          completed?: number
+          created_at?: string
+          date?: string
+          date_range?: string
+          id?: string
+          in_progress?: number | null
+          planned?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       quality_inspections: {
         Row: {
           created_at: string
@@ -314,6 +443,39 @@ export type Database = {
           notes?: string | null
           product?: string
           status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      quality_metrics: {
+        Row: {
+          created_at: string
+          date: string
+          date_range: string
+          defect_rate: number
+          first_pass_yield: number
+          id: string
+          rework: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          date_range: string
+          defect_rate: number
+          first_pass_yield: number
+          id?: string
+          rework: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          date_range?: string
+          defect_rate?: number
+          first_pass_yield?: number
+          id?: string
+          rework?: number
           updated_at?: string
         }
         Relationships: []

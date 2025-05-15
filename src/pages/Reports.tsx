@@ -6,17 +6,38 @@ import { ProductionChart } from "@/components/reports/ProductionChart";
 import { QualityMetrics } from "@/components/reports/QualityMetrics";
 import { MaterialUsageReport } from "@/components/reports/MaterialUsageReport";
 import { EfficiencyReport } from "@/components/reports/EfficiencyReport";
+import { useReportsData, DateRange } from "@/hooks/useReportsData";
+import { Button } from "@/components/ui/button";
+import { DatabaseZap } from "lucide-react";
 
 const Reports = () => {
-  const [dateRange, setDateRange] = useState<"week" | "month" | "quarter" | "year">("month");
+  const [dateRange, setDateRange] = useState<DateRange>("month");
   
+  const {
+    productionData,
+    qualityData,
+    materialUsageData,
+    efficiencyData,
+    efficiencyKPIs,
+    isLoading,
+    hasErrors,
+    seedSampleData
+  } = useReportsData(dateRange);
+
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-bold tracking-tight">Reports Dashboard</h1>
-        <p className="text-muted-foreground">
-          Analyze production metrics, material usage, quality control, and efficiency.
-        </p>
+      <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-2">
+          <h1 className="text-3xl font-bold tracking-tight">Reports Dashboard</h1>
+          <p className="text-muted-foreground">
+            Analyze production metrics, material usage, quality control, and efficiency.
+          </p>
+        </div>
+        
+        <Button onClick={seedSampleData} variant="outline" className="gap-2">
+          <DatabaseZap size={16} />
+          Seed Sample Data
+        </Button>
       </div>
 
       <Tabs defaultValue="overview" className="space-y-4">
@@ -28,7 +49,7 @@ const Reports = () => {
         </TabsList>
         
         <div className="flex justify-end mb-4">
-          <Tabs value={dateRange} onValueChange={(value) => setDateRange(value as any)} className="w-fit">
+          <Tabs value={dateRange} onValueChange={(value) => setDateRange(value as DateRange)} className="w-fit">
             <TabsList>
               <TabsTrigger value="week">Week</TabsTrigger>
               <TabsTrigger value="month">Month</TabsTrigger>
@@ -46,7 +67,11 @@ const Reports = () => {
                 <CardDescription>Units produced over time</CardDescription>
               </CardHeader>
               <CardContent className="pt-2">
-                <ProductionChart dateRange={dateRange} />
+                <ProductionChart 
+                  dateRange={dateRange} 
+                  data={productionData} 
+                  isLoading={isLoading} 
+                />
               </CardContent>
             </Card>
 
@@ -56,7 +81,11 @@ const Reports = () => {
                 <CardDescription>Quality metrics and defect rates</CardDescription>
               </CardHeader>
               <CardContent className="pt-2">
-                <QualityMetrics dateRange={dateRange} />
+                <QualityMetrics 
+                  dateRange={dateRange}
+                  data={qualityData}
+                  isLoading={isLoading} 
+                />
               </CardContent>
             </Card>
 
@@ -66,7 +95,11 @@ const Reports = () => {
                 <CardDescription>Consumption and waste metrics</CardDescription>
               </CardHeader>
               <CardContent className="pt-2">
-                <MaterialUsageReport dateRange={dateRange} />
+                <MaterialUsageReport 
+                  dateRange={dateRange}
+                  data={materialUsageData}
+                  isLoading={isLoading} 
+                />
               </CardContent>
             </Card>
 
@@ -76,7 +109,12 @@ const Reports = () => {
                 <CardDescription>Production efficiency and utilization</CardDescription>
               </CardHeader>
               <CardContent className="pt-2">
-                <EfficiencyReport dateRange={dateRange} />
+                <EfficiencyReport 
+                  dateRange={dateRange}
+                  data={efficiencyData}
+                  kpiData={efficiencyKPIs}
+                  isLoading={isLoading} 
+                />
               </CardContent>
             </Card>
           </div>
@@ -89,7 +127,12 @@ const Reports = () => {
               <CardDescription>Comprehensive production metrics</CardDescription>
             </CardHeader>
             <CardContent className="pt-2">
-              <ProductionChart dateRange={dateRange} detailed />
+              <ProductionChart 
+                dateRange={dateRange} 
+                detailed 
+                data={productionData} 
+                isLoading={isLoading} 
+              />
             </CardContent>
           </Card>
         </TabsContent>
@@ -101,7 +144,12 @@ const Reports = () => {
               <CardDescription>Detailed quality metrics and defect tracking</CardDescription>
             </CardHeader>
             <CardContent className="pt-2">
-              <QualityMetrics dateRange={dateRange} detailed />
+              <QualityMetrics 
+                dateRange={dateRange} 
+                detailed 
+                data={qualityData}
+                isLoading={isLoading} 
+              />
             </CardContent>
           </Card>
         </TabsContent>
@@ -113,7 +161,13 @@ const Reports = () => {
               <CardDescription>Detailed efficiency metrics and utilization rates</CardDescription>
             </CardHeader>
             <CardContent className="pt-2">
-              <EfficiencyReport dateRange={dateRange} detailed />
+              <EfficiencyReport 
+                dateRange={dateRange} 
+                detailed 
+                data={efficiencyData}
+                kpiData={efficiencyKPIs}
+                isLoading={isLoading} 
+              />
             </CardContent>
           </Card>
         </TabsContent>
