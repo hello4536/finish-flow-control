@@ -16,6 +16,7 @@ import Resources from "./pages/Resources";
 import Reports from "./pages/Reports";
 import Users from "./pages/Users";
 import Settings from "./pages/Settings";
+import CustomCreations from "./pages/CustomCreations";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -39,6 +40,7 @@ const App = () => (
             <Route path="reports" element={<Reports />} />
             <Route path="users" element={<Users />} />
             <Route path="settings" element={<Settings />} />
+            <Route path="custom-creations" element={<CustomCreations />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
