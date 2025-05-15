@@ -1,3 +1,4 @@
+
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import {
@@ -26,7 +27,8 @@ import {
 } from "lucide-react";
 
 export function AppSidebar() {
-  const { collapsed } = useSidebar();
+  const { state } = useSidebar();
+  const collapsed = state === "collapsed";
   const location = useLocation();
   const currentPath = location.pathname;
 
@@ -62,7 +64,7 @@ export function AppSidebar() {
       : "text-sidebar-foreground hover:bg-sidebar-accent/20";
 
   return (
-    <Sidebar className={collapsed ? "w-14" : "w-60"} collapsible>
+    <Sidebar className={collapsed ? "w-14" : "w-60"} collapsible="icon">
       <SidebarTrigger className="m-2 self-end text-sidebar-foreground" />
       <div className="flex items-center justify-center py-4">
         {!collapsed ? (
@@ -73,7 +75,7 @@ export function AppSidebar() {
       </div>
 
       <SidebarContent>
-        <SidebarGroup open={isMainExpanded}>
+        <SidebarGroup defaultOpen={isMainExpanded}>
           <SidebarGroupLabel className="text-sidebar-foreground/60">
             Main
           </SidebarGroupLabel>
@@ -98,7 +100,7 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        <SidebarGroup open={isAdminExpanded}>
+        <SidebarGroup defaultOpen={isAdminExpanded}>
           <SidebarGroupLabel className="text-sidebar-foreground/60">
             Administration
           </SidebarGroupLabel>
