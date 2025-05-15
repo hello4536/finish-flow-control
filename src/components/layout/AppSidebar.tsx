@@ -64,16 +64,16 @@ export function AppSidebar() {
     isActive
   }: {
     isActive: boolean;
-  }) => isActive ? "bg-primary text-primary-foreground font-medium" : "hover:bg-muted/50";
-  return <Sidebar className={`${collapsed ? "w-14" : "w-60"} bg-white`} collapsible="icon">
-      <SidebarTrigger className="m-2 self-end text-gray-700" />
+  }) => isActive ? "bg-blue-600 text-white font-medium" : "hover:bg-blue-500 hover:text-white text-white";
+  return <Sidebar className={`${collapsed ? "w-14" : "w-60"} bg-blue-700`} collapsible="icon">
+      <SidebarTrigger className="m-2 self-end text-white" />
       <div className="flex items-center justify-center py-4">
-        {!collapsed ? <h1 className="text-xl font-bold text-gray-800">Finish<span className="text-accent">Flow</span></h1> : <span className="text-xl font-bold text-accent">F</span>}
+        {!collapsed ? <h1 className="text-xl font-bold text-white">Finish<span className="text-accent">Flow</span></h1> : <span className="text-xl font-bold text-accent">F</span>}
       </div>
 
       <SidebarContent className="">
         <SidebarGroup>
-          <SidebarGroupLabel className="text-gray-500">
+          <SidebarGroupLabel className="text-white">
             Main
           </SidebarGroupLabel>
 
@@ -92,7 +92,7 @@ export function AppSidebar() {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel className="text-gray-500">
+          <SidebarGroupLabel className="text-white">
             Administration
           </SidebarGroupLabel>
 
