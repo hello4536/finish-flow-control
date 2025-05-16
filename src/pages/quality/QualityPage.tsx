@@ -13,6 +13,9 @@ const QualityPage = () => {
     inspections, 
     certifications, 
     complianceIssues, 
+    regulatoryCompliance,
+    selectedRegion,
+    setSelectedRegion,
     isLoading,
     seedSampleData
   } = useQualityData();
@@ -48,6 +51,9 @@ const QualityPage = () => {
         inspections={inspections}
         certifications={certifications}
         complianceIssues={complianceIssues}
+        regulatoryCompliance={regulatoryCompliance}
+        selectedRegion={selectedRegion}
+        setSelectedRegion={setSelectedRegion}
         isLoading={isLoading}
       />
     </div>

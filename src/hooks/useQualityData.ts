@@ -2,13 +2,14 @@
 import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { QualityInspection, Certification, ComplianceIssue } from '@/types/quality';
+import { QualityInspection, Certification, ComplianceIssue, RegulatoryCompliance, Region } from '@/types/quality';
 import { useToast } from '@/hooks/use-toast';
 
 export const useQualityData = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedRegion, setSelectedRegion] = useState<Region>('US');
 
   // Fetch quality inspections
   const { data: inspections = [] } = useQuery({
@@ -73,6 +74,33 @@ export const useQualityData = () => {
       }
       
       return data as ComplianceIssue[];
+    },
+  });
+
+  // Fetch regulatory compliance data
+  const { data: regulatoryCompliance = [] } = useQuery({
+    queryKey: ['regulatoryCompliance', selectedRegion],
+    queryFn: async () => {
+      let query = supabase
+        .from('regulatory_compliance')
+        .select('*');
+      
+      if (selectedRegion !== 'All') {
+        query = query.eq('region', selectedRegion);
+      }
+      
+      const { data, error } = await query;
+      
+      if (error) {
+        toast({
+          title: 'Error fetching regulatory compliance',
+          description: error.message,
+          variant: 'destructive',
+        });
+        return [];
+      }
+      
+      return data as RegulatoryCompliance[];
     },
   });
 
@@ -162,10 +190,10 @@ export const useQualityData = () => {
 
   // Update loading state when data is available
   useEffect(() => {
-    if (inspections && certifications && complianceIssues) {
+    if (inspections && certifications && complianceIssues && regulatoryCompliance) {
       setIsLoading(false);
     }
-  }, [inspections, certifications, complianceIssues]);
+  }, [inspections, certifications, complianceIssues, regulatoryCompliance]);
 
   // Add sample data for testing
   const seedSampleData = async () => {
@@ -333,6 +361,9 @@ export const useQualityData = () => {
     inspections,
     certifications,
     complianceIssues,
+    regulatoryCompliance,
+    selectedRegion,
+    setSelectedRegion,
     isLoading,
     addInspection,
     addCertification,

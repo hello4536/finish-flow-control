@@ -540,6 +540,42 @@ export type Database = {
         }
         Relationships: []
       }
+      regulatory_compliance: {
+        Row: {
+          applies: boolean
+          created_at: string
+          feature_key: string
+          id: string
+          jurisdiction: string
+          notes: string | null
+          region: string
+          requirement: string
+          updated_at: string
+        }
+        Insert: {
+          applies?: boolean
+          created_at?: string
+          feature_key: string
+          id?: string
+          jurisdiction: string
+          notes?: string | null
+          region: string
+          requirement: string
+          updated_at?: string
+        }
+        Update: {
+          applies?: boolean
+          created_at?: string
+          feature_key?: string
+          id?: string
+          jurisdiction?: string
+          notes?: string | null
+          region?: string
+          requirement?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       resource_documents: {
         Row: {
           created_at: string

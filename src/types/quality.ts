@@ -33,3 +33,17 @@ export interface ComplianceIssue {
   created_at: string;
   updated_at: string;
 }
+
+export interface RegulatoryCompliance {
+  id: string;
+  jurisdiction: string;
+  requirement: string;
+  feature_key: string;
+  region: string;
+  notes: string | null;
+  applies: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export type Region = 'US' | 'Canada' | 'All';

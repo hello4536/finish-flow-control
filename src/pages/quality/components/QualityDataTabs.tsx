@@ -2,16 +2,20 @@
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { QualityInspection, Certification, ComplianceIssue } from "@/types/quality";
+import { QualityInspection, Certification, ComplianceIssue, RegulatoryCompliance, Region } from "@/types/quality";
 import InspectionsTab from "./InspectionsTab";
 import CertificationsTab from "./CertificationsTab";
 import ComplianceIssuesTab from "./ComplianceIssuesTab";
+import RegulatoryComplianceTab from "./RegulatoryComplianceTab";
 
 interface QualityDataTabsProps {
   search: string;
   inspections: QualityInspection[];
   certifications: Certification[];
   complianceIssues: ComplianceIssue[];
+  regulatoryCompliance: RegulatoryCompliance[];
+  selectedRegion: Region;
+  setSelectedRegion: (region: Region) => void;
   isLoading: boolean;
 }
 
@@ -20,6 +24,9 @@ const QualityDataTabs: React.FC<QualityDataTabsProps> = ({
   inspections,
   certifications,
   complianceIssues,
+  regulatoryCompliance,
+  selectedRegion,
+  setSelectedRegion,
   isLoading
 }) => {
   const filteredInspections = inspections.filter(
@@ -58,6 +65,9 @@ const QualityDataTabs: React.FC<QualityDataTabsProps> = ({
             <TabsTrigger value="violations" className="rounded-t-lg rounded-b-none py-3 px-6 data-[state=active]:border-b-2 data-[state=active]:border-blue-600">
               Compliance Issues
             </TabsTrigger>
+            <TabsTrigger value="regulatory" className="rounded-t-lg rounded-b-none py-3 px-6 data-[state=active]:border-b-2 data-[state=active]:border-blue-600">
+              Regulatory Matrix
+            </TabsTrigger>
           </TabsList>
           
           <TabsContent value="inspections" className="p-4">
@@ -77,6 +87,15 @@ const QualityDataTabs: React.FC<QualityDataTabsProps> = ({
           <TabsContent value="violations" className="p-4">
             <ComplianceIssuesTab 
               complianceIssues={filteredComplianceIssues} 
+              isLoading={isLoading} 
+            />
+          </TabsContent>
+          
+          <TabsContent value="regulatory" className="p-4">
+            <RegulatoryComplianceTab 
+              regulatoryCompliance={regulatoryCompliance}
+              selectedRegion={selectedRegion}
+              onRegionChange={setSelectedRegion}
               isLoading={isLoading} 
             />
           </TabsContent>
