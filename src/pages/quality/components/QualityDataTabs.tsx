@@ -2,31 +2,18 @@
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { QualityInspection, Certification, ComplianceIssue, RegulatoryCompliance, Region } from "@/types/quality";
+import { QualityInspection } from "@/types/quality";
 import InspectionsTab from "./InspectionsTab";
-import CertificationsTab from "./CertificationsTab";
-import ComplianceIssuesTab from "./ComplianceIssuesTab";
-import RegulatoryComplianceTab from "./RegulatoryComplianceTab";
 
 interface QualityDataTabsProps {
   search: string;
   inspections: QualityInspection[];
-  certifications: Certification[];
-  complianceIssues: ComplianceIssue[];
-  regulatoryCompliance: RegulatoryCompliance[];
-  selectedRegion: Region;
-  setSelectedRegion: (region: Region) => void;
   isLoading: boolean;
 }
 
 const QualityDataTabs: React.FC<QualityDataTabsProps> = ({
   search,
   inspections,
-  certifications,
-  complianceIssues,
-  regulatoryCompliance,
-  selectedRegion,
-  setSelectedRegion,
   isLoading
 }) => {
   const filteredInspections = inspections.filter(
@@ -36,21 +23,6 @@ const QualityDataTabs: React.FC<QualityDataTabsProps> = ({
       item.inspector.toLowerCase().includes(search.toLowerCase())
   );
   
-  const filteredCertifications = certifications.filter(
-    (item) => 
-      item.certification_id.toLowerCase().includes(search.toLowerCase()) || 
-      item.name.toLowerCase().includes(search.toLowerCase()) ||
-      item.authority.toLowerCase().includes(search.toLowerCase())
-  );
-  
-  const filteredComplianceIssues = complianceIssues.filter(
-    (item) => 
-      item.issue_id.toLowerCase().includes(search.toLowerCase()) || 
-      item.type.toLowerCase().includes(search.toLowerCase()) ||
-      item.description.toLowerCase().includes(search.toLowerCase()) ||
-      item.assignee.toLowerCase().includes(search.toLowerCase())
-  );
-
   return (
     <Card>
       <CardContent className="p-0">
@@ -59,43 +31,11 @@ const QualityDataTabs: React.FC<QualityDataTabsProps> = ({
             <TabsTrigger value="inspections" className="rounded-t-lg rounded-b-none py-3 px-6 data-[state=active]:border-b-2 data-[state=active]:border-blue-600">
               Quality Inspections
             </TabsTrigger>
-            <TabsTrigger value="certifications" className="rounded-t-lg rounded-b-none py-3 px-6 data-[state=active]:border-b-2 data-[state=active]:border-blue-600">
-              Certifications
-            </TabsTrigger>
-            <TabsTrigger value="violations" className="rounded-t-lg rounded-b-none py-3 px-6 data-[state=active]:border-b-2 data-[state=active]:border-blue-600">
-              Compliance Issues
-            </TabsTrigger>
-            <TabsTrigger value="regulatory" className="rounded-t-lg rounded-b-none py-3 px-6 data-[state=active]:border-b-2 data-[state=active]:border-blue-600">
-              Regulatory Matrix
-            </TabsTrigger>
           </TabsList>
           
           <TabsContent value="inspections" className="p-4">
             <InspectionsTab 
               inspections={filteredInspections} 
-              isLoading={isLoading} 
-            />
-          </TabsContent>
-          
-          <TabsContent value="certifications" className="p-4">
-            <CertificationsTab 
-              certifications={filteredCertifications} 
-              isLoading={isLoading} 
-            />
-          </TabsContent>
-          
-          <TabsContent value="violations" className="p-4">
-            <ComplianceIssuesTab 
-              complianceIssues={filteredComplianceIssues} 
-              isLoading={isLoading} 
-            />
-          </TabsContent>
-          
-          <TabsContent value="regulatory" className="p-4">
-            <RegulatoryComplianceTab 
-              regulatoryCompliance={regulatoryCompliance}
-              selectedRegion={selectedRegion}
-              onRegionChange={setSelectedRegion}
               isLoading={isLoading} 
             />
           </TabsContent>

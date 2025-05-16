@@ -1,90 +1,58 @@
 
 import React from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ClipboardCheck, Shield, FileCheck } from "lucide-react";
-import { QualityInspection, Certification, ComplianceIssue } from "@/types/quality";
+import { Card, CardContent } from "@/components/ui/card";
+import { QualityInspection } from "@/types/quality";
+import { CheckCircle, Search, XCircle } from "lucide-react";
 
 interface QualityStatCardsProps {
   inspections: QualityInspection[];
-  certifications: Certification[];
-  complianceIssues: ComplianceIssue[];
 }
 
-const QualityStatCards: React.FC<QualityStatCardsProps> = ({ 
-  inspections, 
-  certifications, 
-  complianceIssues 
+const QualityStatCards: React.FC<QualityStatCardsProps> = ({
+  inspections
 }) => {
+  // Count statistics for inspections
+  const passedInspections = inspections.filter(inspection => inspection.status === "Passed").length;
+  const failedInspections = inspections.filter(inspection => inspection.status === "Failed").length;
+  const pendingInspections = inspections.filter(inspection => inspection.status === "Pending").length;
+  
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div className="grid gap-4 md:grid-cols-3">
+      {/* Passed Inspections card */}
       <Card>
-        <CardHeader className="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-t-lg">
+        <CardContent className="flex flex-col pt-6">
           <div className="flex items-center gap-2">
-            <ClipboardCheck className="h-6 w-6" />
-            <CardTitle>Quality Inspections</CardTitle>
+            <CheckCircle className="h-5 w-5 text-green-600" />
+            <span className="text-lg font-medium">Passed Inspections</span>
           </div>
-          <CardDescription className="text-blue-100">
-            Recent product quality checks
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="pt-6">
-          <div className="text-2xl font-bold">{inspections.length}</div>
-          <p className="text-muted-foreground">Total inspections this month</p>
-          <div className="mt-2 flex gap-2">
-            <div className="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-800">
-              {inspections.filter(i => i.status === "Passed").length} Passed
-            </div>
-            <div className="rounded-full bg-red-100 px-2 py-1 text-xs font-medium text-red-800">
-              {inspections.filter(i => i.status === "Failed").length} Failed
-            </div>
-            <div className="rounded-full bg-yellow-100 px-2 py-1 text-xs font-medium text-yellow-800">
-              {inspections.filter(i => i.status === "Pending").length} Pending
-            </div>
+          <div className="mt-4 flex justify-center">
+            <span className="text-3xl font-bold text-green-600">{passedInspections}</span>
           </div>
         </CardContent>
       </Card>
       
+      {/* Failed Inspections card */}
       <Card>
-        <CardHeader className="bg-gradient-to-r from-indigo-500 to-indigo-600 text-white rounded-t-lg">
+        <CardContent className="flex flex-col pt-6">
           <div className="flex items-center gap-2">
-            <Shield className="h-6 w-6" />
-            <CardTitle>Certifications</CardTitle>
+            <XCircle className="h-5 w-5 text-red-600" />
+            <span className="text-lg font-medium">Failed Inspections</span>
           </div>
-          <CardDescription className="text-indigo-100">
-            Active compliance certifications
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="pt-6">
-          <div className="text-2xl font-bold">{certifications.length}</div>
-          <p className="text-muted-foreground">Active certifications</p>
-          <div className="mt-2">
-            <div className="rounded-full bg-yellow-100 px-2 py-1 text-xs font-medium text-yellow-800 inline-block">
-              {certifications.filter(c => c.status === "Expiring Soon").length} Expiring soon
-            </div>
+          <div className="mt-4 flex justify-center">
+            <span className="text-3xl font-bold text-red-600">{failedInspections}</span>
           </div>
         </CardContent>
       </Card>
       
+      {/* Pending Inspections card */}
       <Card>
-        <CardHeader className="bg-gradient-to-r from-red-500 to-red-600 text-white rounded-t-lg">
+        <CardContent className="flex flex-col pt-6">
           <div className="flex items-center gap-2">
-            <FileCheck className="h-6 w-6" />
-            <CardTitle>Compliance Issues</CardTitle>
+            <Search className="h-5 w-5 text-amber-600" />
+            <span className="text-lg font-medium">Pending Inspections</span>
           </div>
-          <CardDescription className="text-red-100">
-            Regulatory violations and fixes
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="pt-6">
-          <div className="text-2xl font-bold">{complianceIssues.length}</div>
-          <p className="text-muted-foreground">Total violations reported</p>
-          <div className="mt-2 flex gap-2">
-            <div className="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-800">
-              {complianceIssues.filter(v => v.status === "Resolved").length} Resolved
-            </div>
-            <div className="rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-800">
-              {complianceIssues.filter(v => v.status === "In Progress").length} In progress
-            </div>
+          <div className="mt-4 flex justify-center">
+            <span className="text-3xl font-bold text-amber-500">{pendingInspections}</span>
           </div>
         </CardContent>
       </Card>

@@ -3,22 +3,26 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
-import { useQualityData } from "@/hooks/useQualityData";
-import QualityStatCards from "./components/QualityStatCards";
-import QualityDataTabs from "./components/QualityDataTabs";
+import { useComplianceData } from "@/hooks/useComplianceData";
+import ComplianceStatCards from "./components/ComplianceStatCards";
+import ComplianceDataTabs from "./components/ComplianceDataTabs";
 
-const QualityPage = () => {
+const CompliancePage = () => {
   const [search, setSearch] = useState("");
   const { 
-    inspections,
+    certifications, 
+    complianceIssues, 
+    regulatoryCompliance,
+    selectedRegion,
+    setSelectedRegion,
     isLoading,
     seedSampleData
-  } = useQualityData();
+  } = useComplianceData();
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">Quality Control</h1>
+        <h1 className="text-3xl font-bold">Compliance Management</h1>
         <div className="flex items-center gap-2">
           <div className="relative w-64">
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -35,17 +39,22 @@ const QualityPage = () => {
         </div>
       </div>
       
-      <QualityStatCards 
-        inspections={inspections} 
+      <ComplianceStatCards 
+        certifications={certifications}
+        complianceIssues={complianceIssues}
       />
       
-      <QualityDataTabs 
+      <ComplianceDataTabs 
         search={search}
-        inspections={inspections}
+        certifications={certifications}
+        complianceIssues={complianceIssues}
+        regulatoryCompliance={regulatoryCompliance}
+        selectedRegion={selectedRegion}
+        setSelectedRegion={setSelectedRegion}
         isLoading={isLoading}
       />
     </div>
   );
 };
 
-export default QualityPage;
+export default CompliancePage;

@@ -12,6 +12,7 @@ import Workflows from "./pages/workflows";
 import Materials from "./pages/materials";
 import Inventory from "./pages/inventory";
 import Quality from "./pages/quality";
+import Compliance from "./pages/compliance";
 import Schedule from "./pages/Schedule";
 import Resources from "./pages/Resources";
 import Reports from "./pages/Reports";
@@ -43,6 +44,7 @@ const App = () => {
               <Route path="materials" element={<Materials />} />
               <Route path="inventory" element={<Inventory />} />
               <Route path="quality" element={<Quality />} />
+              <Route path="compliance" element={<Compliance />} />
               <Route path="schedule" element={<Schedule />} />
               <Route path="resources" element={<Resources />} />
               <Route path="reports" element={<Reports />} />
