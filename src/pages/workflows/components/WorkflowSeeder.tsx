@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Database } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { Json } from "@/integrations/supabase/types";
 
 interface WorkflowSeederProps {
   onSeed?: () => void;
@@ -21,7 +22,7 @@ const WorkflowSeeder: React.FC<WorkflowSeederProps> = ({ onSeed }) => {
         name: "Standard Wood Finish",
         description: "A standard process for finishing wood surfaces",
         trade: "Wood Finishing",
-        active_jobs: 2,
+        active_jobs: 0,
         workflow_number: "WF-1001",
         status: "active",
         steps: [
@@ -30,13 +31,13 @@ const WorkflowSeeder: React.FC<WorkflowSeederProps> = ({ onSeed }) => {
           { id: 3, name: "Staining" },
           { id: 4, name: "Sealing" },
           { id: 5, name: "Final Coating" }
-        ]
+        ] as unknown as Json
       },
       {
         name: "Luxury Car Paint Process",
         description: "Premium auto body paint process for luxury vehicles",
         trade: "Auto Body",
-        active_jobs: 1,
+        active_jobs: 0,
         workflow_number: "WF-2001",
         status: "active",
         steps: [
@@ -45,13 +46,13 @@ const WorkflowSeeder: React.FC<WorkflowSeederProps> = ({ onSeed }) => {
           { id: 3, name: "Base Coat" },
           { id: 4, name: "Clear Coat" },
           { id: 5, name: "Polishing" }
-        ]
+        ] as unknown as Json
       },
       {
         name: "Eco-Friendly Interior Paint",
         description: "Low-VOC interior painting process",
         trade: "Interior Paint",
-        active_jobs: 3,
+        active_jobs: 0,
         workflow_number: "WF-3001",
         status: "active",
         steps: [
@@ -60,7 +61,7 @@ const WorkflowSeeder: React.FC<WorkflowSeederProps> = ({ onSeed }) => {
           { id: 3, name: "Primer Application" },
           { id: 4, name: "First Coat" },
           { id: 5, name: "Second Coat" }
-        ]
+        ] as unknown as Json
       },
       {
         name: "Weather-Resistant Exterior Finish",
@@ -75,7 +76,7 @@ const WorkflowSeeder: React.FC<WorkflowSeederProps> = ({ onSeed }) => {
           { id: 3, name: "Repair and Caulking" },
           { id: 4, name: "Primer" },
           { id: 5, name: "Paint Application" }
-        ]
+        ] as unknown as Json
       }
     ];
 

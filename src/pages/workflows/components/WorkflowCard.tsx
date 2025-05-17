@@ -13,6 +13,7 @@ import { ChevronDown, ChevronRight, Clipboard, Database, Edit, Copy } from "luci
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import EditWorkflowDialog from "./EditWorkflowDialog";
+import { Json } from "@/integrations/supabase/types";
 
 interface Step {
   id: number;
@@ -44,11 +45,11 @@ const WorkflowCard: React.FC<WorkflowCardProps> = ({
 
   const handleDuplicate = async () => {
     try {
-      // Use a single object for insert, not an array of objects
+      // Convert steps to a format compatible with Supabase's JSON type
       const workflowToInsert = {
         name: `${name} (Copy)`,
         description,
-        steps,
+        steps: steps as unknown as Json, // Cast to Json type for Supabase
         trade,
         active_jobs: 0,
         workflow_number: `WF-${Math.floor(Math.random() * 10000)}`,
@@ -80,11 +81,11 @@ const WorkflowCard: React.FC<WorkflowCardProps> = ({
 
   const handleEdit = async (updatedWorkflow: { name: string; description: string | null; steps: Step[] }) => {
     try {
-      // Update workflow with type-safe object
+      // Update workflow with type-safe object - convert steps to Json type
       const workflowUpdate = {
         name: updatedWorkflow.name,
         description: updatedWorkflow.description,
-        steps: updatedWorkflow.steps
+        steps: updatedWorkflow.steps as unknown as Json // Cast to Json type for Supabase
       };
       
       const { error } = await supabase

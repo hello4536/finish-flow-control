@@ -14,6 +14,7 @@ import WorkflowsGrid from "./components/WorkflowsGrid";
 import WorkflowSeeder from "./components/WorkflowSeeder";
 import CreateWorkflowDialog from "./components/CreateWorkflowDialog";
 import ImportWorkflowDialog from "./components/ImportWorkflowDialog";
+import { Json } from "@/integrations/supabase/types";
 
 // Define the Step interface to match what Supabase expects
 interface Step {
@@ -99,11 +100,11 @@ const Workflows: React.FC = () => {
 
   const handleCreateWorkflow = async (newWorkflow: Omit<Workflow, 'id'>) => {
     try {
-      // Convert Step[] to a plain object for Supabase to store correctly as JSON
+      // Convert Step[] to a Json type for Supabase to store correctly as JSON
       const workflowToInsert = {
         name: newWorkflow.name,
         description: newWorkflow.description,
-        steps: newWorkflow.steps,
+        steps: newWorkflow.steps as unknown as Json,
         trade: newWorkflow.trade,
         active_jobs: 0,
         workflow_number: `WF-${Math.floor(Math.random() * 10000)}`,
@@ -196,7 +197,7 @@ const Workflows: React.FC = () => {
         return {
           name: wf.name,
           description: wf.description,
-          steps: wf.steps || [],
+          steps: wf.steps || [] as unknown as Json,
           trade: wf.trade,
           active_jobs: wf.active_jobs || 0,
           workflow_number: `WF-${Math.floor(Math.random() * 10000)}`,
