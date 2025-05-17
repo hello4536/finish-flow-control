@@ -80,16 +80,18 @@ const WorkflowSeeder: React.FC<WorkflowSeederProps> = ({ onSeed }) => {
     ];
 
     try {
-      const { data, error } = await supabase
-        .from("workflows")
-        .insert(sampleWorkflows)
-        .select();
-
-      if (error) throw error;
+      // Insert each workflow individually to avoid array issues
+      for (const workflow of sampleWorkflows) {
+        const { error } = await supabase
+          .from("workflows")
+          .insert(workflow);
+        
+        if (error) throw error;
+      }
 
       toast({
         title: "Sample workflows added",
-        description: `${data.length} sample workflows have been added successfully.`,
+        description: `${sampleWorkflows.length} sample workflows have been added successfully.`,
       });
       
       if (onSeed) {

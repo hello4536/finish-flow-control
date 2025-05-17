@@ -44,19 +44,20 @@ const WorkflowCard: React.FC<WorkflowCardProps> = ({
 
   const handleDuplicate = async () => {
     try {
+      // Use a single object for insert, not an array of objects
+      const workflowToInsert = {
+        name: `${name} (Copy)`,
+        description,
+        steps,
+        trade,
+        active_jobs: 0,
+        workflow_number: `WF-${Math.floor(Math.random() * 10000)}`,
+        status: 'active'
+      };
+
       const { data, error } = await supabase
         .from("workflows")
-        .insert([
-          {
-            name: `${name} (Copy)`,
-            description,
-            steps,
-            trade,
-            active_jobs: 0,
-            workflow_number: `WF-${Math.floor(Math.random() * 10000)}`,
-            status: 'active'
-          }
-        ])
+        .insert(workflowToInsert)
         .select();
 
       if (error) throw error;
@@ -79,13 +80,16 @@ const WorkflowCard: React.FC<WorkflowCardProps> = ({
 
   const handleEdit = async (updatedWorkflow: { name: string; description: string | null; steps: Step[] }) => {
     try {
+      // Update workflow with type-safe object
+      const workflowUpdate = {
+        name: updatedWorkflow.name,
+        description: updatedWorkflow.description,
+        steps: updatedWorkflow.steps
+      };
+      
       const { error } = await supabase
         .from("workflows")
-        .update({
-          name: updatedWorkflow.name,
-          description: updatedWorkflow.description,
-          steps: updatedWorkflow.steps
-        })
+        .update(workflowUpdate)
         .eq("id", id);
 
       if (error) throw error;

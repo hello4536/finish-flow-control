@@ -7,7 +7,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
-import { Plus, Import, FileExport } from "lucide-react";
+import { Plus, Import, FileText } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import WorkflowsGrid from "./components/WorkflowsGrid";
@@ -15,6 +15,7 @@ import WorkflowSeeder from "./components/WorkflowSeeder";
 import CreateWorkflowDialog from "./components/CreateWorkflowDialog";
 import ImportWorkflowDialog from "./components/ImportWorkflowDialog";
 
+// Define the Step interface to match what Supabase expects
 interface Step {
   id: number;
   name: string;
@@ -98,19 +99,20 @@ const Workflows: React.FC = () => {
 
   const handleCreateWorkflow = async (newWorkflow: Omit<Workflow, 'id'>) => {
     try {
+      // Convert Step[] to a plain object for Supabase to store correctly as JSON
+      const workflowToInsert = {
+        name: newWorkflow.name,
+        description: newWorkflow.description,
+        steps: newWorkflow.steps,
+        trade: newWorkflow.trade,
+        active_jobs: 0,
+        workflow_number: `WF-${Math.floor(Math.random() * 10000)}`,
+        status: 'active'
+      };
+      
       const { data, error } = await supabase
         .from('workflows')
-        .insert([
-          {
-            name: newWorkflow.name,
-            description: newWorkflow.description,
-            steps: newWorkflow.steps,
-            trade: newWorkflow.trade,
-            active_jobs: 0,
-            workflow_number: `WF-${Math.floor(Math.random() * 10000)}`,
-            status: 'active'
-          }
-        ])
+        .insert(workflowToInsert)
         .select();
       
       if (error) throw error;
@@ -189,7 +191,7 @@ const Workflows: React.FC = () => {
         return;
       }
 
-      // Format workflows for import
+      // Format workflows for import - ensure steps are properly formatted
       const workflowsToInsert = importedWorkflows.map(wf => {
         return {
           name: wf.name,
@@ -274,7 +276,7 @@ const Workflows: React.FC = () => {
                 <Import className="h-4 w-4 mr-2" /> Import
               </Button>
               <Button variant="outline" size="sm" onClick={exportWorkflows}>
-                <FileExport className="h-4 w-4 mr-2" /> Export
+                <FileText className="h-4 w-4 mr-2" /> Export
               </Button>
             </div>
           </div>
