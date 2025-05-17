@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import {
   Dialog,
@@ -12,20 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-
-interface Step {
-  id: number;
-  name: string;
-}
-
-interface Workflow {
-  id: string;
-  name: string;
-  description: string | null;
-  steps: Step[];
-  trade: string;
-  active_jobs: number;
-}
+import { Step, Workflow } from "../utils/types";
 
 interface EditWorkflowDialogProps {
   open: boolean;

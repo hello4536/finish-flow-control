@@ -4,20 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import WorkflowCard from "./WorkflowCard";
-
-interface Step {
-  id: number;
-  name: string;
-}
-
-interface Workflow {
-  id: string;
-  name: string;
-  description: string | null;
-  steps: Step[];
-  trade: string;
-  active_jobs: number;
-}
+import { Workflow } from "../utils/types";
 
 interface WorkflowsGridProps {
   workflows: Workflow[];

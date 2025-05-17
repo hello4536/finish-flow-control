@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import {
   Card,
@@ -14,11 +13,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import EditWorkflowDialog from "./EditWorkflowDialog";
 import { Json } from "@/integrations/supabase/types";
-
-interface Step {
-  id: number;
-  name: string;
-}
+import { Step } from "../utils/types";
+import { generateWorkflowNumber } from "../utils/types";
 
 interface WorkflowCardProps {
   id: string;
@@ -52,7 +48,7 @@ const WorkflowCard: React.FC<WorkflowCardProps> = ({
         steps: steps as unknown as Json, // Cast to Json type for Supabase
         trade,
         active_jobs: 0,
-        workflow_number: `WF-${Math.floor(Math.random() * 10000)}`,
+        workflow_number: generateWorkflowNumber(),
         status: 'active'
       };
 

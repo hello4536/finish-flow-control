@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import {
   Dialog,
@@ -19,11 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-interface Step {
-  id: number;
-  name: string;
-}
+import { Step, TRADE_CATEGORIES } from "../utils/types";
 
 interface WorkflowFormData {
   name: string;
@@ -130,10 +125,9 @@ const CreateWorkflowDialog: React.FC<CreateWorkflowDialogProps> = ({
                 <SelectValue placeholder="Select trade" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Wood Finishing">Wood Finishing</SelectItem>
-                <SelectItem value="Auto Body">Auto Body</SelectItem>
-                <SelectItem value="Interior Paint">Interior Paint</SelectItem>
-                <SelectItem value="Exterior Paint">Exterior Paint</SelectItem>
+                {TRADE_CATEGORIES.map(trade => (
+                  <SelectItem key={trade} value={trade}>{trade}</SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
