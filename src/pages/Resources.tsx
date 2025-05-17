@@ -6,7 +6,7 @@ import LinksSection from '@/components/resources/LinksSection';
 import DocumentsSection from '@/components/resources/DocumentsSection';
 import NotesSection from '@/components/resources/NotesSection';
 import VendorsSection from '@/components/resources/VendorsSection';
-import { toast } from "@/hooks/use-toast";
+import ReceiptsSection from '@/components/resources/ReceiptsSection';
 
 const Resources = () => {
   // Resource counts for badges
@@ -14,11 +14,12 @@ const Resources = () => {
     links: 0,
     documents: 0,
     notes: 0,
-    vendors: 0
+    vendors: 0,
+    receipts: 0
   });
 
   // Update counts when resources change
-  const updateCounts = (type: 'links' | 'documents' | 'notes' | 'vendors', count: number) => {
+  const updateCounts = (type: 'links' | 'documents' | 'notes' | 'vendors' | 'receipts', count: number) => {
     setCounts(prev => ({
       ...prev,
       [type]: count
@@ -35,7 +36,7 @@ const Resources = () => {
       </div>
 
       <Tabs defaultValue="links" className="w-full">
-        <TabsList className="grid grid-cols-4 w-full max-w-md">
+        <TabsList className="grid grid-cols-5 w-full max-w-3xl">
           <TabsTrigger value="links" className="relative">
             Links
             {counts.links > 0 && (
@@ -65,6 +66,14 @@ const Resources = () => {
             {counts.vendors > 0 && (
               <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 {counts.vendors}
+              </span>
+            )}
+          </TabsTrigger>
+          <TabsTrigger value="receipts" className="relative">
+            Receipts
+            {counts.receipts > 0 && (
+              <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                {counts.receipts}
               </span>
             )}
           </TabsTrigger>
@@ -114,6 +123,18 @@ const Resources = () => {
             </CardHeader>
             <CardContent>
               <VendorsSection onCountChange={(count) => updateCounts('vendors', count)} />
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        <TabsContent value="receipts" className="mt-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Receipts</CardTitle>
+              <CardDescription>Upload and categorize your digital receipts</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ReceiptsSection onCountChange={(count) => updateCounts('receipts', count)} />
             </CardContent>
           </Card>
         </TabsContent>

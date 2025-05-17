@@ -654,6 +654,51 @@ export type Database = {
         }
         Relationships: []
       }
+      resource_receipts: {
+        Row: {
+          amount: number
+          category: string | null
+          company: string
+          created_at: string
+          date: string
+          file_url: string
+          id: string
+          name: string
+          notes: string | null
+          size: number
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          amount: number
+          category?: string | null
+          company: string
+          created_at?: string
+          date: string
+          file_url: string
+          id?: string
+          name: string
+          notes?: string | null
+          size: number
+          type: string
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          category?: string | null
+          company?: string
+          created_at?: string
+          date?: string
+          file_url?: string
+          id?: string
+          name?: string
+          notes?: string | null
+          size?: number
+          type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       resource_vendors: {
         Row: {
           contact: string | null
