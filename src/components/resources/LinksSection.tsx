@@ -11,9 +11,33 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useResourceLinks } from '@/hooks/useResourceLinks';
 
+// Function to normalize URL (add http/https if missing)
+const normalizeUrl = (url: string) => {
+  let normalizedUrl = url.trim();
+  if (normalizedUrl && !normalizedUrl.match(/^https?:\/\//i)) {
+    normalizedUrl = `https://${normalizedUrl}`;
+  }
+  return normalizedUrl;
+};
+
+// Less strict URL validation
 const linkSchema = z.object({
   title: z.string().min(1, "Title is required"),
-  url: z.string().url("Please enter a valid URL"),
+  url: z.string()
+    .min(1, "URL is required")
+    .transform(normalizeUrl)
+    // Only validate after normalization
+    .refine(
+      (val) => {
+        try {
+          new URL(val);
+          return true;
+        } catch (e) {
+          return false;
+        }
+      }, 
+      "Please enter a valid URL"
+    )
 });
 
 type LinkFormValues = z.infer<typeof linkSchema>;
@@ -41,7 +65,7 @@ const LinksSection: React.FC<LinksSectionProps> = ({ onCountChange }) => {
   // Add a new link
   const onSubmit = async (values: LinkFormValues) => {
     try {
-      // We can safely assert the values here since they've passed Zod validation
+      // URL is already normalized by schema transform
       const linkData = {
         title: values.title,
         url: values.url
@@ -109,7 +133,7 @@ const LinksSection: React.FC<LinksSectionProps> = ({ onCountChange }) => {
                   <FormItem>
                     <FormLabel>URL</FormLabel>
                     <FormControl>
-                      <Input placeholder="https://example.com" {...field} />
+                      <Input placeholder="example.com" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
