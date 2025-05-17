@@ -89,6 +89,7 @@ const Workflows: React.FC = () => {
                 workflows={getWorkflowsByTrade(tradeKey)} 
                 trade={TRADE_CATEGORIES[index]}
                 onUpdate={fetchWorkflows}
+                onCreateClick={() => setCreateDialogOpen(true)}
               />
             </TabsContent>
           ))}

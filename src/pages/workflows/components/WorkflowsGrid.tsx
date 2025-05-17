@@ -10,9 +10,15 @@ interface WorkflowsGridProps {
   workflows: Workflow[];
   trade: string;
   onUpdate: () => void;
+  onCreateClick: () => void;
 }
 
-const WorkflowsGrid: React.FC<WorkflowsGridProps> = ({ workflows, trade, onUpdate }) => {
+const WorkflowsGrid: React.FC<WorkflowsGridProps> = ({ 
+  workflows, 
+  trade, 
+  onUpdate,
+  onCreateClick 
+}) => {
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       {workflows.map((workflow) => (
@@ -36,7 +42,7 @@ const WorkflowsGrid: React.FC<WorkflowsGridProps> = ({ workflows, trade, onUpdat
           <p className="text-sm text-muted-foreground text-center mt-1">
             Create a new workflow template for your {trade.toLowerCase()} processes
           </p>
-          <Button className="mt-4">Create Workflow</Button>
+          <Button className="mt-4" onClick={onCreateClick}>Create Workflow</Button>
         </CardContent>
       </Card>
     </div>
