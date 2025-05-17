@@ -5,7 +5,7 @@ import { toast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { v4 as uuidv4 } from 'uuid';
 
-interface Receipt {
+export interface Receipt {
   id: string;
   name: string;
   file_url: string;
