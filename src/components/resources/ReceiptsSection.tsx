@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { format } from 'date-fns';
 import { Button } from "@/components/ui/button";
@@ -327,7 +326,7 @@ const ReceiptsSection: React.FC<ReceiptsSectionProps> = ({ onCountChange }) => {
                       <div className="flex gap-2 text-sm text-muted-foreground">
                         <span>{receipt.company}</span>
                         <span className="hidden sm:inline">•</span>
-                        <span>${parseFloat(receipt.amount).toFixed(2)}</span>
+                        <span>${parseFloat(String(receipt.amount)).toFixed(2)}</span>
                       </div>
                     </div>
                   </div>
@@ -397,7 +396,7 @@ const ReceiptsSection: React.FC<ReceiptsSectionProps> = ({ onCountChange }) => {
                 </div>
                 <div>
                   <h4 className="text-sm font-medium">Amount</h4>
-                  <p>${parseFloat(selectedReceipt.amount).toFixed(2)}</p>
+                  <p>${parseFloat(String(selectedReceipt.amount)).toFixed(2)}</p>
                 </div>
                 <div>
                   <h4 className="text-sm font-medium">Date</h4>
