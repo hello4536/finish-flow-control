@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import {
   Card,
@@ -8,13 +9,13 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, ChevronRight, Clipboard, Database, Edit, Copy } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { ChevronDown, ChevronRight } from "lucide-react";
 import EditWorkflowDialog from "./EditWorkflowDialog";
-import { Json } from "@/integrations/supabase/types";
+import WorkflowSummary from "./WorkflowSummary";
+import WorkflowStepsList from "./WorkflowStepsList";
+import WorkflowActions from "./WorkflowActions";
+import { useWorkflowOperations } from "../hooks/useWorkflowOperations";
 import { Step } from "../utils/types";
-import { generateWorkflowNumber } from "../utils/types";
 
 interface WorkflowCardProps {
   id: string;
@@ -36,77 +37,11 @@ const WorkflowCard: React.FC<WorkflowCardProps> = ({
   onUpdate,
 }) => {
   const [expanded, setExpanded] = useState(false);
-  const [editDialogOpen, setEditDialogOpen] = useState(false);
-  const { toast } = useToast();
-
-  const handleDuplicate = async () => {
-    try {
-      // Convert steps to a format compatible with Supabase's JSON type
-      const workflowToInsert = {
-        name: `${name} (Copy)`,
-        description,
-        steps: steps as unknown as Json, // Cast to Json type for Supabase
-        trade,
-        active_jobs: 0,
-        workflow_number: generateWorkflowNumber(),
-        status: 'active'
-      };
-
-      const { data, error } = await supabase
-        .from("workflows")
-        .insert(workflowToInsert)
-        .select();
-
-      if (error) throw error;
-
-      toast({
-        title: "Workflow duplicated",
-        description: "The workflow has been duplicated successfully.",
-      });
-      
-      onUpdate();
-    } catch (error) {
-      console.error("Error duplicating workflow:", error);
-      toast({
-        title: "Error duplicating workflow",
-        description: "Please try again later.",
-        variant: "destructive",
-      });
-    }
-  };
-
-  const handleEdit = async (updatedWorkflow: { name: string; description: string | null; steps: Step[] }) => {
-    try {
-      // Update workflow with type-safe object - convert steps to Json type
-      const workflowUpdate = {
-        name: updatedWorkflow.name,
-        description: updatedWorkflow.description,
-        steps: updatedWorkflow.steps as unknown as Json // Cast to Json type for Supabase
-      };
-      
-      const { error } = await supabase
-        .from("workflows")
-        .update(workflowUpdate)
-        .eq("id", id);
-
-      if (error) throw error;
-
-      toast({
-        title: "Workflow updated",
-        description: "The workflow has been updated successfully.",
-      });
-      
-      onUpdate();
-      setEditDialogOpen(false);
-    } catch (error) {
-      console.error("Error updating workflow:", error);
-      toast({
-        title: "Error updating workflow",
-        description: "Please try again later.",
-        variant: "destructive",
-      });
-    }
-  };
+  const { editDialogOpen, setEditDialogOpen, handleDuplicate, handleEdit } = 
+    useWorkflowOperations(
+      { id, name, description, steps, trade, active_jobs: activeJobs },
+      onUpdate
+    );
 
   return (
     <>
@@ -120,16 +55,7 @@ const WorkflowCard: React.FC<WorkflowCardProps> = ({
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-between text-sm">
-            <div className="flex items-center gap-4">
-              <div className="flex items-center">
-                <Clipboard className="h-4 w-4 mr-1 text-muted-foreground" />
-                <span>{steps.length} steps</span>
-              </div>
-              <div className="flex items-center">
-                <Database className="h-4 w-4 mr-1 text-muted-foreground" />
-                <span>{activeJobs} active jobs</span>
-              </div>
-            </div>
+            <WorkflowSummary stepsCount={steps.length} activeJobs={activeJobs} />
             <Button
               variant="ghost"
               size="sm"
@@ -150,28 +76,11 @@ const WorkflowCard: React.FC<WorkflowCardProps> = ({
 
           {expanded && (
             <div className="mt-4 border-t pt-4">
-              <h4 className="font-medium mb-2">Workflow Steps</h4>
-              <div className="space-y-2">
-                {steps.map((step) => (
-                  <div key={step.id} className="flex items-center">
-                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">
-                      {step.id}
-                    </div>
-                    <div className="ml-2">{step.name}</div>
-                  </div>
-                ))}
-                {steps.length === 0 && (
-                  <div className="text-muted-foreground">No steps defined</div>
-                )}
-              </div>
-              <div className="mt-4 flex justify-end space-x-2">
-                <Button variant="outline" size="sm" onClick={() => setEditDialogOpen(true)}>
-                  <Edit className="h-4 w-4 mr-2" /> Edit
-                </Button>
-                <Button size="sm" onClick={handleDuplicate}>
-                  <Copy className="h-4 w-4 mr-2" /> Duplicate
-                </Button>
-              </div>
+              <WorkflowStepsList steps={steps} />
+              <WorkflowActions 
+                onEdit={() => setEditDialogOpen(true)}
+                onDuplicate={handleDuplicate}
+              />
             </div>
           )}
         </CardContent>
