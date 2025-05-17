@@ -1,127 +1,129 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Database } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
-const sampleWorkflows = [
-  {
-    workflow_number: "WF-001",
-    name: "Standard Wood Finish",
-    description: "Our standard finishing process for wooden furniture",
-    steps: [
-      { id: 1, name: "Sand" },
-      { id: 2, name: "Stain" },
-      { id: 3, name: "Seal" },
-      { id: 4, name: "Dry" },
-      { id: 5, name: "QC" }
-    ],
-    trade: "Wood Finishing",
-    active_jobs: 12,
-    status: "active"
-  },
-  {
-    workflow_number: "WF-002",
-    name: "Antique Restoration",
-    description: "Specialized workflow for antique wood restoration",
-    steps: [
-      { id: 1, name: "Assessment" },
-      { id: 2, name: "Cleaning" },
-      { id: 3, name: "Repair" },
-      { id: 4, name: "Color Matching" },
-      { id: 5, name: "Finish Application" },
-      { id: 6, name: "Protective Coating" },
-      { id: 7, name: "Final Inspection" }
-    ],
-    trade: "Wood Finishing",
-    active_jobs: 3,
-    status: "active"
-  },
-  {
-    workflow_number: "WF-003",
-    name: "Complete Auto Repaint",
-    description: "Full vehicle repaint process from prep to finish",
-    steps: [
-      { id: 1, name: "Surface Preparation" },
-      { id: 2, name: "Priming" },
-      { id: 3, name: "Base Coat Application" },
-      { id: 4, name: "Clear Coat Application" },
-      { id: 5, name: "Drying/Curing" },
-      { id: 6, name: "Polishing" },
-      { id: 7, name: "Quality Check" },
-      { id: 8, name: "Detailing" }
-    ],
-    trade: "Auto Body",
-    active_jobs: 4,
-    status: "active"
-  },
-  {
-    workflow_number: "WF-004",
-    name: "Interior Wall Paint",
-    description: "Standard process for interior wall painting",
-    steps: [
-      { id: 1, name: "Surface Preparation" },
-      { id: 2, name: "Priming" },
-      { id: 3, name: "First Coat" },
-      { id: 4, name: "Second Coat" }
-    ],
-    trade: "Interior Paint",
-    active_jobs: 7,
-    status: "active"
-  },
-  {
-    workflow_number: "WF-005",
-    name: "Exterior House Paint",
-    description: "Complete workflow for exterior house painting",
-    steps: [
-      { id: 1, name: "Pressure Washing" },
-      { id: 2, name: "Repair Surfaces" },
-      { id: 3, name: "Apply Primer" },
-      { id: 4, name: "Apply Paint" },
-      { id: 5, name: "Quality Inspection" }
-    ],
-    trade: "Exterior Paint",
-    active_jobs: 2,
-    status: "active"
-  }
-];
+interface WorkflowSeederProps {
+  onSeed?: () => void;
+}
 
-const WorkflowSeeder: React.FC = () => {
+const WorkflowSeeder: React.FC<WorkflowSeederProps> = ({ onSeed }) => {
+  const [isSeeding, setIsSeeding] = useState(false);
   const { toast } = useToast();
 
   const seedWorkflows = async () => {
+    setIsSeeding(true);
+
+    const sampleWorkflows = [
+      {
+        name: "Standard Wood Finish",
+        description: "A standard process for finishing wood surfaces",
+        trade: "Wood Finishing",
+        active_jobs: 2,
+        workflow_number: "WF-1001",
+        status: "active",
+        steps: [
+          { id: 1, name: "Surface Preparation" },
+          { id: 2, name: "Sanding" },
+          { id: 3, name: "Staining" },
+          { id: 4, name: "Sealing" },
+          { id: 5, name: "Final Coating" }
+        ]
+      },
+      {
+        name: "Luxury Car Paint Process",
+        description: "Premium auto body paint process for luxury vehicles",
+        trade: "Auto Body",
+        active_jobs: 1,
+        workflow_number: "WF-2001",
+        status: "active",
+        steps: [
+          { id: 1, name: "Surface Cleaning" },
+          { id: 2, name: "Primer Application" },
+          { id: 3, name: "Base Coat" },
+          { id: 4, name: "Clear Coat" },
+          { id: 5, name: "Polishing" }
+        ]
+      },
+      {
+        name: "Eco-Friendly Interior Paint",
+        description: "Low-VOC interior painting process",
+        trade: "Interior Paint",
+        active_jobs: 3,
+        workflow_number: "WF-3001",
+        status: "active",
+        steps: [
+          { id: 1, name: "Surface Preparation" },
+          { id: 2, name: "Patching and Repair" },
+          { id: 3, name: "Primer Application" },
+          { id: 4, name: "First Coat" },
+          { id: 5, name: "Second Coat" }
+        ]
+      },
+      {
+        name: "Weather-Resistant Exterior Finish",
+        description: "Durable exterior paint process for harsh climates",
+        trade: "Exterior Paint",
+        active_jobs: 0,
+        workflow_number: "WF-4001",
+        status: "active",
+        steps: [
+          { id: 1, name: "Surface Cleaning" },
+          { id: 2, name: "Pressure Washing" },
+          { id: 3, name: "Repair and Caulking" },
+          { id: 4, name: "Primer" },
+          { id: 5, name: "Paint Application" }
+        ]
+      }
+    ];
+
     try {
       const { data, error } = await supabase
         .from("workflows")
-        .insert(sampleWorkflows);
+        .insert(sampleWorkflows)
+        .select();
 
       if (error) throw error;
-      
+
       toast({
-        title: "Sample workflows created",
-        description: `${sampleWorkflows.length} workflows have been added to the database.`,
+        title: "Sample workflows added",
+        description: `${data.length} sample workflows have been added successfully.`,
       });
       
-      // Reload the page to fetch the new workflows
-      window.location.reload();
-      
-    } catch (error: any) {
+      if (onSeed) {
+        onSeed();
+      }
+    } catch (error) {
       console.error("Error seeding workflows:", error);
       toast({
-        title: "Error creating sample workflows",
-        description: error.message || "Please try again later.",
+        title: "Error adding sample data",
+        description: "Please try again later.",
         variant: "destructive",
       });
+    } finally {
+      setIsSeeding(false);
     }
   };
 
   return (
-    <Button 
-      variant="outline" 
+    <Button
+      variant="outline"
       onClick={seedWorkflows}
-      className="ml-2"
+      disabled={isSeeding}
+      className="gap-2"
     >
-      Seed Sample Workflows
+      {isSeeding ? (
+        <>
+          <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+          Adding Sample Data...
+        </>
+      ) : (
+        <>
+          <Database className="h-4 w-4" /> Add Sample Data
+        </>
+      )}
     </Button>
   );
 };

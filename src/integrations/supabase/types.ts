@@ -825,6 +825,8 @@ export type Database = {
           created_at: string
           description: string | null
           id: string
+          last_exported_at: string | null
+          last_imported_at: string | null
           name: string
           status: string
           steps: Json
@@ -837,6 +839,8 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: string
+          last_exported_at?: string | null
+          last_imported_at?: string | null
           name: string
           status: string
           steps?: Json
@@ -849,6 +853,8 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: string
+          last_exported_at?: string | null
+          last_imported_at?: string | null
           name?: string
           status?: string
           steps?: Json

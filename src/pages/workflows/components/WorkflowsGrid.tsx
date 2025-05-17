@@ -22,9 +22,10 @@ interface Workflow {
 interface WorkflowsGridProps {
   workflows: Workflow[];
   trade: string;
+  onUpdate: () => void;
 }
 
-const WorkflowsGrid: React.FC<WorkflowsGridProps> = ({ workflows, trade }) => {
+const WorkflowsGrid: React.FC<WorkflowsGridProps> = ({ workflows, trade, onUpdate }) => {
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       {workflows.map((workflow) => (
@@ -36,6 +37,7 @@ const WorkflowsGrid: React.FC<WorkflowsGridProps> = ({ workflows, trade }) => {
           steps={workflow.steps}
           trade={workflow.trade}
           activeJobs={workflow.active_jobs}
+          onUpdate={onUpdate}
         />
       ))}
       <Card className="flex flex-col items-center justify-center card-hover border-dashed">
