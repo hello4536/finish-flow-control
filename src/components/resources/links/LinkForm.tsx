@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -11,7 +12,7 @@ import { ResourceLink } from '@/hooks/useResourceLinks';
 
 interface LinkFormProps {
   addLink: {
-    mutateAsync: (data: Omit<ResourceLink, 'id' | 'created_at'>) => Promise<ResourceLink>;
+    mutateAsync: (data: Omit<ResourceLink, 'id' | 'createdAt'>) => Promise<ResourceLink>;
     isPending: boolean;
   };
 }
@@ -39,7 +40,7 @@ const LinkForm: React.FC<LinkFormProps> = ({ addLink }) => {
       await addLink.mutateAsync({
         title: values.title,
         url: values.url,
-        description: values.description || "",
+        description: values.description,
       });
       
       form.reset();

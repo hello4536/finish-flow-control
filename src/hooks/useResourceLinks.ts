@@ -9,6 +9,7 @@ export interface ResourceLink {
   title: string;
   url: string;
   createdAt: Date;
+  description?: string; // Added description as optional property
 }
 
 export const useResourceLinks = () => {
@@ -36,6 +37,7 @@ export const useResourceLinks = () => {
         id: link.id,
         title: link.title,
         url: link.url,
+        description: link.description,
         createdAt: new Date(link.created_at),
       }));
     },
@@ -49,6 +51,7 @@ export const useResourceLinks = () => {
         .insert([{
           title: link.title,
           url: link.url,
+          description: link.description,
         }])
         .select()
         .single();
@@ -66,6 +69,7 @@ export const useResourceLinks = () => {
         id: data.id,
         title: data.title,
         url: data.url,
+        description: data.description,
         createdAt: new Date(data.created_at),
       };
     },
