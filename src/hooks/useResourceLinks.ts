@@ -37,7 +37,7 @@ export const useResourceLinks = () => {
         id: link.id,
         title: link.title,
         url: link.url,
-        description: link.description,
+        description: link.description || undefined,
         createdAt: new Date(link.created_at),
       }));
     },
@@ -69,7 +69,7 @@ export const useResourceLinks = () => {
         id: data.id,
         title: data.title,
         url: data.url,
-        description: data.description,
+        description: data.description || undefined,
         createdAt: new Date(data.created_at),
       };
     },
