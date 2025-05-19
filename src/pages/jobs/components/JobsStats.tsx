@@ -65,7 +65,7 @@ const JobsStats: React.FC = () => {
     return <div className="text-3xl font-bold">{value}</div>;
   };
   return <div className="grid gap-4 md:grid-cols-4">
-      <Card className="text-primary-foreground bg-blue-700">
+      <Card className="text-primary-foreground bg-orange-500 rounded-md">
         <CardHeader className="flex flex-row items-center justify-between pb-2">
           <CardTitle className="text-lg font-medium">Active Jobs</CardTitle>
           <Clock className="h-5 w-5" />
@@ -75,7 +75,7 @@ const JobsStats: React.FC = () => {
         </CardContent>
       </Card>
       
-      <Card className="bg-blue-500">
+      <Card className="bg-blue-800">
         <CardHeader className="flex flex-row items-center justify-between pb-2">
           <CardTitle className="text-lg font-medium">Completed This Month</CardTitle>
           <CheckCircle className="h-5 w-5 text-muted-foreground" />
