@@ -79,7 +79,7 @@ const FeaturesSection = () => {
               Track inspections, manage quality issues, and maintain high standards with built-in quality management tools.
             </p>
             <div className="mt-4 pt-4 border-t border-primary/10">
-              <img src="https://placehold.co/800x400/fff5e9/f97316?text=Quality+Control+Dashboard" alt="Quality Control Dashboard" className="w-full rounded-lg shadow-sm" />
+              <img alt="Quality Control Dashboard" className="w-full rounded-lg shadow-sm" src="/lovable-uploads/74d7618a-542f-48b5-815a-31f6ee6a0599.png" />
             </div>
           </div>
           
