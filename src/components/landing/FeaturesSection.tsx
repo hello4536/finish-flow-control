@@ -84,7 +84,7 @@ const FeaturesSection = () => {
           {/* Feature 6 */}
           <div className="bg-card rounded-xl border border-primary/10 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-accent">
             <div className="h-12 w-12 rounded-full flex items-center justify-center mb-4 bg-blue-200">
-              <Users className="h-6 w-6 text-white" />
+              <Users className="h-6 w-6 text-blue-950" />
             </div>
             <h3 className="text-xl font-bold mb-2 text-primary text-center">Workflows</h3>
             <p className="text-muted-foreground text-center">Keep track of your workflows step-by-step for each job and unique process.</p>
