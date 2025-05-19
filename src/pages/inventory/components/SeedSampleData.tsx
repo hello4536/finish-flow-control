@@ -1,19 +1,21 @@
+
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { mockInventoryItems, mockWarehouses } from "../data/mockData";
+
 interface SeedSampleDataProps {
   onSuccess: () => void;
   inventoryCount: number;
 }
+
 const SeedSampleData: React.FC<SeedSampleDataProps> = ({
   onSuccess,
   inventoryCount
 }) => {
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
+
   const seedSampleData = async () => {
     try {
       // Add some auto body shop specific data to the mock items
@@ -128,10 +130,12 @@ const SeedSampleData: React.FC<SeedSampleDataProps> = ({
           utilized: warehouse.utilized
         });
       }
+      
       toast({
         title: "Sample data added",
         description: "Sample inventory items and warehouses have been added to the database."
       });
+      
       onSuccess();
     } catch (error: any) {
       console.error("Error seeding sample data:", error);
@@ -142,9 +146,20 @@ const SeedSampleData: React.FC<SeedSampleDataProps> = ({
       });
     }
   };
+  
   if (inventoryCount > 0) {
     return null;
   }
-  return;
+  
+  return (
+    <Button
+      variant="outline"
+      onClick={seedSampleData}
+      className="gap-2"
+    >
+      Add Sample Data
+    </Button>
+  );
 };
+
 export default SeedSampleData;

@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import { AuthProvider } from "./context/AuthContext";
+import { DevModeProvider } from "./context/DevModeContext";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import MainLayout from "./components/layout/MainLayout";
 import AuthLayout from "./components/layout/AuthLayout";
@@ -46,42 +47,44 @@ const App = () => {
         <Sonner />
         <BrowserRouter>
           <AuthProvider>
-            <Routes>
-              {/* Public landing page route - not subject to any auth checks */}
-              <Route path="/" element={<Index />} />
+            <DevModeProvider>
+              <Routes>
+                {/* Public landing page route - not subject to any auth checks */}
+                <Route path="/" element={<Index />} />
 
-              {/* Auth routes - unprotected */}
-              <Route element={<ProtectedRoute requireAuth={false} />}>
-                <Route path="/auth" element={<AuthLayout />}>
-                  <Route path="signin" element={<SignInPage />} />
-                  <Route path="signup" element={<SignUpPage />} />
-                  <Route path="verify" element={<VerifyPage />} />
+                {/* Auth routes - unprotected */}
+                <Route element={<ProtectedRoute requireAuth={false} />}>
+                  <Route path="/auth" element={<AuthLayout />}>
+                    <Route path="signin" element={<SignInPage />} />
+                    <Route path="signup" element={<SignUpPage />} />
+                    <Route path="verify" element={<VerifyPage />} />
+                  </Route>
                 </Route>
-              </Route>
 
-              {/* Protected routes - require authentication */}
-              <Route element={<ProtectedRoute requireAuth={true} />}>
-                <Route element={<MainLayout />}>
-                  <Route path="/dashboard" element={<Dashboard />} />
-                  <Route path="subscription" element={<SubscriptionPage />} />
-                  <Route path="jobs" element={<Jobs />} />
-                  <Route path="workflows" element={<Workflows />} />
-                  <Route path="materials" element={<Materials />} />
-                  <Route path="inventory" element={<Inventory />} />
-                  <Route path="quality" element={<Quality />} />
-                  <Route path="compliance" element={<Compliance />} />
-                  <Route path="schedule" element={<Schedule />} />
-                  <Route path="resources" element={<Resources />} />
-                  <Route path="reports" element={<Reports />} />
-                  <Route path="users" element={<Users />} />
-                  <Route path="settings" element={<Settings />} />
-                  <Route path="custom-creations" element={<CustomCreations />} />
-                  <Route path="/daily-tasks" element={<DailyTasks />} />
+                {/* Protected routes - require authentication */}
+                <Route element={<ProtectedRoute requireAuth={true} />}>
+                  <Route element={<MainLayout />}>
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="subscription" element={<SubscriptionPage />} />
+                    <Route path="jobs" element={<Jobs />} />
+                    <Route path="workflows" element={<Workflows />} />
+                    <Route path="materials" element={<Materials />} />
+                    <Route path="inventory" element={<Inventory />} />
+                    <Route path="quality" element={<Quality />} />
+                    <Route path="compliance" element={<Compliance />} />
+                    <Route path="schedule" element={<Schedule />} />
+                    <Route path="resources" element={<Resources />} />
+                    <Route path="reports" element={<Reports />} />
+                    <Route path="users" element={<Users />} />
+                    <Route path="settings" element={<Settings />} />
+                    <Route path="custom-creations" element={<CustomCreations />} />
+                    <Route path="/daily-tasks" element={<DailyTasks />} />
+                  </Route>
                 </Route>
-              </Route>
 
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </DevModeProvider>
           </AuthProvider>
         </BrowserRouter>
       </TooltipProvider>

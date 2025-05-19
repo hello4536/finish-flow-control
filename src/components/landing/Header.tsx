@@ -2,6 +2,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import DevModeToggle from "./DevModeToggle";
 
 const Header = () => {
   return (
@@ -25,6 +26,7 @@ const Header = () => {
           </Link>
         </nav>
         <div className="flex items-center gap-4">
+          <DevModeToggle />
           <Link to="/auth/signin" className="text-sm font-medium text-primary/80 hover:text-primary transition-colors hidden sm:block">
             Sign In
           </Link>
