@@ -9,73 +9,39 @@ export const useHazardousWaste = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  // Fetch hazardous waste data
+  // Fetch hazardous waste data from the database
   const { data: hazardousWaste = [], isLoading: isHazardousWasteLoading } = useQuery({
     queryKey: ['hazardousWaste'],
     queryFn: async () => {
-      // Mock data for now - will be replaced with real database calls when table is created
-      return [
-        {
-          id: '1',
-          waste_id: 'HW-001',
-          material: 'Paint Thinner',
-          quantity: 5,
-          unit: 'gallons',
-          disposal_date: '2025-06-15',
-          disposal_method: 'Licensed Contractor',
-          handler: 'EcoWaste Solutions',
-          status: 'Pending',
-          manifest_number: 'MN-12345',
-          notes: 'Scheduled for monthly pickup',
-          created_at: '2025-05-01T10:00:00Z',
-          updated_at: '2025-05-01T10:00:00Z'
-        },
-        {
-          id: '2',
-          waste_id: 'HW-002',
-          material: 'Used Solvents',
-          quantity: 10,
-          unit: 'liters',
-          disposal_date: '2025-05-30',
-          disposal_method: 'On-site Treatment',
-          handler: 'Internal',
-          status: 'In Progress',
-          manifest_number: null,
-          notes: 'Neutralization in process',
-          created_at: '2025-04-20T14:30:00Z',
-          updated_at: '2025-04-20T14:30:00Z'
-        },
-        {
-          id: '3',
-          waste_id: 'HW-003',
-          material: 'Spray Booth Filters',
-          quantity: 20,
-          unit: 'kg',
-          disposal_date: '2025-05-10',
-          disposal_method: 'Industrial Waste Facility',
-          handler: 'City Disposal',
-          status: 'Disposed',
-          manifest_number: 'MN-67890',
-          notes: null,
-          created_at: '2025-04-10T09:15:00Z',
-          updated_at: '2025-05-10T16:45:00Z'
-        }
-      ] as HazardousWaste[];
+      const { data, error } = await supabase
+        .from('hazardous_waste')
+        .select('*')
+        .order('disposal_date', { ascending: false });
+
+      if (error) {
+        toast({
+          title: 'Error fetching hazardous waste data',
+          description: error.message,
+          variant: 'destructive',
+        });
+        throw error;
+      }
+      
+      return data as HazardousWaste[];
     },
   });
 
-  // Add hazardous waste mutation (mock for now)
+  // Add hazardous waste mutation
   const addHazardousWaste = useMutation({
     mutationFn: async (waste: Omit<HazardousWaste, 'id' | 'created_at' | 'updated_at'>) => {
-      // This would be replaced with actual database calls
-      const mockWaste = {
-        ...waste,
-        id: Math.random().toString(36).substring(2, 9),
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      };
+      const { data, error } = await supabase
+        .from('hazardous_waste')
+        .insert(waste)
+        .select()
+        .single();
       
-      return mockWaste;
+      if (error) throw error;
+      return data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['hazardousWaste'] });
@@ -93,11 +59,18 @@ export const useHazardousWaste = () => {
     }
   });
 
-  // Update hazardous waste mutation (mock)
+  // Update hazardous waste mutation
   const updateHazardousWaste = useMutation({
     mutationFn: async ({ id, ...waste }: { id: string } & Partial<HazardousWaste>) => {
-      // Would be replaced with actual database calls
-      return { id, ...waste };
+      const { data, error } = await supabase
+        .from('hazardous_waste')
+        .update(waste)
+        .eq('id', id)
+        .select()
+        .single();
+      
+      if (error) throw error;
+      return data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['hazardousWaste'] });
@@ -115,10 +88,15 @@ export const useHazardousWaste = () => {
     }
   });
 
-  // Delete hazardous waste mutation (mock)
+  // Delete hazardous waste mutation
   const deleteHazardousWaste = useMutation({
     mutationFn: async (id: string) => {
-      // Would be replaced with actual database calls
+      const { error } = await supabase
+        .from('hazardous_waste')
+        .delete()
+        .eq('id', id);
+      
+      if (error) throw error;
       return id;
     },
     onSuccess: () => {

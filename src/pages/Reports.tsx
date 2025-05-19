@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -6,9 +5,12 @@ import { ProductionChart } from "@/components/reports/ProductionChart";
 import { QualityMetrics } from "@/components/reports/QualityMetrics";
 import { MaterialUsageReport } from "@/components/reports/MaterialUsageReport";
 import { EfficiencyReport } from "@/components/reports/EfficiencyReport";
+import { ComplianceReport } from "@/components/reports/ComplianceReport";
 import { useReportsData, DateRange } from "@/hooks/useReportsData";
+import { useHazardousWaste } from "@/hooks/useHazardousWaste";
+import { usePPERequirements } from "@/hooks/usePPERequirements";
 import { Button } from "@/components/ui/button";
-import { DatabaseZap } from "lucide-react";
+import { AlertTriangle, DatabaseZap } from "lucide-react";
 
 const Reports = () => {
   const [dateRange, setDateRange] = useState<DateRange>("month");
@@ -24,13 +26,34 @@ const Reports = () => {
     seedSampleData
   } = useReportsData(dateRange);
 
+  const { 
+    hazardousWaste, 
+    isHazardousWasteLoading 
+  } = useHazardousWaste();
+
+  const { 
+    ppeRequirements, 
+    isPPERequirementsLoading 
+  } = usePPERequirements();
+  
+  // Calculate compliance alerts
+  const expiringCertifications = ppeRequirements.filter(
+    ppe => new Date(ppe.next_inspection) <= new Date(new Date().setDate(new Date().getDate() + 30))
+  ).length;
+  
+  const pendingWaste = hazardousWaste.filter(
+    waste => waste.status === 'Pending'
+  ).length;
+  
+  const complianceAlerts = expiringCertifications + pendingWaste;
+
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
         <div className="flex flex-col gap-2">
           <h1 className="text-3xl font-bold tracking-tight">Reports Dashboard</h1>
           <p className="text-muted-foreground">
-            Analyze production metrics, material usage, quality control, and efficiency.
+            Analyze production metrics, material usage, quality control, efficiency, and compliance.
           </p>
         </div>
         
@@ -46,6 +69,14 @@ const Reports = () => {
           <TabsTrigger value="production">Production</TabsTrigger>
           <TabsTrigger value="quality">Quality</TabsTrigger>
           <TabsTrigger value="efficiency">Efficiency</TabsTrigger>
+          <TabsTrigger value="compliance" className="relative">
+            Compliance
+            {complianceAlerts > 0 && (
+              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] text-white">
+                {complianceAlerts}
+              </span>
+            )}
+          </TabsTrigger>
         </TabsList>
         
         <div className="flex justify-end mb-4">
@@ -167,6 +198,24 @@ const Reports = () => {
                 data={efficiencyData}
                 kpiData={efficiencyKPIs}
                 isLoading={isLoading} 
+              />
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        <TabsContent value="compliance" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Compliance Analysis</CardTitle>
+              <CardDescription>PPE requirements and hazardous waste management</CardDescription>
+            </CardHeader>
+            <CardContent className="pt-2">
+              <ComplianceReport 
+                dateRange={dateRange} 
+                detailed 
+                hazardousWaste={hazardousWaste}
+                ppeRequirements={ppeRequirements}
+                isLoading={isHazardousWasteLoading || isPPERequirementsLoading} 
               />
             </CardContent>
           </Card>

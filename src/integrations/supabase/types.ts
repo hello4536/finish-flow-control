@@ -204,6 +204,54 @@ export type Database = {
         }
         Relationships: []
       }
+      hazardous_waste: {
+        Row: {
+          created_at: string
+          disposal_date: string
+          disposal_method: string
+          handler: string
+          id: string
+          manifest_number: string | null
+          material: string
+          notes: string | null
+          quantity: number
+          status: string
+          unit: string
+          updated_at: string
+          waste_id: string
+        }
+        Insert: {
+          created_at?: string
+          disposal_date: string
+          disposal_method: string
+          handler: string
+          id?: string
+          manifest_number?: string | null
+          material: string
+          notes?: string | null
+          quantity: number
+          status: string
+          unit: string
+          updated_at?: string
+          waste_id: string
+        }
+        Update: {
+          created_at?: string
+          disposal_date?: string
+          disposal_method?: string
+          handler?: string
+          id?: string
+          manifest_number?: string | null
+          material?: string
+          notes?: string | null
+          quantity?: number
+          status?: string
+          unit?: string
+          updated_at?: string
+          waste_id?: string
+        }
+        Relationships: []
+      }
       inventory_items: {
         Row: {
           allocated: number
@@ -498,6 +546,51 @@ export type Database = {
           id?: string
           name?: string
           notes?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      ppe_requirements: {
+        Row: {
+          created_at: string
+          department: string
+          equipment: string
+          id: string
+          last_inspection: string
+          next_inspection: string
+          notes: string | null
+          required_by: string
+          requirement_id: string
+          standard: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          department: string
+          equipment: string
+          id?: string
+          last_inspection: string
+          next_inspection: string
+          notes?: string | null
+          required_by: string
+          requirement_id: string
+          standard: string
+          status: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          department?: string
+          equipment?: string
+          id?: string
+          last_inspection?: string
+          next_inspection?: string
+          notes?: string | null
+          required_by?: string
+          requirement_id?: string
+          standard?: string
+          status?: string
           updated_at?: string
         }
         Relationships: []

@@ -13,66 +13,35 @@ export const usePPERequirements = () => {
   const { data: ppeRequirements = [], isLoading: isPPERequirementsLoading } = useQuery({
     queryKey: ['ppeRequirements'],
     queryFn: async () => {
-      // Mock data for now - will be replaced with real database calls when table is created
-      return [
-        {
-          id: '1',
-          requirement_id: 'PPE-001',
-          department: 'Production',
-          equipment: 'Safety Glasses',
-          standard: 'ANSI Z87.1',
-          required_by: 'OSHA',
-          last_inspection: '2025-04-01',
-          next_inspection: '2025-07-01',
-          status: 'Compliant',
-          notes: 'All employees provided with approved eyewear',
-          created_at: '2025-01-15T08:30:00Z',
-          updated_at: '2025-04-01T14:20:00Z'
-        },
-        {
-          id: '2',
-          requirement_id: 'PPE-002',
-          department: 'Finishing',
-          equipment: 'Respirators',
-          standard: 'N95',
-          required_by: 'EPA',
-          last_inspection: '2025-03-15',
-          next_inspection: '2025-06-15',
-          status: 'Non-Compliant',
-          notes: 'Need to replace 5 expired filters',
-          created_at: '2025-01-15T09:00:00Z',
-          updated_at: '2025-03-15T11:45:00Z'
-        },
-        {
-          id: '3',
-          requirement_id: 'PPE-003',
-          department: 'All',
-          equipment: 'Hearing Protection',
-          standard: 'ANSI S3.19',
-          required_by: 'OSHA',
-          last_inspection: '2025-05-01',
-          next_inspection: '2025-08-01',
-          status: 'Pending Review',
-          notes: 'Annual testing scheduled for next week',
-          created_at: '2025-01-15T09:30:00Z',
-          updated_at: '2025-05-01T10:15:00Z'
-        }
-      ] as PPERequirement[];
+      const { data, error } = await supabase
+        .from('ppe_requirements')
+        .select('*')
+        .order('next_inspection', { ascending: true });
+
+      if (error) {
+        toast({
+          title: 'Error fetching PPE requirements data',
+          description: error.message,
+          variant: 'destructive',
+        });
+        throw error;
+      }
+      
+      return data as PPERequirement[];
     },
   });
 
-  // Add PPE requirement mutation (mock for now)
+  // Add PPE requirement mutation
   const addPPERequirement = useMutation({
     mutationFn: async (requirement: Omit<PPERequirement, 'id' | 'created_at' | 'updated_at'>) => {
-      // This would be replaced with actual database calls
-      const mockRequirement = {
-        ...requirement,
-        id: Math.random().toString(36).substring(2, 9),
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      };
+      const { data, error } = await supabase
+        .from('ppe_requirements')
+        .insert(requirement)
+        .select()
+        .single();
       
-      return mockRequirement;
+      if (error) throw error;
+      return data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['ppeRequirements'] });
@@ -90,11 +59,18 @@ export const usePPERequirements = () => {
     }
   });
 
-  // Update PPE requirement mutation (mock)
+  // Update PPE requirement mutation
   const updatePPERequirement = useMutation({
     mutationFn: async ({ id, ...requirement }: { id: string } & Partial<PPERequirement>) => {
-      // Would be replaced with actual database calls
-      return { id, ...requirement };
+      const { data, error } = await supabase
+        .from('ppe_requirements')
+        .update(requirement)
+        .eq('id', id)
+        .select()
+        .single();
+      
+      if (error) throw error;
+      return data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['ppeRequirements'] });
@@ -112,10 +88,15 @@ export const usePPERequirements = () => {
     }
   });
 
-  // Delete PPE requirement mutation (mock)
+  // Delete PPE requirement mutation
   const deletePPERequirement = useMutation({
     mutationFn: async (id: string) => {
-      // Would be replaced with actual database calls
+      const { error } = await supabase
+        .from('ppe_requirements')
+        .delete()
+        .eq('id', id);
+      
+      if (error) throw error;
       return id;
     },
     onSuccess: () => {
