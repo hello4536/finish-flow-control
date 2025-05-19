@@ -30,7 +30,13 @@ const BookmarkForm: React.FC = () => {
 
   // Add a new bookmark
   const onSubmit = (values: BookmarkFormValues) => {
-    addBookmark.mutate(values);
+    // Pass all required fields explicitly to match the expected parameter type
+    addBookmark.mutate({
+      title: values.title,
+      url: values.url,
+      category: values.category,
+      notes: values.notes
+    });
     form.reset();
   };
 

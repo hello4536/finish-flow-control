@@ -54,7 +54,18 @@ const RecipeForm: React.FC = () => {
 
   // Add a new recipe
   const onSubmit = (values: RecipeFormValues) => {
-    addRecipe.mutate(values);
+    // Map the form values to match the expected API format
+    addRecipe.mutate({
+      name: values.name,
+      materials: values.ingredients.map(ingredient => ({
+        id: crypto.randomUUID(),
+        name: ingredient.name,
+        quantity: ingredient.amount,
+        unit: ingredient.unit
+      })),
+      instructions: values.instructions,
+      isSop: values.isFavorite
+    });
     form.reset();
     setIngredients([{ name: "", amount: "", unit: "" }]);
   };
