@@ -1,76 +1,160 @@
-import React from "react";
-import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Bell, Search, Settings, User } from "lucide-react";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-const Header: React.FC = () => {
-  return <header className="flex h-16 items-center border-b px-4 py-0 my-0 bg-sky-50">
-      <SidebarTrigger className="mr-4 text-primary" />
-      
-      <div className="flex items-center space-x-4 lg:space-x-6">
-        <h1 className="hidden text-xl font-bold md:block">Finish<span className="text-accent">Flow</span></h1>
-      </div>
-      
-      <div className="ml-auto flex items-center space-x-4">
-        <div className="relative hidden md:block">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input type="search" placeholder="Search..." className="w-[200px] lg:w-[300px] pl-8 rounded-sm" />
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { useAuth } from "@/context/AuthContext";
+import { 
+  User, 
+  Settings, 
+  LogOut, 
+  Bell, 
+  CreditCard,
+  Users as UsersIcon,
+} from "lucide-react";
+
+const Header = () => {
+  const { user, profile, userRole, organization, signOut } = useAuth();
+  const [showSignOutAlert, setShowSignOutAlert] = useState(false);
+  
+  // Get user initials for avatar
+  const getInitials = () => {
+    if (!profile?.full_name) return "U";
+    
+    const names = profile.full_name.split(" ");
+    if (names.length >= 2) {
+      return `${names[0][0]}${names[names.length - 1][0]}`;
+    }
+    return profile.full_name.substring(0, 2).toUpperCase();
+  };
+
+  return (
+    <header className="sticky top-0 z-40 border-b bg-background">
+      <div className="container flex h-16 items-center justify-between py-4">
+        <div></div>
+        
+        <div className="flex items-center gap-2">
+          {organization?.subscription_status === "inactive" && userRole?.role === "admin" && (
+            <Button size="sm" variant="default" className="mr-2" asChild>
+              <Link to="/subscription">Activate Subscription</Link>
+            </Button>
+          )}
+
+          <DropdownMenu>
+            <DropdownMenuTrigger className="focus-visible:outline-none" asChild>
+              <Button variant="ghost" size="icon">
+                <Bell className="h-5 w-5" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-72">
+              <DropdownMenuLabel>Notifications</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <div className="py-4 text-center text-sm text-muted-foreground">
+                No new notifications
+              </div>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          
+          <DropdownMenu>
+            <DropdownMenuTrigger className="focus-visible:outline-none">
+              <Avatar className="h-8 w-8">
+                <AvatarFallback className="bg-primary text-white">
+                  {getInitials()}
+                </AvatarFallback>
+              </Avatar>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuItem disabled className="opacity-70">
+                <User className="mr-2 h-4 w-4" />
+                <span>{profile?.full_name || user?.email}</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem disabled className="opacity-70 text-xs">
+                {userRole?.role === "admin" ? "Administrator" : "Employee"}
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              
+              {userRole?.role === "admin" && (
+                <>
+                  <DropdownMenuItem asChild>
+                    <Link to="/subscription">
+                      <CreditCard className="mr-2 h-4 w-4" />
+                      <span>Subscription</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  
+                  <DropdownMenuItem asChild>
+                    <Link to="/users">
+                      <UsersIcon className="mr-2 h-4 w-4" />
+                      <span>Team Members</span>
+                    </Link>
+                  </DropdownMenuItem>
+                </>
+              )}
+              
+              <DropdownMenuItem asChild>
+                <Link to="/settings">
+                  <Settings className="mr-2 h-4 w-4" />
+                  <span>Settings</span>
+                </Link>
+              </DropdownMenuItem>
+              
+              <DropdownMenuSeparator />
+              
+              <DropdownMenuItem 
+                onClick={() => setShowSignOutAlert(true)}
+                className="text-destructive focus:text-destructive"
+              >
+                <LogOut className="mr-2 h-4 w-4" />
+                <span>Sign Out</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
-
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="relative">
-              <Bell className="h-5 w-5 text-primary" />
-              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[10px] text-accent-foreground">
-                3
-              </span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-80">
-            <DropdownMenuLabel>Notifications</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <div className="max-h-80 overflow-auto">
-              <DropdownMenuItem className="flex flex-col items-start p-3">
-                <div className="font-medium">Low Stock Alert</div>
-                <div className="text-sm text-muted-foreground">Sherwin-Williams Wood Stain (Dark Walnut) is below minimum threshold</div>
-                <div className="text-xs text-muted-foreground mt-1">2 hours ago</div>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="flex flex-col items-start p-3">
-                <div className="font-medium">Job Completed</div>
-                <div className="text-sm text-muted-foreground">Custom Dining Table - Sand & Stain job has been completed</div>
-                <div className="text-xs text-muted-foreground mt-1">5 hours ago</div>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="flex flex-col items-start p-3">
-                <div className="font-medium">Quality Control Required</div>
-                <div className="text-sm text-muted-foreground">Cabinet Doors - QC check needed before proceeding to sealing</div>
-                <div className="text-xs text-muted-foreground mt-1">Yesterday</div>
-              </DropdownMenuItem>
-            </div>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="justify-center text-center">View all notifications</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon">
-              <User className="h-5 w-5 text-primary" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>Preferences</DropdownMenuItem>
-            <DropdownMenuItem className="flex items-center gap-2">
-              <Settings className="h-4 w-4" /> Settings
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Log out</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
       </div>
-    </header>;
+
+      {/* Sign Out Confirmation Dialog */}
+      <AlertDialog open={showSignOutAlert} onOpenChange={setShowSignOutAlert}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Sign Out</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to sign out of your account?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={() => {
+                signOut();
+                setShowSignOutAlert(false);
+              }}
+            >
+              Sign Out
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </header>
+  );
 };
+
 export default Header;

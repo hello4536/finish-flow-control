@@ -396,6 +396,47 @@ export type Database = {
           },
         ]
       }
+      invitations: {
+        Row: {
+          accepted: boolean | null
+          created_at: string
+          email: string
+          expires_at: string
+          id: string
+          organization_id: string
+          role: Database["public"]["Enums"]["app_role"]
+          token: string
+        }
+        Insert: {
+          accepted?: boolean | null
+          created_at?: string
+          email: string
+          expires_at: string
+          id?: string
+          organization_id: string
+          role?: Database["public"]["Enums"]["app_role"]
+          token: string
+        }
+        Update: {
+          accepted?: boolean | null
+          created_at?: string
+          email?: string
+          expires_at?: string
+          id?: string
+          organization_id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          token?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invitations_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       jobs: {
         Row: {
           assigned_to: string | null
@@ -679,6 +720,76 @@ export type Database = {
         }
         Relationships: []
       }
+      org_members: {
+        Row: {
+          created_at: string
+          id: string
+          organization_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          organization_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          organization_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "org_members_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      organizations: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          stripe_customer_id: string | null
+          subscription_end_date: string | null
+          subscription_status: string | null
+          subscription_tier: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          stripe_customer_id?: string | null
+          subscription_end_date?: string | null
+          subscription_status?: string | null
+          subscription_tier?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          stripe_customer_id?: string | null
+          subscription_end_date?: string | null
+          subscription_status?: string | null
+          subscription_tier?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organizations_subscription_tier_fkey"
+            columns: ["subscription_tier"]
+            isOneToOne: false
+            referencedRelation: "subscription_tiers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       paint_colors: {
         Row: {
           created_at: string
@@ -780,6 +891,30 @@ export type Database = {
           id?: string
           in_progress?: number | null
           planned?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          full_name: string | null
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          full_name?: string | null
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
           updated_at?: string
         }
         Relationships: []
@@ -1227,6 +1362,39 @@ export type Database = {
         }
         Relationships: []
       }
+      subscription_tiers: {
+        Row: {
+          created_at: string
+          description: string
+          features: Json
+          id: string
+          name: string
+          price: number
+          stripe_price_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          features?: Json
+          id?: string
+          name: string
+          price: number
+          stripe_price_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          features?: Json
+          id?: string
+          name?: string
+          price?: number
+          stripe_price_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       suppliers: {
         Row: {
           contact: string
@@ -1251,6 +1419,27 @@ export type Database = {
           name?: string
           phone?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
         }
         Relationships: []
       }
@@ -1345,10 +1534,24 @@ export type Database = {
       }
     }
     Functions: {
-      [_ in never]: never
+      get_current_user_role: {
+        Args: Record<PropertyKey, never>
+        Returns: Database["public"]["Enums"]["app_role"]
+      }
+      get_user_organization: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
+      has_role: {
+        Args: {
+          user_id: string
+          role_name: Database["public"]["Enums"]["app_role"]
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "employee"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1463,6 +1666,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "employee"],
+    },
   },
 } as const
