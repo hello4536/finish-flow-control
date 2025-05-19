@@ -1,9 +1,9 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight } from "lucide-react";
+
 const HeroSection = () => {
   return <section className="py-20 md:py-28 overflow-hidden">
       <div className="container px-4 md:px-6 relative">
@@ -15,7 +15,7 @@ const HeroSection = () => {
             Streamline Your Finishing Operations
           </Badge>
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-            Manage Your Finishing Department <span className="text-primary">Effortlessly</span>
+            The Ultimate Finishing <span className="text-primary">Command Center</span>
           </h1>
           <p className="mx-auto max-w-[700px] text-muted-foreground text-lg md:text-xl">
             Comprehensive tools for workflows, materials, inventory, compliance, and more — all in one platform designed for finishing professionals.
