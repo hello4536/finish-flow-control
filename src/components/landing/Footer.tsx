@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 const Footer = () => {
@@ -21,19 +22,19 @@ const Footer = () => {
             <div>
               <h3 className="font-semibold mb-3 text-orange-500">Product</h3>
               <ul className="space-y-2">
-                <li><Link to="#features" className="text-sm text-muted-foreground hover:text-primary">Features</Link></li>
-                <li><Link to="#pricing" className="text-sm text-muted-foreground hover:text-primary">Pricing</Link></li>
-                <li><Link to="#" className="text-sm text-muted-foreground hover:text-primary">Testimonials</Link></li>
-                <li><Link to="#" className="text-sm text-muted-foreground hover:text-primary">FAQ</Link></li>
+                <li><Link to="#features" className="text-sm text-white hover:text-primary">Features</Link></li>
+                <li><Link to="#pricing" className="text-sm text-white hover:text-primary">Pricing</Link></li>
+                <li><Link to="#" className="text-sm text-white hover:text-primary">Testimonials</Link></li>
+                <li><Link to="#" className="text-sm text-white hover:text-primary">FAQ</Link></li>
               </ul>
             </div>
             <div>
               <h3 className="font-semibold mb-3 text-orange-500">Company</h3>
               <ul className="space-y-2">
-                <li><Link to="#" className="text-sm text-muted-foreground hover:text-primary">About</Link></li>
-                <li><Link to="#" className="text-sm text-muted-foreground hover:text-primary">Contact</Link></li>
-                <li><Link to="#" className="text-sm text-muted-foreground hover:text-primary">Privacy Policy</Link></li>
-                <li><Link to="#" className="text-sm text-muted-foreground hover:text-primary">Terms of Service</Link></li>
+                <li><Link to="#" className="text-sm text-white hover:text-primary">About</Link></li>
+                <li><Link to="#" className="text-sm text-white hover:text-primary">Contact</Link></li>
+                <li><Link to="#" className="text-sm text-white hover:text-primary">Privacy Policy</Link></li>
+                <li><Link to="#" className="text-sm text-white hover:text-primary">Terms of Service</Link></li>
               </ul>
             </div>
           </div>
