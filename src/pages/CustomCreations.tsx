@@ -7,10 +7,11 @@ import { Separator } from "@/components/ui/separator";
 import { toast } from "@/hooks/use-toast";
 
 // Import custom creation components
-import PaintColorsSection from "@/components/custom-creations/PaintColorsSection";
+import PaintColorsSection from "@/components/custom-creations/paint-colors/PaintColorsSection";
 import StainsSection from "@/components/custom-creations/StainsSection";
 import RecipesSection from "@/components/custom-creations/RecipesSection";
 import BookmarksSection from "@/components/custom-creations/BookmarksSection";
+
 const CustomCreations = () => {
   const [activeTab, setActiveTab] = useState("paint-colors");
 

@@ -1,10 +1,10 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { usePaintColors } from "@/hooks/usePaintColors";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import PaintColorForm from './paint-colors/PaintColorForm';
-import PaintColorsList from './paint-colors/PaintColorsList';
+import PaintColorForm from './PaintColorForm';
+import PaintColorsList from './PaintColorsList';
 
 interface PaintColorsSectionProps {
   onCountChange: (count: number) => void;
