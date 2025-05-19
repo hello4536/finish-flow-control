@@ -2,25 +2,15 @@
 import React from "react";
 import { Card } from "@/components/ui/card";
 import { Clock, AlertTriangle, CheckCircle, CalendarClock } from "lucide-react";
-import { useDevMode } from "@/context/DevModeContext";
+import { useJobsStatsData } from "../hooks/useJobsStatsData";
+import LoadingSpinner from "./LoadingSpinner";
 
 const JobsStats: React.FC = () => {
-  const { isDevMode } = useDevMode();
-  
-  // Mock data for dev mode display
-  const mockStats = {
-    inProgress: 3,
-    overdue: 1,
-    completed: 1,
-    upcoming: 2
-  };
-  
-  const stats = isDevMode ? mockStats : {
-    inProgress: 0,
-    overdue: 0,
-    completed: 0,
-    upcoming: 0
-  };
+  const { stats, isLoading } = useJobsStatsData();
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
