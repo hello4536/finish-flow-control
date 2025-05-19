@@ -15,19 +15,20 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/hooks/use-toast";
+import { StainComponent } from "@/hooks/useStains";
+
+const stainComponentSchema = z.object({
+  name: z.string().min(1, "Component name is required"),
+  quantity: z.string().min(1, "Quantity is required"),
+  unit: z.string().min(1, "Unit is required")
+});
 
 const stainSchema = z.object({
   name: z.string().min(1, "Name is required"),
   brand: z.string().min(1, "Brand is required"),
   color: z.string().min(1, "Color is required"),
   notes: z.string().optional(),
-  baseComponents: z.array(
-    z.object({
-      name: z.string().min(1, "Component name is required"),
-      quantity: z.string().min(1, "Quantity is required"),
-      unit: z.string().min(1, "Unit is required")
-    })
-  ).optional().default([]),
+  baseComponents: z.array(stainComponentSchema).optional().default([]),
   mixingInstructions: z.string().optional(),
   substrateCompatibility: z.array(z.string()).min(1, "Select at least one compatible substrate").optional(),
   applicationMethod: z.string().min(1, "Application method is required"),
@@ -45,11 +46,7 @@ interface StainFormProps {
     brand: string;
     color: string;
     notes?: string;
-    baseComponents?: Array<{
-      name: string;
-      quantity: string;
-      unit: string;
-    }>;
+    baseComponents?: StainComponent[];
     mixingInstructions?: string;
     substrateCompatibility?: string[];
     applicationMethod?: string;
@@ -131,6 +128,11 @@ const StainForm: React.FC<StainFormProps> = ({ addStain }) => {
 
   // Add a new stain
   const onSubmit = (values: StainFormValues) => {
+    // Validate baseComponents to ensure all required fields are filled
+    const validComponents = (values.baseComponents || []).filter(
+      component => component.name && component.quantity && component.unit
+    );
+
     // Add timestamp and user info
     const enhancedValues = {
       ...values,
@@ -140,7 +142,9 @@ const StainForm: React.FC<StainFormProps> = ({ addStain }) => {
       name: values.name,
       brand: values.brand,
       color: values.color,
-      substrateCompatibility: selectedSubstrates
+      // Use only valid components
+      baseComponents: validComponents.length > 0 ? validComponents : undefined,
+      substrateCompatibility: selectedSubstrates.length > 0 ? selectedSubstrates : undefined
     };
     
     addStain.mutate(enhancedValues);

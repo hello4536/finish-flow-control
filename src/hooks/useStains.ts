@@ -47,8 +47,13 @@ export const useStains = () => {
     return data?.map(item => ({
       ...item,
       createdAt: item.created_at,
-      baseComponents: item.baseComponents || [],
-      substrateCompatibility: item.substrateCompatibility || []
+      // Handle potential JSON fields that might be stored as strings
+      baseComponents: item.baseComponents ? 
+        (typeof item.baseComponents === 'string' ? 
+          JSON.parse(item.baseComponents) : item.baseComponents) : [],
+      substrateCompatibility: item.substrateCompatibility ? 
+        (typeof item.substrateCompatibility === 'string' ? 
+          JSON.parse(item.substrateCompatibility) : item.substrateCompatibility) : []
     })) || [];
   };
   
