@@ -18,8 +18,8 @@ const FeaturesSection = () => {
             <div className="h-12 w-12 rounded-full flex items-center justify-center mb-4 bg-orange-500">
               <Calendar className="h-6 w-6 text-white" />
             </div>
-            <h3 className="text-xl font-bold mb-2 text-blue-950 text-center">Job & Task Management</h3>
-            <p className="text-center text-orange-500">
+            <h3 className="text-xl font-bold mb-2 text-center text-orange-500">Job & Task Management</h3>
+            <p className="text-center text-orange-400">
               Schedule, assign and track all finishing tasks with ease. Keep workflows organized and meet deadlines consistently.
             </p>
             <div className="mt-4 pt-4 border-t border-primary/10">
@@ -32,8 +32,8 @@ const FeaturesSection = () => {
             <div className="h-12 w-12 rounded-full flex items-center justify-center mb-4 bg-blue-200">
               <PackageOpen className="h-6 w-6 text-primary" />
             </div>
-            <h3 className="text-xl font-bold mb-2 text-primary text-center">Inventory Tracking</h3>
-            <p className="text-center text-blue-900">Monitor stock levels, track material usage, and manage your warehouse with powerful tools.</p>
+            <h3 className="text-xl font-bold mb-2 text-center text-blue-900">Inventory Tracking</h3>
+            <p className="text-center text-blue-800">Monitor stock levels, track material usage, and manage your warehouse with powerful tools.</p>
             <div className="mt-4 pt-4 border-t border-primary/10">
               <img alt="Inventory Dashboard" className="w-full rounded-lg shadow-sm" src="/lovable-uploads/ee00c8a0-3a78-4c4b-8ec8-bdadea248b70.png" />
             </div>
@@ -44,8 +44,8 @@ const FeaturesSection = () => {
             <div className="h-12 w-12 rounded-full flex items-center justify-center mb-4 bg-orange-500">
               <Shield className="h-6 w-6 text-white" />
             </div>
-            <h3 className="text-xl font-bold mb-2 text-primary text-center">Compliance Management</h3>
-            <p className="text-muted-foreground text-center">
+            <h3 className="text-xl font-bold mb-2 text-center text-orange-500">Compliance Management</h3>
+            <p className="text-center text-orange-400">
               Stay compliant with certifications, PPE requirements, and hazardous waste tracking tools.
             </p>
             <div className="mt-4 pt-4 border-t border-primary/10">
@@ -58,8 +58,8 @@ const FeaturesSection = () => {
             <div className="h-12 w-12 rounded-full flex items-center justify-center mb-4 bg-blue-200">
               <PaintBucket className="h-6 w-6 text-primary" />
             </div>
-            <h3 className="text-xl font-bold mb-2 text-primary text-center">Custom Creations</h3>
-            <p className="text-muted-foreground text-center">
+            <h3 className="text-xl font-bold mb-2 text-center text-blue-900">Custom Creations</h3>
+            <p className="text-center text-blue-800">
               Create and manage custom paint colors, stains, and finishing recipes all in one place.
             </p>
             <div className="mt-4 pt-4 border-t border-primary/10">
@@ -72,8 +72,8 @@ const FeaturesSection = () => {
             <div className="h-12 w-12 rounded-full flex items-center justify-center mb-4 bg-orange-500">
               <Sparkles className="h-6 w-6 text-white" />
             </div>
-            <h3 className="text-xl font-bold mb-2 text-primary text-center">Quality Control</h3>
-            <p className="text-center text-orange-500">
+            <h3 className="text-xl font-bold mb-2 text-center text-orange-500">Quality Control</h3>
+            <p className="text-center text-orange-400">
               Track inspections, manage quality issues, and maintain high standards with built-in quality management tools.
             </p>
             <div className="mt-4 pt-4 border-t border-primary/10">
@@ -86,8 +86,8 @@ const FeaturesSection = () => {
             <div className="h-12 w-12 rounded-full flex items-center justify-center mb-4 bg-blue-200">
               <Users className="h-6 w-6 text-blue-950" />
             </div>
-            <h3 className="text-xl font-bold mb-2 text-primary text-center">Workflows</h3>
-            <p className="text-muted-foreground text-center">Keep track of your workflows step-by-step for each job and unique process.</p>
+            <h3 className="text-xl font-bold mb-2 text-center text-blue-900">Workflows</h3>
+            <p className="text-center text-blue-800">Keep track of your workflows step-by-step for each job and unique process.</p>
             <div className="mt-4 pt-4 border-t border-primary/10">
               <img alt="Team Management Dashboard" className="w-full rounded-lg shadow-sm" src="/lovable-uploads/5d9c1534-dcb3-4c4c-954a-ab158f65466c.png" />
             </div>
