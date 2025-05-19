@@ -12,10 +12,10 @@ const Header: React.FC = () => {
     await signOut();
     navigate("/");
   };
-  return <header className="bg-white border-b sticky top-0 z-50">
+  return <header className="border-b sticky top-0 z-50 bg-blue-900">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <Link to="/" className="flex items-center">
-          <h1 className="text-2xl font-bold text-primary">
+          <h1 className="text-2xl font-bold text-slate-50">
             Fini<span className="text-accent">v</span>i
           </h1>
         </Link>
