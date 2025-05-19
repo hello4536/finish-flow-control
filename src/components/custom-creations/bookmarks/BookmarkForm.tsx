@@ -30,12 +30,12 @@ const BookmarkForm: React.FC = () => {
 
   // Add a new bookmark
   const onSubmit = (values: BookmarkFormValues) => {
-    // Pass all required fields explicitly to match the expected parameter type
+    // Pass only the parameters that are expected by the mutation function
     addBookmark.mutate({
       title: values.title,
       url: values.url,
-      category: values.category,
       notes: values.notes
+      // Removed category as it's not expected in the mutation function
     });
     form.reset();
   };

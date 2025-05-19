@@ -1,15 +1,15 @@
 
 import { RecipeFormValues } from "./schema";
 
-export const calculateTotalVolume = (materials: RecipeFormValues['materials']) => {
+export const calculateTotalVolume = (ingredients: RecipeFormValues['ingredients']) => {
   let total = 0;
   let commonUnit = '';
   
   // Find the most common unit
   const unitCounts: Record<string, number> = {};
-  materials.forEach(material => {
-    if (material.unit) {
-      unitCounts[material.unit] = (unitCounts[material.unit] || 0) + 1;
+  ingredients.forEach(ingredient => {
+    if (ingredient.unit) {
+      unitCounts[ingredient.unit] = (unitCounts[ingredient.unit] || 0) + 1;
     }
   });
   
@@ -22,9 +22,9 @@ export const calculateTotalVolume = (materials: RecipeFormValues['materials']) =
   });
   
   // Sum quantities with the same unit
-  materials.forEach(material => {
-    if (material.unit === commonUnit && material.quantity) {
-      const qty = parseFloat(material.quantity);
+  ingredients.forEach(ingredient => {
+    if (ingredient.unit === commonUnit && ingredient.amount) {
+      const qty = parseFloat(ingredient.amount);
       if (!isNaN(qty)) {
         total += qty;
       }
