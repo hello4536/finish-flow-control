@@ -40,12 +40,12 @@ export const fetchStains = async (): Promise<Stain[]> => {
         : item.substrateCompatibility;
     }
 
-    // Handle other optional fields
-    if ('mixingInstructions' in item) stain.mixingInstructions = item.mixingInstructions;
-    if ('applicationMethod' in item) stain.applicationMethod = item.applicationMethod;
-    if ('dryingTime' in item) stain.dryingTime = item.dryingTime;
-    if ('coatsRecommended' in item) stain.coatsRecommended = item.coatsRecommended;
-    if ('created_by' in item) stain.createdBy = item.created_by;
+    // Handle other optional fields with type assertions to ensure proper typing
+    if ('mixingInstructions' in item) stain.mixingInstructions = item.mixingInstructions as string;
+    if ('applicationMethod' in item) stain.applicationMethod = item.applicationMethod as string;
+    if ('dryingTime' in item) stain.dryingTime = item.dryingTime as string;
+    if ('coatsRecommended' in item) stain.coatsRecommended = item.coatsRecommended as string;
+    if ('created_by' in item) stain.createdBy = item.created_by as string;
 
     return stain as Stain;
   }) || [];
