@@ -1,3 +1,4 @@
+
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
@@ -90,7 +91,7 @@ export function AppSidebar() {
   const isMainExpanded = mainItems.some(i => isActive(i.url));
   const isAdminExpanded = adminItems.some(i => isActive(i.url));
 
-  // Updated function to generate NavLink classes with white background by default and orange for active items
+  // Updated function to generate NavLink classes with white background by default and blue-900 text
   const getNavCls = (item: {
     color: string;
   }) => {
@@ -99,10 +100,10 @@ export function AppSidebar() {
     }: {
       isActive: boolean;
     }) => {
-      // Base classes with white fill and navy text
-      const baseClasses = "flex items-center rounded-md transition-colors p-2 bg-white text-primary";
+      // Base classes with white fill and blue-900 text
+      const baseClasses = "flex items-center rounded-md transition-colors p-2 bg-white text-blue-900";
 
-      // Active state with orange background and navy text
+      // Active state with orange background and white text
       if (isActive) {
         return `${baseClasses} bg-orange-500 text-white font-medium shadow-md`;
       }
