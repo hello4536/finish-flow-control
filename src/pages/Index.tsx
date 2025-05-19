@@ -29,10 +29,10 @@ const Index = () => {
               <Link to="/dashboard">Go to Dashboard</Link>
             </Button> : <div className="space-x-4">
               <Button asChild size="lg">
-                <Link to="/auth/signin">Sign In</Link>
+                
               </Button>
               <Button asChild size="lg" variant="outline">
-                <Link to="/auth/signup">Sign Up</Link>
+                
               </Button>
             </div>}
         </div>
