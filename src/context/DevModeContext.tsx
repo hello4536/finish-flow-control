@@ -124,6 +124,17 @@ export function DevModeProvider({ children }: { children: ReactNode }) {
         await seedJobs();
       }
       
+      // Seed materials data
+      const { data: materials } = await supabase
+        .from('materials')
+        .select('*');
+        
+      if (!materials || materials.length === 0) {
+        // Import and seed materials data
+        const { seedMaterials } = await import('@/pages/materials/components/MaterialsSeeder');
+        await seedMaterials();
+      }
+      
       // Seed quality data
       const { data: qualityInspections } = await supabase
         .from('quality_inspections')

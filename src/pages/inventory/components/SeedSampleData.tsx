@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { mockInventoryItems, mockWarehouses } from "../data/mockData";
+import { Database } from "lucide-react";
 
 interface SeedSampleDataProps {
   onSuccess: () => void;
@@ -98,6 +99,10 @@ const SeedSampleData: React.FC<SeedSampleDataProps> = ({
         sds_link: "https://example.com/sds/clearcoat"
       }];
 
+      // Clear existing data
+      await supabase.from('inventory_items').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+      await supabase.from('warehouses').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+
       // Seed inventory items
       for (const item of [...mockInventoryItems, ...autoBodyItems]) {
         await supabase.from('inventory_items').insert({
@@ -157,6 +162,7 @@ const SeedSampleData: React.FC<SeedSampleDataProps> = ({
       onClick={seedSampleData}
       className="gap-2"
     >
+      <Database className="h-4 w-4" />
       Add Sample Data
     </Button>
   );
