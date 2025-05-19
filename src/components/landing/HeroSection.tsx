@@ -1,8 +1,10 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight } from "lucide-react";
+
 const HeroSection = () => {
   return <section className="py-20 md:py-28 overflow-hidden">
       <div className="container px-4 md:px-6 relative">
@@ -31,6 +33,13 @@ const HeroSection = () => {
                 See Features
               </Link>
             </Button>
+            
+            {/* This button is for development/preview purposes only */}
+            <Button asChild variant="outline" size="lg" className="h-12 px-6 rounded-full border-amber-500 text-amber-500 hover:bg-amber-500/10">
+              <Link to="/preview-dashboard">
+                Preview Dashboard
+              </Link>
+            </Button>
           </div>
         </div>
         
@@ -53,4 +62,5 @@ const HeroSection = () => {
       </div>
     </section>;
 };
+
 export default HeroSection;

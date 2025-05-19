@@ -31,6 +31,7 @@ import NotFound from "./pages/NotFound";
 import DailyTasks from "./pages/DailyTasks";
 import { initializeApp } from "./utils/initializeApp";
 import Index from "./pages/Index";
+import PreviewDashboard from "./pages/PreviewDashboard"; // We'll create this file
 
 const queryClient = new QueryClient();
 
@@ -51,6 +52,9 @@ const App = () => {
               <Routes>
                 {/* Public landing page route */}
                 <Route path="/" element={<Index />} />
+                
+                {/* Special preview route for screenshot purposes */}
+                <Route path="/preview-dashboard" element={<PreviewDashboard />} />
 
                 {/* Auth routes - unprotected */}
                 <Route element={<ProtectedRoute requireAuth={false} />}>
