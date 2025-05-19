@@ -60,6 +60,62 @@ export const useQualityData = () => {
     }
   });
 
+  // Update inspection mutation
+  const updateInspection = useMutation({
+    mutationFn: async ({ id, ...inspection }: { id: string } & Omit<QualityInspection, 'id' | 'created_at' | 'updated_at'>) => {
+      const { data, error } = await supabase
+        .from('quality_inspections')
+        .update(inspection)
+        .eq('id', id)
+        .select()
+        .single();
+      
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['qualityInspections'] });
+      toast({ 
+        title: 'Inspection updated',
+        description: 'Quality inspection has been updated successfully.'
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: 'Error updating inspection',
+        description: error.message,
+        variant: 'destructive',
+      });
+    }
+  });
+
+  // Delete inspection mutation
+  const deleteInspection = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase
+        .from('quality_inspections')
+        .delete()
+        .eq('id', id);
+      
+      if (error) throw error;
+      return id;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['qualityInspections'] });
+      toast({ 
+        title: 'Inspection deleted',
+        description: 'Quality inspection has been deleted successfully.'
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: 'Error deleting inspection',
+        description: error.message,
+        variant: 'destructive',
+      });
+    }
+  });
+
   // Update loading state when data is available
   useEffect(() => {
     if (inspections) {
@@ -140,6 +196,8 @@ export const useQualityData = () => {
     inspections,
     isLoading,
     addInspection,
+    updateInspection,
+    deleteInspection,
     seedSampleData
   };
 };
