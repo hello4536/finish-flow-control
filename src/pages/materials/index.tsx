@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { useMaterialsData } from "@/hooks/useMaterialsData";
 import MaterialsStats from "./components/MaterialsStats";
-import AddMaterialDialog from "./components/AddMaterialDialog";
+import AddMaterialDialog from "./components/AddMaterial";
 import { supabase } from "@/integrations/supabase/client";
 import MaterialsHeader from "./components/MaterialsHeader";
 import MaterialsContent from "./components/MaterialsContent";
