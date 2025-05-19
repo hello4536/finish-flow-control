@@ -10,9 +10,9 @@ import MainLayout from "@/components/layout/MainLayout";
 const PreviewDashboard: React.FC = () => {
   return (
     <div className="min-h-screen bg-background">
-      <MainLayout>
+      <div className="flex min-h-screen w-full flex-col">
         <Dashboard />
-      </MainLayout>
+      </div>
     </div>
   );
 };
