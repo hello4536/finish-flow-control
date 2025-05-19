@@ -13,6 +13,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
+import { useDevMode } from "@/context/DevModeContext";
 
 interface Job {
   id: string;
@@ -29,10 +30,101 @@ const JobsTable: React.FC = () => {
   const { toast } = useToast();
   const [jobs, setJobs] = useState<Job[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { isDevMode } = useDevMode();
+  
+  // Mock jobs data for dev mode
+  const mockJobs: Job[] = [
+    {
+      id: "1",
+      job_number: "AB-2023-001",
+      name: "Tesla Model 3 Front Bumper Repair",
+      current_step: "Base Coat Application",
+      trade: "Auto Body",
+      assigned_to: "David Chen",
+      due_date: "2025-05-22",
+      status: "in_progress"
+    },
+    {
+      id: "2",
+      job_number: "AB-2023-002",
+      name: "Ford F-150 Quarter Panel Respray",
+      current_step: "Color Sanding",
+      trade: "Auto Body",
+      assigned_to: "Sarah Miller",
+      due_date: "2025-05-23",
+      status: "in_progress"
+    },
+    {
+      id: "3",
+      job_number: "AB-2023-003",
+      name: "BMW X5 Door Dent Repair",
+      current_step: "Filler Application",
+      trade: "Auto Body",
+      assigned_to: "Michael Brown",
+      due_date: "2025-05-21",
+      status: "in_progress"
+    },
+    {
+      id: "4",
+      job_number: "AB-2023-004",
+      name: "Audi A4 Clear Coat Restoration",
+      current_step: "Complete",
+      trade: "Auto Body",
+      assigned_to: "Alex Johnson",
+      due_date: "2025-05-18",
+      status: "complete"
+    },
+    {
+      id: "5",
+      job_number: "AB-2023-005",
+      name: "Toyota Camry Rear Bumper Replacement",
+      current_step: "Prep Work",
+      trade: "Auto Body",
+      assigned_to: "Emma Wilson",
+      due_date: "2025-05-25",
+      status: "upcoming"
+    },
+    {
+      id: "6",
+      job_number: "AB-2023-006",
+      name: "Honda Civic Custom Paint Job",
+      current_step: "Client Approval",
+      trade: "Auto Body",
+      assigned_to: "David Chen",
+      due_date: "2025-05-24",
+      status: "on_hold"
+    },
+    {
+      id: "7",
+      job_number: "AB-2023-007",
+      name: "Mercedes C300 Headlight Restoration",
+      current_step: "Polishing",
+      trade: "Auto Body",
+      assigned_to: "Sarah Miller",
+      due_date: "2025-05-19",
+      status: "in_progress"
+    },
+    {
+      id: "8",
+      job_number: "AB-2023-008",
+      name: "Chevy Silverado Roof Respray",
+      current_step: "Masking",
+      trade: "Auto Body",
+      assigned_to: "Michael Brown",
+      due_date: "2025-05-26",
+      status: "upcoming"
+    }
+  ];
   
   useEffect(() => {
+    if (isDevMode) {
+      setJobs(mockJobs);
+      setIsLoading(false);
+      return;
+    }
+    
     fetchJobs();
-  }, []);
+  }, [isDevMode]);
 
   const fetchJobs = async () => {
     try {
@@ -71,11 +163,11 @@ const JobsTable: React.FC = () => {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "in_progress":
-        return <Badge className="bg-finish-amber-500 whitespace-nowrap px-3">In Progress</Badge>;
+        return <Badge className="bg-amber-500 whitespace-nowrap px-3">In Progress</Badge>;
       case "complete":
-        return <Badge className="bg-finish-green-500">Complete</Badge>;
+        return <Badge className="bg-green-500">Complete</Badge>;
       case "on_hold":
-        return <Badge variant="outline" className="bg-finish-red-500 text-white">On Hold</Badge>;
+        return <Badge variant="outline" className="bg-red-500 text-white">On Hold</Badge>;
       case "upcoming":
         return <Badge variant="outline">Upcoming</Badge>;
       default:
