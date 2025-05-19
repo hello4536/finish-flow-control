@@ -4,7 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { PPERequirement } from "@/types/quality";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, CheckCircle, Download, Edit, XCircle } from "lucide-react";
+import { Calendar, CheckCircle, Download, Edit, XCircle, Filter } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface PPERequirementsTabProps {
   ppeRequirements: PPERequirement[];
@@ -66,25 +73,25 @@ const PPERequirementsTab: React.FC<PPERequirementsTabProps> = ({
     <>
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-medium">PPE Requirements</h3>
-        <div className="flex gap-2">
-          <div className="flex gap-1">
-            <Button 
-              onClick={() => setFilterDepartment(null)} 
-              variant={filterDepartment === null ? "default" : "outline"}
-              size="sm"
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2">
+            <Select 
+              value={filterDepartment || ''} 
+              onValueChange={(value) => setFilterDepartment(value || null)}
             >
-              All Departments
-            </Button>
-            {getDistinctDepartments().map(dept => (
-              <Button 
-                key={dept}
-                onClick={() => setFilterDepartment(dept)} 
-                variant={filterDepartment === dept ? "default" : "outline"}
-                size="sm"
-              >
-                {dept}
-              </Button>
-            ))}
+              <SelectTrigger className="w-[180px]">
+                <div className="flex items-center">
+                  <Filter className="h-4 w-4 mr-2" />
+                  <SelectValue placeholder="Filter by department" />
+                </div>
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="">All Departments</SelectItem>
+                {getDistinctDepartments().map(dept => (
+                  <SelectItem key={dept} value={dept}>{dept}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
           <Button onClick={handleExport} variant="outline" size="sm" className="flex gap-1">
             <Download className="h-4 w-4" />
