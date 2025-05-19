@@ -1,3 +1,4 @@
+
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
@@ -115,7 +116,7 @@ export function AppSidebar() {
       <SidebarTrigger className="m-2 self-end text-white hover:bg-primary/70" />
       <div className="flex items-center justify-center border-b border-white/10 py-[10px] my-[20px] bg-blue-900">
         {!collapsed ? <h1 className="text-xl font-bold text-white">
-            Finish<span className="text-accent">Flow</span>
+            Fini<span className="text-accent">v</span>i
           </h1> : <span className="text-xl font-bold text-accent">F</span>}
       </div>
 
