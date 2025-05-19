@@ -6,14 +6,20 @@ import { Search } from "lucide-react";
 import { useQualityData } from "@/hooks/useQualityData";
 import QualityStatCards from "./components/QualityStatCards";
 import QualityDataTabs from "./components/QualityDataTabs";
+import AddInspectionDialog from "./components/AddInspectionDialog";
 
 const QualityPage = () => {
   const [search, setSearch] = useState("");
   const { 
     inspections,
     isLoading,
+    addInspection,
     seedSampleData
   } = useQualityData();
+
+  const handleAddInspection = (data: any) => {
+    addInspection.mutate(data);
+  };
 
   return (
     <div className="space-y-6">
@@ -29,6 +35,7 @@ const QualityPage = () => {
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
+          <AddInspectionDialog onAddInspection={handleAddInspection} />
           <Button onClick={seedSampleData} variant="outline" size="sm">
             Seed Sample Data
           </Button>

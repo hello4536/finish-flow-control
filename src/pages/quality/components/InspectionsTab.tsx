@@ -1,8 +1,12 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { QualityInspection } from "@/types/quality";
+import { Edit, Trash2 } from "lucide-react";
+import { useQualityData } from "@/hooks/useQualityData";
+import EditInspectionDialog from "./EditInspectionDialog";
+import DeleteInspectionDialog from "./DeleteInspectionDialog";
 
 interface InspectionsTabProps {
   inspections: QualityInspection[];
@@ -10,14 +14,36 @@ interface InspectionsTabProps {
 }
 
 const InspectionsTab: React.FC<InspectionsTabProps> = ({ inspections, isLoading }) => {
+  const { updateInspection, deleteInspection } = useQualityData();
+  const [selectedInspection, setSelectedInspection] = useState<QualityInspection | null>(null);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [inspectionToDelete, setInspectionToDelete] = useState<string>("");
+  
   const handleExport = () => {
     // In a real app, this would export data to CSV or PDF
     console.log("Exporting Inspection data");
   };
   
-  const handleView = (id: string) => {
-    // In a real app, this would open a detailed view
-    console.log(`Viewing Inspection with ID ${id}`);
+  const handleEdit = (inspection: QualityInspection) => {
+    setSelectedInspection(inspection);
+    setEditDialogOpen(true);
+  };
+  
+  const handleDelete = (inspection: QualityInspection) => {
+    setInspectionToDelete(inspection.id);
+    setDeleteDialogOpen(true);
+  };
+  
+  const handleConfirmDelete = () => {
+    if (inspectionToDelete) {
+      deleteInspection.mutate(inspectionToDelete);
+      setDeleteDialogOpen(false);
+    }
+  };
+  
+  const handleSaveInspection = (id: string, data: any) => {
+    updateInspection.mutate({ id, ...data });
   };
   
   return (
@@ -61,9 +87,26 @@ const InspectionsTab: React.FC<InspectionsTabProps> = ({ inspections, isLoading 
                       </div>
                     </TableCell>
                     <TableCell>
-                      <Button variant="ghost" size="sm" onClick={() => handleView(inspection.id)}>
-                        View
-                      </Button>
+                      <div className="flex gap-2">
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          onClick={() => handleEdit(inspection)}
+                          className="h-8 w-8 p-0"
+                        >
+                          <Edit className="h-4 w-4" />
+                          <span className="sr-only">Edit</span>
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          onClick={() => handleDelete(inspection)} 
+                          className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                          <span className="sr-only">Delete</span>
+                        </Button>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))
@@ -78,6 +121,20 @@ const InspectionsTab: React.FC<InspectionsTabProps> = ({ inspections, isLoading 
           </Table>
         </div>
       )}
+      
+      <EditInspectionDialog
+        inspection={selectedInspection}
+        open={editDialogOpen}
+        onOpenChange={setEditDialogOpen}
+        onSaveInspection={handleSaveInspection}
+      />
+      
+      <DeleteInspectionDialog
+        inspectionId={inspectionToDelete}
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        onConfirmDelete={handleConfirmDelete}
+      />
     </>
   );
 };
