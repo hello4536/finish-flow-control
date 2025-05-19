@@ -5,11 +5,20 @@ import { v4 } from '@/lib/utils';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@/components/ui/use-toast';
 
+export interface RecipeMaterial {
+  id: string;
+  name: string;
+  quantity: string;
+  unit: string;
+}
+
 export interface Recipe {
   id: string;
   name: string;
-  materials: string;
+  materials: RecipeMaterial[];
   instructions: string;
+  total_volume?: string;
+  is_sop?: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -30,7 +39,13 @@ export const useRecipes = () => {
       throw new Error(error.message);
     }
     
-    return data || [];
+    // Transform the data to parse the materials JSON
+    return (data || []).map(recipe => ({
+      ...recipe,
+      materials: typeof recipe.materials === 'string' 
+        ? JSON.parse(recipe.materials)
+        : recipe.materials
+    }));
   };
   
   // Query to fetch recipes
@@ -46,11 +61,25 @@ export const useRecipes = () => {
   
   // Add a new recipe
   const addRecipe = useMutation({
-    mutationFn: async ({ name, materials, instructions }: { name: string; materials: string; instructions: string }) => {
+    mutationFn: async ({ 
+      name, 
+      materials, 
+      instructions,
+      totalVolume,
+      isSop
+    }: { 
+      name: string; 
+      materials: RecipeMaterial[];
+      instructions: string;
+      totalVolume?: string;
+      isSop?: boolean;
+    }) => {
       const newRecipe = {
         name,
-        materials,
-        instructions
+        materials: JSON.stringify(materials),
+        instructions,
+        total_volume: totalVolume,
+        is_sop: isSop || false
       };
       
       const { data, error } = await supabase
@@ -60,7 +89,14 @@ export const useRecipes = () => {
         .single();
       
       if (error) throw error;
-      return data;
+      
+      // Parse materials back to array
+      return {
+        ...data,
+        materials: typeof data.materials === 'string' 
+          ? JSON.parse(data.materials)
+          : data.materials
+      };
     },
     onSuccess: () => {
       toast({
