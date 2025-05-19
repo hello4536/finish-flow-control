@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -8,23 +9,28 @@ import { useMaterialsData } from "@/hooks/useMaterialsData";
 import MaterialsStats from "./components/MaterialsStats";
 import MaterialsTable from "./components/MaterialsTable";
 import SuppliersTable from "./components/SuppliersTable";
+import AddMaterialDialog from "./components/AddMaterialDialog";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+
 const MaterialsPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState("all");
+  const [addDialogOpen, setAddDialogOpen] = useState(false);
+  
   const {
     materials,
     suppliers,
     isLoading,
-    filterMaterials
+    filterMaterials,
+    fetchMaterialsData
   } = useMaterialsData();
-  const {
-    toast
-  } = useToast();
+  
+  const { toast } = useToast();
 
   // Filter materials based on search term and active tab
   const filteredMaterials = filterMaterials(searchTerm, activeTab);
+
   const handleSeedData = async () => {
     try {
       // Seed materials
@@ -133,17 +139,22 @@ const MaterialsPage: React.FC = () => {
       });
     }
   };
+
   if (isLoading) {
     return <div className="flex items-center justify-center h-[calc(100vh-200px)]">
       <div className="text-lg">Loading materials data...</div>
     </div>;
   }
+
   return <div className="container mx-auto">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Materials Management</h1>
         <div className="flex space-x-3">
           {materials.length === 0}
-          <Button className="flex items-center gap-2">
+          <Button 
+            className="flex items-center gap-2"
+            onClick={() => setAddDialogOpen(true)}
+          >
             <PlusCircle className="h-5 w-5" />
             Add New Material
           </Button>
@@ -204,6 +215,14 @@ const MaterialsPage: React.FC = () => {
           <SuppliersTable suppliers={suppliers} />
         </CardContent>
       </Card>
+
+      <AddMaterialDialog 
+        open={addDialogOpen} 
+        onOpenChange={setAddDialogOpen}
+        suppliers={suppliers}
+        onSuccess={fetchMaterialsData}
+      />
     </div>;
 };
+
 export default MaterialsPage;
