@@ -2,19 +2,23 @@
 import React from "react";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Edit, Trash2 } from "lucide-react";
+import { Edit, Trash2, AlertTriangle, Eye, FileText } from "lucide-react";
 import { Material } from "@/types/materials";
+import { Badge } from "@/components/ui/badge";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface MaterialsTableProps {
   materials: Material[];
   onEdit?: (material: Material) => void;
   onDelete?: (material: Material) => void;
+  onView?: (material: Material) => void;
 }
 
 const MaterialsTable: React.FC<MaterialsTableProps> = ({ 
   materials, 
   onEdit, 
-  onDelete 
+  onDelete,
+  onView
 }) => {
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -37,13 +41,28 @@ const MaterialsTable: React.FC<MaterialsTableProps> = ({
           <TableHead>Type</TableHead>
           <TableHead>Quantity</TableHead>
           <TableHead>Status</TableHead>
+          <TableHead>Safety</TableHead>
           <TableHead className="text-right">Actions</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {materials.map(material => (
           <TableRow key={material.id}>
-            <TableCell className="font-medium">{material.name}</TableCell>
+            <TableCell className="font-medium">
+              <div className="flex items-center">
+                {material.name}
+                {material.is_hazardous && (
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <AlertTriangle className="h-4 w-4 text-amber-500 ml-2" />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Hazardous material</p>
+                    </TooltipContent>
+                  </Tooltip>
+                )}
+              </div>
+            </TableCell>
             <TableCell>{material.type}</TableCell>
             <TableCell>{`${material.quantity} ${material.unit}`}</TableCell>
             <TableCell>
@@ -51,8 +70,26 @@ const MaterialsTable: React.FC<MaterialsTableProps> = ({
                 {material.status}
               </span>
             </TableCell>
+            <TableCell>
+              {material.is_hazardous && !material.safety_data_sheet_url ? (
+                <Badge variant="destructive" className="flex items-center gap-1">
+                  <FileText className="h-3 w-3" /> Missing SDS
+                </Badge>
+              ) : material.safety_data_sheet_url ? (
+                <Badge variant="outline" className="bg-green-50 text-green-700">SDS Available</Badge>
+              ) : (
+                <span>—</span>
+              )}
+            </TableCell>
             <TableCell className="text-right">
               <div className="flex justify-end gap-2">
+                <Button 
+                  size="icon" 
+                  variant="ghost"
+                  onClick={() => onView?.(material)}
+                >
+                  <Eye className="h-4 w-4" />
+                </Button>
                 <Button 
                   size="icon" 
                   variant="ghost"

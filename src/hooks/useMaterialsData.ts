@@ -91,10 +91,51 @@ export function useMaterialsData() {
       if (activeTab === "all") return matchesSearch;
       if (activeTab === "low") return matchesSearch && 
         (material.status === "Low Stock" || material.status === "Critical Low");
+      if (activeTab === "hazardous") return matchesSearch && material.is_hazardous === true;
       if (activeTab === material.type.toLowerCase()) return matchesSearch;
       
       return matchesSearch;
     });
+  };
+
+  // Update material function
+  const updateMaterial = async (id: string, updates: Partial<Material>) => {
+    try {
+      const { error } = await supabase
+        .from('materials')
+        .update(updates)
+        .eq('id', id);
+        
+      if (error) throw error;
+      
+      toast({
+        title: "Material updated",
+        description: "Material has been updated successfully."
+      });
+      
+      await fetchMaterialsData();
+      return true;
+    } catch (error: any) {
+      console.error('Error updating material:', error);
+      toast({
+        title: "Error updating material",
+        description: error.message || "Failed to update material",
+        variant: "destructive",
+      });
+      return false;
+    }
+  };
+
+  // Get hazardous materials count
+  const getHazardousMaterialsCount = () => {
+    return materials.filter(material => material.is_hazardous).length;
+  };
+
+  // Get materials with missing safety data
+  const getMaterialsWithMissingSafetyData = () => {
+    return materials.filter(material => 
+      material.is_hazardous && !material.safety_data_sheet_url
+    );
   };
 
   useEffect(() => {
@@ -131,6 +172,9 @@ export function useMaterialsData() {
     suppliers: getSuppliersWithMaterials(),
     isLoading,
     filterMaterials,
-    fetchMaterialsData
+    fetchMaterialsData,
+    updateMaterial,
+    getHazardousMaterialsCount,
+    getMaterialsWithMissingSafetyData
   };
 }

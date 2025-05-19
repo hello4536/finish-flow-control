@@ -15,7 +15,7 @@ export const useHazardousWaste = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('hazardous_waste')
-        .select('*')
+        .select('*, materials(name, type)')
         .order('disposal_date', { ascending: false });
 
       if (error) {
@@ -115,11 +115,17 @@ export const useHazardousWaste = () => {
     }
   });
 
+  // Helper function to get waste records by material ID
+  const getWasteByMaterialId = (materialId: string) => {
+    return hazardousWaste.filter(waste => waste.material_id === materialId);
+  };
+
   return {
     hazardousWaste,
     isHazardousWasteLoading,
     addHazardousWaste,
     updateHazardousWaste,
-    deleteHazardousWaste
+    deleteHazardousWaste,
+    getWasteByMaterialId
   };
 };

@@ -8,6 +8,9 @@ import { supabase } from "@/integrations/supabase/client";
 import MaterialsHeader from "./components/MaterialsHeader";
 import MaterialsContent from "./components/MaterialsContent";
 import SuppliersSection from "./components/SuppliersSection";
+import { useMaterialCompliance } from "@/hooks/useMaterialCompliance";
+import { useMaterialUsage } from "@/hooks/useMaterialUsage";
+import { useHazardousWaste } from "@/hooks/useHazardousWaste";
 
 const MaterialsPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -19,13 +22,26 @@ const MaterialsPage: React.FC = () => {
     suppliers,
     isLoading,
     filterMaterials,
-    fetchMaterialsData
+    fetchMaterialsData,
+    getHazardousMaterialsCount
   } = useMaterialsData();
+
+  // Load compliance data
+  const { materialCompliance, safetyDataSheets } = useMaterialCompliance();
+  
+  // Load usage data
+  const { usageLogs } = useMaterialUsage();
+  
+  // Load hazardous waste data
+  const { hazardousWaste } = useHazardousWaste();
   
   const { toast } = useToast();
 
   // Filter materials based on search term and active tab
   const filteredMaterials = filterMaterials(searchTerm, activeTab);
+  
+  // Check if there are hazardous materials
+  const hasHazardousMaterials = getHazardousMaterialsCount() > 0;
 
   const handleSeedData = async () => {
     try {
@@ -35,31 +51,47 @@ const MaterialsPage: React.FC = () => {
         type: "Metal",
         quantity: 120,
         unit: "sheets",
-        status: "In Stock"
+        status: "In Stock",
+        is_hazardous: false
       }, {
         name: "Stainless Steel Plate",
         type: "Metal",
         quantity: 85,
         unit: "plates",
-        status: "Low Stock"
+        status: "Low Stock",
+        is_hazardous: false
       }, {
         name: "Oak Wood Panel",
         type: "Wood",
         quantity: 45,
         unit: "panels",
-        status: "In Stock"
+        status: "In Stock",
+        is_hazardous: false
       }, {
         name: "Epoxy Resin",
         type: "Chemical",
         quantity: 12,
         unit: "gallons",
-        status: "Critical Low"
+        status: "Critical Low",
+        is_hazardous: true,
+        hazard_class: "Class 3 - Flammable",
+        disposal_method: "Specialized chemical waste disposal"
       }, {
         name: "Maple Veneer",
         type: "Wood",
         quantity: 200,
         unit: "sq ft",
-        status: "In Stock"
+        status: "In Stock",
+        is_hazardous: false
+      }, {
+        name: "Chrome Plating Solution",
+        type: "Chemical",
+        quantity: 7,
+        unit: "gallons",
+        status: "Low Stock",
+        is_hazardous: true,
+        hazard_class: "Class 8 - Corrosive",
+        disposal_method: "Chemical neutralization required"
       }]);
 
       // Seed suppliers
@@ -83,6 +115,7 @@ const MaterialsPage: React.FC = () => {
       const {
         data: materialsData
       } = await supabase.from('materials').select('id, name, type');
+
       if (suppliersData && materialsData) {
         // Create material-supplier relationships
         const metalSupplier = suppliersData.find(s => s.name === "MetalWorks Inc.");
@@ -121,6 +154,21 @@ const MaterialsPage: React.FC = () => {
         if (relationships.length > 0) {
           await supabase.from('material_suppliers').insert(relationships);
         }
+
+        // Create hazardous waste records for chemical materials
+        const hazardousWasteRecords = chemicalMaterials.map(material => ({
+          material_id: material.id,
+          material: material.name,
+          waste_id: `HW-${Math.floor(1000 + Math.random() * 9000)}`,
+          quantity: 2,
+          unit: "gallons",
+          disposal_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+          disposal_method: "Chemical treatment",
+          handler: "EcoDisposal Inc.",
+          status: "Pending"
+        }));
+
+        await supabase.from('hazardous_waste').insert(hazardousWasteRecords);
       }
       toast({
         title: "Sample data created",
@@ -158,6 +206,7 @@ const MaterialsPage: React.FC = () => {
         filteredMaterials={filteredMaterials}
         onSearchChange={setSearchTerm}
         onTabChange={setActiveTab}
+        hasHazardousMaterials={hasHazardousMaterials}
       />
 
       <SuppliersSection suppliers={suppliers} />

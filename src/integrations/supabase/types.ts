@@ -213,6 +213,7 @@ export type Database = {
           id: string
           manifest_number: string | null
           material: string
+          material_id: string | null
           notes: string | null
           quantity: number
           status: string
@@ -228,6 +229,7 @@ export type Database = {
           id?: string
           manifest_number?: string | null
           material: string
+          material_id?: string | null
           notes?: string | null
           quantity: number
           status: string
@@ -243,6 +245,7 @@ export type Database = {
           id?: string
           manifest_number?: string | null
           material?: string
+          material_id?: string | null
           notes?: string | null
           quantity?: number
           status?: string
@@ -250,7 +253,15 @@ export type Database = {
           updated_at?: string
           waste_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "hazardous_waste_material_id_fkey"
+            columns: ["material_id"]
+            isOneToOne: false
+            referencedRelation: "materials"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       inventory_items: {
         Row: {
@@ -421,6 +432,48 @@ export type Database = {
           },
         ]
       }
+      material_compliance: {
+        Row: {
+          compliance_note: string | null
+          created_at: string
+          id: string
+          material_id: string
+          ppe_requirement_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          compliance_note?: string | null
+          created_at?: string
+          id?: string
+          material_id: string
+          ppe_requirement_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          compliance_note?: string | null
+          created_at?: string
+          id?: string
+          material_id?: string
+          ppe_requirement_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "material_compliance_material_id_fkey"
+            columns: ["material_id"]
+            isOneToOne: false
+            referencedRelation: "materials"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "material_compliance_ppe_requirement_id_fkey"
+            columns: ["ppe_requirement_id"]
+            isOneToOne: false
+            referencedRelation: "ppe_requirements"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       material_suppliers: {
         Row: {
           created_at: string
@@ -490,12 +543,60 @@ export type Database = {
         }
         Relationships: []
       }
-      materials: {
+      material_usage_logs: {
         Row: {
           created_at: string
           id: string
+          job_reference: string | null
+          material_id: string
+          notes: string | null
+          quantity: number
+          unit: string
+          used_at: string
+          used_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          job_reference?: string | null
+          material_id: string
+          notes?: string | null
+          quantity: number
+          unit: string
+          used_at?: string
+          used_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          job_reference?: string | null
+          material_id?: string
+          notes?: string | null
+          quantity?: number
+          unit?: string
+          used_at?: string
+          used_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "material_usage_logs_material_id_fkey"
+            columns: ["material_id"]
+            isOneToOne: false
+            referencedRelation: "materials"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      materials: {
+        Row: {
+          created_at: string
+          disposal_method: string | null
+          hazard_class: string | null
+          id: string
+          is_hazardous: boolean | null
           name: string
           quantity: number
+          safety_data_sheet_url: string | null
           status: string
           type: string
           unit: string
@@ -503,9 +604,13 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          disposal_method?: string | null
+          hazard_class?: string | null
           id?: string
+          is_hazardous?: boolean | null
           name: string
           quantity?: number
+          safety_data_sheet_url?: string | null
           status: string
           type: string
           unit: string
@@ -513,9 +618,13 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          disposal_method?: string | null
+          hazard_class?: string | null
           id?: string
+          is_hazardous?: boolean | null
           name?: string
           quantity?: number
+          safety_data_sheet_url?: string | null
           status?: string
           type?: string
           unit?: string
@@ -915,6 +1024,50 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      safety_data_sheets: {
+        Row: {
+          created_at: string
+          expiry_date: string | null
+          file_name: string
+          file_url: string
+          id: string
+          issue_date: string | null
+          material_id: string
+          updated_at: string
+          version: string | null
+        }
+        Insert: {
+          created_at?: string
+          expiry_date?: string | null
+          file_name: string
+          file_url: string
+          id?: string
+          issue_date?: string | null
+          material_id: string
+          updated_at?: string
+          version?: string | null
+        }
+        Update: {
+          created_at?: string
+          expiry_date?: string | null
+          file_name?: string
+          file_url?: string
+          id?: string
+          issue_date?: string | null
+          material_id?: string
+          updated_at?: string
+          version?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "safety_data_sheets_material_id_fkey"
+            columns: ["material_id"]
+            isOneToOne: false
+            referencedRelation: "materials"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       schedule_events: {
         Row: {
