@@ -27,9 +27,7 @@ const CtaSection = () => {
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-primary">
             What Our Customers Say
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground max-w-[700px] mx-auto">
-            Join hundreds of finishing professionals who are already experiencing the benefits of Finivi
-          </p>
+          <p className="mt-4 text-lg max-w-[700px] mx-auto text-orange-500">Join thousands of finishing professionals who are experiencing the benefits of Finivi</p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -38,13 +36,11 @@ const CtaSection = () => {
                 <MessageSquareQuote className="text-accent mb-4 h-8 w-8" />
                 <p className="text-muted-foreground italic mb-6 flex-grow">"{testimonial.quote}"</p>
                 <div className="flex items-center mt-auto">
-                  <div className="bg-primary/10 rounded-full p-2 mr-3">
-                    <User className="h-6 w-6 text-primary" />
-                  </div>
+                  
                   <div>
                     <p className="font-semibold text-primary">{testimonial.name}</p>
                     <p className="text-sm text-muted-foreground">{testimonial.position}</p>
-                    <p className="text-sm text-muted-foreground">{testimonial.company}</p>
+                    
                   </div>
                 </div>
               </CardContent>
