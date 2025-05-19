@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,7 +7,6 @@ import NotesSection from '@/components/resources/NotesSection';
 import VendorsSection from '@/components/resources/VendorsSection';
 import ReceiptsSection from '@/components/resources/ReceiptsSection';
 import ReimbursementsSection from '@/components/resources/ReimbursementsSection';
-
 const Resources = () => {
   // Resource counts for badges
   const [counts, setCounts] = useState({
@@ -27,9 +25,7 @@ const Resources = () => {
       [type]: count
     }));
   };
-
-  return (
-    <div className="space-y-6">
+  return <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Resources</h1>
         <p className="text-muted-foreground mt-1">
@@ -38,54 +34,42 @@ const Resources = () => {
       </div>
 
       <Tabs defaultValue="links" className="w-full">
-        <TabsList className="grid grid-cols-6 w-full max-w-3xl">
+        <TabsList className="grid grid-cols-6 w-full max-w-3xl bg-orange-100 rounded-md">
           <TabsTrigger value="links" className="relative">
             Links
-            {counts.links > 0 && (
-              <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
+            {counts.links > 0 && <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 {counts.links}
-              </span>
-            )}
+              </span>}
           </TabsTrigger>
           <TabsTrigger value="documents" className="relative">
             Documents
-            {counts.documents > 0 && (
-              <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
+            {counts.documents > 0 && <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 {counts.documents}
-              </span>
-            )}
+              </span>}
           </TabsTrigger>
           <TabsTrigger value="notes" className="relative">
             Notes
-            {counts.notes > 0 && (
-              <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
+            {counts.notes > 0 && <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 {counts.notes}
-              </span>
-            )}
+              </span>}
           </TabsTrigger>
           <TabsTrigger value="vendors" className="relative">
             Vendors
-            {counts.vendors > 0 && (
-              <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
+            {counts.vendors > 0 && <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 {counts.vendors}
-              </span>
-            )}
+              </span>}
           </TabsTrigger>
           <TabsTrigger value="receipts" className="relative">
             Receipts
-            {counts.receipts > 0 && (
-              <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
+            {counts.receipts > 0 && <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 {counts.receipts}
-              </span>
-            )}
+              </span>}
           </TabsTrigger>
           <TabsTrigger value="reimbursements" className="relative">
             Reimburse
-            {counts.reimbursements > 0 && (
-              <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
+            {counts.reimbursements > 0 && <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 {counts.reimbursements}
-              </span>
-            )}
+              </span>}
           </TabsTrigger>
         </TabsList>
         
@@ -96,7 +80,7 @@ const Resources = () => {
               <CardDescription>Save important URLs and website links</CardDescription>
             </CardHeader>
             <CardContent>
-              <LinksSection onCountChange={(count) => updateCounts('links', count)} />
+              <LinksSection onCountChange={count => updateCounts('links', count)} />
             </CardContent>
           </Card>
         </TabsContent>
@@ -108,7 +92,7 @@ const Resources = () => {
               <CardDescription>Upload and organize important files</CardDescription>
             </CardHeader>
             <CardContent>
-              <DocumentsSection onCountChange={(count) => updateCounts('documents', count)} />
+              <DocumentsSection onCountChange={count => updateCounts('documents', count)} />
             </CardContent>
           </Card>
         </TabsContent>
@@ -120,7 +104,7 @@ const Resources = () => {
               <CardDescription>Keep track of important information</CardDescription>
             </CardHeader>
             <CardContent>
-              <NotesSection onCountChange={(count) => updateCounts('notes', count)} />
+              <NotesSection onCountChange={count => updateCounts('notes', count)} />
             </CardContent>
           </Card>
         </TabsContent>
@@ -132,7 +116,7 @@ const Resources = () => {
               <CardDescription>Manage your supplier and vendor contact information</CardDescription>
             </CardHeader>
             <CardContent>
-              <VendorsSection onCountChange={(count) => updateCounts('vendors', count)} />
+              <VendorsSection onCountChange={count => updateCounts('vendors', count)} />
             </CardContent>
           </Card>
         </TabsContent>
@@ -144,7 +128,7 @@ const Resources = () => {
               <CardDescription>Upload and categorize your digital receipts</CardDescription>
             </CardHeader>
             <CardContent>
-              <ReceiptsSection onCountChange={(count) => updateCounts('receipts', count)} />
+              <ReceiptsSection onCountChange={count => updateCounts('receipts', count)} />
             </CardContent>
           </Card>
         </TabsContent>
@@ -156,13 +140,11 @@ const Resources = () => {
               <CardDescription>Track and manage employee reimbursement requests</CardDescription>
             </CardHeader>
             <CardContent>
-              <ReimbursementsSection onCountChange={(count) => updateCounts('reimbursements', count)} />
+              <ReimbursementsSection onCountChange={count => updateCounts('reimbursements', count)} />
             </CardContent>
           </Card>
         </TabsContent>
       </Tabs>
-    </div>
-  );
+    </div>;
 };
-
 export default Resources;
