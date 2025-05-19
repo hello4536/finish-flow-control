@@ -1,6 +1,7 @@
 
 import React from "react";
 import PlanCard from "@/components/subscription/PlanCard";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const PricingSection = () => {
   return (
@@ -54,20 +55,63 @@ const PricingSection = () => {
         {/* FAQ */}
         <div className="mt-16 max-w-3xl mx-auto">
           <h3 className="text-2xl font-bold mb-6 text-center">Frequently Asked Questions</h3>
-          <div className="space-y-4">
-            <div className="bg-card rounded-lg border p-5">
-              <h4 className="font-bold mb-2">Is there a free trial?</h4>
-              <p className="text-muted-foreground">Yes, Finivi offers a 14-day free trial with full access to all features so you can fully evaluate the platform before purchasing.</p>
-            </div>
-            <div className="bg-card rounded-lg border p-5">
-              <h4 className="font-bold mb-2">Can I cancel my subscription anytime?</h4>
-              <p className="text-muted-foreground">Yes, you can cancel your subscription at any time. You'll continue to have access until the end of your current billing cycle.</p>
-            </div>
-            <div className="bg-card rounded-lg border p-5">
-              <h4 className="font-bold mb-2">Is my data secure?</h4>
-              <p className="text-muted-foreground">Finivi uses industry-standard security measures to protect your data. All information is encrypted and stored securely.</p>
-            </div>
-          </div>
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="item-1" className="border-b">
+              <AccordionTrigger className="text-left font-semibold">Do you offer a free trial?</AccordionTrigger>
+              <AccordionContent>
+                Finivi doesn't currently offer a free trial. We recommend scheduling a demo to see how our platform can benefit your finishing department before purchasing.
+              </AccordionContent>
+            </AccordionItem>
+            
+            <AccordionItem value="item-2" className="border-b">
+              <AccordionTrigger className="text-left font-semibold">Can I cancel my subscription anytime?</AccordionTrigger>
+              <AccordionContent>
+                Yes, you can cancel your subscription at any time. You'll continue to have access until the end of your current billing cycle.
+              </AccordionContent>
+            </AccordionItem>
+            
+            <AccordionItem value="item-3" className="border-b">
+              <AccordionTrigger className="text-left font-semibold">Is my data secure?</AccordionTrigger>
+              <AccordionContent>
+                Finivi uses industry-standard security measures to protect your data. All information is encrypted and stored securely.
+              </AccordionContent>
+            </AccordionItem>
+            
+            <AccordionItem value="item-4" className="border-b">
+              <AccordionTrigger className="text-left font-semibold">Do you offer custom implementation services?</AccordionTrigger>
+              <AccordionContent>
+                Yes, we offer custom implementation services to help you get the most out of Finivi. Our team will work with you to configure the platform to meet your specific needs.
+              </AccordionContent>
+            </AccordionItem>
+            
+            <AccordionItem value="item-5" className="border-b">
+              <AccordionTrigger className="text-left font-semibold">What kind of support is included?</AccordionTrigger>
+              <AccordionContent>
+                All plans include standard email support. Admin accounts also include priority support with faster response times and access to phone support during business hours.
+              </AccordionContent>
+            </AccordionItem>
+            
+            <AccordionItem value="item-6" className="border-b">
+              <AccordionTrigger className="text-left font-semibold">How does your billing work?</AccordionTrigger>
+              <AccordionContent>
+                We offer monthly and annual billing options. Annual billing comes with a 10% discount compared to monthly billing. We accept all major credit cards and can provide invoices for enterprise customers.
+              </AccordionContent>
+            </AccordionItem>
+            
+            <AccordionItem value="item-7" className="border-b">
+              <AccordionTrigger className="text-left font-semibold">Do you offer discounts for non-profits or educational institutions?</AccordionTrigger>
+              <AccordionContent>
+                Yes, we offer special pricing for non-profit organizations and educational institutions. Please contact our sales team for more information.
+              </AccordionContent>
+            </AccordionItem>
+            
+            <AccordionItem value="item-8" className="border-b">
+              <AccordionTrigger className="text-left font-semibold">Can I export my data if I decide to cancel?</AccordionTrigger>
+              <AccordionContent>
+                Yes, Finivi allows you to export all your data in standard formats (CSV, JSON) at any time, including after you've decided to cancel your subscription.
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </div>
       </div>
     </section>

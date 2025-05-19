@@ -19,13 +19,10 @@ const CtaSection = () => {
             <div className="flex flex-wrap gap-4 justify-center md:justify-start">
               <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 h-12 px-8 rounded-full">
                 <Link to="/auth/signup">
-                  Start Your Free Trial
+                  Get Started Today
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
-              <p className="text-sm text-primary-foreground/60 self-center">
-                No credit card required. 14-day free trial.
-              </p>
             </div>
           </div>
           

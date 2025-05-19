@@ -25,7 +25,7 @@ const HeroSection = () => {
           <div className="flex flex-wrap items-center justify-center gap-4 mt-4">
             <Button asChild size="lg" className="h-12 px-6 rounded-full bg-accent hover:bg-accent/90 text-accent-foreground">
               <Link to="/auth/signup">
-                Start Free Trial
+                Get Started Now
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
