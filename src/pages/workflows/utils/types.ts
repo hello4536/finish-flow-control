@@ -60,3 +60,11 @@ export const getTradeFilter = (trade: string): string => {
 export const generateWorkflowNumber = (): string => {
   return `WF-${Math.floor(Math.random() * 10000)}`;
 };
+
+// Add WorkflowStatistics interface
+export interface WorkflowStatistics {
+  totalWorkflows: number;
+  activeJobs: number;
+  completedJobs: number;
+  efficiency: number;
+}

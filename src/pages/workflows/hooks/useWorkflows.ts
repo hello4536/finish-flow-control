@@ -1,8 +1,7 @@
-
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Workflow, Step, getTradeFilter } from "../utils/types";
+import { Workflow, Step, getTradeFilter, WorkflowStatus } from "../utils/types";
 import { Json } from "@/integrations/supabase/types";
 
 export const useWorkflows = () => {
@@ -23,11 +22,13 @@ export const useWorkflows = () => {
       }
 
       if (data) {
-        // Parse JSONB steps field
+        // Parse JSONB steps field and ensure status is of type WorkflowStatus
         const parsedData = data.map(workflow => ({
           ...workflow,
-          steps: workflow.steps as unknown as Step[]
-        }));
+          steps: workflow.steps as unknown as Step[],
+          status: (workflow.status || 'active') as WorkflowStatus
+        })) as Workflow[];
+        
         setWorkflows(parsedData);
       }
     } catch (error) {
@@ -150,7 +151,7 @@ export const useWorkflows = () => {
           trade: wf.trade,
           active_jobs: wf.active_jobs || 0,
           workflow_number: `WF-${Math.floor(Math.random() * 10000)}`,
-          status: wf.status || 'active',
+          status: (wf.status || 'active') as WorkflowStatus,
           last_imported_at: new Date().toISOString()
         };
       });

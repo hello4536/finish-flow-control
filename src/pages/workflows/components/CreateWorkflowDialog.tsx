@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import {
   Dialog,
@@ -65,7 +66,11 @@ const CreateWorkflowDialog: React.FC<CreateWorkflowDialogProps> = ({
     
     setFormData(prev => ({
       ...prev,
-      steps: [...prev.steps, { id: nextId, name: newStep.trim() }]
+      steps: [...prev.steps, { 
+        id: nextId, 
+        name: newStep.trim(),
+        required: true // Add the required property
+      }]
     }));
     
     setNewStep("");

@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { Workflow, Step, generateWorkflowNumber } from "../utils/types";
+import { Workflow, Step, generateWorkflowNumber, WorkflowStatus } from "../utils/types";
 import { Json } from "@/integrations/supabase/types";
 
 export const useWorkflowOperations = (workflow: Workflow, onUpdate: () => void) => {
@@ -19,7 +19,7 @@ export const useWorkflowOperations = (workflow: Workflow, onUpdate: () => void) 
         trade: workflow.trade,
         active_jobs: 0,
         workflow_number: generateWorkflowNumber(),
-        status: 'active'
+        status: 'active' as WorkflowStatus
       };
 
       const { data, error } = await supabase

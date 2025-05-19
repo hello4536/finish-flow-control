@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import {
   Card,
@@ -15,7 +14,7 @@ import WorkflowSummary from "./WorkflowSummary";
 import WorkflowStepsList from "./WorkflowStepsList";
 import WorkflowActions from "./WorkflowActions";
 import { useWorkflowOperations } from "../hooks/useWorkflowOperations";
-import { Step, STATUS_COLORS, TRADE_COLORS } from "../utils/types";
+import { Step, STATUS_COLORS, TRADE_COLORS, WorkflowStatus } from "../utils/types";
 import { formatDistanceToNow } from "date-fns";
 
 interface WorkflowCardProps {
@@ -25,7 +24,7 @@ interface WorkflowCardProps {
   steps: Step[];
   trade: string;
   activeJobs: number;
-  status?: string;
+  status?: WorkflowStatus; // Change to WorkflowStatus type
   created_at?: string;
   onUpdate: () => void;
 }
@@ -37,14 +36,22 @@ const WorkflowCard: React.FC<WorkflowCardProps> = ({
   steps,
   trade,
   activeJobs,
-  status = "active",
+  status = "active" as WorkflowStatus, // Cast to WorkflowStatus
   created_at,
   onUpdate,
 }) => {
   const [expanded, setExpanded] = useState(false);
   const { editDialogOpen, setEditDialogOpen, handleDuplicate, handleEdit, handleDelete } = 
     useWorkflowOperations(
-      { id, name, description, steps, trade, active_jobs: activeJobs, status },
+      { 
+        id, 
+        name, 
+        description, 
+        steps, 
+        trade, 
+        active_jobs: activeJobs, 
+        status: status as WorkflowStatus // Ensure status is cast to WorkflowStatus
+      },
       onUpdate
     );
 
@@ -135,7 +142,7 @@ const WorkflowCard: React.FC<WorkflowCardProps> = ({
           steps,
           trade,
           active_jobs: activeJobs,
-          status: status as any
+          status: status
         }}
         onSubmit={handleEdit}
         onDelete={handleDelete}

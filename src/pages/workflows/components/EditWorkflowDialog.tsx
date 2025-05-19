@@ -58,7 +58,11 @@ const EditWorkflowDialog: React.FC<EditWorkflowDialogProps> = ({
     if (!newStep.trim()) return;
     
     const nextId = steps.length > 0 ? Math.max(...steps.map(step => step.id)) + 1 : 1;
-    setSteps([...steps, { id: nextId, name: newStep.trim() }]);
+    setSteps([...steps, { 
+      id: nextId, 
+      name: newStep.trim(),
+      required: true // Add the required property
+    }]);
     setNewStep("");
   };
 
