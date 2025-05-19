@@ -37,7 +37,8 @@ export function useInventoryData() {
         .order('full_path', { ascending: true });
 
       if (locationsError) throw locationsError;
-      setLocations(locationsData || []);
+      // Cast the data to Location[] type since it comes from the view
+      setLocations((locationsData || []) as Location[]);
 
     } catch (error: any) {
       console.error('Error fetching inventory data:', error);

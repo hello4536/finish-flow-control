@@ -30,7 +30,8 @@ export const CategoryLocationFields: React.FC<CategoryLocationFieldsProps> = ({ 
           
         if (error) throw error;
         
-        setLocations(data || []);
+        // Cast the data to match our Location type with optional fields for the view
+        setLocations((data || []) as Location[]);
       } catch (error) {
         console.error("Error fetching locations:", error);
       } finally {
