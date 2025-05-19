@@ -10,93 +10,108 @@ interface WorkflowSeederProps {
   onSeed?: () => void;
 }
 
+export const seedWorkflows = async () => {
+  const sampleWorkflows = [
+    {
+      name: "Standard Wood Finish",
+      description: "A standard process for finishing wood surfaces",
+      trade: "Wood Finishing",
+      active_jobs: 0,
+      workflow_number: "WF-1001",
+      status: "active",
+      steps: [
+        { id: 1, name: "Surface Preparation" },
+        { id: 2, name: "Sanding" },
+        { id: 3, name: "Staining" },
+        { id: 4, name: "Sealing" },
+        { id: 5, name: "Final Coating" }
+      ] as unknown as Json
+    },
+    {
+      name: "Luxury Car Paint Process",
+      description: "Premium auto body paint process for luxury vehicles",
+      trade: "Auto Body",
+      active_jobs: 0,
+      workflow_number: "WF-2001",
+      status: "active",
+      steps: [
+        { id: 1, name: "Surface Cleaning" },
+        { id: 2, name: "Primer Application" },
+        { id: 3, name: "Base Coat" },
+        { id: 4, name: "Clear Coat" },
+        { id: 5, name: "Polishing" }
+      ] as unknown as Json
+    },
+    {
+      name: "Eco-Friendly Interior Paint",
+      description: "Low-VOC interior painting process",
+      trade: "Interior Paint",
+      active_jobs: 0,
+      workflow_number: "WF-3001",
+      status: "active",
+      steps: [
+        { id: 1, name: "Surface Preparation" },
+        { id: 2, name: "Patching and Repair" },
+        { id: 3, name: "Primer Application" },
+        { id: 4, name: "First Coat" },
+        { id: 5, name: "Second Coat" }
+      ] as unknown as Json
+    },
+    {
+      name: "Weather-Resistant Exterior Finish",
+      description: "Durable exterior paint process for harsh climates",
+      trade: "Exterior Paint",
+      active_jobs: 0,
+      workflow_number: "WF-4001",
+      status: "active",
+      steps: [
+        { id: 1, name: "Surface Cleaning" },
+        { id: 2, name: "Pressure Washing" },
+        { id: 3, name: "Repair and Caulking" },
+        { id: 4, name: "Primer" },
+        { id: 5, name: "Paint Application" }
+      ] as unknown as Json
+    }
+  ];
+
+  try {
+    // Insert each workflow individually to avoid array issues
+    for (const workflow of sampleWorkflows) {
+      const { error } = await supabase
+        .from("workflows")
+        .insert(workflow);
+      
+      if (error) throw error;
+    }
+
+    return true;
+  } catch (error) {
+    console.error("Error seeding workflows:", error);
+    return false;
+  }
+};
+
 const WorkflowSeeder: React.FC<WorkflowSeederProps> = ({ onSeed }) => {
   const [isSeeding, setIsSeeding] = useState(false);
   const { toast } = useToast();
 
-  const seedWorkflows = async () => {
+  const handleSeed = async () => {
     setIsSeeding(true);
 
-    const sampleWorkflows = [
-      {
-        name: "Standard Wood Finish",
-        description: "A standard process for finishing wood surfaces",
-        trade: "Wood Finishing",
-        active_jobs: 0,
-        workflow_number: "WF-1001",
-        status: "active",
-        steps: [
-          { id: 1, name: "Surface Preparation" },
-          { id: 2, name: "Sanding" },
-          { id: 3, name: "Staining" },
-          { id: 4, name: "Sealing" },
-          { id: 5, name: "Final Coating" }
-        ] as unknown as Json
-      },
-      {
-        name: "Luxury Car Paint Process",
-        description: "Premium auto body paint process for luxury vehicles",
-        trade: "Auto Body",
-        active_jobs: 0,
-        workflow_number: "WF-2001",
-        status: "active",
-        steps: [
-          { id: 1, name: "Surface Cleaning" },
-          { id: 2, name: "Primer Application" },
-          { id: 3, name: "Base Coat" },
-          { id: 4, name: "Clear Coat" },
-          { id: 5, name: "Polishing" }
-        ] as unknown as Json
-      },
-      {
-        name: "Eco-Friendly Interior Paint",
-        description: "Low-VOC interior painting process",
-        trade: "Interior Paint",
-        active_jobs: 0,
-        workflow_number: "WF-3001",
-        status: "active",
-        steps: [
-          { id: 1, name: "Surface Preparation" },
-          { id: 2, name: "Patching and Repair" },
-          { id: 3, name: "Primer Application" },
-          { id: 4, name: "First Coat" },
-          { id: 5, name: "Second Coat" }
-        ] as unknown as Json
-      },
-      {
-        name: "Weather-Resistant Exterior Finish",
-        description: "Durable exterior paint process for harsh climates",
-        trade: "Exterior Paint",
-        active_jobs: 0,
-        workflow_number: "WF-4001",
-        status: "active",
-        steps: [
-          { id: 1, name: "Surface Cleaning" },
-          { id: 2, name: "Pressure Washing" },
-          { id: 3, name: "Repair and Caulking" },
-          { id: 4, name: "Primer" },
-          { id: 5, name: "Paint Application" }
-        ] as unknown as Json
-      }
-    ];
-
     try {
-      // Insert each workflow individually to avoid array issues
-      for (const workflow of sampleWorkflows) {
-        const { error } = await supabase
-          .from("workflows")
-          .insert(workflow);
-        
-        if (error) throw error;
-      }
+      const success = await seedWorkflows();
 
-      toast({
-        title: "Sample workflows added",
-        description: `${sampleWorkflows.length} sample workflows have been added successfully.`,
-      });
-      
-      if (onSeed) {
-        onSeed();
+      if (success) {
+        toast({
+          title: "Sample workflows added",
+          description: "Sample workflows have been added successfully.",
+        });
+        
+        if (onSeed) {
+          onSeed();
+        }
+      } else {
+        throw new Error("Failed to seed workflows");
       }
     } catch (error) {
       console.error("Error seeding workflows:", error);
@@ -113,7 +128,7 @@ const WorkflowSeeder: React.FC<WorkflowSeederProps> = ({ onSeed }) => {
   return (
     <Button
       variant="outline"
-      onClick={seedWorkflows}
+      onClick={handleSeed}
       disabled={isSeeding}
       className="gap-2"
     >

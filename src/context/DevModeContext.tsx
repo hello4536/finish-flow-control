@@ -108,9 +108,9 @@ export function DevModeProvider({ children }: { children: ReactNode }) {
         .select('*');
       
       if (!workflows || workflows.length === 0) {
-        const { default: WorkflowSeeder } = await import('@/pages/workflows/components/WorkflowSeeder');
-        const seeder = new WorkflowSeeder();
-        await seeder.seedWorkflows();
+        // Fix: Import the WorkflowSeeder module and call the seedWorkflows function directly
+        const { seedWorkflows } = await import('@/pages/workflows/components/WorkflowSeeder');
+        await seedWorkflows();
       }
       
       // Seed quality data
