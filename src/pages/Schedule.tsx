@@ -90,12 +90,12 @@ const Schedule: React.FC = () => {
                   </p>
                 </CardHeader>
                 <CardContent>
-                  <div className="rounded-md border shadow-sm p-1">
+                  <div className="rounded-md border shadow-sm p-1 flex justify-center">
                     <Calendar 
                       mode="single"
                       selected={date}
                       onSelect={handleDateChange}
-                      className="mx-auto"
+                      className="w-full max-w-sm mx-auto"
                     />
                   </div>
                   
