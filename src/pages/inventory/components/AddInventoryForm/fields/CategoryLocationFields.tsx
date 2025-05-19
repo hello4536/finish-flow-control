@@ -66,7 +66,7 @@ export const CategoryLocationFields: React.FC<CategoryLocationFieldsProps> = ({ 
           <FormLabel>Location</FormLabel>
           <Select 
             onValueChange={field.onChange} 
-            defaultValue={field.value as string || ""}
+            defaultValue={field.value as string || undefined}
           >
             <FormControl>
               <SelectTrigger>
@@ -74,9 +74,9 @@ export const CategoryLocationFields: React.FC<CategoryLocationFieldsProps> = ({ 
               </SelectTrigger>
             </FormControl>
             <SelectContent>
-              <SelectItem value="">None</SelectItem>
+              <SelectItem value="none">None</SelectItem>
               {isLoading ? (
-                <SelectItem value="" disabled>Loading...</SelectItem>
+                <SelectItem value="loading" disabled>Loading...</SelectItem>
               ) : (
                 locations.map(location => (
                   <SelectItem key={location.id} value={location.id}>

@@ -139,9 +139,9 @@ const LocationForm: React.FC<LocationFormProps> = ({
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="">None (Top Level)</SelectItem>
+                    <SelectItem value="null">None (Top Level)</SelectItem>
                     {isLoading ? (
-                      <SelectItem value="" disabled>Loading...</SelectItem>
+                      <SelectItem value="loading" disabled>Loading...</SelectItem>
                     ) : (
                       locations.map(location => (
                         <SelectItem key={location.id} value={location.id}>
