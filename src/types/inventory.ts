@@ -10,6 +10,19 @@ export interface InventoryItem {
   location: string;
   created_at: string;
   updated_at: string;
+  // New fields for auto body shop
+  product_type: string | null;
+  brand: string | null;
+  grit: number | null;
+  voc_content: number | null;
+  hazard_class: string | null;
+  expiration_date: string | null;
+  sds_link: string | null;
+  is_consumable: boolean | null;
+  min_quantity: number | null;
+  storage_zone: string | null;
+  barcode: string | null;
+  status: string | null;
 }
 
 export interface Warehouse {

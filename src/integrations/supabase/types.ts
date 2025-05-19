@@ -208,38 +208,74 @@ export type Database = {
         Row: {
           allocated: number
           available: number
+          barcode: string | null
+          brand: string | null
           category: string
           created_at: string
+          expiration_date: string | null
+          grit: number | null
+          hazard_class: string | null
           id: string
           in_stock: number
+          is_consumable: boolean | null
           location: string
+          min_quantity: number | null
           name: string
+          product_type: string | null
+          sds_link: string | null
           sku: string
+          status: string | null
+          storage_zone: string | null
           updated_at: string
+          voc_content: number | null
         }
         Insert: {
           allocated?: number
           available?: number
+          barcode?: string | null
+          brand?: string | null
           category: string
           created_at?: string
+          expiration_date?: string | null
+          grit?: number | null
+          hazard_class?: string | null
           id?: string
           in_stock?: number
+          is_consumable?: boolean | null
           location: string
+          min_quantity?: number | null
           name: string
+          product_type?: string | null
+          sds_link?: string | null
           sku: string
+          status?: string | null
+          storage_zone?: string | null
           updated_at?: string
+          voc_content?: number | null
         }
         Update: {
           allocated?: number
           available?: number
+          barcode?: string | null
+          brand?: string | null
           category?: string
           created_at?: string
+          expiration_date?: string | null
+          grit?: number | null
+          hazard_class?: string | null
           id?: string
           in_stock?: number
+          is_consumable?: boolean | null
           location?: string
+          min_quantity?: number | null
           name?: string
+          product_type?: string | null
+          sds_link?: string | null
           sku?: string
+          status?: string | null
+          storage_zone?: string | null
           updated_at?: string
+          voc_content?: number | null
         }
         Relationships: []
       }
