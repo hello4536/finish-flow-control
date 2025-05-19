@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { Loader2 } from "lucide-react";
 import { Stain } from '@/hooks/useStains';
 import { UseMutationResult } from "@tanstack/react-query";
-import { toast } from "@/hooks/use-toast";
 import StainListItem from './StainListItem';
 import StainDetailDialog from './StainDetailDialog';
 import StainsEmptyState from './StainsEmptyState';
@@ -29,9 +28,11 @@ const StainsList: React.FC<StainsListProps> = ({ stains, isLoading, deleteStain,
   
   const handleEditStain = (stain: Stain) => {
     // This would open a form dialog to edit the stain
-    toast({
-      title: 'Edit feature',
-      description: 'Editing functionality will be implemented in the next phase.',
+    import('@/hooks/use-toast').then(({ toast }) => {
+      toast({
+        title: 'Edit feature',
+        description: 'Editing functionality will be implemented in the next phase.',
+      });
     });
   };
 
