@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import { useCertifications } from './useCertifications';
 import { useComplianceIssues } from './useComplianceIssues';
 import { useRegulatoryCompliance } from './useRegulatoryCompliance';
+import { useHazardousWaste } from './useHazardousWaste';
+import { usePPERequirements } from './usePPERequirements';
 import { useSampleComplianceData } from './useSampleComplianceData';
 
 export const useComplianceData = () => {
@@ -32,19 +34,47 @@ export const useComplianceData = () => {
     setSelectedRegion
   } = useRegulatoryCompliance();
   
+  const {
+    hazardousWaste,
+    isHazardousWasteLoading,
+    addHazardousWaste,
+    updateHazardousWaste,
+    deleteHazardousWaste
+  } = useHazardousWaste();
+  
+  const {
+    ppeRequirements,
+    isPPERequirementsLoading,
+    addPPERequirement,
+    updatePPERequirement,
+    deletePPERequirement
+  } = usePPERequirements();
+  
   const { seedSampleData } = useSampleComplianceData();
 
   // Update loading state when data is available
   useEffect(() => {
-    if (!isCertificationsLoading && !isComplianceIssuesLoading && !isRegulatoryLoading) {
+    if (!isCertificationsLoading && 
+        !isComplianceIssuesLoading && 
+        !isRegulatoryLoading &&
+        !isHazardousWasteLoading &&
+        !isPPERequirementsLoading) {
       setIsLoading(false);
     }
-  }, [isCertificationsLoading, isComplianceIssuesLoading, isRegulatoryLoading]);
+  }, [
+    isCertificationsLoading, 
+    isComplianceIssuesLoading, 
+    isRegulatoryLoading,
+    isHazardousWasteLoading,
+    isPPERequirementsLoading
+  ]);
 
   return {
     certifications,
     complianceIssues,
     regulatoryCompliance,
+    hazardousWaste,
+    ppeRequirements,
     selectedRegion,
     setSelectedRegion,
     isLoading,
@@ -54,6 +84,12 @@ export const useComplianceData = () => {
     addComplianceIssue,
     updateComplianceIssue,
     deleteComplianceIssue,
+    addHazardousWaste,
+    updateHazardousWaste,
+    deleteHazardousWaste,
+    addPPERequirement,
+    updatePPERequirement,
+    deletePPERequirement,
     seedSampleData
   };
 };

@@ -1,4 +1,3 @@
-
 export interface QualityInspection {
   id: string;
   inspection_id: string;
@@ -47,3 +46,34 @@ export interface RegulatoryCompliance {
 }
 
 export type Region = 'US' | 'Canada' | 'All';
+
+export interface HazardousWaste {
+  id: string;
+  waste_id: string;
+  material: string;
+  quantity: number;
+  unit: string;
+  disposal_date: string;
+  disposal_method: string;
+  handler: string;
+  status: 'Pending' | 'In Progress' | 'Disposed';
+  manifest_number: string | null;
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface PPERequirement {
+  id: string;
+  requirement_id: string;
+  department: string;
+  equipment: string;
+  standard: string;
+  required_by: string;
+  last_inspection: string;
+  next_inspection: string;
+  status: 'Compliant' | 'Non-Compliant' | 'Pending Review';
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
+}
