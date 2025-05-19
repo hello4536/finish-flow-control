@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
@@ -47,7 +47,7 @@ const App = () => {
         <BrowserRouter>
           <AuthProvider>
             <Routes>
-              {/* Public landing page route */}
+              {/* Public landing page route - not subject to any auth checks */}
               <Route path="/" element={<Index />} />
 
               {/* Auth routes - unprotected */}
@@ -61,8 +61,8 @@ const App = () => {
 
               {/* Protected routes - require authentication */}
               <Route element={<ProtectedRoute requireAuth={true} />}>
-                <Route path="/" element={<MainLayout />}>
-                  <Route index element={<Dashboard />} />
+                <Route element={<MainLayout />}>
+                  <Route path="/dashboard" element={<Dashboard />} />
                   <Route path="subscription" element={<SubscriptionPage />} />
                   <Route path="jobs" element={<Jobs />} />
                   <Route path="workflows" element={<Workflows />} />

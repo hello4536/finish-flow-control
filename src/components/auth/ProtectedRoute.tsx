@@ -32,12 +32,12 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
   // If admin role is required and user is not an admin, redirect to home
   if (requireAdmin && userRole?.role !== "admin") {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/dashboard" replace />;
   }
 
-  // If the route should not be accessed when logged in (like login page), redirect to home
+  // If the route should not be accessed when logged in (like login page), redirect to dashboard
   if (!requireAuth && user) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/dashboard" replace />;
   }
 
   return <Outlet />;
