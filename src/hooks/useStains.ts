@@ -1,9 +1,14 @@
 
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { v4 } from '@/lib/utils';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useToast } from '@/components/ui/use-toast';
+import { toast } from '@/components/ui/use-toast';
+
+export interface StainComponent {
+  name: string;
+  quantity: string;
+  unit: string;
+}
 
 export interface Stain {
   id: string;
@@ -11,7 +16,14 @@ export interface Stain {
   brand: string;
   color: string;
   notes?: string;
-  created_at: string;
+  baseComponents?: StainComponent[];
+  mixingInstructions?: string;
+  substrateCompatibility?: string[];
+  applicationMethod?: string;
+  dryingTime?: string;
+  coatsRecommended?: string;
+  createdBy?: string;
+  createdAt: string;
   updated_at: string;
 }
 
@@ -47,12 +59,46 @@ export const useStains = () => {
   
   // Add a new stain
   const addStain = useMutation({
-    mutationFn: async ({ name, brand, color, notes }: { name: string; brand: string; color: string; notes?: string }) => {
+    mutationFn: async ({ 
+      name, 
+      brand, 
+      color, 
+      notes,
+      baseComponents,
+      mixingInstructions,
+      substrateCompatibility,
+      applicationMethod,
+      dryingTime,
+      coatsRecommended,
+      createdBy,
+      createdAt
+    }: {
+      name: string;
+      brand: string;
+      color: string;
+      notes?: string;
+      baseComponents?: StainComponent[];
+      mixingInstructions?: string;
+      substrateCompatibility?: string[];
+      applicationMethod?: string;
+      dryingTime?: string;
+      coatsRecommended?: string;
+      createdBy?: string;
+      createdAt?: Date;
+    }) => {
       const newStain = {
         name,
         brand,
         color,
-        notes
+        notes,
+        baseComponents,
+        mixingInstructions,
+        substrateCompatibility,
+        applicationMethod,
+        dryingTime,
+        coatsRecommended,
+        created_by: createdBy,
+        created_at: createdAt
       };
       
       const { data, error } = await supabase
@@ -75,6 +121,36 @@ export const useStains = () => {
       toast({
         title: 'Error',
         description: `Failed to add stain: ${error.message}`,
+        variant: 'destructive',
+      });
+    }
+  });
+
+  // Update a stain
+  const updateStain = useMutation({
+    mutationFn: async ({
+      id,
+      ...stainData
+    }: Partial<Stain> & { id: string }) => {
+      const { error } = await supabase
+        .from('stains')
+        .update(stainData)
+        .eq('id', id);
+      
+      if (error) throw error;
+      return { id, ...stainData };
+    },
+    onSuccess: () => {
+      toast({
+        title: 'Stain updated',
+        description: 'The stain has been updated successfully.',
+      });
+      queryClient.invalidateQueries({ queryKey: ['stains'] });
+    },
+    onError: (error) => {
+      toast({
+        title: 'Error',
+        description: `Failed to update stain: ${error.message}`,
         variant: 'destructive',
       });
     }
@@ -130,6 +206,7 @@ export const useStains = () => {
     isLoading,
     error,
     addStain,
+    updateStain,
     deleteStain
   };
 };
