@@ -15,7 +15,7 @@ const FeaturesSection = () => {
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {/* Feature 1 */}
           <div className="bg-card rounded-xl border border-primary/10 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-accent py-[5px]">
-            <div className="h-12 w-12 rounded-full flex items-center justify-center mb-4 bg-orange-500">
+            <div className="h-12 w-12 rounded-full flex items-center justify-center mb-4 bg-orange-500 py-0 my-[5px]">
               <Calendar className="h-6 w-6 text-white" />
             </div>
             <h3 className="text-xl font-bold mb-2 text-center text-orange-500">Job & Task Management</h3>
@@ -28,8 +28,8 @@ const FeaturesSection = () => {
           </div>
           
           {/* Feature 2 */}
-          <div className="bg-card rounded-xl border border-primary/10 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-accent py-[5px]">
-            <div className="h-12 w-12 rounded-full flex items-center justify-center mb-4 bg-blue-200">
+          <div className="bg-card rounded-xl border border-primary/10 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-accent py-[15px]">
+            <div className="h-12 w-12 rounded-full flex items-center justify-center mb-4 bg-blue-200 my-0">
               <PackageOpen className="h-6 w-6 text-primary" />
             </div>
             <h3 className="text-xl font-bold mb-2 text-center text-blue-900">Inventory Tracking</h3>
@@ -41,7 +41,7 @@ const FeaturesSection = () => {
           
           {/* Feature 3 */}
           <div className="bg-card rounded-xl border border-primary/10 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-accent py-[5px]">
-            <div className="h-12 w-12 rounded-full flex items-center justify-center mb-4 bg-orange-500">
+            <div className="h-12 w-12 rounded-full flex items-center justify-center mb-4 bg-orange-500 my-[5px]">
               <Shield className="h-6 w-6 text-white" />
             </div>
             <h3 className="text-xl font-bold mb-2 text-center text-orange-500">Compliance Management</h3>
@@ -55,7 +55,7 @@ const FeaturesSection = () => {
           
           {/* Feature 4 */}
           <div className="bg-card rounded-xl border border-primary/10 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-accent py-[5px]">
-            <div className="h-12 w-12 rounded-full flex items-center justify-center mb-4 bg-blue-200">
+            <div className="h-12 w-12 rounded-full flex items-center justify-center mb-4 bg-blue-200 my-[5px]">
               <PaintBucket className="h-6 w-6 text-primary" />
             </div>
             <h3 className="text-xl font-bold mb-2 text-center text-blue-900">Custom Creations</h3>
@@ -69,7 +69,7 @@ const FeaturesSection = () => {
           
           {/* Feature 5 */}
           <div className="bg-card rounded-xl border border-primary/10 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-accent py-[5px]">
-            <div className="h-12 w-12 rounded-full flex items-center justify-center mb-4 bg-orange-500">
+            <div className="h-12 w-12 rounded-full flex items-center justify-center mb-4 bg-orange-500 my-[5px]">
               <Sparkles className="h-6 w-6 text-white" />
             </div>
             <h3 className="text-xl font-bold mb-2 text-center text-orange-500">Quality Control</h3>
@@ -82,8 +82,8 @@ const FeaturesSection = () => {
           </div>
           
           {/* Feature 6 */}
-          <div className="bg-card rounded-xl border border-primary/10 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-accent py-[5px]">
-            <div className="h-12 w-12 rounded-full flex items-center justify-center mb-4 bg-blue-200">
+          <div className="bg-card rounded-xl border border-primary/10 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-accent py-[15px]">
+            <div className="h-12 w-12 rounded-full flex items-center justify-center mb-4 bg-blue-200 my-0">
               <Users className="h-6 w-6 text-blue-950" />
             </div>
             <h3 className="text-xl font-bold mb-2 text-center text-blue-900">Workflows</h3>
