@@ -7,7 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Utensils, Trash2, Plus, Loader2 } from "lucide-react";
 import { useForm, useFieldArray } from "react-hook-form";
-import { toast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRecipes, RecipeMaterial } from "@/hooks/useRecipes";
@@ -113,9 +113,17 @@ const RecipesSection: React.FC<RecipesSectionProps> = ({ onCountChange }) => {
 
   // Add a new recipe
   const onSubmit = (values: RecipeFormValues) => {
+    // Ensure all material entries have the required properties
+    const validMaterials: RecipeMaterial[] = values.materials.map(material => ({
+      id: material.id || uuidv4(),
+      name: material.name,
+      quantity: material.quantity,
+      unit: material.unit
+    }));
+
     addRecipe.mutate({
       name: values.name,
-      materials: values.materials,
+      materials: validMaterials,
       instructions: values.instructions,
       totalVolume: values.totalVolume,
       isSop: values.isSop
@@ -204,6 +212,14 @@ const RecipesSection: React.FC<RecipesSectionProps> = ({ onCountChange }) => {
                       </Select>
                       <FormMessage />
                     </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={form.control}
+                  name={`materials.${index}.id`}
+                  render={({ field }) => (
+                    <input type="hidden" {...field} />
                   )}
                 />
                 
