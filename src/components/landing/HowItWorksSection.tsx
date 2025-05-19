@@ -14,12 +14,12 @@ const HowItWorksSection = () => {
         <div className="grid gap-8 md:grid-cols-3">
           {/* Step 1 */}
           <div className="relative">
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 p-6 shadow-sm h-full">
-              <div className="absolute -top-4 -left-4 h-12 w-12 rounded-full bg-accent flex items-center justify-center text-primary font-bold text-lg">
+            <div className="backdrop-blur-sm rounded-xl border border-white/20 p-6 shadow-sm h-full bg-orange-500">
+              <div className="absolute -top-4 -left-4 h-12 w-12 rounded-full flex items-center justify-center text-primary font-bold text-lg bg-gray-100">
                 1
               </div>
               <h3 className="text-xl font-bold mb-4 mt-2">Sign Up</h3>
-              <p className="text-primary-foreground/80">
+              <p className="text-slate-50">
                 Create your account with a simple registration process. Choose your plan and set up your organization profile.
               </p>
               <div className="mt-4">
@@ -31,7 +31,7 @@ const HowItWorksSection = () => {
           {/* Step 2 */}
           <div className="relative">
             <div className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 p-6 shadow-sm h-full">
-              <div className="absolute -top-4 -left-4 h-12 w-12 rounded-full bg-accent flex items-center justify-center text-primary font-bold text-lg">
+              <div className="absolute -top-4 -left-4 h-12 w-12 rounded-full flex items-center justify-center text-primary font-bold text-lg bg-slate-50">
                 2
               </div>
               <h3 className="text-xl font-bold mb-4 mt-2">Set Up Your Team</h3>
@@ -46,8 +46,8 @@ const HowItWorksSection = () => {
           
           {/* Step 3 */}
           <div className="relative">
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 p-6 shadow-sm h-full">
-              <div className="absolute -top-4 -left-4 h-12 w-12 rounded-full bg-accent flex items-center justify-center text-primary font-bold text-lg">
+            <div className="backdrop-blur-sm rounded-xl border border-white/20 p-6 shadow-sm h-full bg-orange-500">
+              <div className="absolute -top-4 -left-4 h-12 w-12 rounded-full flex items-center justify-center text-primary font-bold text-lg bg-slate-50">
                 3
               </div>
               <h3 className="text-xl font-bold mb-4 mt-2">Manage Operations</h3>

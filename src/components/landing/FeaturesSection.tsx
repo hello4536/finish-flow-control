@@ -19,7 +19,7 @@ const FeaturesSection = () => {
               <Calendar className="h-6 w-6 text-white" />
             </div>
             <h3 className="text-xl font-bold mb-2 text-center text-orange-500">Job & Task Management</h3>
-            <p className="text-center text-orange-400">
+            <p className="text-center text-orange-400 text-base font-semibold">
               Schedule, assign and track all finishing tasks with ease. Keep workflows organized and meet deadlines consistently.
             </p>
             <div className="mt-4 pt-4 border-t border-primary/10">
@@ -33,7 +33,7 @@ const FeaturesSection = () => {
               <PackageOpen className="h-6 w-6 text-primary" />
             </div>
             <h3 className="text-xl font-bold mb-2 text-center text-blue-900">Inventory Tracking</h3>
-            <p className="text-center text-blue-800">Monitor stock levels, track material usage, and manage your warehouse with powerful tools.</p>
+            <p className="text-center text-blue-800 font-semibold">Monitor stock levels, track material usage, and manage your warehouse with powerful tools.</p>
             <div className="mt-4 pt-4 border-t border-primary/10">
               <img alt="Inventory Dashboard" className="w-full rounded-lg shadow-sm" src="/lovable-uploads/ee00c8a0-3a78-4c4b-8ec8-bdadea248b70.png" />
             </div>
@@ -45,7 +45,7 @@ const FeaturesSection = () => {
               <Shield className="h-6 w-6 text-white" />
             </div>
             <h3 className="text-xl font-bold mb-2 text-center text-orange-500">Compliance Management</h3>
-            <p className="text-center text-orange-400">
+            <p className="text-center text-orange-400 font-semibold">
               Stay compliant with certifications, PPE requirements, and hazardous waste tracking tools.
             </p>
             <div className="mt-4 pt-4 border-t border-primary/10">
