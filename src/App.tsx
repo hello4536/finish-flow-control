@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -20,6 +19,7 @@ import Users from "./pages/Users";
 import Settings from "./pages/Settings";
 import CustomCreations from "./pages/CustomCreations";
 import NotFound from "./pages/NotFound";
+import DailyTasks from "./pages/DailyTasks";
 import { initializeApp } from "./utils/initializeApp";
 
 const queryClient = new QueryClient();
@@ -51,6 +51,7 @@ const App = () => {
               <Route path="users" element={<Users />} />
               <Route path="settings" element={<Settings />} />
               <Route path="custom-creations" element={<CustomCreations />} />
+              <Route path="/daily-tasks" element={<DailyTasks />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>

@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
-import { BarChart, Box, Calendar, CheckSquare, ClipboardList, Database, Home, PackageOpen, Settings, Users, Link, Palette, ShieldCheck } from "lucide-react";
+import { BarChart, Box, Calendar, CheckSquare, ClipboardList, Database, Home, PackageOpen, Settings, Users, Link, Palette, ShieldCheck, CheckCircle } from "lucide-react";
 export function AppSidebar() {
   const {
     state
@@ -18,6 +18,11 @@ export function AppSidebar() {
     title: "Jobs",
     url: "/jobs",
     icon: ClipboardList,
+    color: "bg-accent/90"
+  }, {
+    title: "Daily Tasks",
+    url: "/daily-tasks",
+    icon: CheckCircle,
     color: "bg-accent/90"
   }, {
     title: "Workflows",
