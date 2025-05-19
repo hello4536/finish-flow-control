@@ -2,7 +2,6 @@
 import React from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
-import { useDevMode } from "@/context/DevModeContext";
 import { Loader2 } from "lucide-react";
 
 interface ProtectedRouteProps {
@@ -15,22 +14,16 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   requireAdmin = false,
 }) => {
   const { user, userRole, isLoading } = useAuth();
-  const { isDevMode } = useDevMode();
   const location = useLocation();
 
   // Show loading indicator while checking auth
-  if (isLoading && !isDevMode) {
+  if (isLoading) {
     return (
       <div className="flex h-screen items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
         <span className="ml-2 text-xl">Loading...</span>
       </div>
     );
-  }
-
-  // If dev mode is active, bypass all authentication checks
-  if (isDevMode) {
-    return <Outlet />;
   }
 
   // If auth is required and user is not logged in, redirect to login

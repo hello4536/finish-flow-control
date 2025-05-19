@@ -1,38 +1,54 @@
 
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import DevModeToggle from "./DevModeToggle";
+import { useAuth } from "@/context/AuthContext";
 
-const Header = () => {
+const Header: React.FC = () => {
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate("/");
+  };
+
   return (
-    <header className="sticky top-0 z-40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-primary/10">
-      <div className="container flex h-16 items-center justify-between py-4">
-        <div className="flex items-center gap-2">
-          <div className="h-8 w-8 rounded-full bg-accent flex items-center justify-center">
-            <span className="text-xl font-bold text-accent-foreground">F</span>
-          </div>
-          <div className="text-xl font-bold text-primary">Finivi</div>
-        </div>
-        <nav className="hidden md:flex items-center gap-6">
-          <Link to="#features" className="text-sm font-medium text-primary/80 hover:text-primary transition-colors">
-            Features
-          </Link>
-          <Link to="#benefits" className="text-sm font-medium text-primary/80 hover:text-primary transition-colors">
-            Benefits
-          </Link>
-          <Link to="#pricing" className="text-sm font-medium text-primary/80 hover:text-primary transition-colors">
-            Pricing
-          </Link>
+    <header className="bg-white border-b sticky top-0 z-50">
+      <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+        <Link to="/" className="flex items-center">
+          <h1 className="text-2xl font-bold text-primary">
+            Fini<span className="text-accent">v</span>i
+          </h1>
+        </Link>
+        
+        <nav className="hidden md:flex items-center space-x-6">
+          <a href="#features" className="text-sm font-medium text-gray-600 hover:text-primary transition-colors">Features</a>
+          <a href="#benefits" className="text-sm font-medium text-gray-600 hover:text-primary transition-colors">Benefits</a>
+          <a href="#how-it-works" className="text-sm font-medium text-gray-600 hover:text-primary transition-colors">How It Works</a>
+          <a href="#pricing" className="text-sm font-medium text-gray-600 hover:text-primary transition-colors">Pricing</a>
         </nav>
-        <div className="flex items-center gap-4">
-          <DevModeToggle />
-          <Link to="/auth/signin" className="text-sm font-medium text-primary/80 hover:text-primary transition-colors hidden sm:block">
-            Sign In
-          </Link>
-          <Button asChild size="sm" className="h-9 bg-accent text-accent-foreground hover:bg-accent/90">
-            <Link to="/auth/signup">Get Started</Link>
-          </Button>
+        
+        <div className="flex items-center space-x-3">
+          {user ? (
+            <>
+              <Button asChild variant="outline" size="sm">
+                <Link to="/dashboard">Dashboard</Link>
+              </Button>
+              <Button size="sm" variant="ghost" onClick={handleSignOut}>
+                Sign Out
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button asChild variant="outline" size="sm">
+                <Link to="/auth/signin">Sign In</Link>
+              </Button>
+              <Button asChild size="sm">
+                <Link to="/auth/signup">Sign Up</Link>
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </header>

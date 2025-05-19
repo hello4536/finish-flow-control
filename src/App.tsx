@@ -49,7 +49,7 @@ const App = () => {
           <AuthProvider>
             <DevModeProvider>
               <Routes>
-                {/* Public landing page route - not subject to any auth checks */}
+                {/* Public landing page route */}
                 <Route path="/" element={<Index />} />
 
                 {/* Auth routes - unprotected */}
@@ -64,6 +64,7 @@ const App = () => {
                 {/* Protected routes - require authentication */}
                 <Route element={<ProtectedRoute requireAuth={true} />}>
                   <Route element={<MainLayout />}>
+                    {/* Redirect /dashboard to / for authenticated users */}
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="subscription" element={<SubscriptionPage />} />
                     <Route path="jobs" element={<Jobs />} />
