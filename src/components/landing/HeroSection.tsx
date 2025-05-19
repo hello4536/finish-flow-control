@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -17,9 +16,7 @@ const HeroSection = () => {
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
             The Ultimate <span className="text-primary">Finishing Command Center</span> for Auto-body & Woodworking Shops
           </h1>
-          <p className="mx-auto max-w-[700px] text-muted-foreground text-lg md:text-xl">
-            Comprehensive tools for workflows, materials, inventory, compliance, and more — all in one platform designed for finishing professionals.
-          </p>
+          <p className="mx-auto max-w-[700px] text-muted-foreground text-lg text-center md:text-xl">Track formulas, jobs, and materials in one clean dashboard with supporting tools for custom workflows, compliance and more. Finivi is your all in one platform designed by finishers for finishers.</p>
           <div className="flex flex-wrap items-center justify-center gap-4 mt-4">
             <Button asChild size="lg" className="h-12 px-6 rounded-full bg-accent hover:bg-accent/90 text-accent-foreground">
               <Link to="/auth/signup">
@@ -28,9 +25,7 @@ const HeroSection = () => {
               </Link>
             </Button>
             <Button asChild variant="outline" size="lg" className="h-12 px-6 rounded-full border-primary text-primary hover:bg-primary/10">
-              <Link to="#features">
-                See Features
-              </Link>
+              
             </Button>
           </div>
         </div>
