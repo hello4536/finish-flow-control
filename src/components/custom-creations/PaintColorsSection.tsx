@@ -1,12 +1,12 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { PaintBucket, Trash2, Plus, Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { toast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { usePaintColors } from "@/hooks/usePaintColors";
@@ -24,6 +24,7 @@ interface PaintColorsSectionProps {
 }
 
 const PaintColorsSection: React.FC<PaintColorsSectionProps> = ({ onCountChange }) => {
+  const { toast } = useToast();
   const { paintColors, isLoading, addPaintColor, deletePaintColor } = usePaintColors();
   
   const form = useForm<ColorFormValues>({
@@ -35,19 +36,34 @@ const PaintColorsSection: React.FC<PaintColorsSectionProps> = ({ onCountChange }
     },
   });
 
+  // Debug log to check if paintColors are being retrieved
+  useEffect(() => {
+    console.log("Paint colors in component:", paintColors);
+  }, [paintColors]);
+
   // Update parent component with count
-  React.useEffect(() => {
-    onCountChange(paintColors.length);
-  }, [paintColors.length, onCountChange]);
+  useEffect(() => {
+    console.log("Updating count:", paintColors?.length || 0);
+    onCountChange(paintColors?.length || 0);
+  }, [paintColors, onCountChange]);
 
   // Add a new paint color
   const onSubmit = (values: ColorFormValues) => {
+    console.log("Form submitted with values:", values);
+    
     addPaintColor.mutate({
       name: values.name,
       hexCode: values.hexCode,
       notes: values.notes
+    }, {
+      onSuccess: () => {
+        form.reset();
+        toast({
+          title: "Success",
+          description: "Paint color added successfully",
+        });
+      }
     });
-    form.reset();
   };
 
   return (
@@ -127,39 +143,44 @@ const PaintColorsSection: React.FC<PaintColorsSectionProps> = ({ onCountChange }
         <div className="flex justify-center py-10">
           <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
         </div>
-      ) : paintColors.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {paintColors.map((color) => (
-            <Card key={color.id} className="group">
-              <CardContent className="p-4 flex flex-col gap-2">
-                <div 
-                  className="w-full h-24 rounded-md" 
-                  style={{ backgroundColor: color.hex_code }}
-                />
-                <div className="flex justify-between items-center">
-                  <div>
-                    <h3 className="font-medium">{color.name}</h3>
-                    <p className="text-xs text-muted-foreground">{color.hex_code}</p>
+      ) : paintColors && paintColors.length > 0 ? (
+        <>
+          <div className="text-sm text-muted-foreground mb-2">
+            {paintColors.length} color{paintColors.length !== 1 ? 's' : ''} saved
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {paintColors.map((color) => (
+              <Card key={color.id} className="group">
+                <CardContent className="p-4 flex flex-col gap-2">
+                  <div 
+                    className="w-full h-24 rounded-md" 
+                    style={{ backgroundColor: color.hex_code }}
+                  />
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <h3 className="font-medium">{color.name}</h3>
+                      <p className="text-xs text-muted-foreground">{color.hex_code}</p>
+                    </div>
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className="opacity-0 group-hover:opacity-100"
+                      onClick={() => deletePaintColor.mutate(color.id)}
+                      disabled={deletePaintColor.isPending}
+                    >
+                      <Trash2 className="h-4 w-4 text-destructive" />
+                    </Button>
                   </div>
-                  <Button 
-                    variant="ghost" 
-                    size="icon" 
-                    className="opacity-0 group-hover:opacity-100"
-                    onClick={() => deletePaintColor.mutate(color.id)}
-                    disabled={deletePaintColor.isPending}
-                  >
-                    <Trash2 className="h-4 w-4 text-destructive" />
-                  </Button>
-                </div>
-                {color.notes && (
-                  <p className="text-sm text-muted-foreground mt-1">
-                    {color.notes}
-                  </p>
-                )}
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+                  {color.notes && (
+                    <p className="text-sm text-muted-foreground mt-1">
+                      {color.notes}
+                    </p>
+                  )}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </>
       ) : (
         <div className="text-center py-10 text-muted-foreground">
           <PaintBucket className="h-10 w-10 mx-auto mb-4 opacity-50" />

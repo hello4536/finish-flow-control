@@ -1,7 +1,6 @@
 
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { v4 } from '@/lib/utils';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@/components/ui/use-toast';
 
@@ -30,6 +29,8 @@ export const usePaintColors = () => {
       throw new Error(error.message);
     }
     
+    // Log the data to help with debugging
+    console.log('Fetched paint colors:', data);
     return data || [];
   };
   
@@ -47,6 +48,8 @@ export const usePaintColors = () => {
   // Add a new paint color
   const addPaintColor = useMutation({
     mutationFn: async ({ name, hexCode, notes }: { name: string; hexCode: string; notes?: string }) => {
+      console.log('Adding paint color:', { name, hexCode, notes });
+      
       const newPaintColor = {
         name,
         hex_code: hexCode,
@@ -59,7 +62,12 @@ export const usePaintColors = () => {
         .select()
         .single();
       
-      if (error) throw error;
+      if (error) {
+        console.error('Error adding paint color:', error);
+        throw error;
+      }
+      
+      console.log('Added paint color:', data);
       return data;
     },
     onSuccess: () => {
@@ -81,12 +89,19 @@ export const usePaintColors = () => {
   // Delete a paint color
   const deletePaintColor = useMutation({
     mutationFn: async (id: string) => {
+      console.log('Deleting paint color with ID:', id);
+      
       const { error } = await supabase
         .from('paint_colors')
         .delete()
         .eq('id', id);
       
-      if (error) throw error;
+      if (error) {
+        console.error('Error deleting paint color:', error);
+        throw error;
+      }
+      
+      console.log('Deleted paint color with ID:', id);
       return id;
     },
     onSuccess: () => {
@@ -113,6 +128,7 @@ export const usePaintColors = () => {
         'postgres_changes',
         { event: '*', schema: 'public', table: 'paint_colors' },
         () => {
+          console.log('Paint colors table changed, refetching data...');
           refetch();
         }
       )
