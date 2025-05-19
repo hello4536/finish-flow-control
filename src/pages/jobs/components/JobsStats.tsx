@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ClipboardList, Clock, CheckCircle, AlertCircle } from "lucide-react";
+import { ClipboardList, Clock, CheckCircle, AlertCircle, Calendar } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 const JobsStats: React.FC = () => {
@@ -14,6 +14,7 @@ const JobsStats: React.FC = () => {
     active: 0,
     completed: 0,
     onHold: 0,
+    upcoming: 0,
     loading: true
   });
 
@@ -41,7 +42,13 @@ const JobsStats: React.FC = () => {
           .select('id')
           .eq('status', 'on_hold');
           
-        if (activeError || completedError || onHoldError) {
+        // Get upcoming jobs
+        const { data: upcomingJobs, error: upcomingError } = await supabase
+          .from('jobs')
+          .select('id')
+          .eq('status', 'upcoming');
+          
+        if (activeError || completedError || onHoldError || upcomingError) {
           throw new Error('Error fetching job statistics');
         }
         
@@ -49,6 +56,7 @@ const JobsStats: React.FC = () => {
           active: activeJobs?.length || 0,
           completed: completedJobs?.length || 0,
           onHold: onHoldJobs?.length || 0,
+          upcoming: upcomingJobs?.length || 0,
           loading: false
         });
       } catch (error) {
@@ -68,7 +76,7 @@ const JobsStats: React.FC = () => {
   };
 
   return (
-    <div className="grid gap-4 md:grid-cols-3">
+    <div className="grid gap-4 md:grid-cols-4">
       <Card className="bg-primary text-primary-foreground">
         <CardHeader className="flex flex-row items-center justify-between pb-2">
           <CardTitle className="text-lg font-medium">Active Jobs</CardTitle>
@@ -96,6 +104,16 @@ const JobsStats: React.FC = () => {
         </CardHeader>
         <CardContent>
           {renderStatValue(stats.onHold, stats.loading)}
+        </CardContent>
+      </Card>
+
+      <Card className="bg-blue-50">
+        <CardHeader className="flex flex-row items-center justify-between pb-2">
+          <CardTitle className="text-lg font-medium">Upcoming Jobs</CardTitle>
+          <Calendar className="h-5 w-5 text-muted-foreground" />
+        </CardHeader>
+        <CardContent>
+          {renderStatValue(stats.upcoming, stats.loading)}
         </CardContent>
       </Card>
     </div>
