@@ -9,12 +9,12 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { User as UserType } from "@/hooks/useUserData";
+import { User } from "@/types/user";
 
 interface DeleteUserDialogProps {
   isOpen: boolean;
   onClose: () => void;
-  currentUser: UserType | null;
+  currentUser: User | null;
   onDelete: () => Promise<void>;
 }
 

@@ -1,17 +1,16 @@
 
 import { useState, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { useAuth } from "@/context/AuthContext";
+import { User } from "@/types/user";
+import { 
+  fetchUsersByOrganization, 
+  createUser, 
+  updateUserById, 
+  deleteUserById 
+} from "@/services/userService";
 
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: string;
-  status: string;
-  last_login: string | null;
-}
+export type { User } from "@/types/user";
 
 export function useUserData() {
   const [users, setUsers] = useState<User[]>([]);
@@ -25,82 +24,8 @@ export function useUserData() {
   const fetchUsers = async () => {
     try {
       setIsLoading(true);
-      
-      if (!organization) {
-        setUsers([]);
-        return;
-      }
-      
-      // Get users from the organization
-      const { data: members, error: membersError } = await supabase
-        .from("org_members")
-        .select("user_id")
-        .eq("organization_id", organization.id);
-
-      if (membersError) {
-        console.error("Error fetching organization members:", membersError);
-        return;
-      }
-      
-      if (members.length === 0) {
-        setUsers([]);
-        setIsLoading(false);
-        return;
-      }
-      
-      // Get user IDs
-      const userIds = members.map(member => member.user_id);
-      
-      // Fetch profiles for these users
-      const { data: profiles, error: profilesError } = await supabase
-        .from("profiles")
-        .select("id, full_name")
-        .in("id", userIds);
-
-      if (profilesError) {
-        console.error("Error fetching profiles:", profilesError);
-        return;
-      }
-
-      // Fetch roles for these users
-      const { data: roles, error: rolesError } = await supabase
-        .from("user_roles")
-        .select("user_id, role")
-        .in("user_id", userIds);
-
-      if (rolesError) {
-        console.error("Error fetching roles:", rolesError);
-        return;
-      }
-
-      // Fetch users from app_users (this contains email and status)
-      const { data: appUsers, error: appUsersError } = await supabase
-        .from("app_users")
-        .select("*")
-        .in("id", userIds);
-
-      if (appUsersError) {
-        console.error("Error fetching app_users:", appUsersError);
-        return;
-      }
-
-      // Combine the data
-      const combinedUsers = userIds.map(userId => {
-        const profile = profiles?.find(p => p.id === userId);
-        const role = roles?.find(r => r.user_id === userId);
-        const appUser = appUsers?.find(u => u.id === userId);
-        
-        return {
-          id: userId,
-          name: profile?.full_name || "Unknown",
-          email: appUser?.email || "",
-          role: role?.role || "employee",
-          status: appUser?.status || "active",
-          last_login: appUser?.last_login,
-        };
-      });
-      
-      setUsers(combinedUsers);
+      const fetchedUsers = await fetchUsersByOrganization(organization?.id);
+      setUsers(fetchedUsers);
     } catch (error) {
       console.error("Error fetching users:", error);
       toast({
@@ -113,7 +38,7 @@ export function useUserData() {
     }
   };
 
-  const addUser = async (userData: Omit<User, "id">) => {
+  const addUser = async (userData: Omit<User, "id" | "last_login">) => {
     try {
       if (!organization) {
         toast({
@@ -124,40 +49,7 @@ export function useUserData() {
         return false;
       }
       
-      // Create a new app_user
-      const { data, error } = await supabase
-        .from("app_users")
-        .insert([{
-          name: userData.name,
-          email: userData.email,
-          role: userData.role,
-          status: userData.status,
-        }])
-        .select()
-        .single();
-      
-      if (error) throw error;
-      
-      // Add user to the organization
-      const { error: memberError } = await supabase
-        .from("org_members")
-        .insert([{
-          organization_id: organization.id,
-          user_id: data.id,
-        }]);
-      
-      if (memberError) throw memberError;
-      
-      // Add user role - Fix for the TypeScript error by ensuring role is of the correct type
-      const { error: roleError } = await supabase
-        .from("user_roles")
-        .insert({
-          user_id: data.id,
-          role: userData.role === "admin" ? "admin" : "employee"
-        });
-      
-      if (roleError) throw roleError;
-      
+      await createUser(organization.id, userData);
       await fetchUsers();
       return true;
     } catch (error: any) {
@@ -173,32 +65,7 @@ export function useUserData() {
 
   const updateUser = async (userId: string, userData: Partial<User>) => {
     try {
-      // Update app_user
-      if (userData.name || userData.email || userData.status) {
-        const { error } = await supabase
-          .from("app_users")
-          .update({
-            name: userData.name,
-            email: userData.email,
-            status: userData.status,
-          })
-          .eq("id", userId);
-        
-        if (error) throw error;
-      }
-      
-      // Update user role if changed - Fix for the TypeScript error
-      if (userData.role) {
-        const roleValue = userData.role === "admin" ? "admin" : "employee";
-        
-        const { error } = await supabase
-          .from("user_roles")
-          .update({ role: roleValue })
-          .eq("user_id", userId);
-        
-        if (error) throw error;
-      }
-      
+      await updateUserById(userId, userData);
       await fetchUsers();
       return true;
     } catch (error: any) {
@@ -214,14 +81,7 @@ export function useUserData() {
 
   const deleteUser = async (userId: string) => {
     try {
-      // Delete app_user (this will cascade to other tables due to foreign key constraints)
-      const { error } = await supabase
-        .from("app_users")
-        .delete()
-        .eq("id", userId);
-      
-      if (error) throw error;
-      
+      await deleteUserById(userId);
       await fetchUsers();
       return true;
     } catch (error: any) {
