@@ -16,14 +16,18 @@ export const addStain = async ({
   createdBy,
   createdAt
 }: AddStainParams) => {
+  // Ensure baseComponents and substrateCompatibility are properly formatted
+  const formattedBaseComponents = baseComponents || [];
+  const formattedSubstrateCompatibility = substrateCompatibility || [];
+
   const newStain = {
     name,
     brand,
     color,
     notes,
-    baseComponents,
+    baseComponents: formattedBaseComponents,
     mixingInstructions,
-    substrateCompatibility,
+    substrateCompatibility: formattedSubstrateCompatibility,
     applicationMethod,
     dryingTime,
     coatsRecommended,
