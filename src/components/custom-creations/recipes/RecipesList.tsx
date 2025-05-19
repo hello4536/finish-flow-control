@@ -1,41 +1,33 @@
 
 import React, { useState } from 'react';
-import { Utensils, Trash2, Clock, Star, Eye, Loader2 } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useRecipes } from "@/hooks/useRecipes";
-import { Recipe } from "./schema";
+import { Recipe, useRecipes } from "@/hooks/useRecipes";
+import RecipeItem from "./RecipeItem";
+import RecipesLoading from "./RecipesLoading";
+import RecipesEmptyState from "./RecipesEmptyState";
+import RecipeViewDialog from "./RecipeViewDialog";
 import { UseMutationResult } from "@tanstack/react-query";
 
 interface RecipesListProps {
-  recipes: any[]; // Using any[] temporarily to avoid type errors during migration
+  recipes: Recipe[];
   isLoading: boolean;
   deleteRecipe: UseMutationResult<string, Error, string, unknown>;
 }
 
 const RecipesList: React.FC<RecipesListProps> = ({ recipes, isLoading, deleteRecipe }) => {
-  const [selectedRecipe, setSelectedRecipe] = useState<any | null>(null);
+  const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   
+  const handleViewRecipe = (recipe: Recipe) => {
+    setSelectedRecipe(recipe);
+    setDialogOpen(true);
+  };
+  
   if (isLoading) {
-    return (
-      <div className="flex justify-center py-10">
-        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-      </div>
-    );
+    return <RecipesLoading />;
   }
   
   if (recipes.length === 0) {
-    return (
-      <div className="text-center py-10 text-muted-foreground border rounded-lg">
-        <Utensils className="h-10 w-10 mx-auto mb-4 opacity-50" />
-        <p>No recipes saved yet</p>
-        <p className="text-sm">Add your first recipe using the form above</p>
-      </div>
-    );
+    return <RecipesEmptyState />;
   }
 
   return (
@@ -44,166 +36,20 @@ const RecipesList: React.FC<RecipesListProps> = ({ recipes, isLoading, deleteRec
       
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {recipes.map((recipe) => (
-          <Card key={recipe.id} className="group overflow-hidden">
-            <CardContent className="p-0">
-              <div className="bg-muted p-4">
-                <div className="flex justify-between items-start">
-                  <div className="flex items-start gap-2">
-                    <h3 className="font-medium text-lg">{recipe.name}</h3>
-                    {recipe.is_sop && (
-                      <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                    )}
-                  </div>
-                  <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Button 
-                      variant="ghost" 
-                      size="icon"
-                      onClick={() => {
-                        setSelectedRecipe(recipe);
-                        setDialogOpen(true);
-                      }}
-                    >
-                      <Eye className="h-4 w-4" />
-                    </Button>
-                    <Button 
-                      variant="ghost" 
-                      size="icon"
-                      onClick={() => deleteRecipe.mutate(recipe.id)}
-                      disabled={deleteRecipe.isPending}
-                    >
-                      <Trash2 className="h-4 w-4 text-destructive" />
-                    </Button>
-                  </div>
-                </div>
-                
-                {recipe.total_volume && (
-                  <div className="flex items-center mt-2 text-sm text-muted-foreground">
-                    <Clock className="h-3 w-3 mr-1" />
-                    {recipe.total_volume}
-                  </div>
-                )}
-              </div>
-              
-              <div className="p-4">
-                {recipe.description ? (
-                  <p className="text-sm text-muted-foreground line-clamp-3">{recipe.description}</p>
-                ) : (
-                  <p className="text-sm text-muted-foreground italic">No description</p>
-                )}
-                
-                {recipe.materials && recipe.materials.length > 0 && (
-                  <div className="mt-2 text-xs text-muted-foreground">
-                    <strong>Ingredients:</strong> {
-                      Array.isArray(recipe.materials) 
-                        ? recipe.materials.length
-                        : typeof recipe.materials === 'string'
-                          ? JSON.parse(recipe.materials).length
-                          : 0
-                    }
-                  </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
+          <RecipeItem 
+            key={recipe.id} 
+            recipe={recipe} 
+            onView={handleViewRecipe}
+            deleteRecipe={deleteRecipe}
+          />
         ))}
       </div>
       
-      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>{selectedRecipe?.name}</DialogTitle>
-          </DialogHeader>
-          {selectedRecipe && (
-            <div className="mt-4">
-              <Tabs defaultValue="details">
-                <TabsList className="mb-4">
-                  <TabsTrigger value="details">Details</TabsTrigger>
-                  <TabsTrigger value="ingredients">Ingredients</TabsTrigger>
-                  <TabsTrigger value="instructions">Instructions</TabsTrigger>
-                </TabsList>
-                
-                <TabsContent value="details" className="space-y-4">
-                  {selectedRecipe.description && (
-                    <div>
-                      <h4 className="text-sm font-medium">Description</h4>
-                      <p className="whitespace-pre-line">{selectedRecipe.description}</p>
-                    </div>
-                  )}
-                  
-                  <div className="grid grid-cols-2 gap-4">
-                    {selectedRecipe.total_volume && (
-                      <div>
-                        <h4 className="text-sm font-medium">Preparation Time</h4>
-                        <div className="flex items-center">
-                          <Clock className="h-4 w-4 mr-1 text-muted-foreground" />
-                          {selectedRecipe.total_volume}
-                        </div>
-                      </div>
-                    )}
-                    
-                    <div>
-                      <h4 className="text-sm font-medium">Favorite</h4>
-                      <div className="flex items-center">
-                        {selectedRecipe.is_sop ? (
-                          <>
-                            <Star className="h-4 w-4 mr-1 fill-yellow-400 text-yellow-400" />
-                            Yes
-                          </>
-                        ) : (
-                          "No"
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <h4 className="text-sm font-medium">Created</h4>
-                    <p>{new Date(selectedRecipe.created_at).toLocaleDateString()}</p>
-                  </div>
-                </TabsContent>
-                
-                <TabsContent value="ingredients" className="space-y-4">
-                  {selectedRecipe.materials && (
-                    <div>
-                      <h4 className="text-sm font-medium mb-2">Ingredients</h4>
-                      <div className="space-y-2">
-                        {(typeof selectedRecipe.materials === 'string' 
-                          ? JSON.parse(selectedRecipe.materials) 
-                          : selectedRecipe.materials).map((material: any, index: number) => (
-                          <div key={index} className="flex items-center justify-between py-1 border-b">
-                            <div>{material.name}</div>
-                            <div>{material.quantity} {material.unit}</div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </TabsContent>
-                
-                <TabsContent value="instructions" className="space-y-4">
-                  {selectedRecipe.instructions ? (
-                    <div>
-                      <h4 className="text-sm font-medium">Instructions</h4>
-                      <p className="whitespace-pre-line">{selectedRecipe.instructions}</p>
-                    </div>
-                  ) : (
-                    <p className="text-muted-foreground">No instructions available</p>
-                  )}
-                </TabsContent>
-              </Tabs>
-              
-              <div className="pt-4 flex justify-end">
-                <Button
-                  variant="outline"
-                  onClick={() => setDialogOpen(false)}
-                >
-                  Close
-                </Button>
-              </div>
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
+      <RecipeViewDialog 
+        recipe={selectedRecipe} 
+        open={dialogOpen} 
+        onOpenChange={setDialogOpen} 
+      />
     </div>
   );
 };
