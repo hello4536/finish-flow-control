@@ -148,13 +148,13 @@ export function useUserData() {
       
       if (memberError) throw memberError;
       
-      // Add user role
+      // Add user role - Fix for the TypeScript error by ensuring role is of the correct type
       const { error: roleError } = await supabase
         .from("user_roles")
-        .insert([{
+        .insert({
           user_id: data.id,
-          role: userData.role,
-        }]);
+          role: userData.role === "admin" ? "admin" : "employee"
+        });
       
       if (roleError) throw roleError;
       
@@ -187,11 +187,13 @@ export function useUserData() {
         if (error) throw error;
       }
       
-      // Update user role if changed
+      // Update user role if changed - Fix for the TypeScript error
       if (userData.role) {
+        const roleValue = userData.role === "admin" ? "admin" : "employee";
+        
         const { error } = await supabase
           .from("user_roles")
-          .update({ role: userData.role })
+          .update({ role: roleValue })
           .eq("user_id", userId);
         
         if (error) throw error;
