@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -29,13 +30,6 @@ const HeroSection = () => {
             <Button asChild variant="outline" size="lg" className="h-12 px-6 rounded-full border-primary text-primary hover:bg-primary/10">
               <Link to="#features">
                 See Features
-              </Link>
-            </Button>
-            
-            {/* This button is for development/preview purposes only */}
-            <Button asChild variant="outline" size="lg" className="h-12 px-6 rounded-full border-amber-500 text-amber-500 hover:bg-amber-500/10">
-              <Link to="/preview-dashboard">
-                Preview Dashboard
               </Link>
             </Button>
           </div>
