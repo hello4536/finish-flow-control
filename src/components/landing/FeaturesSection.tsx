@@ -1,13 +1,13 @@
 import React from "react";
 import { Calendar, PackageOpen, Shield, PaintBucket, Sparkles, Users } from "lucide-react";
 const FeaturesSection = () => {
-  return <section id="features" className="py-20 bg-primary/5">
+  return <section id="features" className="py-20 bg-orange-100">
       <div className="container px-4 md:px-6">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-primary">
             Comprehensive Features for Finishing Operations
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground max-w-[700px] mx-auto">
+          <p className="mt-4 text-lg max-w-[700px] mx-auto text-blue-900">
             Everything you need to manage your finishing department efficiently in one powerful platform.
           </p>
         </div>
@@ -18,8 +18,8 @@ const FeaturesSection = () => {
             <div className="h-12 w-12 rounded-full bg-accent/20 flex items-center justify-center mb-4">
               <Calendar className="h-6 w-6 text-accent" />
             </div>
-            <h3 className="text-xl font-bold mb-2 text-primary">Job & Task Management</h3>
-            <p className="text-muted-foreground">
+            <h3 className="text-xl font-bold mb-2 text-blue-950 text-center">Job & Task Management</h3>
+            <p className="text-blue-900 text-center">
               Schedule, assign and track all finishing tasks with ease. Keep workflows organized and meet deadlines consistently.
             </p>
             <div className="mt-4 pt-4 border-t border-primary/10">
@@ -32,8 +32,8 @@ const FeaturesSection = () => {
             <div className="h-12 w-12 rounded-full bg-primary/20 flex items-center justify-center mb-4">
               <PackageOpen className="h-6 w-6 text-primary" />
             </div>
-            <h3 className="text-xl font-bold mb-2 text-primary">Inventory Tracking</h3>
-            <p className="text-muted-foreground">
+            <h3 className="text-xl font-bold mb-2 text-primary text-center">Inventory Tracking</h3>
+            <p className="text-muted-foreground text-center">
               Monitor stock levels, track material usage, and manage your warehouse with powerful inventory tools.
             </p>
             <div className="mt-4 pt-4 border-t border-primary/10">
@@ -46,8 +46,8 @@ const FeaturesSection = () => {
             <div className="h-12 w-12 rounded-full bg-accent/20 flex items-center justify-center mb-4">
               <Shield className="h-6 w-6 text-accent" />
             </div>
-            <h3 className="text-xl font-bold mb-2 text-primary">Compliance Management</h3>
-            <p className="text-muted-foreground">
+            <h3 className="text-xl font-bold mb-2 text-primary text-center">Compliance Management</h3>
+            <p className="text-muted-foreground text-center">
               Stay compliant with certifications, PPE requirements, and hazardous waste tracking tools.
             </p>
             <div className="mt-4 pt-4 border-t border-primary/10">
@@ -60,8 +60,8 @@ const FeaturesSection = () => {
             <div className="h-12 w-12 rounded-full bg-primary/20 flex items-center justify-center mb-4">
               <PaintBucket className="h-6 w-6 text-primary" />
             </div>
-            <h3 className="text-xl font-bold mb-2 text-primary">Custom Creations</h3>
-            <p className="text-muted-foreground">
+            <h3 className="text-xl font-bold mb-2 text-primary text-center">Custom Creations</h3>
+            <p className="text-muted-foreground text-center">
               Create and manage custom paint colors, stains, and finishing recipes all in one place.
             </p>
             <div className="mt-4 pt-4 border-t border-primary/10">
@@ -74,8 +74,8 @@ const FeaturesSection = () => {
             <div className="h-12 w-12 rounded-full bg-accent/20 flex items-center justify-center mb-4">
               <Sparkles className="h-6 w-6 text-accent" />
             </div>
-            <h3 className="text-xl font-bold mb-2 text-primary">Quality Control</h3>
-            <p className="text-muted-foreground">
+            <h3 className="text-xl font-bold mb-2 text-primary text-center">Quality Control</h3>
+            <p className="text-muted-foreground text-center">
               Track inspections, manage quality issues, and maintain high standards with built-in quality management tools.
             </p>
             <div className="mt-4 pt-4 border-t border-primary/10">
@@ -88,8 +88,8 @@ const FeaturesSection = () => {
             <div className="h-12 w-12 rounded-full bg-primary/20 flex items-center justify-center mb-4">
               <Users className="h-6 w-6 text-primary" />
             </div>
-            <h3 className="text-xl font-bold mb-2 text-primary">Workflows</h3>
-            <p className="text-muted-foreground">Keep track of your workflows step-by-step for each job and unique process.</p>
+            <h3 className="text-xl font-bold mb-2 text-primary text-center">Workflows</h3>
+            <p className="text-muted-foreground text-center">Keep track of your workflows step-by-step for each job and unique process.</p>
             <div className="mt-4 pt-4 border-t border-primary/10">
               <img alt="Team Management Dashboard" className="w-full rounded-lg shadow-sm" src="/lovable-uploads/5d9c1534-dcb3-4c4c-954a-ab158f65466c.png" />
             </div>
