@@ -69,11 +69,11 @@ export function DevModeProvider({ children }: { children: ReactNode }) {
       await seedUsers();
       
       // Seed inventory items
-      const { data: inventoryCount } = await supabase
+      const { data: inventoryItems, count: inventoryCount } = await supabase
         .from('inventory_items')
-        .select('*', { count: 'exact', head: true });
+        .select('*', { count: 'exact' });
       
-      if (!inventoryCount || inventoryCount === 0) {
+      if (!inventoryItems || inventoryItems.length === 0) {
         // Import and use the mock data from inventory
         const { mockInventoryItems, mockWarehouses } = await import('@/pages/inventory/data/mockData');
         
@@ -103,33 +103,33 @@ export function DevModeProvider({ children }: { children: ReactNode }) {
       }
       
       // Seed workflows
-      const { data: workflowCount } = await supabase
+      const { data: workflows } = await supabase
         .from('workflows')
-        .select('*', { count: 'exact', head: true });
+        .select('*');
       
-      if (!workflowCount || workflowCount === 0) {
+      if (!workflows || workflows.length === 0) {
         const { default: WorkflowSeeder } = await import('@/pages/workflows/components/WorkflowSeeder');
-        const seeder = new WorkflowSeeder({});
+        const seeder = new WorkflowSeeder();
         await seeder.seedWorkflows();
       }
       
       // Seed quality data
-      const { data: qualityCount } = await supabase
+      const { data: qualityInspections } = await supabase
         .from('quality_inspections')
-        .select('*', { count: 'exact', head: true });
+        .select('*');
       
-      if (!qualityCount || qualityCount === 0) {
+      if (!qualityInspections || qualityInspections.length === 0) {
         const { useSampleQualityData } = await import('@/hooks/useSampleQualityData');
         const { seedSampleData } = useSampleQualityData();
         await seedSampleData();
       }
       
       // Seed compliance data
-      const { data: complianceCount } = await supabase
+      const { data: certifications } = await supabase
         .from('certifications')
-        .select('*', { count: 'exact', head: true });
+        .select('*');
       
-      if (!complianceCount || complianceCount === 0) {
+      if (!certifications || certifications.length === 0) {
         const { useSampleComplianceData } = await import('@/hooks/useSampleComplianceData');
         const { seedSampleData } = useSampleComplianceData();
         await seedSampleData();
