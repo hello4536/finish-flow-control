@@ -1,9 +1,7 @@
-
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ClipboardList, Clock, CheckCircle, AlertCircle, Calendar } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-
 const JobsStats: React.FC = () => {
   const [stats, setStats] = useState({
     active: 0,
@@ -12,7 +10,6 @@ const JobsStats: React.FC = () => {
     upcoming: 0,
     loading: true
   });
-
   useEffect(() => {
     async function fetchJobStats() {
       try {
@@ -41,11 +38,9 @@ const JobsStats: React.FC = () => {
           data: upcomingJobs,
           error: upcomingError
         } = await supabase.from('jobs').select('id').eq('status', 'upcoming');
-        
         if (activeError || completedError || onHoldError || upcomingError) {
           throw new Error('Error fetching job statistics');
         }
-        
         setStats({
           active: activeJobs?.length || 0,
           completed: completedJobs?.length || 0,
@@ -61,72 +56,66 @@ const JobsStats: React.FC = () => {
         }));
       }
     }
-
     fetchJobStats();
   }, []);
-
   const renderStatValue = (value: number, isLoading: boolean) => {
     if (isLoading) {
       return <div className="h-8 w-16 animate-pulse rounded bg-muted"></div>;
     }
     return <div className="text-3xl font-bold">{value}</div>;
   };
-
-  return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+  return <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       <Card className="overflow-hidden border-none shadow-md bg-gradient-to-br from-blue-500 to-blue-600">
         <CardHeader className="flex flex-row items-center justify-between pb-2 border-b border-white/10">
-          <CardTitle className="text-lg font-medium text-white">Active Jobs</CardTitle>
+          <CardTitle className="text-lg text-white font-bold">Active Jobs</CardTitle>
           <Clock className="h-5 w-5 text-white" />
         </CardHeader>
         <CardContent className="pt-4">
           <div className="text-white">
             {renderStatValue(stats.active, stats.loading)}
-            <p className="text-sm text-white/80 mt-1">Currently in progress</p>
+            <p className="text-white/80 mt-1 text-base font-semibold">Currently in progress</p>
           </div>
         </CardContent>
       </Card>
       
       <Card className="overflow-hidden border-none shadow-md bg-gradient-to-br from-green-500 to-green-600">
         <CardHeader className="flex flex-row items-center justify-between pb-2 border-b border-white/10">
-          <CardTitle className="text-lg font-medium text-white">Completed</CardTitle>
+          <CardTitle className="text-lg text-white font-bold">Completed</CardTitle>
           <CheckCircle className="h-5 w-5 text-white" />
         </CardHeader>
         <CardContent className="pt-4">
           <div className="text-white">
             {renderStatValue(stats.completed, stats.loading)}
-            <p className="text-sm text-white/80 mt-1">This month</p>
+            <p className="text-white/80 mt-1 text-base">This month</p>
           </div>
         </CardContent>
       </Card>
       
       <Card className="overflow-hidden border-none shadow-md bg-gradient-to-br from-amber-500 to-amber-600">
         <CardHeader className="flex flex-row items-center justify-between pb-2 border-b border-white/10">
-          <CardTitle className="text-lg font-medium text-white">On Hold</CardTitle>
+          <CardTitle className="text-white text-lg font-bold">On Hold</CardTitle>
           <AlertCircle className="h-5 w-5 text-white" />
         </CardHeader>
         <CardContent className="pt-4">
           <div className="text-white">
             {renderStatValue(stats.onHold, stats.loading)}
-            <p className="text-sm text-white/80 mt-1">Awaiting action</p>
+            <p className="text-white/80 mt-1 text-base">Awaiting action</p>
           </div>
         </CardContent>
       </Card>
 
       <Card className="overflow-hidden border-none shadow-md bg-gradient-to-br from-purple-500 to-purple-600">
         <CardHeader className="flex flex-row items-center justify-between pb-2 border-b border-white/10">
-          <CardTitle className="text-lg font-medium text-white">Upcoming</CardTitle>
+          <CardTitle className="text-white text-lg font-bold">Upcoming</CardTitle>
           <Calendar className="h-5 w-5 text-white" />
         </CardHeader>
         <CardContent className="pt-4">
           <div className="text-white">
             {renderStatValue(stats.upcoming, stats.loading)}
-            <p className="text-sm text-white/80 mt-1">Scheduled jobs</p>
+            <p className="text-white/80 mt-1 text-base">Scheduled jobs</p>
           </div>
         </CardContent>
       </Card>
-    </div>
-  );
+    </div>;
 };
-
 export default JobsStats;
