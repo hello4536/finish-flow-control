@@ -54,17 +54,14 @@ const RecipeForm: React.FC = () => {
 
   // Add a new recipe
   const onSubmit = (values: RecipeFormValues) => {
-    // Map the form values to match the expected API format
+    // Convert form data to match the new database structure
     addRecipe.mutate({
       name: values.name,
-      materials: values.ingredients.map(ingredient => ({
-        id: crypto.randomUUID(),
-        name: ingredient.name,
-        quantity: ingredient.amount,
-        unit: ingredient.unit
-      })),
+      description: values.description,
+      cookingTime: values.cookingTime,
+      ingredients: JSON.stringify(values.ingredients), // Convert to JSON string for JSONB column
       instructions: values.instructions,
-      isSop: values.isFavorite
+      isFavorite: values.isFavorite
     });
     form.reset();
     setIngredients([{ name: "", amount: "", unit: "" }]);

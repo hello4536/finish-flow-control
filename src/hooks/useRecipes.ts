@@ -1,24 +1,26 @@
 
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { v4 } from '@/lib/utils';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@/components/ui/use-toast';
 
 export interface RecipeMaterial {
-  id: string;
+  id?: string;
   name: string;
-  quantity: string;
+  quantity?: string;
+  amount?: string;
   unit: string;
 }
 
 export interface Recipe {
   id: string;
   name: string;
-  materials: RecipeMaterial[];
+  description?: string;
+  cooking_time?: string;
+  ingredients: any;
   instructions: string;
+  is_favorite: boolean;
   total_volume?: string;
-  is_sop?: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -39,12 +41,12 @@ export const useRecipes = () => {
       throw new Error(error.message);
     }
     
-    // Transform the data to parse the materials JSON
+    // Transform the data to parse the ingredients JSON
     return (data || []).map(recipe => ({
       ...recipe,
-      materials: typeof recipe.materials === 'string' 
-        ? JSON.parse(recipe.materials)
-        : recipe.materials
+      ingredients: typeof recipe.ingredients === 'string' 
+        ? JSON.parse(recipe.ingredients)
+        : recipe.ingredients
     }));
   };
   
@@ -63,23 +65,26 @@ export const useRecipes = () => {
   const addRecipe = useMutation({
     mutationFn: async ({ 
       name, 
-      materials, 
+      description,
+      cookingTime,
+      ingredients,
       instructions,
-      totalVolume,
-      isSop
+      isFavorite
     }: { 
-      name: string; 
-      materials: RecipeMaterial[];
+      name: string;
+      description?: string;
+      cookingTime?: string;
+      ingredients: string;
       instructions: string;
-      totalVolume?: string;
-      isSop?: boolean;
+      isFavorite?: boolean;
     }) => {
       const newRecipe = {
         name,
-        materials: JSON.stringify(materials),
+        description,
+        cooking_time: cookingTime,
+        ingredients,
         instructions,
-        total_volume: totalVolume,
-        is_sop: isSop || false
+        is_favorite: isFavorite || false
       };
       
       const { data, error } = await supabase
@@ -90,12 +95,12 @@ export const useRecipes = () => {
       
       if (error) throw error;
       
-      // Parse materials back to array
+      // Parse ingredients back to array/object
       return {
         ...data,
-        materials: typeof data.materials === 'string' 
-          ? JSON.parse(data.materials)
-          : data.materials
+        ingredients: typeof data.ingredients === 'string' 
+          ? JSON.parse(data.ingredients)
+          : data.ingredients
       };
     },
     onSuccess: () => {
