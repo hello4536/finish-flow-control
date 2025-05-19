@@ -78,10 +78,37 @@ export const useWorkflowOperations = (workflow: Workflow, onUpdate: () => void) 
     }
   };
 
+  const handleDelete = async (id: string) => {
+    try {
+      const { error } = await supabase
+        .from("workflows")
+        .delete()
+        .eq("id", id);
+
+      if (error) throw error;
+
+      toast({
+        title: "Workflow deleted",
+        description: "The workflow has been deleted successfully.",
+      });
+      
+      onUpdate();
+      setEditDialogOpen(false);
+    } catch (error) {
+      console.error("Error deleting workflow:", error);
+      toast({
+        title: "Error deleting workflow",
+        description: "Please try again later.",
+        variant: "destructive",
+      });
+    }
+  };
+
   return {
     editDialogOpen,
     setEditDialogOpen,
     handleDuplicate,
-    handleEdit
+    handleEdit,
+    handleDelete
   };
 };

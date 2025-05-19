@@ -37,7 +37,7 @@ const WorkflowCard: React.FC<WorkflowCardProps> = ({
   onUpdate,
 }) => {
   const [expanded, setExpanded] = useState(false);
-  const { editDialogOpen, setEditDialogOpen, handleDuplicate, handleEdit } = 
+  const { editDialogOpen, setEditDialogOpen, handleDuplicate, handleEdit, handleDelete } = 
     useWorkflowOperations(
       { id, name, description, steps, trade, active_jobs: activeJobs },
       onUpdate
@@ -98,6 +98,7 @@ const WorkflowCard: React.FC<WorkflowCardProps> = ({
           active_jobs: activeJobs
         }}
         onSubmit={handleEdit}
+        onDelete={handleDelete}
       />
     </>
   );
