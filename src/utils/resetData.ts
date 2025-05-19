@@ -1,6 +1,7 @@
 
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import { seedUsers } from "./seedUsers";
 
 /**
  * Resets all application data in Supabase
@@ -14,24 +15,46 @@ export const resetAllData = async (): Promise<boolean> => {
       description: "Clearing all application data",
     });
 
-    // Get all tables in the public schema
-    const { data: tables, error: tablesError } = await supabase
-      .from("information_schema.tables")
-      .select("table_name")
-      .eq("table_schema", "public");
-
-    if (tablesError) {
-      throw tablesError;
-    }
+    // List of tables to clear (instead of dynamically querying)
+    const tablesToClear = [
+      "app_users",
+      "bookmarks",
+      "certifications",
+      "compliance_issues",
+      "daily_tasks",
+      "efficiency_kpis",
+      "efficiency_reports",
+      "hazardous_waste",
+      "inventory_items",
+      "jobs",
+      "material_compliance",
+      "material_suppliers",
+      "material_usage",
+      "material_usage_logs",
+      "materials",
+      "paint_colors",
+      "ppe_requirements",
+      "production_reports",
+      "quality_inspections",
+      "quality_metrics",
+      "recipes",
+      "regulatory_compliance",
+      "resource_documents",
+      "resource_links",
+      "resource_notes",
+      "resource_receipts",
+      "resource_reimbursements",
+      "resource_vendors",
+      "safety_data_sheets",
+      "schedule_events",
+      "stains",
+      "suppliers",
+      "warehouses",
+      "workflows",
+    ];
 
     // Delete data from each table
-    for (const table of tables || []) {
-      const tableName = table.table_name;
-      // Skip certain system tables that shouldn't be cleared
-      if (tableName.startsWith("_") || tableName === "location_paths") {
-        continue;
-      }
-      
+    for (const tableName of tablesToClear) {
       const { error } = await supabase
         .from(tableName)
         .delete()
@@ -41,6 +64,9 @@ export const resetAllData = async (): Promise<boolean> => {
         console.error(`Error clearing table ${tableName}:`, error);
       }
     }
+    
+    // Re-seed essential data
+    await seedUsers();
 
     toast({
       title: "Reset complete",
@@ -56,6 +82,72 @@ export const resetAllData = async (): Promise<boolean> => {
       description: "There was an error clearing the application data",
       variant: "destructive",
     });
+    return false;
+  }
+};
+
+/**
+ * Resets the application data silently without UI elements
+ * Used for initialization and testing purposes
+ */
+export const silentReset = async (): Promise<boolean> => {
+  try {
+    // Use the same reset functionality but without toasts
+    const tablesToClear = [
+      "app_users",
+      "bookmarks",
+      "certifications",
+      "compliance_issues",
+      "daily_tasks",
+      "efficiency_kpis", 
+      "efficiency_reports",
+      "hazardous_waste",
+      "inventory_items",
+      "jobs",
+      "material_compliance",
+      "material_suppliers",
+      "material_usage",
+      "material_usage_logs",
+      "materials",
+      "paint_colors",
+      "ppe_requirements",
+      "production_reports",
+      "quality_inspections",
+      "quality_metrics",
+      "recipes",
+      "regulatory_compliance",
+      "resource_documents",
+      "resource_links",
+      "resource_notes",
+      "resource_receipts",
+      "resource_reimbursements",
+      "resource_vendors",
+      "safety_data_sheets",
+      "schedule_events",
+      "stains",
+      "suppliers",
+      "warehouses",
+      "workflows",
+    ];
+
+    // Delete data from each table
+    for (const tableName of tablesToClear) {
+      const { error } = await supabase
+        .from(tableName)
+        .delete()
+        .neq("id", "00000000-0000-0000-0000-000000000000");
+
+      if (error) {
+        console.error(`Error clearing table ${tableName}:`, error);
+      }
+    }
+    
+    // Re-seed essential data
+    await seedUsers();
+    
+    return true;
+  } catch (error) {
+    console.error("Error silently resetting data:", error);
     return false;
   }
 };
