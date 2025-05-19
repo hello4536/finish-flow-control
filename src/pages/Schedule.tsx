@@ -5,12 +5,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Filter, CalendarDays, Calendar as CalendarIcon, List } from "lucide-react";
+import { CalendarDays, List } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import ScheduleList from "@/components/schedule/ScheduleList";
 import ScheduleHeader from "@/components/schedule/ScheduleHeader";
@@ -33,17 +32,16 @@ const Schedule: React.FC = () => {
     return events.filter(event => event.type === type).length;
   };
 
-  // Count events for the current week
-  const countEventsThisWeek = () => {
-    const today = new Date();
-    const startOfWeek = new Date(today);
-    startOfWeek.setDate(today.getDate() - today.getDay());
-    const endOfWeek = new Date(today);
-    endOfWeek.setDate(startOfWeek.getDate() + 6);
+  // Count events for the current month
+  const countEventsThisMonth = () => {
+    if (!date) return 0;
+    
+    const currentMonth = date.getMonth();
+    const currentYear = date.getFullYear();
     
     return events.filter(event => {
       const eventDate = new Date(event.date);
-      return eventDate >= startOfWeek && eventDate <= endOfWeek;
+      return eventDate.getMonth() === currentMonth && eventDate.getFullYear() === currentYear;
     }).length;
   };
 
@@ -52,63 +50,67 @@ const Schedule: React.FC = () => {
       <ScheduleHeader 
         jobCount={countEventsByType('job')}
         meetingCount={countEventsByType('meeting')}
-        weeklyEventCount={countEventsThisWeek()}
+        weeklyEventCount={countEventsThisMonth()}
       />
       
-      <Tabs defaultValue="calendar" className="w-full" onValueChange={(value) => setView(value as "calendar" | "list")}>
-        <div className="flex justify-between items-center mb-4">
-          <TabsList>
-            <TabsTrigger value="calendar" className="flex items-center gap-2">
-              <CalendarIcon className="h-4 w-4" />
+      <Tabs 
+        defaultValue="calendar" 
+        className="w-full" 
+        onValueChange={(value) => setView(value as "calendar" | "list")}
+      >
+        <div className="flex mb-4">
+          <TabsList className="bg-background border">
+            <TabsTrigger value="calendar" className="flex items-center gap-2 px-6 py-2">
+              <CalendarDays className="h-5 w-5" />
               Calendar View
             </TabsTrigger>
-            <TabsTrigger value="list" className="flex items-center gap-2">
-              <List className="h-4 w-4" />
+            <TabsTrigger value="list" className="flex items-center gap-2 px-6 py-2">
+              <List className="h-5 w-5" />
               List View
             </TabsTrigger>
           </TabsList>
-          
-          <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" className="flex items-center gap-2">
-              <Filter className="h-4 w-4" />
-              Filter
-            </Button>
-          </div>
         </div>
         
         <TabsContent value="calendar" className="mt-0">
-          <div className="grid gap-4 md:grid-cols-5">
+          <div className="grid gap-6 md:grid-cols-5">
             <div className="md:col-span-3">
-              <Card>
-                <CardHeader>
+              <Card className="border shadow-sm">
+                <CardHeader className="pb-2">
                   <CardTitle className="flex justify-between items-center">
-                    <span>{date ? format(date, 'MMMM yyyy') : 'Calendar'}</span>
+                    <h2 className="text-2xl font-bold">{date ? format(date, 'MMMM yyyy') : 'Calendar'}</h2>
                     <div className="flex items-center gap-2">
-                      <Badge className="bg-accent">{countEventsByType('job')} Jobs</Badge>
-                      <Badge variant="outline">{countEventsByType('meeting')} Meetings</Badge>
+                      <Badge className="bg-orange-400 hover:bg-orange-500">{countEventsByType('job')} Jobs</Badge>
+                      <Badge variant="outline" className="bg-blue-50 text-blue-800 border-blue-200 hover:bg-blue-100">
+                        {countEventsByType('meeting')} Meetings
+                      </Badge>
                     </div>
                   </CardTitle>
-                  <CardDescription>
+                  <p className="text-muted-foreground">
                     View and manage your schedule in calendar format.
-                  </CardDescription>
+                  </p>
                 </CardHeader>
                 <CardContent>
-                  <Calendar 
-                    mode="single"
-                    selected={date}
-                    onSelect={handleDateChange}
-                    className="rounded-md border shadow"
-                  />
+                  <div className="rounded-md border shadow-sm p-1">
+                    <Calendar 
+                      mode="single"
+                      selected={date}
+                      onSelect={handleDateChange}
+                      className="mx-auto"
+                    />
+                  </div>
                   
                   {date && (
                     <div className="mt-6">
-                      <h3 className="text-lg font-medium mb-4">Events on {format(date, 'MMMM d, yyyy')}</h3>
+                      <h3 className="text-xl font-medium mb-4">Events on {format(date, 'MMMM d, yyyy')}</h3>
                       <div className="space-y-3">
-                        {getEventsForDate(date).map((event) => (
-                          <ScheduleEventCard key={event.id} event={event} />
-                        ))}
-                        {getEventsForDate(date).length === 0 && (
-                          <p className="text-muted-foreground">No events scheduled for this day.</p>
+                        {getEventsForDate(date).length > 0 ? (
+                          getEventsForDate(date).map((event) => (
+                            <ScheduleEventCard key={event.id} event={event} />
+                          ))
+                        ) : (
+                          <p className="text-muted-foreground py-8 text-center border rounded-md bg-slate-50">
+                            No events scheduled for this day.
+                          </p>
                         )}
                       </div>
                     </div>
@@ -147,9 +149,9 @@ const ScheduleEventCard: React.FC<ScheduleEventCardProps> = ({ event }) => {
             {event.description && <p className="text-sm mt-2">{event.description}</p>}
           </div>
           <Badge className={
-            event.type === 'job' ? 'bg-accent' : 
-            event.type === 'meeting' ? 'bg-primary' : 
-            'bg-green-500'
+            event.type === 'job' ? 'bg-orange-400 text-white hover:bg-orange-500' : 
+            event.type === 'meeting' ? 'bg-blue-500 text-white hover:bg-blue-600' : 
+            'bg-green-500 hover:bg-green-600'
           }>
             {event.type.charAt(0).toUpperCase() + event.type.slice(1)}
           </Badge>
