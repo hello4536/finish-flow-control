@@ -2,48 +2,50 @@
 import React from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
-import AddInventoryForm from "./AddInventoryForm";
 import { supabase } from "@/integrations/supabase/client";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import LocationForm from "./LocationForm";
 
-interface AddInventoryDialogProps {
+interface AddLocationDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSuccess: () => void;
+  parentId?: string | null;
 }
 
-const AddInventoryDialog: React.FC<AddInventoryDialogProps> = ({ 
+const AddLocationDialog: React.FC<AddLocationDialogProps> = ({ 
   open, 
   onOpenChange,
-  onSuccess
+  onSuccess,
+  parentId = null
 }) => {
   const { toast } = useToast();
   
   const handleSubmit = async (data: any) => {
     try {
-      // Format date for Supabase
-      const formattedData = {
+      const locationData = {
         ...data,
-        expiration_date: data.expiration_date ? data.expiration_date.toISOString().split('T')[0] : null,
-        location_id: data.location_id || null
+        parent_id: data.parent_id || null,
+        capacity: parseInt(data.capacity) || 0,
+        utilized: parseInt(data.utilized) || 0
       };
       
-      const { error } = await supabase.from('inventory_items').insert(formattedData);
+      const { error } = await supabase.from('locations').insert(locationData);
       
       if (error) throw error;
       
       toast({
-        title: "Item added",
-        description: "The inventory item has been added successfully."
+        title: "Location added",
+        description: "The location has been added successfully."
       });
       
       onOpenChange(false);
       onSuccess();
     } catch (error: any) {
-      console.error('Error adding inventory item:', error);
+      console.error('Error adding location:', error);
       toast({
         title: "Error",
-        description: error.message || "Failed to add inventory item",
+        description: error.message || "Failed to add location",
         variant: "destructive"
       });
     }
@@ -51,13 +53,16 @@ const AddInventoryDialog: React.FC<AddInventoryDialogProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[450px] max-h-[90vh]">
+      <DialogContent className="sm:max-w-[500px] max-h-[90vh]">
         <DialogHeader>
-          <DialogTitle>Add Inventory Item</DialogTitle>
+          <DialogTitle>Add Location</DialogTitle>
         </DialogHeader>
         <ScrollArea className="h-[calc(90vh-8rem)]">
           <div className="p-1">
-            <AddInventoryForm onSubmit={handleSubmit} />
+            <LocationForm 
+              onSubmit={handleSubmit} 
+              initialValues={{ parent_id: parentId }}
+            />
           </div>
         </ScrollArea>
       </DialogContent>
@@ -65,4 +70,4 @@ const AddInventoryDialog: React.FC<AddInventoryDialogProps> = ({
   );
 };
 
-export default AddInventoryDialog;
+export default AddLocationDialog;

@@ -23,6 +23,8 @@ export interface InventoryItem {
   storage_zone: string | null;
   barcode: string | null;
   status: string | null;
+  // New location reference
+  location_id: string | null;
 }
 
 export interface Warehouse {
@@ -33,4 +35,20 @@ export interface Warehouse {
   utilized: number;
   created_at: string;
   updated_at: string;
+}
+
+export interface Location {
+  id: string;
+  name: string;
+  type: string;
+  parent_id: string | null;
+  description: string | null;
+  capacity: number;
+  utilized: number;
+  created_at: string;
+  updated_at: string;
+  // These are provided by the view but not the base table
+  full_path?: string;
+  path_array?: string[];
+  level?: number;
 }

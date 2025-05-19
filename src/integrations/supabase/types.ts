@@ -219,6 +219,7 @@ export type Database = {
           in_stock: number
           is_consumable: boolean | null
           location: string
+          location_id: string | null
           min_quantity: number | null
           name: string
           product_type: string | null
@@ -243,6 +244,7 @@ export type Database = {
           in_stock?: number
           is_consumable?: boolean | null
           location: string
+          location_id?: string | null
           min_quantity?: number | null
           name: string
           product_type?: string | null
@@ -267,6 +269,7 @@ export type Database = {
           in_stock?: number
           is_consumable?: boolean | null
           location?: string
+          location_id?: string | null
           min_quantity?: number | null
           name?: string
           product_type?: string | null
@@ -277,7 +280,15 @@ export type Database = {
           updated_at?: string
           voc_content?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "inventory_items_location_id_fkey"
+            columns: ["location_id"]
+            isOneToOne: false
+            referencedRelation: "locations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       jobs: {
         Row: {
@@ -317,6 +328,50 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      locations: {
+        Row: {
+          capacity: number
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          parent_id: string | null
+          type: string
+          updated_at: string
+          utilized: number
+        }
+        Insert: {
+          capacity?: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          parent_id?: string | null
+          type: string
+          updated_at?: string
+          utilized?: number
+        }
+        Update: {
+          capacity?: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          parent_id?: string | null
+          type?: string
+          updated_at?: string
+          utilized?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "locations_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "locations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       material_suppliers: {
         Row: {
@@ -950,7 +1005,18 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      location_paths: {
+        Row: {
+          full_path: string | null
+          id: string | null
+          level: number | null
+          name: string | null
+          parent_id: string | null
+          path_array: string[] | null
+          type: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       [_ in never]: never

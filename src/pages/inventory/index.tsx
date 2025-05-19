@@ -6,7 +6,7 @@ import InventoryHeader from "./components/InventoryHeader";
 import StatCards from "./components/StatCards";
 import SearchBar from "./components/SearchBar";
 import InventoryTabs from "./components/InventoryTabs";
-import WarehouseSection from "./components/WarehouseSection";
+import LocationsSection from "./components/LocationsSection";
 import { useInventoryData } from "@/hooks/useInventoryData";
 import AddInventoryDialog from "./components/AddInventoryDialog";
 import { useInventoryFilters } from "@/hooks/useInventoryFilters";
@@ -22,7 +22,7 @@ const InventoryPage: React.FC = () => {
   
   const {
     inventoryItems,
-    warehouses,
+    locations,
     isLoading,
     deleteInventoryItem,
     fetchInventoryData
@@ -64,6 +64,7 @@ const InventoryPage: React.FC = () => {
   const categoryCount = new Set(inventoryItems.map(m => m.category)).size;
   const lowStockCount = inventoryItems.filter(m => (m.available < (m.min_quantity || 5)) || (m.status === "Expiring")).length;
   const expiringSoonCount = inventoryItems.filter(m => m.status === "Expiring").length;
+  const locationCount = locations.length;
   
   return (
     <div className="container mx-auto">
@@ -81,7 +82,7 @@ const InventoryPage: React.FC = () => {
         totalProducts={inventoryItems.length} 
         categoryCount={categoryCount} 
         lowStockCount={lowStockCount} 
-        warehouseCount={warehouses.length}
+        warehouseCount={locationCount}
         expiringSoonCount={expiringSoonCount}
       />
       
@@ -113,7 +114,11 @@ const InventoryPage: React.FC = () => {
         )}
       </div>
 
-      <WarehouseSection warehouses={warehouses} isLoading={isLoading} />
+      <LocationsSection 
+        locations={locations} 
+        isLoading={isLoading} 
+        onLocationAdded={fetchInventoryData}
+      />
       
       <AddInventoryDialog 
         open={addDialogOpen}

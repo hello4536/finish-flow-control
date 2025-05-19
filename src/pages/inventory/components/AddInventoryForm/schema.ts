@@ -1,4 +1,3 @@
-
 import { z } from "zod";
 
 // Shared arrays for select options
@@ -14,7 +13,9 @@ export const formSchema = z.object({
   in_stock: z.coerce.number().min(0, "Stock must be a positive number"),
   allocated: z.coerce.number().min(0, "Allocated must be a positive number"),
   location: z.string().min(1, "Location is required"),
-  // New fields
+  // New location reference
+  location_id: z.string().nullish(),
+  // Other fields
   product_type: z.string().nullish(),
   brand: z.string().nullish(),
   grit: z.coerce.number().min(0).nullish(),
