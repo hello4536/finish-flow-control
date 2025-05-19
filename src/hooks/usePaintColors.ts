@@ -8,6 +8,18 @@ export interface PaintColor {
   id: string;
   name: string;
   hex_code: string;
+  rgb_values?: string;
+  cmyk_values?: string;
+  lab_values?: string;
+  swatch_image?: string;
+  substrate_type?: string;
+  application_method?: string;
+  environmental_notes?: string;
+  delta_e?: string;
+  created_by?: string;
+  temperature?: string;
+  humidity?: string;
+  booth_lighting?: string;
   notes?: string;
   created_at: string;
   updated_at: string;
@@ -47,18 +59,12 @@ export const usePaintColors = () => {
   
   // Add a new paint color
   const addPaintColor = useMutation({
-    mutationFn: async ({ name, hexCode, notes }: { name: string; hexCode: string; notes?: string }) => {
-      console.log('Adding paint color:', { name, hexCode, notes });
-      
-      const newPaintColor = {
-        name,
-        hex_code: hexCode,
-        notes
-      };
+    mutationFn: async (colorData: Omit<PaintColor, 'id' | 'created_at' | 'updated_at'>) => {
+      console.log('Adding paint color:', colorData);
       
       const { data, error } = await supabase
         .from('paint_colors')
-        .insert(newPaintColor)
+        .insert(colorData)
         .select()
         .single();
       
