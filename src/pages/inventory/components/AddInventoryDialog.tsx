@@ -4,6 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { useToast } from "@/hooks/use-toast";
 import AddInventoryForm from "./AddInventoryForm";
 import { supabase } from "@/integrations/supabase/client";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface AddInventoryDialogProps {
   open: boolean;
@@ -49,11 +50,15 @@ const AddInventoryDialog: React.FC<AddInventoryDialogProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[600px]">
+      <DialogContent className="sm:max-w-[450px] max-h-[90vh]">
         <DialogHeader>
           <DialogTitle>Add Inventory Item</DialogTitle>
         </DialogHeader>
-        <AddInventoryForm onSubmit={handleSubmit} />
+        <ScrollArea className="h-[calc(90vh-8rem)]">
+          <div className="p-1">
+            <AddInventoryForm onSubmit={handleSubmit} />
+          </div>
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );
