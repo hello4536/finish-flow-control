@@ -16,6 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuth } from "@/context/AuthContext";
+import { ArrowLeft } from "lucide-react";
 
 const signInSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
@@ -46,6 +47,14 @@ const SignInPage: React.FC = () => {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
+      <div className="absolute top-4 left-4">
+        <Button variant="ghost" size="sm" asChild className="flex gap-1 items-center">
+          <Link to="/">
+            <ArrowLeft className="h-4 w-4" />
+            <span>Back to Home</span>
+          </Link>
+        </Button>
+      </div>
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold">Sign In</CardTitle>

@@ -29,6 +29,7 @@ import CustomCreations from "./pages/CustomCreations";
 import NotFound from "./pages/NotFound";
 import DailyTasks from "./pages/DailyTasks";
 import { initializeApp } from "./utils/initializeApp";
+import Index from "./pages/Index";
 
 const queryClient = new QueryClient();
 
@@ -46,6 +47,9 @@ const App = () => {
         <BrowserRouter>
           <AuthProvider>
             <Routes>
+              {/* Public landing page route */}
+              <Route path="/" element={<Index />} />
+
               {/* Auth routes - unprotected */}
               <Route element={<ProtectedRoute requireAuth={false} />}>
                 <Route path="/auth" element={<AuthLayout />}>
