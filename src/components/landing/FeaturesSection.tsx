@@ -55,7 +55,7 @@ const FeaturesSection = () => {
           
           {/* Feature 4 */}
           <div className="bg-card rounded-xl border border-primary/10 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-accent">
-            <div className="h-12 w-12 rounded-full bg-primary/20 flex items-center justify-center mb-4">
+            <div className="h-12 w-12 rounded-full flex items-center justify-center mb-4 bg-blue-200">
               <PaintBucket className="h-6 w-6 text-primary" />
             </div>
             <h3 className="text-xl font-bold mb-2 text-primary text-center">Custom Creations</h3>
@@ -69,7 +69,7 @@ const FeaturesSection = () => {
           
           {/* Feature 5 */}
           <div className="bg-card rounded-xl border border-primary/10 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-accent">
-            <div className="h-12 w-12 rounded-full bg-accent/20 flex items-center justify-center mb-4">
+            <div className="h-12 w-12 rounded-full flex items-center justify-center mb-4 bg-orange-100">
               <Sparkles className="h-6 w-6 text-accent" />
             </div>
             <h3 className="text-xl font-bold mb-2 text-primary text-center">Quality Control</h3>
@@ -83,7 +83,7 @@ const FeaturesSection = () => {
           
           {/* Feature 6 */}
           <div className="bg-card rounded-xl border border-primary/10 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-accent">
-            <div className="h-12 w-12 rounded-full bg-primary/20 flex items-center justify-center mb-4">
+            <div className="h-12 w-12 rounded-full flex items-center justify-center mb-4 bg-blue-200">
               <Users className="h-6 w-6 text-primary" />
             </div>
             <h3 className="text-xl font-bold mb-2 text-primary text-center">Workflows</h3>
