@@ -15,11 +15,11 @@ const FeaturesSection = () => {
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {/* Feature 1 */}
           <div className="bg-card rounded-xl border border-primary/10 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-accent">
-            <div className="h-12 w-12 rounded-full bg-accent/20 flex items-center justify-center mb-4">
-              <Calendar className="h-6 w-6 text-accent" />
+            <div className="h-12 w-12 rounded-full flex items-center justify-center mb-4 bg-orange-500">
+              <Calendar className="h-6 w-6 text-white" />
             </div>
             <h3 className="text-xl font-bold mb-2 text-blue-950 text-center">Job & Task Management</h3>
-            <p className="text-blue-900 text-center">
+            <p className="text-center text-orange-500">
               Schedule, assign and track all finishing tasks with ease. Keep workflows organized and meet deadlines consistently.
             </p>
             <div className="mt-4 pt-4 border-t border-primary/10">
@@ -29,13 +29,11 @@ const FeaturesSection = () => {
           
           {/* Feature 2 */}
           <div className="bg-card rounded-xl border border-primary/10 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-accent">
-            <div className="h-12 w-12 rounded-full bg-primary/20 flex items-center justify-center mb-4">
+            <div className="h-12 w-12 rounded-full flex items-center justify-center mb-4 bg-blue-200">
               <PackageOpen className="h-6 w-6 text-primary" />
             </div>
             <h3 className="text-xl font-bold mb-2 text-primary text-center">Inventory Tracking</h3>
-            <p className="text-muted-foreground text-center">
-              Monitor stock levels, track material usage, and manage your warehouse with powerful inventory tools.
-            </p>
+            <p className="text-center text-blue-900">Monitor stock levels, track material usage, and manage your warehouse with powerful tools.</p>
             <div className="mt-4 pt-4 border-t border-primary/10">
               <img alt="Inventory Dashboard" className="w-full rounded-lg shadow-sm" src="/lovable-uploads/ee00c8a0-3a78-4c4b-8ec8-bdadea248b70.png" />
             </div>
@@ -43,8 +41,8 @@ const FeaturesSection = () => {
           
           {/* Feature 3 */}
           <div className="bg-card rounded-xl border border-primary/10 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-accent">
-            <div className="h-12 w-12 rounded-full bg-accent/20 flex items-center justify-center mb-4">
-              <Shield className="h-6 w-6 text-accent" />
+            <div className="h-12 w-12 rounded-full flex items-center justify-center mb-4 bg-orange-500">
+              <Shield className="h-6 w-6 text-white" />
             </div>
             <h3 className="text-xl font-bold mb-2 text-primary text-center">Compliance Management</h3>
             <p className="text-muted-foreground text-center">
