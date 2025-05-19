@@ -1,17 +1,13 @@
 
 import React, { useState } from "react";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Search, PlusCircle } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 import { useMaterialsData } from "@/hooks/useMaterialsData";
 import MaterialsStats from "./components/MaterialsStats";
-import MaterialsTable from "./components/MaterialsTable";
-import SuppliersTable from "./components/SuppliersTable";
 import AddMaterialDialog from "./components/AddMaterialDialog";
-import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import MaterialsHeader from "./components/MaterialsHeader";
+import MaterialsContent from "./components/MaterialsContent";
+import SuppliersSection from "./components/SuppliersSection";
 
 const MaterialsPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -146,75 +142,25 @@ const MaterialsPage: React.FC = () => {
     </div>;
   }
 
-  return <div className="container mx-auto">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Materials Management</h1>
-        <div className="flex space-x-3">
-          {materials.length === 0}
-          <Button 
-            className="flex items-center gap-2"
-            onClick={() => setAddDialogOpen(true)}
-          >
-            <PlusCircle className="h-5 w-5" />
-            Add New Material
-          </Button>
-        </div>
-      </div>
+  return (
+    <div className="container mx-auto">
+      <MaterialsHeader 
+        onAddNewClick={() => setAddDialogOpen(true)}
+        showSeedButton={materials.length === 0}
+        onSeedData={handleSeedData}
+      />
       
       <MaterialsStats materials={materials} suppliers={suppliers} />
       
-      <div className="bg-white rounded-lg shadow-sm border p-6 mb-6">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-          <h2 className="text-xl font-semibold">Materials Inventory</h2>
-          <div className="flex gap-4 w-full md:w-auto">
-            <div className="relative w-full md:w-64">
-              <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Search materials..." className="pl-9" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
-            </div>
-            <Button variant="outline">Filters</Button>
-          </div>
-        </div>
-        
-        <Tabs defaultValue="all" className="w-full" onValueChange={setActiveTab}>
-          <TabsList>
-            <TabsTrigger value="all">All Materials</TabsTrigger>
-            <TabsTrigger value="low">Low Stock</TabsTrigger>
-            <TabsTrigger value="metal">Metals</TabsTrigger>
-            <TabsTrigger value="wood">Wood</TabsTrigger>
-            <TabsTrigger value="chemical">Chemicals</TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="all" className="mt-4">
-            <MaterialsTable materials={filteredMaterials} />
-          </TabsContent>
-          
-          <TabsContent value="low" className="mt-4">
-            <MaterialsTable materials={filteredMaterials.filter(m => m.status === "Low Stock" || m.status === "Critical Low")} />
-          </TabsContent>
-          
-          <TabsContent value="metal" className="mt-4">
-            <MaterialsTable materials={filteredMaterials.filter(m => m.type === "Metal")} />
-          </TabsContent>
-          
-          <TabsContent value="wood" className="mt-4">
-            <MaterialsTable materials={filteredMaterials.filter(m => m.type === "Wood")} />
-          </TabsContent>
-          
-          <TabsContent value="chemical" className="mt-4">
-            <MaterialsTable materials={filteredMaterials.filter(m => m.type === "Chemical")} />
-          </TabsContent>
-        </Tabs>
-      </div>
+      <MaterialsContent
+        searchTerm={searchTerm}
+        activeTab={activeTab}
+        filteredMaterials={filteredMaterials}
+        onSearchChange={setSearchTerm}
+        onTabChange={setActiveTab}
+      />
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Material Suppliers</CardTitle>
-          <CardDescription>Current active suppliers providing materials to your facility</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <SuppliersTable suppliers={suppliers} />
-        </CardContent>
-      </Card>
+      <SuppliersSection suppliers={suppliers} />
 
       <AddMaterialDialog 
         open={addDialogOpen} 
@@ -222,7 +168,8 @@ const MaterialsPage: React.FC = () => {
         suppliers={suppliers}
         onSuccess={fetchMaterialsData}
       />
-    </div>;
+    </div>
+  );
 };
 
 export default MaterialsPage;
