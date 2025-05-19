@@ -45,6 +45,13 @@ const RecipeItem: React.FC<RecipeItemProps> = ({ recipe, onView, deleteRecipe })
             </div>
           </div>
           
+          {recipe.cooking_time && (
+            <div className="flex items-center mt-2 text-sm text-muted-foreground">
+              <Clock className="h-3 w-3 mr-1" />
+              {recipe.cooking_time}
+            </div>
+          )}
+          
           {recipe.total_volume && (
             <div className="flex items-center mt-2 text-sm text-muted-foreground">
               <Clock className="h-3 w-3 mr-1" />

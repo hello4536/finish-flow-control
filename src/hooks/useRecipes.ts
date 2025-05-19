@@ -17,7 +17,7 @@ export interface Recipe {
   name: string;
   description?: string;
   cooking_time?: string;
-  ingredients: any;
+  ingredients: RecipeMaterial[];
   instructions: string;
   is_favorite: boolean;
   total_volume?: string;
@@ -44,10 +44,13 @@ export const useRecipes = () => {
     // Transform the data to parse the ingredients JSON
     return (data || []).map(recipe => ({
       ...recipe,
+      // Ensure is_favorite exists (default to false if not present)
+      is_favorite: recipe.is_favorite || false,
+      // Parse ingredients JSON if it exists
       ingredients: typeof recipe.ingredients === 'string' 
         ? JSON.parse(recipe.ingredients)
-        : recipe.ingredients
-    }));
+        : (recipe.ingredients || [])
+    })) as Recipe[];
   };
   
   // Query to fetch recipes
@@ -82,7 +85,7 @@ export const useRecipes = () => {
         name,
         description,
         cooking_time: cookingTime,
-        ingredients,
+        ingredients, // This will be stored as a JSON string
         instructions,
         is_favorite: isFavorite || false
       };
@@ -98,10 +101,13 @@ export const useRecipes = () => {
       // Parse ingredients back to array/object
       return {
         ...data,
+        // Ensure is_favorite exists (default to false if not present)
+        is_favorite: data.is_favorite || false,
+        // Parse ingredients JSON
         ingredients: typeof data.ingredients === 'string' 
           ? JSON.parse(data.ingredients)
-          : data.ingredients
-      };
+          : (data.ingredients || [])
+      } as Recipe;
     },
     onSuccess: () => {
       toast({
