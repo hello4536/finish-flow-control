@@ -1,7 +1,6 @@
 
 import { useState, useEffect } from 'react';
 import { useQualityInspections } from './useQualityInspections';
-import { useSampleQualityData } from './useSampleQualityData';
 
 export const useQualityData = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -14,8 +13,6 @@ export const useQualityData = () => {
     updateInspection,
     deleteInspection
   } = useQualityInspections();
-  
-  const { seedSampleData } = useSampleQualityData();
 
   // Update loading state when data is available
   useEffect(() => {
@@ -29,7 +26,6 @@ export const useQualityData = () => {
     isLoading,
     addInspection,
     updateInspection,
-    deleteInspection,
-    seedSampleData
+    deleteInspection
   };
 };

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { PPERequirement } from "@/types/quality";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, CheckCircle, Download, Edit, XCircle, Filter } from "lucide-react";
+import { Calendar, CheckCircle, Download, Edit, Filter } from "lucide-react";
 import {
   Select,
   SelectContent,

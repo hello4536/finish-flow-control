@@ -13,8 +13,7 @@ const QualityPage = () => {
   const {
     inspections,
     isLoading,
-    addInspection,
-    seedSampleData
+    addInspection
   } = useQualityData();
   
   const handleAddInspection = (data: any) => {
@@ -31,9 +30,6 @@ const QualityPage = () => {
             <Input placeholder="Search..." className="pl-8" value={search} onChange={e => setSearch(e.target.value)} />
           </div>
           <AddInspectionDialog onAddInspection={handleAddInspection} />
-          <Button variant="outline" onClick={() => seedSampleData()}>
-            Add Sample Data
-          </Button>
         </div>
       </div>
       
