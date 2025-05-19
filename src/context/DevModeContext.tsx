@@ -141,6 +141,7 @@ export function DevModeProvider({ children }: { children: ReactNode }) {
         .select('*');
       
       if (!qualityInspections || qualityInspections.length === 0) {
+        // Import and use the sample quality data
         const { useSampleQualityData } = await import('@/hooks/useSampleQualityData');
         const { seedSampleData } = useSampleQualityData();
         await seedSampleData();
@@ -152,6 +153,7 @@ export function DevModeProvider({ children }: { children: ReactNode }) {
         .select('*');
       
       if (!certifications || certifications.length === 0) {
+        // Import and use the sample compliance data
         const { useSampleComplianceData } = await import('@/hooks/useSampleComplianceData');
         const { seedSampleData } = useSampleComplianceData();
         await seedSampleData();

@@ -8,35 +8,31 @@ import { useToast } from '@/hooks/use-toast';
 export const useQualityInspections = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
 
   // Fetch quality inspections
   const { data: inspections = [], isLoading: isInspectionsLoading } = useQuery({
-    queryKey: ['qualityInspections'],
+    queryKey: ['qualityInspections', selectedStatus],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('quality_inspections')
-        .select('*')
-        .order('date', { ascending: false });
-      
-      if (error) {
-        toast({
-          title: 'Error fetching inspections',
-          description: error.message,
-          variant: 'destructive',
-        });
-        return [];
+      let query = supabase.from('quality_inspections').select('*');
+
+      if (selectedStatus) {
+        query = query.eq('status', selectedStatus);
       }
-      
+
+      const { data, error } = await query.order('date', { ascending: false });
+
+      if (error) throw error;
       return data as QualityInspection[];
     },
   });
 
-  // Add inspection mutation
+  // Add inspection
   const addInspection = useMutation({
-    mutationFn: async (inspection: Omit<QualityInspection, 'id' | 'created_at' | 'updated_at'>) => {
+    mutationFn: async (inspectionData: Omit<QualityInspection, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
         .from('quality_inspections')
-        .insert(inspection)
+        .insert(inspectionData)
         .select()
         .single();
       
@@ -45,26 +41,26 @@ export const useQualityInspections = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['qualityInspections'] });
-      toast({ 
-        title: 'Inspection added',
-        description: 'Quality inspection has been added successfully.'
+      toast({
+        title: "Inspection Added",
+        description: "Quality inspection has been successfully recorded.",
       });
     },
     onError: (error: any) => {
       toast({
-        title: 'Error adding inspection',
+        title: "Error Adding Inspection",
         description: error.message,
-        variant: 'destructive',
+        variant: "destructive",
       });
-    }
+    },
   });
 
-  // Update inspection mutation
+  // Update inspection
   const updateInspection = useMutation({
-    mutationFn: async ({ id, ...inspection }: { id: string } & Omit<QualityInspection, 'id' | 'created_at' | 'updated_at'>) => {
+    mutationFn: async ({ id, ...updates }: Partial<QualityInspection> & { id: string }) => {
       const { data, error } = await supabase
         .from('quality_inspections')
-        .update(inspection)
+        .update(updates)
         .eq('id', id)
         .select()
         .single();
@@ -74,21 +70,21 @@ export const useQualityInspections = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['qualityInspections'] });
-      toast({ 
-        title: 'Inspection updated',
-        description: 'Quality inspection has been updated successfully.'
+      toast({
+        title: "Inspection Updated",
+        description: "Quality inspection has been successfully updated.",
       });
     },
     onError: (error: any) => {
       toast({
-        title: 'Error updating inspection',
+        title: "Error Updating Inspection",
         description: error.message,
-        variant: 'destructive',
+        variant: "destructive",
       });
-    }
+    },
   });
 
-  // Delete inspection mutation
+  // Delete inspection
   const deleteInspection = useMutation({
     mutationFn: async (id: string) => {
       const { error } = await supabase
@@ -97,29 +93,31 @@ export const useQualityInspections = () => {
         .eq('id', id);
       
       if (error) throw error;
-      return id;
+      return { success: true };
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['qualityInspections'] });
-      toast({ 
-        title: 'Inspection deleted',
-        description: 'Quality inspection has been deleted successfully.'
+      toast({
+        title: "Inspection Deleted",
+        description: "Quality inspection has been successfully deleted.",
       });
     },
     onError: (error: any) => {
       toast({
-        title: 'Error deleting inspection',
+        title: "Error Deleting Inspection",
         description: error.message,
-        variant: 'destructive',
+        variant: "destructive",
       });
-    }
+    },
   });
 
   return {
     inspections,
     isInspectionsLoading,
+    selectedStatus,
+    setSelectedStatus,
     addInspection,
     updateInspection,
-    deleteInspection
+    deleteInspection,
   };
 };

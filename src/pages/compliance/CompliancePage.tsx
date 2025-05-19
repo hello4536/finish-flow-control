@@ -88,6 +88,9 @@ const CompliancePage = () => {
             <AddComplianceIssueDialog onAddComplianceIssue={handleAddComplianceIssue} />
             <AddHazardousWasteDialog onAddHazardousWaste={handleAddHazardousWaste} />
             <AddPPERequirementDialog onAddPPERequirement={handleAddPPERequirement} />
+            <Button variant="outline" onClick={() => seedSampleData()}>
+              Add Sample Data
+            </Button>
           </div>
         </div>
       </div>
