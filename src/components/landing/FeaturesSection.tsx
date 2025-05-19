@@ -1,17 +1,7 @@
-
 import React from "react";
-import { 
-  Calendar,
-  PackageOpen, 
-  Shield, 
-  PaintBucket,
-  Sparkles,
-  Users
-} from "lucide-react";
-
+import { Calendar, PackageOpen, Shield, PaintBucket, Sparkles, Users } from "lucide-react";
 const FeaturesSection = () => {
-  return (
-    <section id="features" className="py-20 bg-primary/5">
+  return <section id="features" className="py-20 bg-primary/5">
       <div className="container px-4 md:px-6">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-primary">
@@ -33,11 +23,7 @@ const FeaturesSection = () => {
               Schedule, assign and track all finishing tasks with ease. Keep workflows organized and meet deadlines consistently.
             </p>
             <div className="mt-4 pt-4 border-t border-primary/10">
-              <img 
-                src="https://placehold.co/800x400/fff5e9/f97316?text=Job+Scheduling+Screenshot" 
-                alt="Job Scheduling" 
-                className="w-full rounded-lg shadow-sm"
-              />
+              <img alt="Job Scheduling" className="w-full rounded-lg shadow-sm" src="/lovable-uploads/79510a99-0516-4ff2-9de5-8c2c4d375d74.png" />
             </div>
           </div>
           
@@ -51,11 +37,7 @@ const FeaturesSection = () => {
               Monitor stock levels, track material usage, and manage your warehouse with powerful inventory tools.
             </p>
             <div className="mt-4 pt-4 border-t border-primary/10">
-              <img 
-                src="https://placehold.co/800x400/e9f0ff/0a2168?text=Inventory+Dashboard" 
-                alt="Inventory Dashboard" 
-                className="w-full rounded-lg shadow-sm"
-              />
+              <img src="https://placehold.co/800x400/e9f0ff/0a2168?text=Inventory+Dashboard" alt="Inventory Dashboard" className="w-full rounded-lg shadow-sm" />
             </div>
           </div>
           
@@ -69,11 +51,7 @@ const FeaturesSection = () => {
               Stay compliant with certifications, PPE requirements, and hazardous waste tracking tools.
             </p>
             <div className="mt-4 pt-4 border-t border-primary/10">
-              <img 
-                src="https://placehold.co/800x400/fff5e9/f97316?text=Compliance+Tools" 
-                alt="Compliance Tools" 
-                className="w-full rounded-lg shadow-sm"
-              />
+              <img src="https://placehold.co/800x400/fff5e9/f97316?text=Compliance+Tools" alt="Compliance Tools" className="w-full rounded-lg shadow-sm" />
             </div>
           </div>
           
@@ -87,11 +65,7 @@ const FeaturesSection = () => {
               Create and manage custom paint colors, stains, and finishing recipes all in one place.
             </p>
             <div className="mt-4 pt-4 border-t border-primary/10">
-              <img 
-                src="https://placehold.co/800x400/e9f0ff/0a2168?text=Custom+Creations+Library" 
-                alt="Custom Creations Library" 
-                className="w-full rounded-lg shadow-sm"
-              />
+              <img src="https://placehold.co/800x400/e9f0ff/0a2168?text=Custom+Creations+Library" alt="Custom Creations Library" className="w-full rounded-lg shadow-sm" />
             </div>
           </div>
           
@@ -105,11 +79,7 @@ const FeaturesSection = () => {
               Track inspections, manage quality issues, and maintain high standards with built-in quality management tools.
             </p>
             <div className="mt-4 pt-4 border-t border-primary/10">
-              <img 
-                src="https://placehold.co/800x400/fff5e9/f97316?text=Quality+Control+Dashboard" 
-                alt="Quality Control Dashboard" 
-                className="w-full rounded-lg shadow-sm"
-              />
+              <img src="https://placehold.co/800x400/fff5e9/f97316?text=Quality+Control+Dashboard" alt="Quality Control Dashboard" className="w-full rounded-lg shadow-sm" />
             </div>
           </div>
           
@@ -123,17 +93,11 @@ const FeaturesSection = () => {
               Manage your team, assign roles, and coordinate workflows efficiently across your entire department.
             </p>
             <div className="mt-4 pt-4 border-t border-primary/10">
-              <img 
-                src="https://placehold.co/800x400/e9f0ff/0a2168?text=Team+Dashboard" 
-                alt="Team Management Dashboard" 
-                className="w-full rounded-lg shadow-sm"
-              />
+              <img src="https://placehold.co/800x400/e9f0ff/0a2168?text=Team+Dashboard" alt="Team Management Dashboard" className="w-full rounded-lg shadow-sm" />
             </div>
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default FeaturesSection;
