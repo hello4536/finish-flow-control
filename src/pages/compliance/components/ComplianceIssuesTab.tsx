@@ -1,23 +1,50 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ComplianceIssue } from "@/types/quality";
+import { UseMutationResult } from "@tanstack/react-query";
+import DeleteComplianceIssueDialog from "./DeleteComplianceIssueDialog";
+import { Edit, Trash } from "lucide-react";
 
 interface ComplianceIssuesTabProps {
   complianceIssues: ComplianceIssue[];
   isLoading: boolean;
+  updateComplianceIssue: UseMutationResult<any, any, any, any>;
+  deleteComplianceIssue: UseMutationResult<any, any, any, any>;
 }
 
-const ComplianceIssuesTab: React.FC<ComplianceIssuesTabProps> = ({ complianceIssues, isLoading }) => {
+const ComplianceIssuesTab: React.FC<ComplianceIssuesTabProps> = ({ 
+  complianceIssues, 
+  isLoading,
+  updateComplianceIssue,
+  deleteComplianceIssue
+}) => {
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [issueToDelete, setIssueToDelete] = useState<string | null>(null);
+  
   const handleExport = () => {
     // In a real app, this would export data to CSV or PDF
     console.log("Exporting Compliance Issues data");
   };
   
-  const handleView = (id: string) => {
-    // In a real app, this would open a detailed view
-    console.log(`Viewing Compliance Issue with ID ${id}`);
+  const handleEdit = (issue: ComplianceIssue) => {
+    // For now, just adding placeholder for edit functionality
+    // In a real implementation, you'd open an edit dialog
+    console.log(`Editing compliance issue: ${issue.id}`);
+  };
+  
+  const handleDeleteClick = (issue: ComplianceIssue) => {
+    setIssueToDelete(issue.id);
+    setDeleteDialogOpen(true);
+  };
+  
+  const handleConfirmDelete = () => {
+    if (issueToDelete) {
+      deleteComplianceIssue.mutate(issueToDelete);
+      setDeleteDialogOpen(false);
+      setIssueToDelete(null);
+    }
   };
   
   return (
@@ -63,9 +90,24 @@ const ComplianceIssuesTab: React.FC<ComplianceIssuesTabProps> = ({ complianceIss
                     </TableCell>
                     <TableCell>{issue.assignee}</TableCell>
                     <TableCell>
-                      <Button variant="ghost" size="sm" onClick={() => handleView(issue.id)}>
-                        View
-                      </Button>
+                      <div className="flex space-x-1">
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          onClick={() => handleEdit(issue)}
+                          className="h-8 w-8 p-0"
+                        >
+                          <Edit className="h-4 w-4" />
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          onClick={() => handleDeleteClick(issue)}
+                          className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                        >
+                          <Trash className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))
@@ -80,6 +122,13 @@ const ComplianceIssuesTab: React.FC<ComplianceIssuesTabProps> = ({ complianceIss
           </Table>
         </div>
       )}
+
+      <DeleteComplianceIssueDialog 
+        issueId={issueToDelete || ''}
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        onConfirmDelete={handleConfirmDelete}
+      />
     </>
   );
 };

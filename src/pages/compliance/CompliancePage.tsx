@@ -6,6 +6,8 @@ import { Search } from "lucide-react";
 import { useComplianceData } from "@/hooks/useComplianceData";
 import ComplianceStatCards from "./components/ComplianceStatCards";
 import ComplianceDataTabs from "./components/ComplianceDataTabs";
+import AddCertificationDialog from "./components/AddCertificationDialog";
+import AddComplianceIssueDialog from "./components/AddComplianceIssueDialog";
 
 const CompliancePage = () => {
   const [search, setSearch] = useState("");
@@ -16,8 +18,22 @@ const CompliancePage = () => {
     selectedRegion,
     setSelectedRegion,
     isLoading,
+    addCertification,
+    updateCertification,
+    deleteCertification,
+    addComplianceIssue,
+    updateComplianceIssue,
+    deleteComplianceIssue,
     seedSampleData
   } = useComplianceData();
+
+  const handleAddCertification = (data: any) => {
+    addCertification.mutate(data);
+  };
+
+  const handleAddComplianceIssue = (data: any) => {
+    addComplianceIssue.mutate(data);
+  };
 
   return (
     <div className="space-y-6">
@@ -33,6 +49,8 @@ const CompliancePage = () => {
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
+          <AddCertificationDialog onAddCertification={handleAddCertification} />
+          <AddComplianceIssueDialog onAddComplianceIssue={handleAddComplianceIssue} />
           <Button onClick={seedSampleData} variant="outline" size="sm">
             Seed Sample Data
           </Button>
@@ -52,6 +70,10 @@ const CompliancePage = () => {
         selectedRegion={selectedRegion}
         setSelectedRegion={setSelectedRegion}
         isLoading={isLoading}
+        updateCertification={updateCertification}
+        deleteCertification={deleteCertification}
+        updateComplianceIssue={updateComplianceIssue}
+        deleteComplianceIssue={deleteComplianceIssue}
       />
     </div>
   );

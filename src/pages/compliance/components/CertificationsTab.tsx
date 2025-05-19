@@ -1,23 +1,50 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Certification } from "@/types/quality";
+import { UseMutationResult } from "@tanstack/react-query";
+import DeleteCertificationDialog from "./DeleteCertificationDialog";
+import { Edit, Trash } from "lucide-react";
 
 interface CertificationsTabProps {
   certifications: Certification[];
   isLoading: boolean;
+  updateCertification: UseMutationResult<any, any, any, any>;
+  deleteCertification: UseMutationResult<any, any, any, any>;
 }
 
-const CertificationsTab: React.FC<CertificationsTabProps> = ({ certifications, isLoading }) => {
+const CertificationsTab: React.FC<CertificationsTabProps> = ({ 
+  certifications, 
+  isLoading,
+  updateCertification,
+  deleteCertification
+}) => {
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [certificationToDelete, setCertificationToDelete] = useState<string | null>(null);
+  
   const handleExport = () => {
     // In a real app, this would export data to CSV or PDF
     console.log("Exporting Certification data");
   };
   
-  const handleView = (id: string) => {
-    // In a real app, this would open a detailed view
-    console.log(`Viewing Certification with ID ${id}`);
+  const handleEdit = (cert: Certification) => {
+    // For now, just adding placeholder for edit functionality
+    // In a real implementation, you'd open an edit dialog
+    console.log(`Editing certification: ${cert.id}`);
+  };
+  
+  const handleDeleteClick = (cert: Certification) => {
+    setCertificationToDelete(cert.id);
+    setDeleteDialogOpen(true);
+  };
+  
+  const handleConfirmDelete = () => {
+    if (certificationToDelete) {
+      deleteCertification.mutate(certificationToDelete);
+      setDeleteDialogOpen(false);
+      setCertificationToDelete(null);
+    }
   };
   
   return (
@@ -60,9 +87,24 @@ const CertificationsTab: React.FC<CertificationsTabProps> = ({ certifications, i
                     <TableCell>{cert.expiry}</TableCell>
                     <TableCell>{cert.authority}</TableCell>
                     <TableCell>
-                      <Button variant="ghost" size="sm" onClick={() => handleView(cert.id)}>
-                        View
-                      </Button>
+                      <div className="flex space-x-1">
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          onClick={() => handleEdit(cert)}
+                          className="h-8 w-8 p-0"
+                        >
+                          <Edit className="h-4 w-4" />
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          onClick={() => handleDeleteClick(cert)}
+                          className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                        >
+                          <Trash className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))
@@ -77,6 +119,13 @@ const CertificationsTab: React.FC<CertificationsTabProps> = ({ certifications, i
           </Table>
         </div>
       )}
+
+      <DeleteCertificationDialog
+        certificationId={certificationToDelete || ''}
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        onConfirmDelete={handleConfirmDelete}
+      />
     </>
   );
 };

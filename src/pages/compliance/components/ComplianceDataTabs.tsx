@@ -6,6 +6,7 @@ import { Certification, ComplianceIssue, RegulatoryCompliance, Region } from "@/
 import CertificationsTab from "./CertificationsTab";
 import ComplianceIssuesTab from "./ComplianceIssuesTab";
 import RegulatoryComplianceTab from "./RegulatoryComplianceTab";
+import { UseMutationResult } from "@tanstack/react-query";
 
 interface ComplianceDataTabsProps {
   search: string;
@@ -15,6 +16,10 @@ interface ComplianceDataTabsProps {
   selectedRegion: Region;
   setSelectedRegion: (region: Region) => void;
   isLoading: boolean;
+  updateCertification: UseMutationResult<any, any, any, any>;
+  deleteCertification: UseMutationResult<any, any, any, any>;
+  updateComplianceIssue: UseMutationResult<any, any, any, any>;
+  deleteComplianceIssue: UseMutationResult<any, any, any, any>;
 }
 
 const ComplianceDataTabs: React.FC<ComplianceDataTabsProps> = ({
@@ -24,7 +29,11 @@ const ComplianceDataTabs: React.FC<ComplianceDataTabsProps> = ({
   regulatoryCompliance,
   selectedRegion,
   setSelectedRegion,
-  isLoading
+  isLoading,
+  updateCertification,
+  deleteCertification,
+  updateComplianceIssue,
+  deleteComplianceIssue
 }) => {
   const filteredCertifications = certifications.filter(
     (item) => 
@@ -60,14 +69,18 @@ const ComplianceDataTabs: React.FC<ComplianceDataTabsProps> = ({
           <TabsContent value="certifications" className="p-4">
             <CertificationsTab 
               certifications={filteredCertifications} 
-              isLoading={isLoading} 
+              isLoading={isLoading}
+              updateCertification={updateCertification}
+              deleteCertification={deleteCertification}
             />
           </TabsContent>
           
           <TabsContent value="violations" className="p-4">
             <ComplianceIssuesTab 
               complianceIssues={filteredComplianceIssues} 
-              isLoading={isLoading} 
+              isLoading={isLoading}
+              updateComplianceIssue={updateComplianceIssue}
+              deleteComplianceIssue={deleteComplianceIssue}
             />
           </TabsContent>
           

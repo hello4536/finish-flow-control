@@ -110,6 +110,62 @@ export const useComplianceData = () => {
     }
   });
 
+  // Update certification mutation
+  const updateCertification = useMutation({
+    mutationFn: async ({ id, ...certification }: { id: string } & Omit<Certification, 'id' | 'created_at' | 'updated_at'>) => {
+      const { data, error } = await supabase
+        .from('certifications')
+        .update(certification)
+        .eq('id', id)
+        .select()
+        .single();
+      
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['certifications'] });
+      toast({ 
+        title: 'Certification updated',
+        description: 'Certification has been updated successfully.'
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: 'Error updating certification',
+        description: error.message,
+        variant: 'destructive',
+      });
+    }
+  });
+
+  // Delete certification mutation
+  const deleteCertification = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase
+        .from('certifications')
+        .delete()
+        .eq('id', id);
+      
+      if (error) throw error;
+      return id;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['certifications'] });
+      toast({ 
+        title: 'Certification deleted',
+        description: 'Certification has been deleted successfully.'
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: 'Error deleting certification',
+        description: error.message,
+        variant: 'destructive',
+      });
+    }
+  });
+
   // Add compliance issue mutation
   const addComplianceIssue = useMutation({
     mutationFn: async (issue: Omit<ComplianceIssue, 'id' | 'created_at' | 'updated_at'>) => {
@@ -132,6 +188,62 @@ export const useComplianceData = () => {
     onError: (error: any) => {
       toast({
         title: 'Error adding compliance issue',
+        description: error.message,
+        variant: 'destructive',
+      });
+    }
+  });
+
+  // Update compliance issue mutation
+  const updateComplianceIssue = useMutation({
+    mutationFn: async ({ id, ...issue }: { id: string } & Omit<ComplianceIssue, 'id' | 'created_at' | 'updated_at'>) => {
+      const { data, error } = await supabase
+        .from('compliance_issues')
+        .update(issue)
+        .eq('id', id)
+        .select()
+        .single();
+      
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['complianceIssues'] });
+      toast({ 
+        title: 'Compliance issue updated',
+        description: 'Compliance issue has been updated successfully.'
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: 'Error updating compliance issue',
+        description: error.message,
+        variant: 'destructive',
+      });
+    }
+  });
+
+  // Delete compliance issue mutation
+  const deleteComplianceIssue = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase
+        .from('compliance_issues')
+        .delete()
+        .eq('id', id);
+      
+      if (error) throw error;
+      return id;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['complianceIssues'] });
+      toast({ 
+        title: 'Compliance issue deleted',
+        description: 'Compliance issue has been deleted successfully.'
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: 'Error deleting compliance issue',
         description: error.message,
         variant: 'destructive',
       });
@@ -266,7 +378,11 @@ export const useComplianceData = () => {
     setSelectedRegion,
     isLoading,
     addCertification,
+    updateCertification,
+    deleteCertification,
     addComplianceIssue,
+    updateComplianceIssue,
+    deleteComplianceIssue,
     seedSampleData
   };
 };
