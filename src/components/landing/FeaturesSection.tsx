@@ -1,20 +1,20 @@
 import React from "react";
 import { Calendar, PackageOpen, Shield, PaintBucket, Sparkles, Users } from "lucide-react";
 const FeaturesSection = () => {
-  return <section id="features" className="py-20 bg-orange-100">
+  return <section id="features" className="bg-orange-100 py-[50px]">
       <div className="container px-4 md:px-6">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-blue-900">
+          <h2 className="text-3xl tracking-tight text-blue-900 font-extrabold sm:text-5xl">
             Comprehensive Features for Finishing Operations
           </h2>
-          <p className="mt-4 text-lg max-w-[700px] mx-auto text-blue-800">
+          <p className="mt-4 text-lg max-w-[700px] mx-auto text-blue-800 font-bold">
             Everything you need to manage your finishing department efficiently in one powerful platform.
           </p>
         </div>
         
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {/* Feature 1 */}
-          <div className="bg-card rounded-xl border border-primary/10 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-accent">
+          <div className="bg-card rounded-xl border border-primary/10 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-accent py-[5px]">
             <div className="h-12 w-12 rounded-full flex items-center justify-center mb-4 bg-orange-500">
               <Calendar className="h-6 w-6 text-white" />
             </div>
@@ -28,7 +28,7 @@ const FeaturesSection = () => {
           </div>
           
           {/* Feature 2 */}
-          <div className="bg-card rounded-xl border border-primary/10 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-accent">
+          <div className="bg-card rounded-xl border border-primary/10 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-accent py-[5px]">
             <div className="h-12 w-12 rounded-full flex items-center justify-center mb-4 bg-blue-200">
               <PackageOpen className="h-6 w-6 text-primary" />
             </div>
@@ -40,7 +40,7 @@ const FeaturesSection = () => {
           </div>
           
           {/* Feature 3 */}
-          <div className="bg-card rounded-xl border border-primary/10 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-accent">
+          <div className="bg-card rounded-xl border border-primary/10 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-accent py-[5px]">
             <div className="h-12 w-12 rounded-full flex items-center justify-center mb-4 bg-orange-500">
               <Shield className="h-6 w-6 text-white" />
             </div>
@@ -54,7 +54,7 @@ const FeaturesSection = () => {
           </div>
           
           {/* Feature 4 */}
-          <div className="bg-card rounded-xl border border-primary/10 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-accent">
+          <div className="bg-card rounded-xl border border-primary/10 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-accent py-[5px]">
             <div className="h-12 w-12 rounded-full flex items-center justify-center mb-4 bg-blue-200">
               <PaintBucket className="h-6 w-6 text-primary" />
             </div>
@@ -68,7 +68,7 @@ const FeaturesSection = () => {
           </div>
           
           {/* Feature 5 */}
-          <div className="bg-card rounded-xl border border-primary/10 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-accent">
+          <div className="bg-card rounded-xl border border-primary/10 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-accent py-[5px]">
             <div className="h-12 w-12 rounded-full flex items-center justify-center mb-4 bg-orange-500">
               <Sparkles className="h-6 w-6 text-white" />
             </div>
@@ -82,7 +82,7 @@ const FeaturesSection = () => {
           </div>
           
           {/* Feature 6 */}
-          <div className="bg-card rounded-xl border border-primary/10 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-accent">
+          <div className="bg-card rounded-xl border border-primary/10 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-accent py-[5px]">
             <div className="h-12 w-12 rounded-full flex items-center justify-center mb-4 bg-blue-200">
               <Users className="h-6 w-6 text-blue-950" />
             </div>
