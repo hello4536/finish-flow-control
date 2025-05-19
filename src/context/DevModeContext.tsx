@@ -108,9 +108,20 @@ export function DevModeProvider({ children }: { children: ReactNode }) {
         .select('*');
       
       if (!workflows || workflows.length === 0) {
-        // Fix: Import the WorkflowSeeder module and call the seedWorkflows function directly
+        // Import the seedWorkflows function and use it
         const { seedWorkflows } = await import('@/pages/workflows/components/WorkflowSeeder');
         await seedWorkflows();
+      }
+      
+      // Seed jobs
+      const { data: jobs } = await supabase
+        .from('jobs')
+        .select('*');
+      
+      if (!jobs || jobs.length === 0) {
+        // Import the seedJobs function and use it
+        const { seedJobs } = await import('@/pages/jobs/components/JobsSeeder');
+        await seedJobs();
       }
       
       // Seed quality data
