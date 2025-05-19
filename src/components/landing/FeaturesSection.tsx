@@ -73,7 +73,7 @@ const FeaturesSection = () => {
               <Sparkles className="h-6 w-6 text-white" />
             </div>
             <h3 className="text-xl font-bold mb-2 text-primary text-center">Quality Control</h3>
-            <p className="text-muted-foreground text-center">
+            <p className="text-center text-orange-500">
               Track inspections, manage quality issues, and maintain high standards with built-in quality management tools.
             </p>
             <div className="mt-4 pt-4 border-t border-primary/10">
