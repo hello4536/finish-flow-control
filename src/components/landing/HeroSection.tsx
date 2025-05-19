@@ -37,7 +37,7 @@ const HeroSection = () => {
           </div>
         </div>
         
-        {/* App Screenshots Showcase */}
+        {/* App Screenshot Showcase */}
         <div className="mt-16 relative">
           <div className="absolute inset-0 -z-10 bg-gradient-to-tr from-primary/5 to-accent/5 rounded-xl"></div>
           <div className="bg-background border rounded-xl shadow-xl overflow-hidden">
@@ -49,23 +49,11 @@ const HeroSection = () => {
               </div>
             </div>
             <div className="p-4">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <img 
-                  src="https://placehold.co/600x400/e9f0ff/0a2168?text=Dashboard+View" 
-                  alt="Finivi Dashboard" 
-                  className="rounded-lg w-full shadow-md hover:shadow-lg transition-all"
-                />
-                <img 
-                  src="https://placehold.co/600x400/fff5e9/f97316?text=Inventory+Tracking" 
-                  alt="Inventory Management" 
-                  className="rounded-lg w-full shadow-md hover:shadow-lg transition-all"
-                />
-                <img 
-                  src="https://placehold.co/600x400/e9f0ff/0a2168?text=Workflow+Management" 
-                  alt="Workflow Management" 
-                  className="rounded-lg w-full shadow-md hover:shadow-lg transition-all"
-                />
-              </div>
+              <img 
+                src="/lovable-uploads/da2f6cea-e4ce-4d08-9394-e1c66233938b.png" 
+                alt="Finivi Dashboard" 
+                className="rounded-lg w-full shadow-md hover:shadow-lg transition-all"
+              />
             </div>
           </div>
         </div>
