@@ -1,87 +1,81 @@
 
 import React from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Clock, CheckSquare, PackageOpen, Users } from "lucide-react";
+import { useDevMode } from "@/context/DevModeContext";
 
 const ActivityFeed: React.FC = () => {
+  const { isDevMode } = useDevMode();
+  
+  // Mock activity data for dev mode
+  const mockActivities = [
+    {
+      id: "1",
+      user: "Sarah Miller",
+      action: "completed",
+      item: "Kitchen Cabinet Finishing",
+      time: "15 minutes ago"
+    },
+    {
+      id: "2",
+      user: "David Chen",
+      action: "started",
+      item: "Dining Table Staining",
+      time: "35 minutes ago"
+    },
+    {
+      id: "3",
+      user: "Michael Brown",
+      action: "updated",
+      item: "Quality Inspection #QI-456",
+      time: "1 hour ago"
+    },
+    {
+      id: "4",
+      user: "Alex Johnson",
+      action: "approved",
+      item: "Material Order #MO-789",
+      time: "2 hours ago"
+    },
+    {
+      id: "5",
+      user: "Emma Wilson",
+      action: "commented on",
+      item: "Quality Control Report",
+      time: "3 hours ago"
+    }
+  ];
+  
   return (
     <Card className="lg:col-span-3">
       <CardHeader>
         <CardTitle>Recent Activity</CardTitle>
         <CardDescription>
-          Latest updates across all departments
+          Latest actions from your team
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="space-y-5">
-          <div className="flex items-center">
-            <div className="mr-2 rounded-full bg-primary/20 p-1">
-              <Clock className="h-4 w-4 text-primary" />
-            </div>
-            <div className="ml-2 space-y-1">
-              <p className="text-sm font-medium leading-none">
-                Wood finishing job started
-              </p>
-              <p className="text-xs text-muted-foreground">
-                Custom Dining Table - Alex started sanding step
-              </p>
-              <p className="text-xs text-muted-foreground">
-                10 minutes ago
-              </p>
-            </div>
+        {isDevMode ? (
+          <div className="space-y-4">
+            {mockActivities.map((activity) => (
+              <div key={activity.id} className="flex items-start pb-4 last:pb-0 border-b last:border-0">
+                <div className="flex flex-col flex-1">
+                  <div className="text-sm">
+                    <span className="font-medium">{activity.user}</span>{" "}
+                    <span className="text-muted-foreground">{activity.action}</span>{" "}
+                    <span className="font-medium">{activity.item}</span>
+                  </div>
+                  <div className="text-xs text-muted-foreground mt-1">
+                    {activity.time}
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
-
-          <div className="flex items-center">
-            <div className="mr-2 rounded-full bg-primary/20 p-1">
-              <CheckSquare className="h-4 w-4 text-primary" />
-            </div>
-            <div className="ml-2 space-y-1">
-              <p className="text-sm font-medium leading-none">
-                QC check completed
-              </p>
-              <p className="text-xs text-muted-foreground">
-                Kitchen Cabinet Doors - Maria approved final coat
-              </p>
-              <p className="text-xs text-muted-foreground">
-                45 minutes ago
-              </p>
-            </div>
+        ) : (
+          <div className="flex justify-center items-center h-[300px]">
+            <p className="text-muted-foreground">No recent activity to display</p>
           </div>
-
-          <div className="flex items-center">
-            <div className="mr-2 rounded-full bg-primary/20 p-1">
-              <PackageOpen className="h-4 w-4 text-primary" />
-            </div>
-            <div className="ml-2 space-y-1">
-              <p className="text-sm font-medium leading-none">
-                Material received
-              </p>
-              <p className="text-xs text-muted-foreground">
-                New inventory: 20 gallons of satin polyurethane
-              </p>
-              <p className="text-xs text-muted-foreground">
-                2 hours ago
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center">
-            <div className="mr-2 rounded-full bg-primary/20 p-1">
-              <Users className="h-4 w-4 text-primary" />
-            </div>
-            <div className="ml-2 space-y-1">
-              <p className="text-sm font-medium leading-none">
-                New job assigned
-              </p>
-              <p className="text-xs text-muted-foreground">
-                Conference Table - John assigned to staining
-              </p>
-              <p className="text-xs text-muted-foreground">
-                3 hours ago
-              </p>
-            </div>
-          </div>
-        </div>
+        )}
       </CardContent>
     </Card>
   );

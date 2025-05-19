@@ -1,63 +1,83 @@
 
 import React from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Clock } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { useDevMode } from "@/context/DevModeContext";
 
 const DueToday: React.FC = () => {
+  const { isDevMode } = useDevMode();
+  
+  // Mock data for dev mode
+  const mockDueItems = [
+    {
+      id: "1",
+      title: "Walnut Bookcase Final Coat",
+      status: "In Progress",
+      assignee: "David Chen",
+      priority: "High"
+    },
+    {
+      id: "2",
+      title: "Client Project Review: Madison Estate",
+      status: "Pending",
+      assignee: "Sarah Miller",
+      priority: "Medium"
+    },
+    {
+      id: "3",
+      title: "Quality Inspection: Custom Dining Set",
+      status: "Ready",
+      assignee: "Michael Brown",
+      priority: "High"
+    },
+    {
+      id: "4",
+      title: "Material Order: Cabinet Hardware",
+      status: "Pending",
+      assignee: "Alex Johnson",
+      priority: "Medium"
+    }
+  ];
+  
+  const getPriorityColor = (priority: string) => {
+    switch (priority.toLowerCase()) {
+      case "high": return "bg-red-500";
+      case "medium": return "bg-amber-500";
+      case "low": return "bg-green-500";
+      default: return "bg-blue-500";
+    }
+  };
+  
   return (
-    <Card className="lg:col-span-2">
-      <CardHeader className="flex flex-row items-center justify-between">
-        <div>
-          <CardTitle>Due Today</CardTitle>
-          <CardDescription>Jobs requiring immediate attention</CardDescription>
-        </div>
-        <Button variant="ghost" size="sm">View All</Button>
+    <Card className="col-span-2">
+      <CardHeader>
+        <CardTitle className="flex items-center justify-between">
+          <span>Due Today</span>
+          {isDevMode && <Badge variant="outline">{mockDueItems.length}</Badge>}
+        </CardTitle>
+        <CardDescription>Items requiring attention today</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4">
-          <div className="flex items-center justify-between border-b pb-4">
-            <div className="space-y-1">
-              <p className="text-sm font-medium leading-none">Conference Table - Final Coat</p>
-              <p className="text-xs text-muted-foreground">Wood Finishing / Maria</p>
-            </div>
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-1">
-                <Clock className="h-3.5 w-3.5 text-muted-foreground" />
-                <span className="text-xs text-muted-foreground">2h left</span>
+        {isDevMode ? (
+          <div className="space-y-4">
+            {mockDueItems.map((item) => (
+              <div key={item.id} className="border rounded-lg p-3">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="font-medium text-sm">{item.title}</h3>
+                  <Badge className={getPriorityColor(item.priority)}>{item.priority}</Badge>
+                </div>
+                <div className="flex items-center justify-between text-xs text-muted-foreground">
+                  <div>Assignee: {item.assignee}</div>
+                  <div>Status: {item.status}</div>
+                </div>
               </div>
-              <span className="flex h-2 w-2 rounded-full bg-finish-red-500"></span>
-            </div>
+            ))}
           </div>
-
-          <div className="flex items-center justify-between border-b pb-4">
-            <div className="space-y-1">
-              <p className="text-sm font-medium leading-none">Kitchen Cabinet Doors - QC Check</p>
-              <p className="text-xs text-muted-foreground">Wood Finishing / Alex</p>
-            </div>
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-1">
-                <Clock className="h-3.5 w-3.5 text-muted-foreground" />
-                <span className="text-xs text-muted-foreground">4h left</span>
-              </div>
-              <span className="flex h-2 w-2 rounded-full bg-finish-amber-500"></span>
-            </div>
+        ) : (
+          <div className="flex justify-center items-center py-8">
+            <p className="text-muted-foreground">No items due today</p>
           </div>
-
-          <div className="flex items-center justify-between border-b pb-4">
-            <div className="space-y-1">
-              <p className="text-sm font-medium leading-none">Bookshelf - Sanding</p>
-              <p className="text-xs text-muted-foreground">Wood Finishing / John</p>
-            </div>
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-1">
-                <Clock className="h-3.5 w-3.5 text-muted-foreground" />
-                <span className="text-xs text-muted-foreground">5h left</span>
-              </div>
-              <span className="flex h-2 w-2 rounded-full bg-finish-green-500"></span>
-            </div>
-          </div>
-        </div>
+        )}
       </CardContent>
     </Card>
   );

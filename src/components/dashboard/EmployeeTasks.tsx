@@ -5,14 +5,56 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { CheckSquare } from "lucide-react";
 import { useDailyTasks } from "@/hooks/useDailyTasks";
+import { useDevMode } from "@/context/DevModeContext";
 
 const EmployeeTasks: React.FC = () => {
   const { tasks, isLoading, completeTask } = useDailyTasks();
+  const { isDevMode } = useDevMode();
   
   // Get today's tasks only
   const today = new Date();
   const todaysDateString = format(today, 'yyyy-MM-dd');
   const todaysTasks = tasks.filter(task => task.due_date === todaysDateString);
+  
+  // Add mock tasks for dev mode
+  const mockTasks = [
+    {
+      id: "mock-task-1",
+      title: "Finish Mahogany Coffee Table",
+      priority: "high",
+      status: "pending",
+      due_date: todaysDateString,
+      assignee: { name: "Sarah Miller" }
+    },
+    {
+      id: "mock-task-2",
+      title: "Sand Oak Cabinet Doors",
+      priority: "medium",
+      status: "pending",
+      due_date: todaysDateString,
+      assignee: { name: "David Chen" }
+    },
+    {
+      id: "mock-task-3",
+      title: "Apply Stain to Bookshelf",
+      priority: "medium",
+      status: "completed",
+      due_date: todaysDateString,
+      assignee: { name: "Michael Brown" }
+    },
+    {
+      id: "mock-task-4",
+      title: "Final Coat on Dining Set",
+      priority: "high",
+      status: "pending",
+      due_date: todaysDateString,
+      assignee: { name: "Alex Johnson" }
+    }
+  ];
+  
+  // Display mock tasks when in dev mode
+  const displayTasks = isDevMode ? mockTasks : todaysTasks;
+  const displayLoading = isDevMode ? false : isLoading;
 
   return (
     <Card className="lg:col-span-4">
@@ -23,13 +65,13 @@ const EmployeeTasks: React.FC = () => {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        {isLoading ? (
+        {displayLoading ? (
           <div className="flex justify-center items-center h-[300px]">
             <p className="text-muted-foreground">Loading tasks...</p>
           </div>
-        ) : todaysTasks.length > 0 ? (
+        ) : displayTasks.length > 0 ? (
           <div className="space-y-4">
-            {todaysTasks.map(task => (
+            {displayTasks.map(task => (
               <div key={task.id} className="flex items-center justify-between border-b pb-4">
                 <div className="space-y-1">
                   <p className="text-sm font-medium leading-none">{task.title}</p>
@@ -47,7 +89,7 @@ const EmployeeTasks: React.FC = () => {
                     <Button 
                       size="sm"
                       variant="outline"
-                      onClick={() => completeTask(task.id)}
+                      onClick={() => !isDevMode && completeTask(task.id)}
                     >
                       Complete
                     </Button>

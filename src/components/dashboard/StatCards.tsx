@@ -3,8 +3,10 @@ import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ClipboardList, Calendar, CheckSquare, PackageOpen } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useDevMode } from "@/context/DevModeContext";
 
 const StatCards: React.FC = () => {
+  const { isDevMode } = useDevMode();
   const [stats, setStats] = useState({
     activeJobs: 0,
     jobsDueToday: 0,
@@ -16,6 +18,18 @@ const StatCards: React.FC = () => {
   useEffect(() => {
     async function fetchDashboardStats() {
       try {
+        if (isDevMode) {
+          // Use mock data when in dev mode
+          setStats({
+            activeJobs: 12,
+            jobsDueToday: 4,
+            qcPending: 7,
+            lowStockItems: 3,
+            loading: false
+          });
+          return;
+        }
+        
         // Fetch active jobs count
         const { data: activeJobs, error: activeJobsError } = await supabase
           .from('jobs')
@@ -59,7 +73,7 @@ const StatCards: React.FC = () => {
     }
     
     fetchDashboardStats();
-  }, []);
+  }, [isDevMode]);
 
   // Show loading skeletons if data is still being fetched
   const renderStats = (value: number, loading: boolean) => {
