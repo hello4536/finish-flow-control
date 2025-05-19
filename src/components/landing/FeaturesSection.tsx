@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Calendar, PackageOpen, Shield, PaintBucket, Sparkles, Users } from "lucide-react";
 const FeaturesSection = () => {
