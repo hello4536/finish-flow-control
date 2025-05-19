@@ -2,7 +2,7 @@
 import React from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { useMediaQuery } from "@/hooks/use-mobile";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Material } from "@/types/materials";
 import MaterialBasicInfo from "./MaterialBasicInfo";
@@ -25,18 +25,19 @@ const MaterialDetailView: React.FC<MaterialDetailViewProps> = ({
   onClose
 }) => {
   const [activeTab, setActiveTab] = React.useState("info");
-  const isMobile = useMediaQuery("(max-width: 640px)");
+  const isMobile = useIsMobile();
   
   // Load related data
   const { getComplianceByMaterialId, getSdsByMaterialId } = useMaterialCompliance();
   const { getWasteByMaterialId } = useHazardousWaste();
-  const { getUsageLogsByMaterialId } = useMaterialUsage();
+  const { getUsageByMaterialId, calculateTotalUsage } = useMaterialUsage();
 
   // Prepare data to display
   const complianceRecords = material ? getComplianceByMaterialId(material.id) : [];
   const safetyDataSheets = material ? getSdsByMaterialId(material.id) : [];
   const wasteRecords = material ? getWasteByMaterialId(material.id) : [];
-  const usageLogs = material ? getUsageLogsByMaterialId(material.id) : [];
+  const usageLogs = material ? getUsageByMaterialId(material.id) : [];
+  const totalUsage = material ? calculateTotalUsage(material.id) : 0;
 
   if (!material) {
     return null;
@@ -69,7 +70,11 @@ const MaterialDetailView: React.FC<MaterialDetailViewProps> = ({
         </TabsContent>
         
         <TabsContent value="usage">
-          <UsageHistory material={material} usageLogs={usageLogs} />
+          <UsageHistory 
+            material={material} 
+            usageLogs={usageLogs} 
+            totalUsage={totalUsage}
+          />
         </TabsContent>
       </Tabs>
     </div>
