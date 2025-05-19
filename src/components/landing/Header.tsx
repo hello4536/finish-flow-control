@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -21,10 +22,10 @@ const Header: React.FC = () => {
         </Link>
         
         <nav className="hidden md:flex items-center space-x-6">
-          <a href="#features" className="text-sm font-medium text-gray-600 hover:text-primary transition-colors">Features</a>
+          <a href="#features" className="text-sm font-medium text-slate-50 hover:text-primary transition-colors">Features</a>
           
           
-          <a href="#pricing" className="text-sm font-medium text-gray-600 hover:text-primary transition-colors">Pricing</a>
+          <a href="#pricing" className="text-sm font-medium text-slate-50 hover:text-primary transition-colors">Pricing</a>
         </nav>
         
         <div className="flex items-center space-x-3">
