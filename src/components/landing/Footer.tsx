@@ -1,8 +1,7 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 const Footer = () => {
-  return <footer className="border-t py-12 bg-blue-950">
+  return <footer className="border-t py-12 bg-blue-900">
       <div className="container px-4 md:px-6">
         <div className="grid gap-8 lg:grid-cols-3">
           <div>
