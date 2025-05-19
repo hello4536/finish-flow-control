@@ -15,7 +15,7 @@ const HeroSection = () => {
             Streamline Your Finishing Operations
           </Badge>
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-            The Ultimate Auto-body & Woodworking <span className="text-primary">Finishing Command Center</span>
+            The Ultimate <span className="text-primary">Finishing Command Center</span> for Auto-body & Woodworking Shops
           </h1>
           <p className="mx-auto max-w-[700px] text-muted-foreground text-lg md:text-xl">
             Comprehensive tools for workflows, materials, inventory, compliance, and more — all in one platform designed for finishing professionals.
