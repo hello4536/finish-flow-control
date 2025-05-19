@@ -51,7 +51,7 @@ export const resetAllData = async (): Promise<boolean> => {
       "suppliers",
       "warehouses",
       "workflows",
-    ];
+    ] as const;
 
     // Delete data from each table
     for (const tableName of tablesToClear) {
@@ -71,7 +71,7 @@ export const resetAllData = async (): Promise<boolean> => {
     toast({
       title: "Reset complete",
       description: "All application data has been cleared successfully",
-      variant: "success",
+      variant: "default",
     });
 
     return true;
@@ -128,7 +128,7 @@ export const silentReset = async (): Promise<boolean> => {
       "suppliers",
       "warehouses",
       "workflows",
-    ];
+    ] as const;
 
     // Delete data from each table
     for (const tableName of tablesToClear) {
