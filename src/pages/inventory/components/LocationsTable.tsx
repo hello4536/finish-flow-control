@@ -14,6 +14,7 @@ interface LocationNodeProps {
   location: Location;
   children: Location[];
   level: number;
+  allLocations: Location[]; // Add allLocations prop to access the entire locations array
   onAddSubLocation?: (parentId: string) => void;
   onEdit?: (location: Location) => void;
   onDelete?: (location: Location) => void;
@@ -23,6 +24,7 @@ const LocationNode: React.FC<LocationNodeProps> = ({
   location, 
   children, 
   level,
+  allLocations, // Receive the full locations array
   onAddSubLocation,
   onEdit,
   onDelete
@@ -109,12 +111,13 @@ const LocationNode: React.FC<LocationNodeProps> = ({
       </TableRow>
       {isExpanded && children.map(child => {
         // Find all locations that have this child as parent
-        const grandChildren = locations.filter(loc => loc.parent_id === child.id);
+        const grandChildren = allLocations.filter(loc => loc.parent_id === child.id);
         return (
           <LocationNode 
             key={child.id} 
             location={child} 
-            children={grandChildren} 
+            children={grandChildren}
+            allLocations={allLocations} // Pass the full locations array
             level={level + 1}
             onAddSubLocation={onAddSubLocation}
             onEdit={onEdit}
@@ -174,7 +177,8 @@ const LocationsTable: React.FC<LocationsTableProps> = ({ locations }) => {
               <LocationNode 
                 key={location.id} 
                 location={location} 
-                children={children} 
+                children={children}
+                allLocations={locations} // Pass the full locations array
                 level={0}
                 onAddSubLocation={handleAddSubLocation}
                 onEdit={handleEdit}
