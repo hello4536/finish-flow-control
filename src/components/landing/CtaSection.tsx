@@ -34,7 +34,7 @@ const CtaSection = () => {
           {testimonials.map((testimonial, index) => <Card key={index} className="bg-white border-none shadow-lg hover:shadow-xl transition-shadow duration-300">
               <CardContent className="p-6 flex flex-col h-full bg-blue-50">
                 <MessageSquareQuote className="text-accent mb-4 h-8 w-8" />
-                <p className="italic mb-6 flex-grow text-orange-400">"{testimonial.quote}"</p>
+                <p className="italic mb-6 flex-grow text-blue-900">"{testimonial.quote}"</p>
                 <div className="flex items-center mt-auto">
                   
                   <div>
