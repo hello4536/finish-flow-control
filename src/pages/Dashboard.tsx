@@ -1,9 +1,20 @@
+
 import React from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { BarChart, Calendar, CheckSquare, ClipboardList, Clock, PackageOpen, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useDailyTasks } from "@/hooks/useDailyTasks";
+import { format } from "date-fns";
+
 const Dashboard: React.FC = () => {
+  const { tasks, isLoading, completeTask } = useDailyTasks();
+  
+  // Get today's tasks only
+  const today = new Date();
+  const todaysDateString = format(today, 'yyyy-MM-dd');
+  const todaysTasks = tasks.filter(task => task.due_date === todaysDateString);
+
   return <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-3xl font-bold tracking-tight text-[#0b2065]">Dashboard</h2>
@@ -82,21 +93,6 @@ const Dashboard: React.FC = () => {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-        <Card className="lg:col-span-4">
-          <CardHeader>
-            <CardTitle>Job Completion Rate</CardTitle>
-            <CardDescription>
-              Last 7 days vs. previous period
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="pl-2">
-            <div className="h-[300px] w-full rounded-md border border-dashed flex justify-center items-center">
-              <BarChart className="h-16 w-16 text-muted-foreground/50" />
-              <span className="ml-2 text-muted-foreground">Chart will render here</span>
-            </div>
-          </CardContent>
-        </Card>
-
         <Card className="lg:col-span-3">
           <CardHeader>
             <CardTitle>Recent Activity</CardTitle>
@@ -174,6 +170,60 @@ const Dashboard: React.FC = () => {
                 </div>
               </div>
             </div>
+          </CardContent>
+        </Card>
+
+        <Card className="lg:col-span-4">
+          <CardHeader>
+            <CardTitle>Employee Tasks</CardTitle>
+            <CardDescription>
+              Today's assigned tasks and status
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            {isLoading ? (
+              <div className="flex justify-center items-center h-[300px]">
+                <p className="text-muted-foreground">Loading tasks...</p>
+              </div>
+            ) : todaysTasks.length > 0 ? (
+              <div className="space-y-4">
+                {todaysTasks.map(task => (
+                  <div key={task.id} className="flex items-center justify-between border-b pb-4">
+                    <div className="space-y-1">
+                      <p className="text-sm font-medium leading-none">{task.title}</p>
+                      <div className="flex items-center space-x-2">
+                        <p className="text-xs text-muted-foreground">
+                          {task.assignee?.name || 'Unassigned'}
+                        </p>
+                        <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-primary text-primary-foreground shadow hover:bg-primary/80">
+                          {task.priority}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex items-center">
+                      {task.status === "pending" ? (
+                        <Button 
+                          size="sm"
+                          variant="outline"
+                          onClick={() => completeTask(task.id)}
+                        >
+                          Complete
+                        </Button>
+                      ) : (
+                        <span className="text-xs text-green-600 font-medium flex items-center">
+                          <CheckSquare className="h-3.5 w-3.5 mr-1" /> Completed
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="flex justify-center items-center h-[300px] flex-col">
+                <CheckSquare className="h-12 w-12 text-muted-foreground/50 mb-2" />
+                <p className="text-muted-foreground">No tasks assigned for today</p>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>
