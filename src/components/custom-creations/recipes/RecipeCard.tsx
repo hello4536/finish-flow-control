@@ -18,9 +18,9 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2">
             <h3 className="font-medium text-lg">{recipe.name}</h3>
-            {recipe.is_sop && (
+            {recipe.is_favorite && (
               <span className="bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded-full">
-                SOP
+                Favorite
               </span>
             )}
           </div>
@@ -46,14 +46,14 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
           <div>
             <h4 className="font-semibold text-sm">Materials & Quantities:</h4>
             <ul className="list-disc list-inside text-sm mt-1">
-              {Array.isArray(recipe.materials) ? (
-                recipe.materials.map((material, idx) => (
-                  <li key={material.id || idx}>
-                    {material.name}: {material.quantity} {material.unit}
+              {Array.isArray(recipe.ingredients) ? (
+                recipe.ingredients.map((ingredient, idx) => (
+                  <li key={ingredient.id || idx}>
+                    {ingredient.name}: {ingredient.amount} {ingredient.unit}
                   </li>
                 ))
               ) : (
-                <li>{recipe.materials}</li>
+                <li>No ingredients listed</li>
               )}
             </ul>
           </div>
