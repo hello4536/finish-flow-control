@@ -4,10 +4,10 @@ const FeaturesSection = () => {
   return <section id="features" className="py-20 bg-orange-100">
       <div className="container px-4 md:px-6">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-primary">
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-blue-900">
             Comprehensive Features for Finishing Operations
           </h2>
-          <p className="mt-4 text-lg max-w-[700px] mx-auto text-blue-900">
+          <p className="mt-4 text-lg max-w-[700px] mx-auto text-blue-800">
             Everything you need to manage your finishing department efficiently in one powerful platform.
           </p>
         </div>
