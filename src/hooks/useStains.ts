@@ -3,59 +3,18 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@/hooks/use-toast';
+import { fetchStains } from './stains/fetchStains';
+import { addStain } from './stains/addStain';
+import { updateStain } from './stains/updateStain';
+import { deleteStain } from './stains/deleteStain';
+import { Stain, StainComponent, AddStainParams, UpdateStainParams } from './stains/types';
 
-export interface StainComponent {
-  name: string;
-  quantity: string;
-  unit: string;
-}
-
-export interface Stain {
-  id: string;
-  name: string;
-  brand: string;
-  color: string;
-  notes?: string;
-  baseComponents?: StainComponent[];
-  mixingInstructions?: string;
-  substrateCompatibility?: string[];
-  applicationMethod?: string;
-  dryingTime?: string;
-  coatsRecommended?: string;
-  createdBy?: string;
-  createdAt: string;
-  updated_at: string;
-}
+// Re-export types to maintain backward compatibility
+export type { Stain, StainComponent, AddStainParams, UpdateStainParams };
 
 export const useStains = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  
-  // Fetch all stains
-  const fetchStains = async (): Promise<Stain[]> => {
-    const { data, error } = await supabase
-      .from('stains')
-      .select('*')
-      .order('created_at', { ascending: false });
-    
-    if (error) {
-      console.error('Error fetching stains:', error);
-      throw new Error(error.message);
-    }
-    
-    // Transform the data to match our Stain interface
-    return data?.map(item => ({
-      ...item,
-      createdAt: item.created_at,
-      // Handle potential JSON fields that might be stored as strings
-      baseComponents: item.baseComponents ? 
-        (typeof item.baseComponents === 'string' ? 
-          JSON.parse(item.baseComponents) : item.baseComponents) : [],
-      substrateCompatibility: item.substrateCompatibility ? 
-        (typeof item.substrateCompatibility === 'string' ? 
-          JSON.parse(item.substrateCompatibility) : item.substrateCompatibility) : []
-    })) || [];
-  };
   
   // Query to fetch stains
   const { 
@@ -69,59 +28,8 @@ export const useStains = () => {
   });
   
   // Add a new stain
-  const addStain = useMutation({
-    mutationFn: async ({ 
-      name, 
-      brand, 
-      color, 
-      notes,
-      baseComponents,
-      mixingInstructions,
-      substrateCompatibility,
-      applicationMethod,
-      dryingTime,
-      coatsRecommended,
-      createdBy,
-      createdAt
-    }: {
-      name: string;
-      brand: string;
-      color: string;
-      notes?: string;
-      baseComponents?: StainComponent[];
-      mixingInstructions?: string;
-      substrateCompatibility?: string[];
-      applicationMethod?: string;
-      dryingTime?: string;
-      coatsRecommended?: string;
-      createdBy?: string;
-      createdAt?: Date;
-    }) => {
-      const newStain = {
-        name,
-        brand,
-        color,
-        notes,
-        baseComponents,
-        mixingInstructions,
-        substrateCompatibility,
-        applicationMethod,
-        dryingTime,
-        coatsRecommended,
-        created_by: createdBy,
-        // Convert Date to ISO string for Supabase
-        created_at: createdAt ? createdAt.toISOString() : new Date().toISOString()
-      };
-      
-      const { data, error } = await supabase
-        .from('stains')
-        .insert(newStain)
-        .select()
-        .single();
-      
-      if (error) throw error;
-      return data;
-    },
+  const addStainMutation = useMutation({
+    mutationFn: addStain,
     onSuccess: () => {
       toast({
         title: 'Stain added',
@@ -139,19 +47,8 @@ export const useStains = () => {
   });
 
   // Update a stain
-  const updateStain = useMutation({
-    mutationFn: async ({
-      id,
-      ...stainData
-    }: Partial<Stain> & { id: string }) => {
-      const { error } = await supabase
-        .from('stains')
-        .update(stainData)
-        .eq('id', id);
-      
-      if (error) throw error;
-      return { id, ...stainData };
-    },
+  const updateStainMutation = useMutation({
+    mutationFn: updateStain,
     onSuccess: () => {
       toast({
         title: 'Stain updated',
@@ -169,16 +66,8 @@ export const useStains = () => {
   });
 
   // Delete a stain
-  const deleteStain = useMutation({
-    mutationFn: async (id: string) => {
-      const { error } = await supabase
-        .from('stains')
-        .delete()
-        .eq('id', id);
-      
-      if (error) throw error;
-      return id;
-    },
+  const deleteStainMutation = useMutation({
+    mutationFn: deleteStain,
     onSuccess: () => {
       toast({
         title: 'Stain removed',
@@ -217,8 +106,8 @@ export const useStains = () => {
     stains,
     isLoading,
     error,
-    addStain,
-    updateStain,
-    deleteStain
+    addStain: addStainMutation,
+    updateStain: updateStainMutation,
+    deleteStain: deleteStainMutation
   };
 };

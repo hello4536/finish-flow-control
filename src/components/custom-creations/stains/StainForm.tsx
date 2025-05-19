@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,7 +14,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/hooks/use-toast";
-import { StainComponent } from "@/hooks/useStains";
+import { StainComponent, AddStainParams } from "@/hooks/stains/types";
 
 const stainComponentSchema = z.object({
   name: z.string().min(1, "Component name is required"),
@@ -41,20 +40,7 @@ const stainSchema = z.object({
 type StainFormValues = z.infer<typeof stainSchema>;
 
 interface StainFormProps {
-  addStain: UseMutationResult<any, Error, {
-    name: string;
-    brand: string;
-    color: string;
-    notes?: string;
-    baseComponents?: StainComponent[];
-    mixingInstructions?: string;
-    substrateCompatibility?: string[];
-    applicationMethod?: string;
-    dryingTime?: string;
-    coatsRecommended?: string;
-    createdBy?: string;
-    createdAt?: Date;
-  }, unknown>;
+  addStain: UseMutationResult<any, Error, AddStainParams, unknown>;
 }
 
 const applicationMethods = [
