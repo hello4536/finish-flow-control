@@ -117,7 +117,8 @@ export const useHazardousWaste = () => {
 
   // Helper function to get waste records by material ID
   const getWasteByMaterialId = (materialId: string) => {
-    return hazardousWaste.filter(waste => waste.material_id === materialId);
+    // Fix: using 'material' instead of 'material_id' as indicated by the error message
+    return hazardousWaste.filter(waste => waste.material === materialId);
   };
 
   return {

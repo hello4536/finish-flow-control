@@ -1,3 +1,4 @@
+
 export interface QualityInspection {
   id: string;
   inspection_id: string;
@@ -61,6 +62,7 @@ export interface HazardousWaste {
   notes: string | null;
   created_at: string;
   updated_at: string;
+  material_id?: string; // Added this to match the database schema we updated
 }
 
 export interface PPERequirement {
