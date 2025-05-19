@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { toast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 
 export interface StainComponent {
   name: string;
@@ -43,7 +43,13 @@ export const useStains = () => {
       throw new Error(error.message);
     }
     
-    return data || [];
+    // Transform the data to match our Stain interface
+    return data?.map(item => ({
+      ...item,
+      createdAt: item.created_at,
+      baseComponents: item.baseComponents || [],
+      substrateCompatibility: item.substrateCompatibility || []
+    })) || [];
   };
   
   // Query to fetch stains
@@ -98,7 +104,8 @@ export const useStains = () => {
         dryingTime,
         coatsRecommended,
         created_by: createdBy,
-        created_at: createdAt
+        // Convert Date to ISO string for Supabase
+        created_at: createdAt ? createdAt.toISOString() : new Date().toISOString()
       };
       
       const { data, error } = await supabase

@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -115,6 +115,11 @@ const StainForm: React.FC<StainFormProps> = ({ addStain }) => {
     }
   };
 
+  // Update form when selectedSubstrates changes
+  useEffect(() => {
+    form.setValue("substrateCompatibility", selectedSubstrates);
+  }, [selectedSubstrates, form]);
+
   // Toggle substrate selection
   const toggleSubstrate = (substrate: string) => {
     if (selectedSubstrates.includes(substrate)) {
@@ -122,8 +127,6 @@ const StainForm: React.FC<StainFormProps> = ({ addStain }) => {
     } else {
       setSelectedSubstrates([...selectedSubstrates, substrate]);
     }
-    
-    form.setValue("substrateCompatibility", selectedSubstrates);
   };
 
   // Add a new stain
@@ -133,6 +136,10 @@ const StainForm: React.FC<StainFormProps> = ({ addStain }) => {
       ...values,
       createdBy: "Current User", // This would be replaced with actual user info in a real auth system
       createdAt: new Date(),
+      // Ensure required fields are present
+      name: values.name,
+      brand: values.brand,
+      color: values.color,
       substrateCompatibility: selectedSubstrates
     };
     
