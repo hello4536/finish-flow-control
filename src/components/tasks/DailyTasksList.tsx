@@ -26,7 +26,7 @@ import {
   Loader2,
   Trash2
 } from "lucide-react";
-import { TaskWithAssignee } from "@/hooks/useDailyTasks";
+import { TaskWithAssignee } from "@/hooks/tasks/types";
 
 interface DailyTasksListProps {
   tasks: TaskWithAssignee[];

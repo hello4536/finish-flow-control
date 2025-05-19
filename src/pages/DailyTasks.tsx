@@ -10,7 +10,7 @@ import {
 import TaskAssignmentForm from "@/components/tasks/TaskAssignmentForm";
 import DailyTasksList from "@/components/tasks/DailyTasksList";
 import TasksHeader from "@/components/tasks/TasksHeader";
-import { useDailyTasks } from "@/hooks/useDailyTasks";
+import { useDailyTasks } from "@/hooks/tasks/useDailyTasks";
 
 const DailyTasks: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());

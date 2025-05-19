@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useUserData } from "@/hooks/useUserData";
+import { TaskFormData } from "@/hooks/tasks/types";
 
 // Form schema
 const formSchema = z.object({
@@ -25,8 +25,6 @@ const formSchema = z.object({
   priority: z.enum(["low", "medium", "high"]),
   dueTime: z.string().optional()
 });
-
-export type TaskFormData = z.infer<typeof formSchema>;
 
 interface TaskAssignmentFormProps {
   selectedDate: Date;
