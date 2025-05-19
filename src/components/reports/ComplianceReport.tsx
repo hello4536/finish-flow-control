@@ -28,6 +28,14 @@ interface ComplianceReportProps {
   detailed?: boolean;
 }
 
+// Define an interface for the department compliance data
+interface DepartmentComplianceData {
+  department: string;
+  total: number;
+  compliant: number;
+  complianceRate: number; // Add this property to fix the TypeScript errors
+}
+
 export const ComplianceReport: React.FC<ComplianceReportProps> = ({
   dateRange,
   hazardousWaste,
@@ -67,24 +75,24 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
     { name: 'Disposed', value: disposedWaste }
   ];
   
-  const departmentData = ppeRequirements.reduce((acc, curr) => {
+  // Create department data with the proper type
+  const departmentData: DepartmentComplianceData[] = ppeRequirements.reduce<DepartmentComplianceData[]>((acc, curr) => {
     const existing = acc.find(item => item.department === curr.department);
     if (existing) {
       existing.total += 1;
       if (curr.status === 'Compliant') existing.compliant += 1;
+      existing.complianceRate = Math.round((existing.compliant / existing.total) * 100);
     } else {
+      const compliant = curr.status === 'Compliant' ? 1 : 0;
       acc.push({
         department: curr.department,
         total: 1,
-        compliant: curr.status === 'Compliant' ? 1 : 0
+        compliant: compliant,
+        complianceRate: compliant === 1 ? 100 : 0
       });
     }
     return acc;
-  }, [] as { department: string; total: number; compliant: number }[]);
-
-  departmentData.forEach(dept => {
-    dept.complianceRate = Math.round((dept.compliant / dept.total) * 100);
-  });
+  }, []);
   
   // Calculate upcoming inspections
   const today = new Date();
