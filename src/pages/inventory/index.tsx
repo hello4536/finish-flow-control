@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
@@ -59,7 +58,7 @@ const InventoryPage: React.FC = () => {
     }
     
     if (filters.hazardClass && filters.hazardClass !== "All") {
-      items = items.filter(item => item.hazard_class === filters.hazardClass);
+      items = items.filter(item => item.hazard_class === filters.hazard_class);
     }
     
     if (filters.minVoc !== undefined) {
