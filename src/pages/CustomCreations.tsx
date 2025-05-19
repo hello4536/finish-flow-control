@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
@@ -12,10 +11,9 @@ import PaintColorsSection from "@/components/custom-creations/PaintColorsSection
 import StainsSection from "@/components/custom-creations/StainsSection";
 import RecipesSection from "@/components/custom-creations/RecipesSection";
 import BookmarksSection from "@/components/custom-creations/BookmarksSection";
-
 const CustomCreations = () => {
   const [activeTab, setActiveTab] = useState("paint-colors");
-  
+
   // Stats for each type of custom creation
   const [stats, setStats] = useState({
     paintColors: 0,
@@ -26,23 +24,30 @@ const CustomCreations = () => {
 
   // Update stats when counts change in child components
   const updatePaintCount = (count: number) => {
-    setStats(prev => ({ ...prev, paintColors: count }));
+    setStats(prev => ({
+      ...prev,
+      paintColors: count
+    }));
   };
-  
   const updateStainsCount = (count: number) => {
-    setStats(prev => ({ ...prev, stains: count }));
+    setStats(prev => ({
+      ...prev,
+      stains: count
+    }));
   };
-  
   const updateRecipesCount = (count: number) => {
-    setStats(prev => ({ ...prev, recipes: count }));
+    setStats(prev => ({
+      ...prev,
+      recipes: count
+    }));
   };
-  
   const updateBookmarksCount = (count: number) => {
-    setStats(prev => ({ ...prev, bookmarks: count }));
+    setStats(prev => ({
+      ...prev,
+      bookmarks: count
+    }));
   };
-
-  return (
-    <div className="space-y-6">
+  return <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Custom Creations</h1>
         <p className="text-muted-foreground mt-2">
@@ -51,10 +56,7 @@ const CustomCreations = () => {
       </div>
       
       <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-        <Card 
-          className={`cursor-pointer hover:border-primary/50 transition-all ${activeTab === "paint-colors" ? "border-primary" : ""}`}
-          onClick={() => setActiveTab("paint-colors")}
-        >
+        <Card className={`cursor-pointer hover:border-primary/50 transition-all ${activeTab === "paint-colors" ? "border-primary" : ""}`} onClick={() => setActiveTab("paint-colors")}>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Paint Colors</CardTitle>
             <PaintBucket className="h-4 w-4 text-muted-foreground" />
@@ -65,10 +67,7 @@ const CustomCreations = () => {
           </CardContent>
         </Card>
         
-        <Card 
-          className={`cursor-pointer hover:border-primary/50 transition-all ${activeTab === "stains" ? "border-primary" : ""}`}
-          onClick={() => setActiveTab("stains")}
-        >
+        <Card className={`cursor-pointer hover:border-primary/50 transition-all ${activeTab === "stains" ? "border-primary" : ""}`} onClick={() => setActiveTab("stains")}>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Stains</CardTitle>
             <SwatchBook className="h-4 w-4 text-muted-foreground" />
@@ -79,10 +78,7 @@ const CustomCreations = () => {
           </CardContent>
         </Card>
         
-        <Card 
-          className={`cursor-pointer hover:border-primary/50 transition-all ${activeTab === "recipes" ? "border-primary" : ""}`}
-          onClick={() => setActiveTab("recipes")}
-        >
+        <Card className={`cursor-pointer hover:border-primary/50 transition-all ${activeTab === "recipes" ? "border-primary" : ""}`} onClick={() => setActiveTab("recipes")}>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Recipes</CardTitle>
             <Utensils className="h-4 w-4 text-muted-foreground" />
@@ -93,10 +89,7 @@ const CustomCreations = () => {
           </CardContent>
         </Card>
         
-        <Card 
-          className={`cursor-pointer hover:border-primary/50 transition-all ${activeTab === "bookmarks" ? "border-primary" : ""}`}
-          onClick={() => setActiveTab("bookmarks")}
-        >
+        <Card className={`cursor-pointer hover:border-primary/50 transition-all ${activeTab === "bookmarks" ? "border-primary" : ""}`} onClick={() => setActiveTab("bookmarks")}>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Bookmarks</CardTitle>
             <Bookmark className="h-4 w-4 text-muted-foreground" />
@@ -110,7 +103,7 @@ const CustomCreations = () => {
       
       <Separator />
       
-      <Tabs value={activeTab} onValueChange={setActiveTab}>
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="bg-slate-50">
         <TabsList className="grid grid-cols-4 w-full max-w-md">
           <TabsTrigger value="paint-colors">Colors</TabsTrigger>
           <TabsTrigger value="stains">Stains</TabsTrigger>
@@ -134,8 +127,6 @@ const CustomCreations = () => {
           <BookmarksSection onCountChange={updateBookmarksCount} />
         </TabsContent>
       </Tabs>
-    </div>
-  );
+    </div>;
 };
-
 export default CustomCreations;
