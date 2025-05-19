@@ -113,7 +113,7 @@ export function AppSidebar() {
   };
   return <Sidebar className={`${collapsed ? "w-14" : "w-60"} bg-gradient-to-b from-primary to-primary/90 shadow-xl`} collapsible="icon">
       <SidebarTrigger className="m-2 self-end text-white hover:bg-primary/70" />
-      <div className="flex items-center justify-center border-b border-white/10 py-[10px] my-[20px] bg-blue-800">
+      <div className="flex items-center justify-center border-b border-white/10 py-[10px] my-[20px] bg-blue-900">
         {!collapsed ? <h1 className="text-xl font-bold text-white">
             Finish<span className="text-accent">Flow</span>
           </h1> : <span className="text-xl font-bold text-accent">F</span>}
