@@ -32,22 +32,34 @@ export function useDailyTasks() {
   const fetchTasks = async () => {
     setIsLoading(true);
     try {
-      const { data, error } = await supabase
+      // First, fetch all tasks
+      const { data: tasksData, error: tasksError } = await supabase
         .from("daily_tasks")
-        .select(`
-          *,
-          assignee:user_id(id, name, email)
-        `)
+        .select("*")
         .order("created_at", { ascending: false });
 
-      if (error) {
-        throw error;
+      if (tasksError) {
+        throw tasksError;
       }
 
+      // Then fetch all users to get assignee data
+      const { data: usersData, error: usersError } = await supabase
+        .from("app_users")
+        .select("*");
+
+      if (usersError) {
+        throw usersError;
+      }
+
+      // Map users by ID for easy lookup
+      const userMap = new Map(
+        usersData.map((user: User) => [user.id, user])
+      );
+
       // Transform the data to match our TaskWithAssignee interface
-      const transformedTasks = data.map((task: any) => ({
+      const transformedTasks = tasksData.map((task: Task) => ({
         ...task,
-        assignee: task.assignee
+        assignee: userMap.get(task.user_id)
       })) as TaskWithAssignee[];
 
       setTasks(transformedTasks);
@@ -83,19 +95,27 @@ export function useDailyTasks() {
       const { data, error } = await supabase
         .from("daily_tasks")
         .insert([newTask])
-        .select(`
-          *,
-          assignee:user_id(id, name, email)
-        `)
+        .select()
         .single();
 
       if (error) {
         throw error;
       }
 
+      // Fetch the assignee data
+      const { data: userData, error: userError } = await supabase
+        .from("app_users")
+        .select("*")
+        .eq("id", userId)
+        .single();
+
+      if (userError) {
+        console.error("Error fetching user data:", userError);
+      }
+
       const assignedTask = {
         ...data,
-        assignee: data.assignee
+        assignee: userData || undefined
       } as TaskWithAssignee;
 
       setTasks((prev) => [assignedTask, ...prev]);
@@ -124,19 +144,27 @@ export function useDailyTasks() {
         .from("daily_tasks")
         .update({ status: "completed", updated_at: new Date().toISOString() })
         .eq("id", taskId)
-        .select(`
-          *,
-          assignee:user_id(id, name, email)
-        `)
+        .select()
         .single();
 
       if (error) {
         throw error;
       }
 
+      // Fetch the assignee data
+      const { data: userData, error: userError } = await supabase
+        .from("app_users")
+        .select("*")
+        .eq("id", data.user_id)
+        .single();
+
+      if (userError) {
+        console.error("Error fetching user data:", userError);
+      }
+
       const updatedTask = {
         ...data,
-        assignee: data.assignee
+        assignee: userData || undefined
       } as TaskWithAssignee;
 
       setTasks((prevTasks) =>
