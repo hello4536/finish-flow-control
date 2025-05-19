@@ -7,6 +7,7 @@ import DocumentsSection from '@/components/resources/DocumentsSection';
 import NotesSection from '@/components/resources/NotesSection';
 import VendorsSection from '@/components/resources/VendorsSection';
 import ReceiptsSection from '@/components/resources/ReceiptsSection';
+import ReimbursementsSection from '@/components/resources/ReimbursementsSection';
 
 const Resources = () => {
   // Resource counts for badges
@@ -15,11 +16,12 @@ const Resources = () => {
     documents: 0,
     notes: 0,
     vendors: 0,
-    receipts: 0
+    receipts: 0,
+    reimbursements: 0
   });
 
   // Update counts when resources change
-  const updateCounts = (type: 'links' | 'documents' | 'notes' | 'vendors' | 'receipts', count: number) => {
+  const updateCounts = (type: 'links' | 'documents' | 'notes' | 'vendors' | 'receipts' | 'reimbursements', count: number) => {
     setCounts(prev => ({
       ...prev,
       [type]: count
@@ -36,7 +38,7 @@ const Resources = () => {
       </div>
 
       <Tabs defaultValue="links" className="w-full">
-        <TabsList className="grid grid-cols-5 w-full max-w-3xl">
+        <TabsList className="grid grid-cols-6 w-full max-w-3xl">
           <TabsTrigger value="links" className="relative">
             Links
             {counts.links > 0 && (
@@ -74,6 +76,14 @@ const Resources = () => {
             {counts.receipts > 0 && (
               <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 {counts.receipts}
+              </span>
+            )}
+          </TabsTrigger>
+          <TabsTrigger value="reimbursements" className="relative">
+            Reimburse
+            {counts.reimbursements > 0 && (
+              <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                {counts.reimbursements}
               </span>
             )}
           </TabsTrigger>
@@ -135,6 +145,18 @@ const Resources = () => {
             </CardHeader>
             <CardContent>
               <ReceiptsSection onCountChange={(count) => updateCounts('receipts', count)} />
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        <TabsContent value="reimbursements" className="mt-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Reimbursements</CardTitle>
+              <CardDescription>Track and manage employee reimbursement requests</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ReimbursementsSection onCountChange={(count) => updateCounts('reimbursements', count)} />
             </CardContent>
           </Card>
         </TabsContent>
