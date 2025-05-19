@@ -60,6 +60,14 @@ const PPERequirementsTab: React.FC<PPERequirementsTabProps> = ({
     return Array.from(departments);
   };
   
+  const handleFilterChange = (value: string) => {
+    if (value === "all") {
+      setFilterDepartment(null);
+    } else {
+      setFilterDepartment(value);
+    }
+  };
+  
   const filteredRequirements = filterDepartment 
     ? ppeRequirements.filter(item => item.department === filterDepartment)
     : ppeRequirements;
@@ -76,8 +84,8 @@ const PPERequirementsTab: React.FC<PPERequirementsTabProps> = ({
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-2">
             <Select 
-              value={filterDepartment || ''} 
-              onValueChange={(value) => setFilterDepartment(value || null)}
+              value={filterDepartment || 'all'} 
+              onValueChange={handleFilterChange}
             >
               <SelectTrigger className="w-[180px]">
                 <div className="flex items-center">
@@ -86,7 +94,7 @@ const PPERequirementsTab: React.FC<PPERequirementsTabProps> = ({
                 </div>
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Departments</SelectItem>
+                <SelectItem value="all">All Departments</SelectItem>
                 {getDistinctDepartments().map(dept => (
                   <SelectItem key={dept} value={dept}>{dept}</SelectItem>
                 ))}
