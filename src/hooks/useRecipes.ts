@@ -17,7 +17,8 @@ export interface Recipe {
   name: string;
   description?: string;
   cooking_time?: string;
-  ingredients: RecipeMaterial[];
+  materials: string; // Raw database field
+  ingredients: RecipeMaterial[]; // Parsed version for frontend use
   instructions: string;
   is_favorite: boolean;
   total_volume?: string;
@@ -41,15 +42,15 @@ export const useRecipes = () => {
       throw new Error(error.message);
     }
     
-    // Transform the data to parse the ingredients JSON
+    // Transform the data to parse the materials JSON into ingredients
     return (data || []).map(recipe => ({
       ...recipe,
-      // Ensure is_favorite exists (default to false if not present)
-      is_favorite: recipe.is_favorite || false,
-      // Parse ingredients JSON if it exists
-      ingredients: typeof recipe.ingredients === 'string' 
-        ? JSON.parse(recipe.ingredients)
-        : (recipe.ingredients || [])
+      // Add is_favorite with default false if not present
+      is_favorite: false, // Handling as a frontend property
+      // Parse materials JSON into ingredients if it exists
+      ingredients: typeof recipe.materials === 'string' 
+        ? JSON.parse(recipe.materials)
+        : (recipe.materials || [])
     })) as Recipe[];
   };
   
@@ -85,9 +86,10 @@ export const useRecipes = () => {
         name,
         description,
         cooking_time: cookingTime,
-        ingredients, // This will be stored as a JSON string
+        // Store ingredients as materials in the database
+        materials: ingredients,
         instructions,
-        is_favorite: isFavorite || false
+        // is_favorite will be handled on frontend since it's not in DB schema
       };
       
       const { data, error } = await supabase
@@ -98,15 +100,15 @@ export const useRecipes = () => {
       
       if (error) throw error;
       
-      // Parse ingredients back to array/object
+      // Return parsed recipe for frontend use
       return {
         ...data,
-        // Ensure is_favorite exists (default to false if not present)
-        is_favorite: data.is_favorite || false,
-        // Parse ingredients JSON
-        ingredients: typeof data.ingredients === 'string' 
-          ? JSON.parse(data.ingredients)
-          : (data.ingredients || [])
+        // Add is_favorite with default provided value or false
+        is_favorite: isFavorite || false,
+        // Parse materials JSON into ingredients
+        ingredients: typeof data.materials === 'string' 
+          ? JSON.parse(data.materials)
+          : (data.materials || [])
       } as Recipe;
     },
     onSuccess: () => {

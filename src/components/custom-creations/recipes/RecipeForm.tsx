@@ -54,12 +54,13 @@ const RecipeForm: React.FC = () => {
 
   // Add a new recipe
   const onSubmit = (values: RecipeFormValues) => {
-    // Convert form data to match the new database structure
+    // Convert form data to match the database structure
     addRecipe.mutate({
       name: values.name,
       description: values.description,
       cookingTime: values.cookingTime,
-      ingredients: JSON.stringify(values.ingredients), // Convert to JSON string for JSONB column
+      // Change here: store as "materials" in DB but named "ingredients" in UI
+      ingredients: JSON.stringify(values.ingredients), 
       instructions: values.instructions,
       isFavorite: values.isFavorite
     });
