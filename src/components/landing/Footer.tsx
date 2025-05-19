@@ -1,10 +1,7 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
-
 const Footer = () => {
-  return (
-    <footer className="bg-muted/40 border-t py-12">
+  return <footer className="border-t py-12 bg-blue-950">
       <div className="container px-4 md:px-6">
         <div className="grid gap-8 lg:grid-cols-3">
           <div>
@@ -14,17 +11,17 @@ const Footer = () => {
               </div>
               <div className="text-xl font-bold">Finivi</div>
             </div>
-            <p className="text-sm text-muted-foreground mb-4">
+            <p className="text-sm mb-4 text-slate-50">
               Comprehensive finishing department management platform for modern businesses.
             </p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-slate-50">
               &copy; {new Date().getFullYear()} Finivi. All rights reserved.
             </p>
           </div>
           
           <div className="grid grid-cols-2 gap-8 lg:col-span-2">
             <div>
-              <h3 className="font-semibold mb-3">Product</h3>
+              <h3 className="font-semibold mb-3 text-orange-500">Product</h3>
               <ul className="space-y-2">
                 <li><Link to="#features" className="text-sm text-muted-foreground hover:text-primary">Features</Link></li>
                 <li><Link to="#pricing" className="text-sm text-muted-foreground hover:text-primary">Pricing</Link></li>
@@ -33,7 +30,7 @@ const Footer = () => {
               </ul>
             </div>
             <div>
-              <h3 className="font-semibold mb-3">Company</h3>
+              <h3 className="font-semibold mb-3 text-orange-500">Company</h3>
               <ul className="space-y-2">
                 <li><Link to="#" className="text-sm text-muted-foreground hover:text-primary">About</Link></li>
                 <li><Link to="#" className="text-sm text-muted-foreground hover:text-primary">Contact</Link></li>
@@ -44,8 +41,6 @@ const Footer = () => {
           </div>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
-
 export default Footer;
