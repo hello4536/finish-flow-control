@@ -1,10 +1,8 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight } from "lucide-react";
-
 const HeroSection = () => {
   return <section className="py-20 md:py-28 overflow-hidden">
       <div className="container px-4 md:px-6 relative">
@@ -55,12 +53,11 @@ const HeroSection = () => {
               </div>
             </div>
             <div className="p-4">
-              <img alt="Finivi Dashboard" className="rounded-lg w-full shadow-md hover:shadow-lg transition-all" src="/lovable-uploads/a59a3a90-e142-4818-ad79-0f43c0618f61.png" />
+              <img alt="Finivi Dashboard" className="rounded-lg w-full shadow-md hover:shadow-lg transition-all" src="/lovable-uploads/8e9a6ded-9406-4eeb-8af1-b1e83ca9e786.png" />
             </div>
           </div>
         </div>
       </div>
     </section>;
 };
-
 export default HeroSection;
