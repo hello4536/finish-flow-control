@@ -20,35 +20,35 @@ const EmployeeTasks: React.FC = () => {
   const mockTasks = [
     {
       id: "mock-task-1",
-      title: "Sand and Prep BMW Fender for Paint",
+      title: "Sand and Prep Cherry Table for Staining",
       priority: "high",
       status: "pending",
       due_date: todaysDateString,
-      assignee: { name: "Sarah Miller" }
+      assignee: { name: "Emily Carpenter" }
     },
     {
       id: "mock-task-2",
-      title: "Apply Base Coat on Tesla Model 3",
+      title: "Apply First Coat of Polyurethane on Walnut Dining Set",
       priority: "medium",
       status: "pending",
       due_date: todaysDateString,
-      assignee: { name: "David Chen" }
+      assignee: { name: "Thomas Wright" }
     },
     {
       id: "mock-task-3",
-      title: "Clear Coat Honda Civic Bumper",
+      title: "Fill Wood Cracks on Antique Pine Table",
       priority: "medium",
       status: "completed",
       due_date: todaysDateString,
-      assignee: { name: "Michael Brown" }
+      assignee: { name: "Robert Mills" }
     },
     {
       id: "mock-task-4",
-      title: "Color Match Ford F-150 Door Panel",
+      title: "Color Match Stain for Oak Cabinet Project",
       priority: "high",
       status: "pending",
       due_date: todaysDateString,
-      assignee: { name: "Alex Johnson" }
+      assignee: { name: "Sarah Turner" }
     }
   ];
   

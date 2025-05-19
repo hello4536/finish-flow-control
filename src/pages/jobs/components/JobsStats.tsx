@@ -9,7 +9,7 @@ const JobsStats: React.FC = () => {
   
   // Mock data for dev mode display
   const mockStats = {
-    inProgress: 4,
+    inProgress: 3,
     overdue: 1,
     completed: 1,
     upcoming: 2

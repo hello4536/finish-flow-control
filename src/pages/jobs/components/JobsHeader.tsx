@@ -18,9 +18,9 @@ const JobsHeader: React.FC = () => {
   return (
     <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
       <div>
-        <h1 className="text-3xl font-bold">Auto Body Jobs</h1>
+        <h1 className="text-3xl font-bold">Woodworking Jobs</h1>
         <p className="text-muted-foreground">
-          Manage and track repair and refinishing projects
+          Manage and track refinishing and restoration projects
         </p>
       </div>
       <div className="flex gap-2 w-full sm:w-auto">
