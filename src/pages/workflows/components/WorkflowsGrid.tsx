@@ -8,20 +8,40 @@ import { Workflow } from "../utils/types";
 
 interface WorkflowsGridProps {
   workflows: Workflow[];
+  filteredWorkflows: Workflow[];
   trade: string;
   onUpdate: () => void;
   onCreateClick: () => void;
+  searchQuery: string;
 }
 
 const WorkflowsGrid: React.FC<WorkflowsGridProps> = ({ 
   workflows, 
+  filteredWorkflows,
   trade, 
   onUpdate,
-  onCreateClick 
+  onCreateClick,
+  searchQuery
 }) => {
+  // Display message when no workflows match search
+  if (searchQuery && filteredWorkflows.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center py-12">
+        <h3 className="text-lg font-medium mb-2">No matching workflows found</h3>
+        <p className="text-muted-foreground mb-4">
+          Try adjusting your search term or create a new workflow
+        </p>
+        <Button onClick={onCreateClick}>Create New Workflow</Button>
+      </div>
+    );
+  }
+  
+  // Workflows to display - either filtered or all
+  const displayedWorkflows = searchQuery ? filteredWorkflows : workflows;
+
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {workflows.map((workflow) => (
+      {displayedWorkflows.map((workflow) => (
         <WorkflowCard
           key={workflow.id}
           id={workflow.id}
@@ -30,6 +50,8 @@ const WorkflowsGrid: React.FC<WorkflowsGridProps> = ({
           steps={workflow.steps}
           trade={workflow.trade}
           activeJobs={workflow.active_jobs}
+          status={workflow.status}
+          created_at={workflow.created_at}
           onUpdate={onUpdate}
         />
       ))}

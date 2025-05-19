@@ -79,3 +79,10 @@ export interface PPERequirement {
   created_at: string;
   updated_at: string;
 }
+
+export interface WorkflowStatistics {
+  totalWorkflows: number;
+  activeJobs: number;
+  completedJobs: number;
+  efficiency: number;
+}

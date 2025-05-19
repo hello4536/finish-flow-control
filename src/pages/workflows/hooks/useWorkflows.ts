@@ -56,7 +56,7 @@ export const useWorkflows = () => {
         trade: newWorkflow.trade,
         active_jobs: 0,
         workflow_number: `WF-${Math.floor(Math.random() * 10000)}`,
-        status: 'active'
+        status: newWorkflow.status || 'active'
       };
       
       const { data, error } = await supabase
@@ -150,7 +150,7 @@ export const useWorkflows = () => {
           trade: wf.trade,
           active_jobs: wf.active_jobs || 0,
           workflow_number: `WF-${Math.floor(Math.random() * 10000)}`,
-          status: 'active',
+          status: wf.status || 'active',
           last_imported_at: new Date().toISOString()
         };
       });
