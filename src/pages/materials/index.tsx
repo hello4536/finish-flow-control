@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -11,94 +10,88 @@ import MaterialsTable from "./components/MaterialsTable";
 import SuppliersTable from "./components/SuppliersTable";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-
 const MaterialsPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState("all");
-  const { materials, suppliers, isLoading, filterMaterials } = useMaterialsData();
-  const { toast } = useToast();
-  
+  const {
+    materials,
+    suppliers,
+    isLoading,
+    filterMaterials
+  } = useMaterialsData();
+  const {
+    toast
+  } = useToast();
+
   // Filter materials based on search term and active tab
   const filteredMaterials = filterMaterials(searchTerm, activeTab);
-  
   const handleSeedData = async () => {
     try {
       // Seed materials
-      await supabase.from('materials').insert([
-        {
-          name: "Raw Aluminum Sheet",
-          type: "Metal",
-          quantity: 120,
-          unit: "sheets",
-          status: "In Stock"
-        },
-        {
-          name: "Stainless Steel Plate",
-          type: "Metal",
-          quantity: 85,
-          unit: "plates",
-          status: "Low Stock"
-        },
-        {
-          name: "Oak Wood Panel",
-          type: "Wood",
-          quantity: 45,
-          unit: "panels",
-          status: "In Stock"
-        },
-        {
-          name: "Epoxy Resin",
-          type: "Chemical",
-          quantity: 12,
-          unit: "gallons",
-          status: "Critical Low"
-        },
-        {
-          name: "Maple Veneer",
-          type: "Wood",
-          quantity: 200,
-          unit: "sq ft",
-          status: "In Stock"
-        }
-      ]);
-      
+      await supabase.from('materials').insert([{
+        name: "Raw Aluminum Sheet",
+        type: "Metal",
+        quantity: 120,
+        unit: "sheets",
+        status: "In Stock"
+      }, {
+        name: "Stainless Steel Plate",
+        type: "Metal",
+        quantity: 85,
+        unit: "plates",
+        status: "Low Stock"
+      }, {
+        name: "Oak Wood Panel",
+        type: "Wood",
+        quantity: 45,
+        unit: "panels",
+        status: "In Stock"
+      }, {
+        name: "Epoxy Resin",
+        type: "Chemical",
+        quantity: 12,
+        unit: "gallons",
+        status: "Critical Low"
+      }, {
+        name: "Maple Veneer",
+        type: "Wood",
+        quantity: 200,
+        unit: "sq ft",
+        status: "In Stock"
+      }]);
+
       // Seed suppliers
-      const { data: suppliersData } = await supabase.from('suppliers').insert([
-        {
-          name: "MetalWorks Inc.",
-          contact: "John Smith",
-          phone: "555-1234"
-        },
-        {
-          name: "Forest Products Co.",
-          contact: "Sarah Johnson",
-          phone: "555-5678"
-        },
-        {
-          name: "ChemSolutions Ltd.",
-          contact: "Michael Brown",
-          phone: "555-9012"
-        }
-      ]).select();
-      
+      const {
+        data: suppliersData
+      } = await supabase.from('suppliers').insert([{
+        name: "MetalWorks Inc.",
+        contact: "John Smith",
+        phone: "555-1234"
+      }, {
+        name: "Forest Products Co.",
+        contact: "Sarah Johnson",
+        phone: "555-5678"
+      }, {
+        name: "ChemSolutions Ltd.",
+        contact: "Michael Brown",
+        phone: "555-9012"
+      }]).select();
+
       // Fetch the inserted materials to create relationships
-      const { data: materialsData } = await supabase
-        .from('materials')
-        .select('id, name, type');
-        
+      const {
+        data: materialsData
+      } = await supabase.from('materials').select('id, name, type');
       if (suppliersData && materialsData) {
         // Create material-supplier relationships
         const metalSupplier = suppliersData.find(s => s.name === "MetalWorks Inc.");
         const woodSupplier = suppliersData.find(s => s.name === "Forest Products Co.");
         const chemicalSupplier = suppliersData.find(s => s.name === "ChemSolutions Ltd.");
-        
         const metalMaterials = materialsData.filter(m => m.type === "Metal");
         const woodMaterials = materialsData.filter(m => m.type === "Wood");
         const chemicalMaterials = materialsData.filter(m => m.type === "Chemical");
-        
+
         // Create the relationships
         const relationships = [];
-        
         if (metalSupplier) {
           metalMaterials.forEach(material => {
             relationships.push({
@@ -107,7 +100,6 @@ const MaterialsPage: React.FC = () => {
             });
           });
         }
-        
         if (woodSupplier) {
           woodMaterials.forEach(material => {
             relationships.push({
@@ -116,7 +108,6 @@ const MaterialsPage: React.FC = () => {
             });
           });
         }
-        
         if (chemicalSupplier) {
           chemicalMaterials.forEach(material => {
             relationships.push({
@@ -125,12 +116,10 @@ const MaterialsPage: React.FC = () => {
             });
           });
         }
-        
         if (relationships.length > 0) {
           await supabase.from('material_suppliers').insert(relationships);
         }
       }
-      
       toast({
         title: "Sample data created",
         description: "The materials database has been populated with sample data."
@@ -144,26 +133,16 @@ const MaterialsPage: React.FC = () => {
       });
     }
   };
-  
   if (isLoading) {
     return <div className="flex items-center justify-center h-[calc(100vh-200px)]">
       <div className="text-lg">Loading materials data...</div>
     </div>;
   }
-
-  return (
-    <div className="container mx-auto">
+  return <div className="container mx-auto">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Materials Management</h1>
         <div className="flex space-x-3">
-          {materials.length === 0 && (
-            <Button 
-              variant="outline" 
-              onClick={handleSeedData}
-            >
-              Seed Sample Data
-            </Button>
-          )}
+          {materials.length === 0}
           <Button className="flex items-center gap-2">
             <PlusCircle className="h-5 w-5" />
             Add New Material
@@ -179,22 +158,13 @@ const MaterialsPage: React.FC = () => {
           <div className="flex gap-4 w-full md:w-auto">
             <div className="relative w-full md:w-64">
               <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input 
-                placeholder="Search materials..." 
-                className="pl-9" 
-                value={searchTerm} 
-                onChange={e => setSearchTerm(e.target.value)} 
-              />
+              <Input placeholder="Search materials..." className="pl-9" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
             </div>
             <Button variant="outline">Filters</Button>
           </div>
         </div>
         
-        <Tabs 
-          defaultValue="all" 
-          className="w-full" 
-          onValueChange={setActiveTab}
-        >
+        <Tabs defaultValue="all" className="w-full" onValueChange={setActiveTab}>
           <TabsList>
             <TabsTrigger value="all">All Materials</TabsTrigger>
             <TabsTrigger value="low">Low Stock</TabsTrigger>
@@ -204,35 +174,23 @@ const MaterialsPage: React.FC = () => {
           </TabsList>
           
           <TabsContent value="all" className="mt-4">
-            <MaterialsTable 
-              materials={filteredMaterials} 
-            />
+            <MaterialsTable materials={filteredMaterials} />
           </TabsContent>
           
           <TabsContent value="low" className="mt-4">
-            <MaterialsTable 
-              materials={filteredMaterials.filter(
-                m => m.status === "Low Stock" || m.status === "Critical Low"
-              )} 
-            />
+            <MaterialsTable materials={filteredMaterials.filter(m => m.status === "Low Stock" || m.status === "Critical Low")} />
           </TabsContent>
           
           <TabsContent value="metal" className="mt-4">
-            <MaterialsTable 
-              materials={filteredMaterials.filter(m => m.type === "Metal")} 
-            />
+            <MaterialsTable materials={filteredMaterials.filter(m => m.type === "Metal")} />
           </TabsContent>
           
           <TabsContent value="wood" className="mt-4">
-            <MaterialsTable 
-              materials={filteredMaterials.filter(m => m.type === "Wood")} 
-            />
+            <MaterialsTable materials={filteredMaterials.filter(m => m.type === "Wood")} />
           </TabsContent>
           
           <TabsContent value="chemical" className="mt-4">
-            <MaterialsTable 
-              materials={filteredMaterials.filter(m => m.type === "Chemical")} 
-            />
+            <MaterialsTable materials={filteredMaterials.filter(m => m.type === "Chemical")} />
           </TabsContent>
         </Tabs>
       </div>
@@ -246,8 +204,6 @@ const MaterialsPage: React.FC = () => {
           <SuppliersTable suppliers={suppliers} />
         </CardContent>
       </Card>
-    </div>
-  );
+    </div>;
 };
-
 export default MaterialsPage;
