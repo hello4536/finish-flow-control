@@ -18,7 +18,7 @@ const MaterialUsage: React.FC = () => {
           <div className="space-y-4">
             <div className="space-y-2">
               <div className="flex items-center justify-between text-sm">
-                <span className="font-medium">Satin Polyurethane</span>
+                <span className="font-medium">PPG Base Coat - Polar White</span>
                 <span>75%</span>
               </div>
               <Progress value={75} className="h-2" />
@@ -26,7 +26,7 @@ const MaterialUsage: React.FC = () => {
             
             <div className="space-y-2">
               <div className="flex items-center justify-between text-sm">
-                <span className="font-medium">Dark Walnut Stain</span>
+                <span className="font-medium">3M 800 Grit Sandpaper</span>
                 <span>62%</span>
               </div>
               <Progress value={62} className="h-2" />
@@ -34,7 +34,7 @@ const MaterialUsage: React.FC = () => {
             
             <div className="space-y-2">
               <div className="flex items-center justify-between text-sm">
-                <span className="font-medium">120 Grit Sandpaper</span>
+                <span className="font-medium">2K Clear Coat</span>
                 <span>45%</span>
               </div>
               <Progress value={45} className="h-2" />
@@ -42,7 +42,7 @@ const MaterialUsage: React.FC = () => {
             
             <div className="space-y-2">
               <div className="flex items-center justify-between text-sm">
-                <span className="font-medium">Mahogany Stain</span>
+                <span className="font-medium">Metallic Pearl Additive</span>
                 <span>38%</span>
               </div>
               <Progress value={38} className="h-2" />
@@ -50,7 +50,7 @@ const MaterialUsage: React.FC = () => {
             
             <div className="space-y-2">
               <div className="flex items-center justify-between text-sm">
-                <span className="font-medium">Wood Filler</span>
+                <span className="font-medium">Body Filler</span>
                 <span>25%</span>
               </div>
               <Progress value={25} className="h-2" />

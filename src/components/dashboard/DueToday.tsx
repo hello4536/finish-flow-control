@@ -11,28 +11,28 @@ const DueToday: React.FC = () => {
   const mockDueItems = [
     {
       id: "1",
-      title: "Walnut Bookcase Final Coat",
+      title: "Final Clear Coat: Audi A4 Quarter Panel",
       status: "In Progress",
       assignee: "David Chen",
       priority: "High"
     },
     {
       id: "2",
-      title: "Client Project Review: Madison Estate",
+      title: "Client Review: Lexus ES350 Repaint",
       status: "Pending",
       assignee: "Sarah Miller",
       priority: "Medium"
     },
     {
       id: "3",
-      title: "Quality Inspection: Custom Dining Set",
+      title: "Quality Check: Mercedes C-Class Bumper",
       status: "Ready",
       assignee: "Michael Brown",
       priority: "High"
     },
     {
       id: "4",
-      title: "Material Order: Cabinet Hardware",
+      title: "Material Order: PPG Base Coats",
       status: "Pending",
       assignee: "Alex Johnson",
       priority: "Medium"

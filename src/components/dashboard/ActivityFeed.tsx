@@ -12,14 +12,14 @@ const ActivityFeed: React.FC = () => {
       id: "1",
       user: "Sarah Miller",
       action: "completed",
-      item: "Kitchen Cabinet Finishing",
+      item: "Acura TL Roof Painting",
       time: "15 minutes ago"
     },
     {
       id: "2",
       user: "David Chen",
       action: "started",
-      item: "Dining Table Staining",
+      item: "Toyota Camry Clear Coating",
       time: "35 minutes ago"
     },
     {
@@ -33,14 +33,14 @@ const ActivityFeed: React.FC = () => {
       id: "4",
       user: "Alex Johnson",
       action: "approved",
-      item: "Material Order #MO-789",
+      item: "Paint Order #PO-789",
       time: "2 hours ago"
     },
     {
       id: "5",
       user: "Emma Wilson",
       action: "commented on",
-      item: "Quality Control Report",
+      item: "Nissan Altima Repair Estimate",
       time: "3 hours ago"
     }
   ];

@@ -20,7 +20,7 @@ const EmployeeTasks: React.FC = () => {
   const mockTasks = [
     {
       id: "mock-task-1",
-      title: "Finish Mahogany Coffee Table",
+      title: "Sand and Prep BMW Fender for Paint",
       priority: "high",
       status: "pending",
       due_date: todaysDateString,
@@ -28,7 +28,7 @@ const EmployeeTasks: React.FC = () => {
     },
     {
       id: "mock-task-2",
-      title: "Sand Oak Cabinet Doors",
+      title: "Apply Base Coat on Tesla Model 3",
       priority: "medium",
       status: "pending",
       due_date: todaysDateString,
@@ -36,7 +36,7 @@ const EmployeeTasks: React.FC = () => {
     },
     {
       id: "mock-task-3",
-      title: "Apply Stain to Bookshelf",
+      title: "Clear Coat Honda Civic Bumper",
       priority: "medium",
       status: "completed",
       due_date: todaysDateString,
@@ -44,7 +44,7 @@ const EmployeeTasks: React.FC = () => {
     },
     {
       id: "mock-task-4",
-      title: "Final Coat on Dining Set",
+      title: "Color Match Ford F-150 Door Panel",
       priority: "high",
       status: "pending",
       due_date: todaysDateString,
