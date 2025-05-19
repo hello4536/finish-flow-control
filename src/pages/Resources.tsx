@@ -34,8 +34,8 @@ const Resources = () => {
       </div>
 
       <Tabs defaultValue="links" className="w-full">
-        <TabsList className="grid grid-cols-6 w-full max-w-3xl bg-orange-100 rounded-md">
-          <TabsTrigger value="links" className="relative">
+        <TabsList className="grid grid-cols-6 w-full max-w-3xl rounded-md bg-zinc-50">
+          <TabsTrigger value="links" className="relative rounded-lg bg-slate-50">
             Links
             {counts.links > 0 && <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 {counts.links}
