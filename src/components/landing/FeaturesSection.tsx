@@ -37,7 +37,7 @@ const FeaturesSection = () => {
               Monitor stock levels, track material usage, and manage your warehouse with powerful inventory tools.
             </p>
             <div className="mt-4 pt-4 border-t border-primary/10">
-              <img src="https://placehold.co/800x400/e9f0ff/0a2168?text=Inventory+Dashboard" alt="Inventory Dashboard" className="w-full rounded-lg shadow-sm" />
+              <img alt="Inventory Dashboard" className="w-full rounded-lg shadow-sm" src="/lovable-uploads/ee00c8a0-3a78-4c4b-8ec8-bdadea248b70.png" />
             </div>
           </div>
           
@@ -51,7 +51,7 @@ const FeaturesSection = () => {
               Stay compliant with certifications, PPE requirements, and hazardous waste tracking tools.
             </p>
             <div className="mt-4 pt-4 border-t border-primary/10">
-              <img src="https://placehold.co/800x400/fff5e9/f97316?text=Compliance+Tools" alt="Compliance Tools" className="w-full rounded-lg shadow-sm" />
+              <img alt="Compliance Tools" className="w-full rounded-lg shadow-sm" src="/lovable-uploads/aa9363f8-55d3-4590-bdfc-72baedabec6e.png" />
             </div>
           </div>
           
@@ -65,7 +65,7 @@ const FeaturesSection = () => {
               Create and manage custom paint colors, stains, and finishing recipes all in one place.
             </p>
             <div className="mt-4 pt-4 border-t border-primary/10">
-              <img src="https://placehold.co/800x400/e9f0ff/0a2168?text=Custom+Creations+Library" alt="Custom Creations Library" className="w-full rounded-lg shadow-sm" />
+              <img alt="Custom Creations Library" className="w-full rounded-lg shadow-sm" src="/lovable-uploads/5e6c3750-c9db-4e38-95c6-5056f2ab7ecb.png" />
             </div>
           </div>
           
@@ -88,12 +88,10 @@ const FeaturesSection = () => {
             <div className="h-12 w-12 rounded-full bg-primary/20 flex items-center justify-center mb-4">
               <Users className="h-6 w-6 text-primary" />
             </div>
-            <h3 className="text-xl font-bold mb-2 text-primary">Team Management</h3>
-            <p className="text-muted-foreground">
-              Manage your team, assign roles, and coordinate workflows efficiently across your entire department.
-            </p>
+            <h3 className="text-xl font-bold mb-2 text-primary">Workflows</h3>
+            <p className="text-muted-foreground">Keep track of your workflows step-by-step for each job and unique process.</p>
             <div className="mt-4 pt-4 border-t border-primary/10">
-              <img src="https://placehold.co/800x400/e9f0ff/0a2168?text=Team+Dashboard" alt="Team Management Dashboard" className="w-full rounded-lg shadow-sm" />
+              <img alt="Team Management Dashboard" className="w-full rounded-lg shadow-sm" src="/lovable-uploads/5d9c1534-dcb3-4c4c-954a-ab158f65466c.png" />
             </div>
           </div>
         </div>
