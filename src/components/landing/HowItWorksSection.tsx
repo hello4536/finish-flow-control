@@ -1,9 +1,6 @@
-
 import React from "react";
-
 const HowItWorksSection = () => {
-  return (
-    <section className="py-20 bg-primary text-primary-foreground">
+  return <section className="py-20 bg-primary text-primary-foreground">
       <div className="container px-4 md:px-6">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
@@ -26,11 +23,7 @@ const HowItWorksSection = () => {
                 Create your account with a simple registration process. Choose your plan and set up your organization profile.
               </p>
               <div className="mt-4">
-                <img 
-                  src="https://placehold.co/600x300/fff5e9/f97316?text=Easy+Registration" 
-                  alt="Registration Process" 
-                  className="w-full rounded-lg shadow-sm"
-                />
+                
               </div>
             </div>
           </div>
@@ -46,11 +39,7 @@ const HowItWorksSection = () => {
                 Invite team members, assign roles, and customize permissions to match your organizational structure.
               </p>
               <div className="mt-4">
-                <img 
-                  src="https://placehold.co/600x300/fff5e9/f97316?text=Team+Setup" 
-                  alt="Team Setup Process" 
-                  className="w-full rounded-lg shadow-sm"
-                />
+                
               </div>
             </div>
           </div>
@@ -66,18 +55,12 @@ const HowItWorksSection = () => {
                 Start using Finivi to track materials, manage workflows, ensure compliance, and streamline your finishing operations.
               </p>
               <div className="mt-4">
-                <img 
-                  src="https://placehold.co/600x300/fff5e9/f97316?text=Operations+Dashboard" 
-                  alt="Operations Dashboard" 
-                  className="w-full rounded-lg shadow-sm"
-                />
+                
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default HowItWorksSection;
