@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,6 +19,16 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useAuth } from "@/context/AuthContext";
@@ -29,11 +39,16 @@ import {
   Bell, 
   CreditCard,
   Users as UsersIcon,
+  LayoutDashboard,
+  List,
+  Menu
 } from "lucide-react";
 
 const Header = () => {
   const { user, profile, userRole, organization, signOut } = useAuth();
   const [showSignOutAlert, setShowSignOutAlert] = useState(false);
+  const location = useLocation();
+  const currentPath = location.pathname;
   
   // Get user initials for avatar
   const getInitials = () => {
@@ -49,7 +64,75 @@ const Header = () => {
   return (
     <header className="sticky top-0 z-40 border-b bg-background">
       <div className="container flex h-16 items-center justify-between py-4">
-        <div></div>
+        <div className="flex items-center space-x-4">
+          <Link to="/dashboard" className="flex items-center">
+            <h1 className="text-xl font-bold">
+              Fini<span className="text-accent">v</span>i
+            </h1>
+          </Link>
+          
+          <Tabs
+            value={currentPath}
+            className="hidden md:block" 
+            onValueChange={(value) => {
+              window.location.href = value;
+            }}
+          >
+            <TabsList className="bg-blue-50">
+              <TabsTrigger value="/dashboard" className={currentPath === '/dashboard' ? 'data-[state=active]' : ''}>
+                <LayoutDashboard className="mr-2 h-4 w-4" />
+                Dashboard
+              </TabsTrigger>
+              <TabsTrigger value="/jobs" className={currentPath.startsWith('/jobs') ? 'data-[state=active]' : ''}>
+                <List className="mr-2 h-4 w-4" />
+                Jobs
+              </TabsTrigger>
+              <TabsTrigger value="/workflows" className={currentPath.startsWith('/workflows') ? 'data-[state=active]' : ''}>
+                Workflows
+              </TabsTrigger>
+              <TabsTrigger value="/materials" className={currentPath.startsWith('/materials') ? 'data-[state=active]' : ''}>
+                Materials
+              </TabsTrigger>
+              <TabsTrigger value="/inventory" className={currentPath.startsWith('/inventory') ? 'data-[state=active]' : ''}>
+                Inventory
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+          
+          {/* Mobile Menu Dropdown */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild className="md:hidden">
+              <Button variant="ghost" size="icon">
+                <Menu className="h-5 w-5" />
+                <span className="sr-only">Menu</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="w-48">
+              <DropdownMenuItem asChild>
+                <Link to="/dashboard">Dashboard</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link to="/jobs">Jobs</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link to="/workflows">Workflows</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link to="/materials">Materials</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link to="/inventory">Inventory</Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <Link to="/quality">Quality</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link to="/schedule">Schedule</Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
         
         <div className="flex items-center gap-2">
           {organization?.subscription_status === "inactive" && userRole?.role === "admin" && (
