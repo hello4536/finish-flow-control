@@ -1,8 +1,8 @@
-
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import { BarChart, Box, Calendar, CheckSquare, ClipboardList, Database, Home, PackageOpen, Settings, Users, Link, Palette, ShieldCheck, CheckCircle } from "lucide-react";
+
 export function AppSidebar() {
   const {
     state
@@ -10,9 +10,10 @@ export function AppSidebar() {
   const collapsed = state === "collapsed";
   const location = useLocation();
   const currentPath = location.pathname;
+  
   const mainItems = [{
     title: "Dashboard",
-    url: "/",
+    url: "/dashboard",  // Changed from "/" to "/dashboard" to correctly point to dashboard
     icon: Home,
     color: "bg-accent/90"
   }, {
@@ -66,6 +67,7 @@ export function AppSidebar() {
     icon: Link,
     color: "bg-accent/90"
   }];
+  
   const adminItems = [{
     title: "Reports",
     url: "/reports",
@@ -82,12 +84,14 @@ export function AppSidebar() {
     icon: Settings,
     color: "bg-accent/90"
   }];
+  
   const isActive = (path: string) => {
     // Root path should only be active if exact match
-    if (path === "/") return currentPath === path;
+    if (path === "/dashboard") return currentPath === path;
     // Other paths active if they begin with the path
     return currentPath.startsWith(path);
   };
+  
   const isMainExpanded = mainItems.some(i => isActive(i.url));
   const isAdminExpanded = adminItems.some(i => isActive(i.url));
 
@@ -112,6 +116,7 @@ export function AppSidebar() {
       return `${baseClasses} hover:bg-accent/5`;
     };
   };
+  
   return <Sidebar className={`${collapsed ? "w-14" : "w-60"} bg-gradient-to-b from-primary to-primary/90 shadow-xl`} collapsible="icon">
       <SidebarTrigger className="m-2 self-end text-white hover:bg-primary/70" />
       <div className="flex items-center justify-center border-b border-white/10 py-[10px] my-[20px] bg-blue-900">
@@ -130,7 +135,7 @@ export function AppSidebar() {
             <SidebarMenu>
               {mainItems.map(item => <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <NavLink to={item.url} end={item.url === "/"} className={getNavCls(item)}>
+                    <NavLink to={item.url} end={item.url === "/dashboard"} className={getNavCls(item)}>
                       <item.icon className="mr-2 h-5 w-5" />
                       {!collapsed && <span className="text-sm font-semibold">{item.title}</span>}
                     </NavLink>
