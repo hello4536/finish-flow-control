@@ -17,7 +17,8 @@ const SubscriptionDetails: React.FC<SubscriptionDetailsProps> = ({
   organization,
   handleManageSubscription,
 }) => {
-  if (!organization?.subscription_status === "active") return null;
+  // Fix the comparison to check if organization does not exist or subscription_status is not active
+  if (!organization || organization.subscription_status !== "active") return null;
   
   return (
     <>
