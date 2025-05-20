@@ -1497,9 +1497,9 @@ With proper selection and application of exterior finishes, your outdoor woodwor
       description: "A detailed comparison of the most popular wood stains on the market, with real wood samples and durability tests.",
       icon: <Youtube className="h-6 w-6 text-red-500" />,
       category: "product-reviews",
-      videoId: "W0CmXHHbVGE",
+      videoId: "NnM0w-gdm3k",
       creator: "Wood Whisperer",
-      thumbnail: "https://img.youtube.com/vi/W0CmXHHbVGE/maxresdefault.jpg",
+      thumbnail: "https://img.youtube.com/vi/NnM0w-gdm3k/maxresdefault.jpg",
       length: "18:42"
     },
     {
@@ -1508,9 +1508,9 @@ With proper selection and application of exterior finishes, your outdoor woodwor
       description: "An in-depth review of the top clear finishes, comparing durability, ease of application, and appearance.",
       icon: <Youtube className="h-6 w-6 text-red-500" />,
       category: "product-reviews",
-      videoId: "bbiXJd_1l8Y",
+      videoId: "Iq2WJ9C30SU",
       creator: "Bourbon Moth Woodworking",
-      thumbnail: "https://img.youtube.com/vi/bbiXJd_1l8Y/maxresdefault.jpg",
+      thumbnail: "https://img.youtube.com/vi/Iq2WJ9C30SU/maxresdefault.jpg",
       length: "24:15"
     },
     {
@@ -1519,9 +1519,9 @@ With proper selection and application of exterior finishes, your outdoor woodwor
       description: "Review of entry-level spray equipment for finishing, perfect for beginners looking to achieve professional results.",
       icon: <Youtube className="h-6 w-6 text-red-500" />,
       category: "product-reviews",
-      videoId: "QhB_1FcA8_0",
+      videoId: "K49xOV0B4Eo",
       creator: "Finish Carpenter",
-      thumbnail: "https://img.youtube.com/vi/QhB_1FcA8_0/maxresdefault.jpg",
+      thumbnail: "https://img.youtube.com/vi/K49xOV0B4Eo/maxresdefault.jpg",
       length: "15:22"
     },
     {
@@ -1530,9 +1530,9 @@ With proper selection and application of exterior finishes, your outdoor woodwor
       description: "Side-by-side comparison of popular finishing oils, showing application methods and finished results.",
       icon: <Youtube className="h-6 w-6 text-red-500" />,
       category: "product-reviews",
-      videoId: "4CyLn6Z-aQU",
+      videoId: "-jus5Hdo8tE",
       creator: "Crafted Workshop",
-      thumbnail: "https://img.youtube.com/vi/4CyLn6Z-aQU/maxresdefault.jpg",
+      thumbnail: "https://img.youtube.com/vi/-jus5Hdo8tE/maxresdefault.jpg",
       length: "21:37"
     },
     {
@@ -1541,9 +1541,9 @@ With proper selection and application of exterior finishes, your outdoor woodwor
       description: "Review of the best shellac flakes, applicators, and oils for achieving a perfect French polish finish.",
       icon: <Youtube className="h-6 w-6 text-red-500" />,
       category: "product-reviews",
-      videoId: "a5NVN2YqxEk",
+      videoId: "711rKNR9s_M",
       creator: "Fine Woodworking",
-      thumbnail: "https://img.youtube.com/vi/a5NVN2YqxEk/maxresdefault.jpg",
+      thumbnail: "https://img.youtube.com/vi/711rKNR9s_M/maxresdefault.jpg",
       length: "16:48"
     },
     {
@@ -1552,9 +1552,9 @@ With proper selection and application of exterior finishes, your outdoor woodwor
       description: "One-year weather test comparing the most popular outdoor wood finishes and their performance.",
       icon: <Youtube className="h-6 w-6 text-red-500" />,
       category: "product-reviews",
-      videoId: "QB4ZI5QnaZU",
+      videoId: "Gp4aDyTIXWc",
       creator: "Homestead Craftsman",
-      thumbnail: "https://img.youtube.com/vi/QB4ZI5QnaZU/maxresdefault.jpg",
+      thumbnail: "https://img.youtube.com/vi/Gp4aDyTIXWc/maxresdefault.jpg",
       length: "19:53"
     }
   ];
@@ -1626,6 +1626,10 @@ With proper selection and application of exterior finishes, your outdoor woodwor
                             src={video.thumbnail} 
                             alt={video.title}
                             className="object-cover w-full h-full rounded-md"
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.src = "https://img.youtube.com/vi/" + video.videoId + "/0.jpg";
+                            }}
                           />
                         </AspectRatio>
                         <div className="absolute inset-0 flex items-center justify-center">
@@ -1706,6 +1710,10 @@ With proper selection and application of exterior finishes, your outdoor woodwor
                             src={video.thumbnail} 
                             alt={video.title}
                             className="object-cover w-full h-full rounded-md"
+                            onError={(e) => {
+                              e.target.onerror = null; 
+                              e.target.src = "https://img.youtube.com/vi/" + video.videoId + "/0.jpg";
+                            }}
                           />
                         </AspectRatio>
                         <div className="absolute inset-0 flex items-center justify-center">
