@@ -1520,18 +1520,7 @@ export type Database = {
       }
     }
     Views: {
-      location_paths: {
-        Row: {
-          full_path: string | null
-          id: string | null
-          level: number | null
-          name: string | null
-          parent_id: string | null
-          path_array: string[] | null
-          type: string | null
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Functions: {
       get_current_user_role: {

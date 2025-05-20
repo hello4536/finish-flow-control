@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Calendar, PackageOpen, Shield, PaintBucket, Sparkles, Users } from "lucide-react";
 const FeaturesSection = () => {
@@ -12,7 +13,7 @@ const FeaturesSection = () => {
           </p>
         </div>
         
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-8 md:grid-cols-2">
           {/* Feature 1 */}
           <div className="bg-card rounded-xl border border-primary/10 p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-accent py-[5px]">
             <div className="h-12 w-12 rounded-full flex items-center justify-center mb-4 bg-orange-500 py-0 my-[5px]">
