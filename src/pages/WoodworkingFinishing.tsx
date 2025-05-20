@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "@/components/landing/Header";
@@ -21,7 +22,9 @@ import {
   Clock, 
   CheckSquare,
   Axe,
-  FlaskConical
+  FlaskConical,
+  Youtube,
+  Play
 } from "lucide-react";
 import { 
   Dialog,
@@ -33,9 +36,11 @@ import {
   DialogClose
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 const WoodworkingFinishing = () => {
   const [selectedArticle, setSelectedArticle] = useState(null);
+  const [selectedVideo, setSelectedVideo] = useState(null);
 
   const articles = [
     {
@@ -1485,6 +1490,75 @@ With proper selection and application of exterior finishes, your outdoor woodwor
     }
   ];
 
+  const videoReviews = [
+    {
+      id: 101,
+      title: "Top 5 Wood Stains Comparison",
+      description: "A detailed comparison of the most popular wood stains on the market, with real wood samples and durability tests.",
+      icon: <Youtube className="h-6 w-6 text-red-500" />,
+      category: "product-reviews",
+      videoId: "W0CmXHHbVGE",
+      creator: "Wood Whisperer",
+      thumbnail: "https://img.youtube.com/vi/W0CmXHHbVGE/maxresdefault.jpg",
+      length: "18:42"
+    },
+    {
+      id: 102,
+      title: "Best Clear Finishes for Woodworking",
+      description: "An in-depth review of the top clear finishes, comparing durability, ease of application, and appearance.",
+      icon: <Youtube className="h-6 w-6 text-red-500" />,
+      category: "product-reviews",
+      videoId: "bbiXJd_1l8Y",
+      creator: "Bourbon Moth Woodworking",
+      thumbnail: "https://img.youtube.com/vi/bbiXJd_1l8Y/maxresdefault.jpg",
+      length: "24:15"
+    },
+    {
+      id: 103,
+      title: "Beginner's Guide to Spray Equipment",
+      description: "Review of entry-level spray equipment for finishing, perfect for beginners looking to achieve professional results.",
+      icon: <Youtube className="h-6 w-6 text-red-500" />,
+      category: "product-reviews",
+      videoId: "QhB_1FcA8_0",
+      creator: "Finish Carpenter",
+      thumbnail: "https://img.youtube.com/vi/QhB_1FcA8_0/maxresdefault.jpg",
+      length: "15:22"
+    },
+    {
+      id: 104,
+      title: "Finishing Oils Comparison Test",
+      description: "Side-by-side comparison of popular finishing oils, showing application methods and finished results.",
+      icon: <Youtube className="h-6 w-6 text-red-500" />,
+      category: "product-reviews",
+      videoId: "4CyLn6Z-aQU",
+      creator: "Crafted Workshop",
+      thumbnail: "https://img.youtube.com/vi/4CyLn6Z-aQU/maxresdefault.jpg",
+      length: "21:37"
+    },
+    {
+      id: 105,
+      title: "French Polishing Supplies Review",
+      description: "Review of the best shellac flakes, applicators, and oils for achieving a perfect French polish finish.",
+      icon: <Youtube className="h-6 w-6 text-red-500" />,
+      category: "product-reviews",
+      videoId: "a5NVN2YqxEk",
+      creator: "Fine Woodworking",
+      thumbnail: "https://img.youtube.com/vi/a5NVN2YqxEk/maxresdefault.jpg",
+      length: "16:48"
+    },
+    {
+      id: 106,
+      title: "Outdoor Finishes Durability Test",
+      description: "One-year weather test comparing the most popular outdoor wood finishes and their performance.",
+      icon: <Youtube className="h-6 w-6 text-red-500" />,
+      category: "product-reviews",
+      videoId: "QB4ZI5QnaZU",
+      creator: "Homestead Craftsman",
+      thumbnail: "https://img.youtube.com/vi/QB4ZI5QnaZU/maxresdefault.jpg",
+      length: "19:53"
+    }
+  ];
+
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
@@ -1500,7 +1574,7 @@ With proper selection and application of exterior finishes, your outdoor woodwor
 
           <Tabs defaultValue="all" className="w-full mb-8">
             <div className="flex justify-center mb-6">
-              <TabsList>
+              <TabsList className="flex-wrap">
                 <TabsTrigger value="all">All Articles</TabsTrigger>
                 <TabsTrigger value="staining">Staining</TabsTrigger>
                 <TabsTrigger value="clear-finishes">Clear Finishes</TabsTrigger>
@@ -1508,6 +1582,7 @@ With proper selection and application of exterior finishes, your outdoor woodwor
                 <TabsTrigger value="materials">Materials</TabsTrigger>
                 <TabsTrigger value="preparation">Preparation</TabsTrigger>
                 <TabsTrigger value="troubleshooting">Troubleshooting</TabsTrigger>
+                <TabsTrigger value="product-reviews">Product Reviews</TabsTrigger>
               </TabsList>
             </div>
             
@@ -1531,6 +1606,50 @@ With proper selection and application of exterior finishes, your outdoor woodwor
                         onClick={() => setSelectedArticle(article)}
                       >
                         Read Article
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                ))}
+                
+                {videoReviews.map((video) => (
+                  <Card key={video.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+                    <CardHeader className="flex flex-row items-center gap-4 pb-2">
+                      <div className="h-12 w-12 rounded-full bg-red-100 flex items-center justify-center">
+                        {video.icon}
+                      </div>
+                      <CardTitle className="text-xl">{video.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="pb-2">
+                      <div className="relative mb-4 cursor-pointer" onClick={() => setSelectedVideo(video)}>
+                        <AspectRatio ratio={16/9} className="bg-black">
+                          <img 
+                            src={video.thumbnail} 
+                            alt={video.title}
+                            className="object-cover w-full h-full rounded-md"
+                          />
+                        </AspectRatio>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="rounded-full bg-black bg-opacity-70 p-3">
+                            <Play className="h-8 w-8 text-white" fill="white" />
+                          </div>
+                        </div>
+                      </div>
+                      <CardDescription className="text-base">{video.description}</CardDescription>
+                      <div className="flex items-center justify-between mt-3 text-sm text-gray-500">
+                        <span>{video.creator}</span>
+                        <span className="flex items-center gap-1">
+                          <Clock className="h-4 w-4" />
+                          {video.length}
+                        </span>
+                      </div>
+                    </CardContent>
+                    <CardFooter>
+                      <Button 
+                        variant="outline" 
+                        className="w-full"
+                        onClick={() => setSelectedVideo(video)}
+                      >
+                        Watch Review
                       </Button>
                     </CardFooter>
                   </Card>
@@ -1569,6 +1688,54 @@ With proper selection and application of exterior finishes, your outdoor woodwor
                 </div>
               </TabsContent>
             ))}
+            
+            <TabsContent value="product-reviews" className="mt-6">
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {videoReviews.map((video) => (
+                  <Card key={video.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+                    <CardHeader className="flex flex-row items-center gap-4 pb-2">
+                      <div className="h-12 w-12 rounded-full bg-red-100 flex items-center justify-center">
+                        {video.icon}
+                      </div>
+                      <CardTitle className="text-xl">{video.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="pb-2">
+                      <div className="relative mb-4 cursor-pointer" onClick={() => setSelectedVideo(video)}>
+                        <AspectRatio ratio={16/9} className="bg-black">
+                          <img 
+                            src={video.thumbnail} 
+                            alt={video.title}
+                            className="object-cover w-full h-full rounded-md"
+                          />
+                        </AspectRatio>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="rounded-full bg-black bg-opacity-70 p-3">
+                            <Play className="h-8 w-8 text-white" fill="white" />
+                          </div>
+                        </div>
+                      </div>
+                      <CardDescription className="text-base">{video.description}</CardDescription>
+                      <div className="flex items-center justify-between mt-3 text-sm text-gray-500">
+                        <span>{video.creator}</span>
+                        <span className="flex items-center gap-1">
+                          <Clock className="h-4 w-4" />
+                          {video.length}
+                        </span>
+                      </div>
+                    </CardContent>
+                    <CardFooter>
+                      <Button 
+                        variant="outline" 
+                        className="w-full"
+                        onClick={() => setSelectedVideo(video)}
+                      >
+                        Watch Review
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                ))}
+              </div>
+            </TabsContent>
           </Tabs>
 
           <div className="bg-blue-100 p-6 rounded-lg shadow-md mb-12">
@@ -1620,6 +1787,47 @@ With proper selection and application of exterior finishes, your outdoor woodwor
               <CheckSquare className="h-4 w-4 ml-4" /> 
               <span>Fact checked by professional woodworkers</span>
             </div>
+            <DialogClose asChild>
+              <Button variant="outline">Close</Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      
+      <Dialog open={selectedVideo !== null} onOpenChange={() => setSelectedVideo(null)}>
+        <DialogContent className="sm:max-w-4xl">
+          <DialogHeader>
+            <DialogTitle className="text-2xl flex items-center gap-2">
+              <Youtube className="h-6 w-6 text-red-500" />
+              {selectedVideo?.title}
+            </DialogTitle>
+            <DialogDescription>
+              {selectedVideo?.description}
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="mt-4">
+            <AspectRatio ratio={16/9} className="bg-black rounded-md overflow-hidden">
+              {selectedVideo && (
+                <iframe
+                  src={`https://www.youtube.com/embed/${selectedVideo.videoId}?autoplay=1`}
+                  title={selectedVideo.title}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="w-full h-full"
+                ></iframe>
+              )}
+            </AspectRatio>
+          </div>
+          
+          <div className="mt-4">
+            <h3 className="font-medium">About this review:</h3>
+            <p className="text-sm text-muted-foreground mt-2">
+              This product review video is created by {selectedVideo?.creator}. The content is educational and provides honest opinions about woodworking finishing products. All recommendations are based on real testing and practical experience.
+            </p>
+          </div>
+          
+          <DialogFooter className="mt-4">
             <DialogClose asChild>
               <Button variant="outline">Close</Button>
             </DialogClose>
