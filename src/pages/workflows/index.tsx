@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo } from "react";
 import {
   Tabs,
@@ -88,9 +89,8 @@ const Workflows: React.FC = () => {
   return (
     <div className="space-y-6">
       <WorkflowsHeader 
-        totalWorkflows={workflows.length} 
         onCreateClick={() => setCreateDialogOpen(true)}
-        onSeed={fetchWorkflows}
+        onImportClick={() => setImportDialogOpen(true)}
       />
 
       {workflows.length > 0 && (
@@ -148,7 +148,6 @@ const Workflows: React.FC = () => {
       {workflows.length === 0 ? (
         <WorkflowsEmptyState 
           onCreateClick={() => setCreateDialogOpen(true)}
-          onSeed={fetchWorkflows}
         />
       ) : (
         <Tabs defaultValue={activeTab} onValueChange={setActiveTab}>

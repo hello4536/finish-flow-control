@@ -34,7 +34,6 @@ const CompliancePage = () => {
     addPPERequirement,
     updatePPERequirement,
     deletePPERequirement,
-    seedSampleData
   } = useComplianceData();
   
   const handleAddCertification = (data: any) => {
@@ -88,9 +87,6 @@ const CompliancePage = () => {
             <AddComplianceIssueDialog onAddComplianceIssue={handleAddComplianceIssue} />
             <AddHazardousWasteDialog onAddHazardousWaste={handleAddHazardousWaste} />
             <AddPPERequirementDialog onAddPPERequirement={handleAddPPERequirement} />
-            <Button variant="outline" onClick={() => seedSampleData()}>
-              Add Sample Data
-            </Button>
           </div>
         </div>
       </div>
