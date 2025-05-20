@@ -1,6 +1,6 @@
 
-import { PaintBucket, Brush, Sparkles, Shield, Axe, FlaskConical } from "lucide-react";
 import React from "react";
+import { PaintBucket, Brush, Sparkles, Shield, Axe, FlaskConical } from "lucide-react";
 
 export interface Article {
   id: number;
@@ -16,7 +16,7 @@ export const articles: Article[] = [
     id: 1,
     title: "Understanding Wood Stains",
     description: "Learn about different types of wood stains and how to choose the right one for your project.",
-    icon: <PaintBucket className="h-6 w-6 text-orange-500" />,
+    icon: React.createElement(PaintBucket, { className: "h-6 w-6 text-orange-500" }),
     category: "staining",
     content: `
 ## Understanding Wood Stains
@@ -96,7 +96,7 @@ Remember that the final appearance of your stained wood will depend on many fact
     id: 2,
     title: "Applying Clear Finishes",
     description: "Step-by-step guide on applying clear coats, lacquers, and varnishes for professional results.",
-    icon: <Brush className="h-6 w-6 text-orange-500" />,
+    icon: React.createElement(Brush, { className: "h-6 w-6 text-orange-500" }),
     category: "clear-finishes",
     content: `
 ## Applying Clear Finishes
@@ -219,7 +219,7 @@ With proper application techniques and attention to detail, you can achieve prof
     id: 3,
     title: "Surface Preparation Techniques",
     description: "Master the art of wood preparation for flawless finishing results.",
-    icon: <Sparkles className="h-6 w-6 text-orange-500" />,
+    icon: React.createElement(Sparkles, { className: "h-6 w-6 text-orange-500" }),
     category: "preparation",
     content: `
 ## Surface Preparation Techniques
@@ -350,7 +350,7 @@ With proper surface preparation, you set the stage for a beautiful finish. Remem
     id: 4,
     title: "Water vs. Oil-Based Finishes",
     description: "Understand the differences, advantages, and applications of water and oil-based finishing products.",
-    icon: <Shield className="h-6 w-6 text-orange-500" />,
+    icon: React.createElement(Shield, { className: "h-6 w-6 text-orange-500" }),
     category: "materials",
     content: `
 ## Water vs. Oil-Based Finishes
@@ -500,7 +500,7 @@ The choice between water and oil-based finishes should be based on your specific
     id: 5,
     title: "Troubleshooting Common Finish Problems",
     description: "Solutions for common issues like blotching, bubbling, and uneven finish application.",
-    icon: <Brush className="h-6 w-6 text-orange-500" />,
+    icon: React.createElement(Brush, { className: "h-6 w-6 text-orange-500" }),
     category: "troubleshooting",
     content: `
 ## Troubleshooting Common Finish Problems
@@ -777,7 +777,7 @@ Remember that proper preparation, appropriate product selection, and good techni
     id: 6,
     title: "Spray Finishing for Beginners",
     description: "Getting started with spray equipment for professional-quality wood finishes.",
-    icon: <PaintBucket className="h-6 w-6 text-orange-500" />,
+    icon: React.createElement(PaintBucket, { className: "h-6 w-6 text-orange-500" }),
     category: "techniques",
     content: `
 ## Spray Finishing for Beginners
@@ -932,7 +932,6 @@ Most finishes require thinning for proper atomization:
    - **Consistent speed** (too slow = runs, too fast = thin coverage)
 
 3. **Practice Pattern**
-   ![Spray Pattern Diagram]
    - Begin movement before triggering
    - Release trigger before stopping movement
    - Move at consistent speed (8-12 inches per second)
@@ -1029,7 +1028,7 @@ With practice and patience, spray finishing can transform your woodworking proje
     id: 7,
     title: "French Polishing Technique",
     description: "Learn the traditional technique of French polishing for a high-gloss, luxurious finish.",
-    icon: <Axe className="h-6 w-6 text-orange-500" />,
+    icon: React.createElement(Axe, { className: "h-6 w-6 text-orange-500" }),
     category: "techniques",
     content: `
 ## French Polishing Technique
@@ -1212,7 +1211,7 @@ French polishing requires patience and practice, but the results are unmatched i
     id: 8,
     title: "Finishing for Outdoor Projects",
     description: "Protect your outdoor woodworking projects from the elements with these specialized finishing techniques.",
-    icon: <FlaskConical className="h-6 w-6 text-orange-500" />,
+    icon: React.createElement(FlaskConical, { className: "h-6 w-6 text-orange-500" }),
     category: "materials",
     content: `
 ## Finishing for Outdoor Projects

@@ -1,6 +1,6 @@
 
-import { Youtube } from "lucide-react";
 import React from "react";
+import { Youtube } from "lucide-react";
 
 export interface VideoReview {
   id: number;
@@ -19,7 +19,7 @@ export const videoReviews: VideoReview[] = [
     id: 101,
     title: "Top 5 Wood Stains Comparison",
     description: "A detailed comparison of the most popular wood stains on the market, with real wood samples and durability tests.",
-    icon: <Youtube className="h-6 w-6 text-red-500" />,
+    icon: React.createElement(Youtube, { className: "h-6 w-6 text-red-500" }),
     category: "product-reviews",
     videoId: "NnM0w-gdm3k",
     creator: "Wood Whisperer",
@@ -30,7 +30,7 @@ export const videoReviews: VideoReview[] = [
     id: 102,
     title: "Best Clear Finishes for Woodworking",
     description: "An in-depth review of the top clear finishes, comparing durability, ease of application, and appearance.",
-    icon: <Youtube className="h-6 w-6 text-red-500" />,
+    icon: React.createElement(Youtube, { className: "h-6 w-6 text-red-500" }),
     category: "product-reviews",
     videoId: "Iq2WJ9C30SU",
     creator: "Bourbon Moth Woodworking",
@@ -41,7 +41,7 @@ export const videoReviews: VideoReview[] = [
     id: 103,
     title: "Beginner's Guide to Spray Equipment",
     description: "Review of entry-level spray equipment for finishing, perfect for beginners looking to achieve professional results.",
-    icon: <Youtube className="h-6 w-6 text-red-500" />,
+    icon: React.createElement(Youtube, { className: "h-6 w-6 text-red-500" }),
     category: "product-reviews",
     videoId: "K49xOV0B4Eo",
     creator: "Finish Carpenter",
@@ -52,7 +52,7 @@ export const videoReviews: VideoReview[] = [
     id: 104,
     title: "Finishing Oils Comparison Test",
     description: "Side-by-side comparison of popular finishing oils, showing application methods and finished results.",
-    icon: <Youtube className="h-6 w-6 text-red-500" />,
+    icon: React.createElement(Youtube, { className: "h-6 w-6 text-red-500" }),
     category: "product-reviews",
     videoId: "-jus5Hdo8tE",
     creator: "Crafted Workshop",
@@ -63,7 +63,7 @@ export const videoReviews: VideoReview[] = [
     id: 105,
     title: "French Polishing Supplies Review",
     description: "Review of the best shellac flakes, applicators, and oils for achieving a perfect French polish finish.",
-    icon: <Youtube className="h-6 w-6 text-red-500" />,
+    icon: React.createElement(Youtube, { className: "h-6 w-6 text-red-500" }),
     category: "product-reviews",
     videoId: "711rKNR9s_M",
     creator: "Fine Woodworking",
@@ -74,7 +74,7 @@ export const videoReviews: VideoReview[] = [
     id: 106,
     title: "Outdoor Finishes Durability Test",
     description: "One-year weather test comparing the most popular outdoor wood finishes and their performance.",
-    icon: <Youtube className="h-6 w-6 text-red-500" />,
+    icon: React.createElement(Youtube, { className: "h-6 w-6 text-red-500" }),
     category: "product-reviews",
     videoId: "Gp4aDyTIXWc",
     creator: "Homestead Craftsman",
