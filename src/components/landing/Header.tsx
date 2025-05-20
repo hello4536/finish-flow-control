@@ -31,7 +31,7 @@ const Header: React.FC = () => {
           </Button>
           <Link to="/woodworking-finishing" className="text-sm font-medium text-slate-50 hover:text-primary transition-colors">Woodworking Finishing</Link>
           <Link to="/auto-body-finishing" className="text-sm font-medium text-slate-50 hover:text-primary transition-colors">Auto Body Finishing</Link>
-          <a href="#pricing" className="text-sm font-medium text-slate-50 hover:text-primary transition-colors">Pricing</a>
+          <Link to="/#pricing" className="text-sm font-medium text-slate-50 hover:text-primary transition-colors">Pricing</Link>
         </nav>
         
         <div className="flex items-center space-x-3">
