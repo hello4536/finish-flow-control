@@ -18,7 +18,7 @@ const HeroSection = () => {
           </h1>
           <p className="mx-auto max-w-[700px] text-muted-foreground text-lg text-center md:text-xl">Track formulas, jobs, and materials in one clean dashboard with supporting tools for custom workflows, compliance and more. Finivi is your all in one platform designed by finishers for finishers.</p>
           <div className="flex flex-wrap items-center justify-center gap-4 mt-4">
-            <Button asChild size="lg" className="h-12 px-6 rounded-full bg-accent hover:bg-accent/90 text-accent-foreground">
+            <Button asChild size="lg" className="h-12 px-6 rounded-full bg-orange-500 hover:bg-accent/90 text-slate-50 -foreground">
               <Link to="/auth/signup">
                 Get Started Now
                 <ArrowRight className="ml-2 h-4 w-4" />
