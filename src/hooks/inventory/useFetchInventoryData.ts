@@ -30,16 +30,18 @@ export function useFetchInventoryData() {
       if (warehousesError) throw warehousesError;
       setWarehouses(warehousesData || []);
 
-      // Fetch locations (new)
+      // Fetch locations (new approach)
+      // Instead of using the location_paths view which is causing SECURITY DEFINER issues,
+      // we'll fetch from the locations table directly and handle the hierarchy in the frontend
       const { data: locationsData, error: locationsError } = await supabase
-        .from('location_paths') // Use the view to get hierarchical data
-        .select('*')
-        .order('level', { ascending: true })
-        .order('full_path', { ascending: true });
+        .from('locations')
+        .select('*');
 
       if (locationsError) throw locationsError;
-      // Cast the data to Location[] type since it comes from the view
-      setLocations((locationsData || []) as Location[]);
+      
+      // Process the locations to create a similar structure to what we had before
+      const processedLocations = processLocationHierarchy(locationsData || []);
+      setLocations(processedLocations);
 
     } catch (error: any) {
       console.error('Error fetching inventory data:', error);
@@ -51,6 +53,50 @@ export function useFetchInventoryData() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  // Helper function to process location hierarchy and create full paths
+  const processLocationHierarchy = (locationsData: any[]): Location[] => {
+    // Create a map of locations by id for easy lookup
+    const locationMap = new Map();
+    locationsData.forEach(location => {
+      locationMap.set(location.id, {
+        ...location,
+        level: 0,
+        path_array: [],
+        full_path: location.name
+      });
+    });
+    
+    // Calculate levels and paths
+    const processedLocations = locationsData.map(location => {
+      let currentLocation = location;
+      let level = 0;
+      let path = [location.name];
+      let parentChain = [];
+      
+      // Traverse up the parent chain
+      while (currentLocation.parent_id && locationMap.has(currentLocation.parent_id)) {
+        const parent = locationMap.get(currentLocation.parent_id);
+        level++;
+        path.unshift(parent.name);
+        parentChain.push(parent);
+        currentLocation = parent;
+      }
+      
+      return {
+        ...location,
+        level,
+        path_array: path,
+        full_path: path.join(' > ')
+      };
+    });
+    
+    // Sort by level and name for consistent display
+    return processedLocations.sort((a, b) => {
+      if (a.level !== b.level) return a.level - b.level;
+      return a.full_path.localeCompare(b.full_path);
+    });
   };
 
   useEffect(() => {

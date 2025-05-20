@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { z } from "zod";
 import { formSchema, inventoryCategories } from "../schema";
-import { supabase } from "@/integrations/supabase/client";
+import { useInventoryData } from "@/hooks/inventory";
 import { Location } from "@/types/inventory";
 
 type FormValues = z.infer<typeof formSchema>;
@@ -16,31 +16,7 @@ interface CategoryLocationFieldsProps {
 }
 
 export const CategoryLocationFields: React.FC<CategoryLocationFieldsProps> = ({ form }) => {
-  const [locations, setLocations] = useState<Location[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchLocations = async () => {
-      try {
-        setIsLoading(true);
-        const { data, error } = await supabase
-          .from('location_paths')
-          .select('*')
-          .order('full_path', { ascending: true });
-          
-        if (error) throw error;
-        
-        // Cast the data to match our Location type with optional fields for the view
-        setLocations((data || []) as Location[]);
-      } catch (error) {
-        console.error("Error fetching locations:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    
-    fetchLocations();
-  }, []);
+  const { locations, isLoading: locationsLoading } = useInventoryData();
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -75,7 +51,7 @@ export const CategoryLocationFields: React.FC<CategoryLocationFieldsProps> = ({ 
             </FormControl>
             <SelectContent>
               <SelectItem value="none">None</SelectItem>
-              {isLoading ? (
+              {locationsLoading ? (
                 <SelectItem value="loading" disabled>Loading...</SelectItem>
               ) : (
                 locations.map(location => (
