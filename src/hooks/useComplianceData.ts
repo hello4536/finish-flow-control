@@ -5,7 +5,6 @@ import { useComplianceIssues } from './useComplianceIssues';
 import { useRegulatoryCompliance } from './useRegulatoryCompliance';
 import { useHazardousWaste } from './useHazardousWaste';
 import { usePPERequirements } from './usePPERequirements';
-import { useSampleComplianceData } from './useSampleComplianceData';
 
 export const useComplianceData = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -49,8 +48,6 @@ export const useComplianceData = () => {
     updatePPERequirement,
     deletePPERequirement
   } = usePPERequirements();
-  
-  const { seedSampleData } = useSampleComplianceData();
 
   // Update loading state when data is available
   useEffect(() => {
@@ -90,6 +87,5 @@ export const useComplianceData = () => {
     addPPERequirement,
     updatePPERequirement,
     deletePPERequirement,
-    seedSampleData
   };
 };

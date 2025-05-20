@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -49,9 +48,6 @@ const appearanceFormSchema = z.object({
   language: z.enum(["en", "es", "fr"], {
     required_error: "Please select a language.",
   }),
-  theme: z.enum(["light", "dark", "system"], {
-    required_error: "Please select a theme.",
-  }),
   compactMode: z.boolean().default(false),
 });
 
@@ -98,12 +94,11 @@ export default function Settings() {
     },
   });
 
-  // Appearance form
+  // Appearance form with theme removed
   const appearanceForm = useForm<AppearanceFormValues>({
     resolver: zodResolver(appearanceFormSchema),
     defaultValues: {
       language: "en",
-      theme: "light",
       compactMode: false,
     },
   });
@@ -574,49 +569,6 @@ export default function Settings() {
                               </FormControl>
                               <FormLabel className="font-normal">
                                 Français
-                              </FormLabel>
-                            </FormItem>
-                          </RadioGroup>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={appearanceForm.control}
-                    name="theme"
-                    render={({ field }) => (
-                      <FormItem className="space-y-3">
-                        <FormLabel>Theme</FormLabel>
-                        <FormControl>
-                          <RadioGroup
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                            className="flex flex-row space-x-4"
-                          >
-                            <FormItem className="flex items-center space-x-2 space-y-0">
-                              <FormControl>
-                                <RadioGroupItem value="light" />
-                              </FormControl>
-                              <FormLabel className="font-normal">
-                                Light
-                              </FormLabel>
-                            </FormItem>
-                            <FormItem className="flex items-center space-x-2 space-y-0">
-                              <FormControl>
-                                <RadioGroupItem value="dark" />
-                              </FormControl>
-                              <FormLabel className="font-normal">
-                                Dark
-                              </FormLabel>
-                            </FormItem>
-                            <FormItem className="flex items-center space-x-2 space-y-0">
-                              <FormControl>
-                                <RadioGroupItem value="system" />
-                              </FormControl>
-                              <FormLabel className="font-normal">
-                                System
                               </FormLabel>
                             </FormItem>
                           </RadioGroup>

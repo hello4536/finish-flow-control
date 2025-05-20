@@ -1,36 +1,36 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
-import WorkflowSeeder from "./WorkflowSeeder";
+import { PlusCircle, FileUp } from "lucide-react";
 
 interface WorkflowsHeaderProps {
-  totalWorkflows: number;
   onCreateClick: () => void;
-  onSeed: () => void;
+  onImportClick: () => void;
 }
 
-const WorkflowsHeader: React.FC<WorkflowsHeaderProps> = ({ 
-  totalWorkflows, 
+const WorkflowsHeader: React.FC<WorkflowsHeaderProps> = ({
   onCreateClick,
-  onSeed
+  onImportClick
 }) => {
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-      <div>
-        <h2 className="text-3xl font-bold tracking-tight">Workflows</h2>
-        <p className="text-muted-foreground mt-1">
-          {totalWorkflows > 0 
-            ? `Manage your ${totalWorkflows} workflow template${totalWorkflows !== 1 ? 's' : ''}`
-            : "Create workflow templates for your finishing processes"
-          }
-        </p>
-      </div>
-      <div className="mt-4 flex items-center space-x-2 sm:mt-0">
-        <Button className="gap-2" onClick={onCreateClick}>
-          <Plus className="h-4 w-4" /> Create Workflow
+    <div className="flex justify-between items-center mb-6">
+      <h1 className="text-3xl font-bold">Workflows</h1>
+      <div className="flex gap-2">
+        <Button 
+          variant="outline"
+          onClick={onImportClick}
+          className="flex items-center gap-2"
+        >
+          <FileUp className="h-5 w-5" />
+          Import
         </Button>
-        {totalWorkflows === 0 && <WorkflowSeeder onSeed={onSeed} />}
+        <Button 
+          onClick={onCreateClick}
+          className="flex items-center gap-2"
+        >
+          <PlusCircle className="h-5 w-5" />
+          Create Workflow
+        </Button>
       </div>
     </div>
   );
