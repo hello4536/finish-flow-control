@@ -1,215 +1,98 @@
+
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import PlanCard from "@/components/subscription/PlanCard";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Check, ChevronDown } from "lucide-react";
 
 const PricingSection = () => {
-  const navigate = useNavigate();
-  
-  const navigateToSignup = () => {
-    navigate('/auth/signup');
-  };
-  
-  return <section id="pricing" className="py-20">
+  return (
+    <section className="py-20">
       <div className="container px-4 md:px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            Simple, Transparent Pricing
-          </h2>
-          <p className="mt-4 text-lg text-muted-foreground max-w-[700px] mx-auto">
-            Choose the plan that's right for your finishing department.
+        <div className="mx-auto max-w-3xl text-center mb-10">
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Simple, Transparent Pricing</h2>
+          <p className="mt-4 text-lg text-muted-foreground">
+            Choose the plan that suits your business needs.
           </p>
         </div>
-        
-        <div className="grid gap-8 md:grid-cols-2 max-w-4xl mx-auto">
-          {/* Admin Plan */}
-          <PlanCard 
-            title="Admin Account" 
-            price={49} 
-            description="Full access for the first user in your organization" 
-            features={[
-              { text: "Complete access to all features", included: true },
-              { text: "Add additional users at $10/month each", included: true },
-              { text: "Unlimited workflows", included: true },
-              { text: "Material tracking", included: true },
-              { text: "Custom creations library", included: true },
-              { text: "Compliance management", included: true },
-              { text: "Priority support", included: true },
-            ]} 
-            onSubscribe={navigateToSignup}
-          />
-          
-          {/* Employee Plan */}
-          <PlanCard 
-            title="Employee Account" 
-            price={10} 
-            description={<>Per additional user in your organization <Badge variant="outline" className="ml-2 bg-blue-100">Requires Admin</Badge></>}
-            features={[
-              { text: "Access to assigned workflows", included: true },
-              { text: "Task management", included: true },
-              { text: "Material usage tracking", included: true },
-              { text: "View reports and dashboards", included: true },
-              { text: "Access to shared recipes and creations", included: true },
-              { text: "Mobile app access", included: true },
-              { text: "Standard support", included: true },
-            ]} 
-            onSubscribe={navigateToSignup}
-          />
-        </div>
-        
-        {/* Team Pricing Example */}
-        <div className="mt-12 max-w-3xl mx-auto bg-slate-50 p-6 rounded-lg border border-slate-200">
-          <h3 className="text-xl font-bold mb-4 text-center">Example Team Pricing</h3>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="p-4 border rounded-lg bg-white">
-              <h4 className="text-lg font-bold mb-2">Small Team</h4>
-              <ul className="space-y-2 mb-4">
-                <li className="flex justify-between">
-                  <span>1 Admin user</span>
-                  <span className="font-medium">$49/mo</span>
-                </li>
-                <li className="flex justify-between">
-                  <span>2 Employee users</span>
-                  <span className="font-medium">$20/mo</span>
-                </li>
-                <li className="border-t pt-2 flex justify-between">
-                  <span className="font-bold">Total</span>
-                  <span className="font-bold">$69/mo</span>
-                </li>
-              </ul>
+        <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-1 lg:grid-cols-2">
+          <div className="rounded-lg border p-6 shadow-sm">
+            <h3 className="text-xl font-bold">Admin Access</h3>
+            <div className="mt-4 flex items-baseline">
+              <span className="text-3xl font-bold">$49</span>
+              <span className="text-muted-foreground">/month</span>
             </div>
-            <div className="p-4 border rounded-lg bg-white">
-              <h4 className="text-lg font-bold mb-2">Larger Team</h4>
-              <ul className="space-y-2 mb-4">
-                <li className="flex justify-between">
-                  <span>1 Admin user</span>
-                  <span className="font-medium">$49/mo</span>
-                </li>
-                <li className="flex justify-between">
-                  <span>5 Employee users</span>
-                  <span className="font-medium">$50/mo</span>
-                </li>
-                <li className="border-t pt-2 flex justify-between">
-                  <span className="font-bold">Total</span>
-                  <span className="font-bold">$99/mo</span>
-                </li>
-              </ul>
+            <p className="mt-2 text-muted-foreground">
+              Complete access for organizational administrators
+            </p>
+            <ul className="mt-6 space-y-3">
+              <li className="flex items-center">
+                <Check className="mr-2 h-4 w-4 text-green-500" />
+                <span>Full system access</span>
+              </li>
+              <li className="flex items-center">
+                <Check className="mr-2 h-4 w-4 text-green-500" />
+                <span>Subscription management</span>
+              </li>
+              <li className="flex items-center">
+                <Check className="mr-2 h-4 w-4 text-green-500" />
+                <span>Unlimited workflows</span>
+              </li>
+              <li className="flex items-center">
+                <Check className="mr-2 h-4 w-4 text-green-500" />
+                <span>Employee management</span>
+              </li>
+              <li className="flex items-center">
+                <Check className="mr-2 h-4 w-4 text-green-500" />
+                <span>Admin subscription includes first user</span>
+              </li>
+            </ul>
+            <Button className="mt-6 w-full">Get Started</Button>
+          </div>
+          <div className="rounded-lg border p-6 shadow-sm">
+            <div className="flex justify-between items-center">
+              <h3 className="text-xl font-bold">Employee Access</h3>
+              <Badge>Per User</Badge>
             </div>
+            <div className="mt-4 flex items-baseline">
+              <span className="text-3xl font-bold">$10</span>
+              <span className="text-muted-foreground">/month per user</span>
+            </div>
+            <p className="mt-2 text-muted-foreground">
+              Role-based access for your team members
+            </p>
+            <ul className="mt-6 space-y-3">
+              <li className="flex items-center">
+                <Check className="mr-2 h-4 w-4 text-green-500" />
+                <span>Role-based access</span>
+              </li>
+              <li className="flex items-center">
+                <Check className="mr-2 h-4 w-4 text-green-500" />
+                <span>Task management</span>
+              </li>
+              <li className="flex items-center">
+                <Check className="mr-2 h-4 w-4 text-green-500" />
+                <span>Workflow participation</span>
+              </li>
+              <li className="flex items-center">
+                <Check className="mr-2 h-4 w-4 text-green-500" />
+                <span>Material tracking</span>
+              </li>
+              <li className="flex items-center">
+                <Check className="mr-2 h-4 w-4 text-green-500" />
+                <span>Add as many employees as needed</span>
+              </li>
+            </ul>
+            <Button className="mt-6 w-full" variant="outline">Learn More</Button>
           </div>
         </div>
-        
-        {/* FAQ */}
-        <div className="mt-16 max-w-3xl mx-auto">
-          <h3 className="text-2xl font-bold mb-6 text-center">Frequently Asked Questions</h3>
-          <Accordion type="single" collapsible className="w-full">
-            <AccordionItem value="item-1" className="border-b">
-              <AccordionTrigger className="text-left font-semibold">Do you offer a free trial?</AccordionTrigger>
-              <AccordionContent>
-                Finivi doesn't currently offer a free trial. We recommend scheduling a demo to see how our platform can benefit your finishing department before purchasing.
-              </AccordionContent>
-            </AccordionItem>
-            
-            <AccordionItem value="item-2" className="border-b">
-              <AccordionTrigger className="text-left font-semibold">Can I cancel my subscription anytime?</AccordionTrigger>
-              <AccordionContent>
-                Yes, you can cancel your subscription at any time. You'll continue to have access until the end of your current billing cycle.
-              </AccordionContent>
-            </AccordionItem>
-            
-            <AccordionItem value="item-3" className="border-b">
-              <AccordionTrigger className="text-left font-semibold">Is my data secure?</AccordionTrigger>
-              <AccordionContent>
-                Finivi uses industry-standard security measures to protect your data. All information is encrypted and stored securely.
-              </AccordionContent>
-            </AccordionItem>
-            
-            <AccordionItem value="item-4" className="border-b">
-              <AccordionTrigger className="text-left font-semibold">Do you offer custom implementation services?</AccordionTrigger>
-              <AccordionContent>
-                Yes, we offer custom implementation services to help you get the most out of Finivi. Our team will work with you to configure the platform to meet your specific needs.
-              </AccordionContent>
-            </AccordionItem>
-            
-            <AccordionItem value="item-5" className="border-b">
-              <AccordionTrigger className="text-left font-semibold">What kind of support is included?</AccordionTrigger>
-              <AccordionContent>
-                All plans include standard email support. Admin accounts also include priority support with faster response times and access to phone support during business hours.
-              </AccordionContent>
-            </AccordionItem>
-            
-            <AccordionItem value="item-6" className="border-b">
-              <AccordionTrigger className="text-left font-semibold">How does your billing work?</AccordionTrigger>
-              <AccordionContent>
-                We offer monthly and annual billing options. Annual billing comes with a 10% discount compared to monthly billing. We accept all major credit cards and can provide invoices for enterprise customers.
-              </AccordionContent>
-            </AccordionItem>
-            
-            <AccordionItem value="item-15" className="border-b">
-              <AccordionTrigger className="text-left font-semibold">How does employee billing work?</AccordionTrigger>
-              <AccordionContent>
-                Your subscription begins with one admin user at $49/month. When you add employees, your subscription is automatically updated to add $10/month per additional user. You can add or remove users at any time, and your billing will adjust accordingly.
-              </AccordionContent>
-            </AccordionItem>
-            
-            <AccordionItem value="item-7" className="border-b">
-              <AccordionTrigger className="text-left font-semibold">Do you offer discounts for non-profits or educational institutions?</AccordionTrigger>
-              <AccordionContent>
-                Yes, we offer special pricing for non-profit organizations and educational institutions. Please contact our sales team for more information.
-              </AccordionContent>
-            </AccordionItem>
-            
-            <AccordionItem value="item-8" className="border-b">
-              <AccordionTrigger className="text-left font-semibold">Can I export my data if I decide to cancel?</AccordionTrigger>
-              <AccordionContent>
-                Yes, Finivi allows you to export all your data in standard formats (CSV, JSON) at any time, including after you've decided to cancel your subscription.
-              </AccordionContent>
-            </AccordionItem>
-            
-            <AccordionItem value="item-9" className="border-b">
-              <AccordionTrigger className="text-left font-semibold">What industries is Finivi best suited for?</AccordionTrigger>
-              <AccordionContent>
-                Finivi is designed specifically for finishing departments across multiple industries, including woodworking, auto body shops, painting contractors, furniture manufacturing, and metal finishing operations. Our platform is flexible enough to adapt to the specific needs of each industry.
-              </AccordionContent>
-            </AccordionItem>
-            
-            <AccordionItem value="item-10" className="border-b">
-              <AccordionTrigger className="text-left font-semibold">Can I use Finivi on mobile devices?</AccordionTrigger>
-              <AccordionContent>
-                Yes, Finivi is fully responsive and works on all mobile devices. We also offer dedicated mobile apps for iOS and Android that provide optimized experiences for team members working on the shop floor.
-              </AccordionContent>
-            </AccordionItem>
-            
-            <AccordionItem value="item-11" className="border-b">
-              <AccordionTrigger className="text-left font-semibold">Is there a limit to how many workflows I can create?</AccordionTrigger>
-              <AccordionContent>
-                No, all subscription plans include unlimited workflows. You can create as many custom finishing processes as you need to manage your operations efficiently.
-              </AccordionContent>
-            </AccordionItem>
-            
-            <AccordionItem value="item-12" className="border-b">
-              <AccordionTrigger className="text-left font-semibold">Do you integrate with other business systems?</AccordionTrigger>
-              <AccordionContent>
-                Finivi offers integrations with popular business management systems, accounting software, and CRMs. We provide API access for custom integrations on all paid plans. Our team can help you set up integrations with your existing systems.
-              </AccordionContent>
-            </AccordionItem>
-            
-            <AccordionItem value="item-13" className="border-b">
-              <AccordionTrigger className="text-left font-semibold">How long does implementation typically take?</AccordionTrigger>
-              <AccordionContent>
-                For most finishing departments, you can be up and running with Finivi in 1-2 weeks. This includes initial setup, data import, workflow creation, and team training. For larger operations or those requiring custom integrations, implementation may take 3-4 weeks.
-              </AccordionContent>
-            </AccordionItem>
-            
-            <AccordionItem value="item-14" className="border-b">
-              <AccordionTrigger className="text-left font-semibold">How often do you release updates?</AccordionTrigger>
-              <AccordionContent>
-                We release minor updates and improvements every 2-4 weeks. Major feature releases typically occur quarterly. All updates are automatic and don't require any action on your part. We provide detailed release notes for each update.
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
+        <div className="mt-10 text-center">
+          <p className="text-muted-foreground">
+            All plans include email support. For enterprise needs, contact our sales team.
+          </p>
         </div>
       </div>
-    </section>;
+    </section>
+  );
 };
+
 export default PricingSection;
