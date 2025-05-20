@@ -1,11 +1,13 @@
+
 import React from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckSquare } from "lucide-react";
 import { useDailyTasks } from "@/hooks/useDailyTasks";
 import { useAuth } from "@/context/AuthContext";
+import { Button } from "@/components/ui/button";
 
 const EmployeeTasks: React.FC = () => {
-  const { tasks, isLoading } = useDailyTasks();
+  const { tasks, isLoading, completeTask } = useDailyTasks();
   const { user } = useAuth();
 
   return (
