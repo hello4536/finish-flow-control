@@ -1,7 +1,16 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import PlanCard from "@/components/subscription/PlanCard";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Badge } from "@/components/ui/badge";
+
 const PricingSection = () => {
+  const navigate = useNavigate();
+  
+  const navigateToSignup = () => {
+    navigate('/auth/signup');
+  };
+  
   return <section id="pricing" className="py-20">
       <div className="container px-4 md:px-6">
         <div className="text-center mb-16">
@@ -15,52 +24,79 @@ const PricingSection = () => {
         
         <div className="grid gap-8 md:grid-cols-2 max-w-4xl mx-auto">
           {/* Admin Plan */}
-          <PlanCard title="Admin Account" price={49} description="Full access for the first user in your organization" features={[{
-          text: "Complete access to all features",
-          included: true
-        }, {
-          text: "Add additional users at $10/month each",
-          included: true
-        }, {
-          text: "Unlimited workflows",
-          included: true
-        }, {
-          text: "Material tracking",
-          included: true
-        }, {
-          text: "Custom creations library",
-          included: true
-        }, {
-          text: "Compliance management",
-          included: true
-        }, {
-          text: "Priority support",
-          included: true
-        }]} onSubscribe={() => window.location.href = '/auth/signup'} />
+          <PlanCard 
+            title="Admin Account" 
+            price={49} 
+            description="Full access for the first user in your organization" 
+            features={[
+              { text: "Complete access to all features", included: true },
+              { text: "Add additional users at $10/month each", included: true },
+              { text: "Unlimited workflows", included: true },
+              { text: "Material tracking", included: true },
+              { text: "Custom creations library", included: true },
+              { text: "Compliance management", included: true },
+              { text: "Priority support", included: true },
+            ]} 
+            onSubscribe={navigateToSignup}
+          />
           
           {/* Employee Plan */}
-          <PlanCard title="Employee Account" price={10} description="Per additional user in your organization" features={[{
-          text: "Access to assigned workflows",
-          included: true
-        }, {
-          text: "Task management",
-          included: true
-        }, {
-          text: "Material usage tracking",
-          included: true
-        }, {
-          text: "View reports and dashboards",
-          included: true
-        }, {
-          text: "Access to shared recipes and creations",
-          included: true
-        }, {
-          text: "Mobile app access",
-          included: true
-        }, {
-          text: "Standard support",
-          included: true
-        }]} onSubscribe={() => window.location.href = '/auth/signup'} />
+          <PlanCard 
+            title="Employee Account" 
+            price={10} 
+            description={<>Per additional user in your organization <Badge variant="outline" className="ml-2 bg-blue-100">Requires Admin</Badge></>}
+            features={[
+              { text: "Access to assigned workflows", included: true },
+              { text: "Task management", included: true },
+              { text: "Material usage tracking", included: true },
+              { text: "View reports and dashboards", included: true },
+              { text: "Access to shared recipes and creations", included: true },
+              { text: "Mobile app access", included: true },
+              { text: "Standard support", included: true },
+            ]} 
+            onSubscribe={navigateToSignup}
+          />
+        </div>
+        
+        {/* Team Pricing Example */}
+        <div className="mt-12 max-w-3xl mx-auto bg-slate-50 p-6 rounded-lg border border-slate-200">
+          <h3 className="text-xl font-bold mb-4 text-center">Example Team Pricing</h3>
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="p-4 border rounded-lg bg-white">
+              <h4 className="text-lg font-bold mb-2">Small Team</h4>
+              <ul className="space-y-2 mb-4">
+                <li className="flex justify-between">
+                  <span>1 Admin user</span>
+                  <span className="font-medium">$49/mo</span>
+                </li>
+                <li className="flex justify-between">
+                  <span>2 Employee users</span>
+                  <span className="font-medium">$20/mo</span>
+                </li>
+                <li className="border-t pt-2 flex justify-between">
+                  <span className="font-bold">Total</span>
+                  <span className="font-bold">$69/mo</span>
+                </li>
+              </ul>
+            </div>
+            <div className="p-4 border rounded-lg bg-white">
+              <h4 className="text-lg font-bold mb-2">Larger Team</h4>
+              <ul className="space-y-2 mb-4">
+                <li className="flex justify-between">
+                  <span>1 Admin user</span>
+                  <span className="font-medium">$49/mo</span>
+                </li>
+                <li className="flex justify-between">
+                  <span>5 Employee users</span>
+                  <span className="font-medium">$50/mo</span>
+                </li>
+                <li className="border-t pt-2 flex justify-between">
+                  <span className="font-bold">Total</span>
+                  <span className="font-bold">$99/mo</span>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
         
         {/* FAQ */}
@@ -68,7 +104,7 @@ const PricingSection = () => {
           <h3 className="text-2xl font-bold mb-6 text-center">Frequently Asked Questions</h3>
           <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="item-1" className="border-b">
-              
+              <AccordionTrigger className="text-left font-semibold">Do you offer a free trial?</AccordionTrigger>
               <AccordionContent>
                 Finivi doesn't currently offer a free trial. We recommend scheduling a demo to see how our platform can benefit your finishing department before purchasing.
               </AccordionContent>
@@ -106,6 +142,13 @@ const PricingSection = () => {
               <AccordionTrigger className="text-left font-semibold">How does your billing work?</AccordionTrigger>
               <AccordionContent>
                 We offer monthly and annual billing options. Annual billing comes with a 10% discount compared to monthly billing. We accept all major credit cards and can provide invoices for enterprise customers.
+              </AccordionContent>
+            </AccordionItem>
+            
+            <AccordionItem value="item-15" className="border-b">
+              <AccordionTrigger className="text-left font-semibold">How does employee billing work?</AccordionTrigger>
+              <AccordionContent>
+                Your subscription begins with one admin user at $49/month. When you add employees, your subscription is automatically updated to add $10/month per additional user. You can add or remove users at any time, and your billing will adjust accordingly.
               </AccordionContent>
             </AccordionItem>
             

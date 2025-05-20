@@ -10,7 +10,7 @@ const corsHeaders = {
 
 const logStep = (step: string, details?: any) => {
   const detailsStr = details ? ` - ${JSON.stringify(details)}` : '';
-  console.log(`[CREATE-CHECKOUT] ${step}${detailsStr}`);
+  console.log(`[ADD-EMPLOYEE] ${step}${detailsStr}`);
 };
 
 serve(async (req) => {
@@ -61,7 +61,7 @@ serve(async (req) => {
     if (roleError) throw new Error(`Role error: ${roleError.message}`);
     
     // Check if user is admin
-    if (userRole.role !== "admin") throw new Error("Only admin users can manage subscriptions");
+    if (userRole.role !== "admin") throw new Error("Only admin users can manage employee subscriptions");
     
     // Get organization details
     const { data: org, error: orgError } = await supabaseClient
@@ -74,6 +74,28 @@ serve(async (req) => {
     
     logStep("Retrieved organization", { orgId: org.id, name: org.name });
 
+    // Check if organization has a stripe customer ID
+    if (!org.stripe_customer_id) {
+      throw new Error("Organization does not have an active subscription");
+    }
+    
+    // Initialize Stripe
+    const stripe = new Stripe(stripeKey, { apiVersion: "2023-10-16" });
+    
+    // Get current subscriptions
+    const subscriptions = await stripe.subscriptions.list({
+      customer: org.stripe_customer_id,
+      status: 'active',
+      limit: 1,
+    });
+    
+    if (subscriptions.data.length === 0) {
+      throw new Error("No active subscription found");
+    }
+    
+    const subscription = subscriptions.data[0];
+    logStep("Found active subscription", { subscriptionId: subscription.id });
+    
     // Calculate number of employees in the organization
     const { count: employeeCount, error: countError } = await supabaseClient
       .from("org_members")
@@ -95,104 +117,67 @@ serve(async (req) => {
     
     if (adminCountError) throw new Error(`Error counting admins: ${adminCountError.message}`);
     
-    // Number of employee seats needed
-    const employeeSeats = Math.max(0, employeeCount - adminCount);
-    
-    logStep("Organization stats", { 
+    logStep("Current organization stats", { 
       totalMembers: employeeCount, 
       adminUsers: adminCount,
-      regularEmployees: employeeSeats
+      regularEmployees: employeeCount - adminCount
     });
-
-    // Initialize Stripe
-    const stripe = new Stripe(stripeKey, { apiVersion: "2023-10-16" });
     
-    // Check if organization already has a Stripe customer ID
-    let customerId = org.stripe_customer_id;
+    // Get the request data
+    const requestData = await req.json();
+    const { action } = requestData;
     
-    if (!customerId) {
-      // Create a new customer in Stripe
-      const customer = await stripe.customers.create({
-        email: user.email,
-        name: org.name,
-        metadata: {
-          organization_id: org.id
-        }
+    if (!action || (action !== "add" && action !== "sync")) {
+      throw new Error("Invalid action. Must be 'add' or 'sync'");
+    }
+    
+    // Number of employee seats needed
+    const employeeSeats = employeeCount - adminCount;
+    
+    // Find the employee subscription item
+    const employeeItem = subscription.items.data.find(item => 
+      item.price.id.includes("employee")
+    );
+    
+    if (!employeeItem) {
+      throw new Error("No employee subscription item found");
+    }
+    
+    if (action === "add") {
+      // Add one more employee seat
+      await stripe.subscriptionItems.update(employeeItem.id, {
+        quantity: employeeSeats + 1
       });
       
-      customerId = customer.id;
+      logStep("Added one employee seat", { 
+        newQuantity: employeeSeats + 1,
+        subscriptionItemId: employeeItem.id
+      });
+    } else if (action === "sync") {
+      // Sync the current number of employee seats
+      await stripe.subscriptionItems.update(employeeItem.id, {
+        quantity: employeeSeats
+      });
       
-      // Update organization with the Stripe customer ID
-      await supabaseClient
-        .from("organizations")
-        .update({ stripe_customer_id: customerId })
-        .eq("id", org.id);
-      
-      logStep("Created Stripe customer", { customerId });
-    } else {
-      logStep("Using existing Stripe customer", { customerId });
-    }
-
-    // Get request body for custom parameters
-    const requestData = await req.json();
-    const { returnUrl = "", tierId = "" } = requestData;
-    
-    // Get subscription tier details if provided
-    let tierData = null;
-    if (tierId) {
-      const { data: tier, error: tierError } = await supabaseClient
-        .from("subscription_tiers")
-        .select("*")
-        .eq("id", tierId)
-        .single();
-      
-      if (tierError) {
-        logStep("Error fetching tier", { tierId, error: tierError.message });
-      } else {
-        tierData = tier;
-        logStep("Found tier", { tierId, name: tier.name });
-      }
+      logStep("Synced employee seats", { 
+        newQuantity: employeeSeats,
+        subscriptionItemId: employeeItem.id
+      });
     }
     
-    // Create checkout session with both admin and employee prices
-    const session = await stripe.checkout.sessions.create({
-      customer: customerId,
-      payment_method_types: ["card"],
-      line_items: [
-        {
-          price: "price_admin_monthly", // Admin price
-          quantity: 1,
-        },
-        {
-          price: "price_employee_monthly", // Employee price
-          quantity: employeeSeats
-        }
-      ],
-      mode: "subscription",
-      subscription_data: {
-        metadata: {
-          organization_id: org.id
-        }
-      },
-      success_url: returnUrl ? `${returnUrl}?success=true` : `${req.headers.get("origin")}/?success=true`,
-      cancel_url: returnUrl || `${req.headers.get("origin")}/subscription`,
-      metadata: {
-        organization_id: org.id,
-        user_id: user.id,
-        role: userRole.role,
-        tier_id: tierData?.id || null
-      },
-    });
-
-    logStep("Created checkout session", { sessionId: session.id, url: session.url });
-
-    return new Response(JSON.stringify({ url: session.url }), {
+    return new Response(JSON.stringify({ 
+      success: true,
+      total_seats: employeeCount,
+      admin_seats: adminCount,
+      employee_seats: employeeSeats,
+      action: action
+    }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,
     });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
-    console.error("[CREATE-CHECKOUT] Error:", errorMessage);
+    console.error("[ADD-EMPLOYEE] Error:", errorMessage);
     
     return new Response(JSON.stringify({ error: errorMessage }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },

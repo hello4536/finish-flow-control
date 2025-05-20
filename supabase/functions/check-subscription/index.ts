@@ -105,7 +105,7 @@ serve(async (req) => {
     const subscriptions = await stripe.subscriptions.list({
       customer: org.stripe_customer_id,
       status: "active",
-      expand: ["data.plan.product"]
+      expand: ["data.items.data.price.product"]
     });
     
     logStep("Retrieved subscriptions", { count: subscriptions.data.length });
@@ -136,26 +136,49 @@ serve(async (req) => {
     const subscription = subscriptions.data[0];
     const currentPeriodEnd = new Date(subscription.current_period_end * 1000).toISOString();
     
-    // Get subscription tier
-    const priceId = subscription.items.data[0].price.id;
+    // Count the number of admin and employee seats
+    let adminSeats = 0;
+    let employeeSeats = 0;
+    
+    subscription.items.data.forEach(item => {
+      const priceId = item.price.id;
+      
+      if (priceId.includes("admin")) {
+        adminSeats = item.quantity || 1;
+      } else if (priceId.includes("employee")) {
+        employeeSeats = item.quantity || 0;
+      }
+    });
+    
+    logStep("Subscription seats", { adminSeats, employeeSeats });
+    
+    // Get the admin price item for tier identification
+    const adminItem = subscription.items.data.find(item => 
+      item.price.id.includes("admin")
+    );
     
     // Find the subscription tier that matches the Stripe price ID
-    const { data: tierData, error: tierError } = await supabaseClient
-      .from("subscription_tiers")
-      .select("*")
-      .eq("stripe_price_id", priceId)
-      .single();
-    
     let tierId = null;
-    if (tierError) {
-      logStep("No matching subscription tier found", { priceId });
-    } else {
-      tierId = tierData.id;
-      logStep("Found matching subscription tier", { 
-        tierId,
-        name: tierData.name,
-        price: tierData.price
-      });
+    let tierData = null;
+    
+    if (adminItem) {
+      const { data: tierInfo, error: tierError } = await supabaseClient
+        .from("subscription_tiers")
+        .select("*")
+        .eq("stripe_price_id", adminItem.price.id)
+        .single();
+      
+      if (!tierError) {
+        tierId = tierInfo.id;
+        tierData = tierInfo;
+        logStep("Found matching subscription tier", { 
+          tierId,
+          name: tierInfo.name,
+          price: tierInfo.price
+        });
+      } else {
+        logStep("No matching subscription tier found", { priceId: adminItem.price.id });
+      }
     }
     
     // Update organization subscription status
@@ -174,12 +197,33 @@ serve(async (req) => {
       endDate: currentPeriodEnd
     });
     
+    // Calculate number of employees in the organization for comparison
+    const { count: orgEmployeeCount, error: countError } = await supabaseClient
+      .from("org_members")
+      .select("*", { count: 'exact', head: true })
+      .eq("organization_id", org.id);
+    
+    if (!countError) {
+      logStep("Organization member count", { 
+        dbCount: orgEmployeeCount, 
+        stripeTotal: adminSeats + employeeSeats 
+      });
+      
+      // If counts don't match and we have more users than seats, sync with Stripe
+      if (orgEmployeeCount > adminSeats + employeeSeats) {
+        logStep("Member count mismatch - more members than seats");
+      }
+    }
+    
     return new Response(JSON.stringify({ 
       subscribed: true,
       subscription_status: "active",
       subscription_tier: tierId,
       subscription_tier_name: tierData?.name || null,
-      subscription_end_date: currentPeriodEnd 
+      subscription_end_date: currentPeriodEnd,
+      admin_seats: adminSeats,
+      employee_seats: employeeSeats,
+      total_members: orgEmployeeCount || (adminSeats + employeeSeats)
     }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,

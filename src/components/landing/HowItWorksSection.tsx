@@ -1,3 +1,4 @@
+
 import React from "react";
 const HowItWorksSection = () => {
   return <section className="py-20 bg-primary text-primary-foreground">
@@ -22,8 +23,9 @@ const HowItWorksSection = () => {
               <p className="text-slate-50">
                 Create your account with a simple registration process. Choose your plan and set up your organization profile.
               </p>
-              <div className="mt-4">
-                
+              <div className="mt-4 text-white/80 text-sm">
+                <p><strong>Admin:</strong> $49/month (includes 1 admin user)</p>
+                <p><strong>+ Employees:</strong> $10/month each</p>
               </div>
             </div>
           </div>
@@ -39,7 +41,11 @@ const HowItWorksSection = () => {
                 Invite team members, assign roles, and customize permissions to match your organizational structure.
               </p>
               <div className="mt-4">
-                
+                <ul className="list-disc list-inside text-primary-foreground/80 text-sm">
+                  <li>Admins have full system access</li>
+                  <li>Employees have role-based access</li>
+                  <li>Add team members as needed</li>
+                </ul>
               </div>
             </div>
           </div>
@@ -54,8 +60,8 @@ const HowItWorksSection = () => {
               <p className="text-primary-foreground/80">
                 Start using Finivi to track materials, manage workflows, ensure compliance, and streamline your finishing operations.
               </p>
-              <div className="mt-4">
-                
+              <div className="mt-4 text-white/80 text-sm">
+                <p>Access all features immediately after subscription activation</p>
               </div>
             </div>
           </div>

@@ -5,8 +5,9 @@ import { useAuth } from "@/context/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import PlanCard from "@/components/subscription/PlanCard";
-import { Loader2, RefreshCw } from "lucide-react";
+import { Loader2, RefreshCw, Users } from "lucide-react";
 
 interface SubscriptionTier {
   id: string;
@@ -21,6 +22,7 @@ const SubscriptionPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [tiers, setTiers] = useState<SubscriptionTier[]>([]);
   const [refreshing, setRefreshing] = useState(false);
+  const [subscriptionDetails, setSubscriptionDetails] = useState<any>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -64,7 +66,16 @@ const SubscriptionPage: React.FC = () => {
   const refreshSubscriptionStatus = async () => {
     setRefreshing(true);
     try {
+      // Get detailed subscription info
+      const { data, error } = await supabase.functions.invoke("check-subscription");
+      
+      if (error) {
+        throw error;
+      }
+      
+      setSubscriptionDetails(data);
       await checkSubscription();
+      
       toast({
         title: "Updated",
         description: "Subscription status updated",
@@ -94,7 +105,7 @@ const SubscriptionPage: React.FC = () => {
       }
 
       const { data, error } = await supabase.functions.invoke("create-checkout", {
-        body: { returnUrl: window.location.href },
+        body: { returnUrl: window.location.href, tierId: tier.id },
       });
 
       if (error) {
@@ -164,6 +175,33 @@ const SubscriptionPage: React.FC = () => {
     }
   }, []);
 
+  const syncSubscription = async () => {
+    setRefreshing(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("add-employee", {
+        body: { action: "sync" }
+      });
+      
+      if (error) throw error;
+      
+      toast({
+        title: "Success",
+        description: "Employee seats synchronized with Stripe",
+      });
+      
+      refreshSubscriptionStatus();
+    } catch (error: any) {
+      console.error("Error syncing subscription:", error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to sync subscription",
+        variant: "destructive",
+      });
+    } finally {
+      setRefreshing(false);
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="flex h-screen items-center justify-center">
@@ -182,35 +220,104 @@ const SubscriptionPage: React.FC = () => {
             Choose the right plan for your organization
           </p>
         </div>
-        <Button
-          variant="outline"
-          size="sm"
-          className="mt-2 sm:mt-0"
-          onClick={refreshSubscriptionStatus}
-          disabled={refreshing}
-        >
-          {refreshing ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Refreshing...
-            </>
-          ) : (
-            <>
-              <RefreshCw className="mr-2 h-4 w-4" />
-              Refresh Status
-            </>
+        <div className="flex gap-2 mt-2 sm:mt-0">
+          {organization?.subscription_status === "active" && (
+            <Button
+              variant="outline"
+              size="sm"
+              className="bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100"
+              onClick={syncSubscription}
+              disabled={refreshing}
+            >
+              {refreshing ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Syncing...
+                </>
+              ) : (
+                <>
+                  <Users className="mr-2 h-4 w-4" />
+                  Sync Seats
+                </>
+              )}
+            </Button>
           )}
-        </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={refreshSubscriptionStatus}
+            disabled={refreshing}
+          >
+            {refreshing ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Refreshing...
+              </>
+            ) : (
+              <>
+                <RefreshCw className="mr-2 h-4 w-4" />
+                Refresh Status
+              </>
+            )}
+          </Button>
+        </div>
       </div>
 
       {organization?.subscription_status === "active" && (
-        <div className="mb-6 p-4 bg-green-50 border border-green-100 rounded-md">
-          <p className="font-medium text-green-800">
-            Your organization has an active subscription until{" "}
-            {organization.subscription_end_date && 
-              new Date(organization.subscription_end_date).toLocaleDateString()}
-          </p>
-        </div>
+        <>
+          <div className="mb-6 p-4 bg-green-50 border border-green-100 rounded-md">
+            <p className="font-medium text-green-800">
+              Your organization has an active subscription until{" "}
+              {organization.subscription_end_date && 
+                new Date(organization.subscription_end_date).toLocaleDateString()}
+            </p>
+          </div>
+          
+          {subscriptionDetails && (
+            <Card className="mb-6">
+              <CardHeader>
+                <CardTitle>Current Subscription Details</CardTitle>
+                <CardDescription>Your subscription seats and billing information</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid gap-4 md:grid-cols-3">
+                  <div className="bg-blue-50 p-4 rounded-md">
+                    <h3 className="font-medium text-blue-800">Admin Seats</h3>
+                    <p className="text-2xl font-bold text-blue-900">
+                      {subscriptionDetails.admin_seats || 1}
+                    </p>
+                    <p className="text-blue-700 text-sm">
+                      ${(subscriptionDetails.admin_seats || 1) * 49}/month
+                    </p>
+                  </div>
+                  <div className="bg-blue-50 p-4 rounded-md">
+                    <h3 className="font-medium text-blue-800">Employee Seats</h3>
+                    <p className="text-2xl font-bold text-blue-900">
+                      {subscriptionDetails.employee_seats || 0}
+                    </p>
+                    <p className="text-blue-700 text-sm">
+                      ${(subscriptionDetails.employee_seats || 0) * 10}/month
+                    </p>
+                  </div>
+                  <div className="bg-blue-50 p-4 rounded-md">
+                    <h3 className="font-medium text-blue-800">Total Monthly Cost</h3>
+                    <p className="text-2xl font-bold text-blue-900">
+                      ${((subscriptionDetails.admin_seats || 1) * 49) + ((subscriptionDetails.employee_seats || 0) * 10)}
+                    </p>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      className="mt-2 bg-white"
+                      onClick={handleManageSubscription}
+                    >
+                      Manage Subscription
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </>
       )}
 
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-2">
