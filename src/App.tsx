@@ -33,7 +33,7 @@ import NotFound from "./pages/NotFound";
 import DailyTasks from "./pages/DailyTasks";
 import { initializeApp } from "./utils/initializeApp";
 import Index from "./pages/Index";
-import TestingPlan from "./pages/TestingPlan"; // Add this import
+import TestingPlan from "./pages/TestingPlan";
 
 const queryClient = new QueryClient();
 
@@ -52,7 +52,7 @@ const App = () => {
           <AuthProvider>
             <DevModeProvider>
               <Routes>
-                {/* Public landing page route */}
+                {/* Public landing page routes - accessible to all */}
                 <Route path="/" element={<Index />} />
                 <Route path="/woodworking-finishing" element={<WoodworkingFinishing />} />
                 <Route path="/auto-body-finishing" element={<AutoBodyFinishing />} />
@@ -85,7 +85,7 @@ const App = () => {
                     <Route path="settings" element={<Settings />} />
                     <Route path="custom-creations" element={<CustomCreations />} />
                     <Route path="/daily-tasks" element={<DailyTasks />} />
-                    <Route path="/testing-plan" element={<TestingPlan />} /> {/* Add this new route */}
+                    <Route path="/testing-plan" element={<TestingPlan />} />
                   </Route>
                 </Route>
 

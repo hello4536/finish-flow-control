@@ -32,6 +32,24 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// Helper function to clean up auth state
+const cleanupAuthState = () => {
+  // Remove standard auth tokens
+  localStorage.removeItem('supabase.auth.token');
+  // Remove all Supabase auth keys from localStorage
+  Object.keys(localStorage).forEach((key) => {
+    if (key.startsWith('supabase.auth.') || key.includes('sb-')) {
+      localStorage.removeItem(key);
+    }
+  });
+  // Remove from sessionStorage if in use
+  Object.keys(sessionStorage || {}).forEach((key) => {
+    if (key.startsWith('supabase.auth.') || key.includes('sb-')) {
+      sessionStorage.removeItem(key);
+    }
+  });
+};
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<User | null>(null);
@@ -45,6 +63,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, currentSession) => {
+        console.log("Auth state changed:", event, currentSession?.user?.email);
         setSession(currentSession);
         setUser(currentSession?.user ?? null);
 
@@ -65,6 +84,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     // THEN check for existing session
     supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
+      console.log("Got existing session:", currentSession?.user?.email);
       setSession(currentSession);
       setUser(currentSession?.user ?? null);
       setIsLoading(false);
@@ -155,6 +175,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       setIsLoading(true);
       
+      // Clean up existing auth state
+      cleanupAuthState();
+      
+      // Attempt global sign out first to avoid issues
+      try {
+        await supabase.auth.signOut({ scope: 'global' });
+      } catch (err) {
+        // Continue even if this fails
+      }
+      
       // Create the user account
       const { data, error } = await supabase.auth.signUp({
         email,
@@ -169,6 +199,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (error) throw error;
 
       if (data.user) {
+        console.log("User created successfully:", data.user.id);
+        
         // Create organization
         const { data: orgData, error: orgError } = await supabase
           .from("organizations")
@@ -176,7 +208,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           .select()
           .single();
 
-        if (orgError) throw orgError;
+        if (orgError) {
+          console.error("Error creating organization:", orgError);
+          throw orgError;
+        }
+
+        console.log("Organization created:", orgData.id);
 
         // Add user to organization
         const { error: memberError } = await supabase
@@ -186,7 +223,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             user_id: data.user.id 
           }]);
 
-        if (memberError) throw memberError;
+        if (memberError) {
+          console.error("Error adding user to organization:", memberError);
+          throw memberError;
+        }
+
+        console.log("User added to organization");
 
         // Set user as admin
         const { error: roleError } = await supabase
@@ -196,7 +238,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             role: "admin"
           }]);
 
-        if (roleError) throw roleError;
+        if (roleError) {
+          console.error("Error setting user role:", roleError);
+          throw roleError;
+        }
+
+        console.log("User role set to admin");
 
         toast({
           title: "Account created",
@@ -220,6 +267,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signIn = async (email: string, password: string) => {
     try {
       setIsLoading(true);
+      
+      // Clean up existing auth state
+      cleanupAuthState();
+      
+      // Attempt global sign out first
+      try {
+        await supabase.auth.signOut({ scope: 'global' });
+      } catch (err) {
+        // Continue even if this fails
+      }
+      
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -232,7 +290,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         description: "You have successfully signed in.",
       });
       
-      navigate("/");
+      navigate("/dashboard");
     } catch (error: any) {
       toast({
         title: "Sign in failed",
@@ -248,6 +306,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signOut = async () => {
     try {
       setIsLoading(true);
+      
+      // Clean up auth state
+      cleanupAuthState();
+      
       await supabase.auth.signOut();
       
       // Clear user data
@@ -256,7 +318,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUserRole(null);
       setOrganization(null);
       
-      navigate("/auth/signin");
+      // Force page reload for a clean state
+      window.location.href = "/auth/signin";
     } catch (error: any) {
       toast({
         title: "Error",
