@@ -1,21 +1,29 @@
 
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import Header from "@/components/landing/Header";
 import Footer from "@/components/landing/Footer";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { PaintBucket, Brush, Sparkles, Shield, Car, SprayCan, Wrench, CarFront } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { ChevronRight, Info, Mail, BookOpen, ArrowRight, PaintBucket, Brush, Sparkles, Shield, Car, SprayCan, Wrench } from "lucide-react";
+
+// Import our components
+import ArticleCard from "@/components/autobody/ArticleCard";
+import ArticleDialog from "@/components/autobody/ArticleDialog";
+import ContentDisplay from "@/components/autobody/ContentDisplay";
+
+// Reuse the Article type from woodworking
+import { Article } from "@/components/woodworking/data/articlesData";
 
 const AutoBodyFinishing = () => {
-  const [selectedArticle, setSelectedArticle] = useState(null);
-  const [dialogOpen, setDialogOpen] = useState(false);
-
+  const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
+  const [activeCategory, setActiveCategory] = useState("all");
+  
   const articles = [
     {
+      id: "1",
       title: "Paint Booth Setup & Maintenance",
       description: "Best practices for setting up and maintaining a professional auto body paint booth.",
       icon: <Car className="h-6 w-6 text-blue-500" />,
@@ -96,6 +104,7 @@ const AutoBodyFinishing = () => {
       `
     }, 
     {
+      id: "2",
       title: "Color Matching Techniques",
       description: "Learn how to achieve perfect color matches for automotive paint repairs.",
       icon: <PaintBucket className="h-6 w-6 text-blue-500" />,
@@ -217,6 +226,7 @@ const AutoBodyFinishing = () => {
       `
     },
     {
+      id: "3",
       title: "Surface Preparation for Auto Paint",
       description: "Essential steps for preparing automotive surfaces before applying paint.",
       icon: <Sparkles className="h-6 w-6 text-blue-500" />,
@@ -355,6 +365,7 @@ const AutoBodyFinishing = () => {
       `
     },
     {
+      id: "4",
       title: "Clear Coat Application Guide",
       description: "Step-by-step instructions for achieving a flawless clear coat finish.",
       icon: <Brush className="h-6 w-6 text-blue-500" />,
@@ -523,6 +534,7 @@ const AutoBodyFinishing = () => {
       `
     },
     {
+      id: "5",
       title: "Paint Defect Troubleshooting",
       description: "Identifying and fixing common auto paint problems like orange peel, fish eye, and runs.",
       icon: <Shield className="h-6 w-6 text-blue-500" />,
@@ -763,6 +775,7 @@ const AutoBodyFinishing = () => {
       `
     },
     {
+      id: "6",
       title: "HVLP Spray Gun Techniques",
       description: "Master the use of HVLP spray guns for professional automotive finishes.",
       icon: <SprayCan className="h-6 w-6 text-blue-500" />,
@@ -1023,109 +1036,240 @@ const AutoBodyFinishing = () => {
     }
   ];
 
-  const openArticle = (article) => {
-    setSelectedArticle(article);
-    setDialogOpen(true);
+  // Group articles by category for easy filtering
+  const categories = {
+    all: articles,
+    equipment: articles.filter(a => a.category === "equipment"),
+    painting: articles.filter(a => a.category === "painting"),
+    preparation: articles.filter(a => a.category === "preparation"),
+    troubleshooting: articles.filter(a => a.category === "troubleshooting"),
+  };
+  
+  // Category info for display
+  const categoryInfo = {
+    all: {
+      title: "All Articles",
+      description: "Browse our complete collection of auto body finishing resources."
+    },
+    equipment: {
+      title: "Equipment Guides",
+      description: "Learn about the essential tools and equipment for professional auto body work."
+    },
+    painting: {
+      title: "Painting Techniques",
+      description: "Master the art of automotive painting with these expert guides."
+    },
+    preparation: {
+      title: "Surface Preparation",
+      description: "Learn the crucial steps to prepare surfaces for a flawless paint job."
+    },
+    troubleshooting: {
+      title: "Troubleshooting",
+      description: "Identify and fix common auto body finishing problems and issues."
+    }
   };
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="min-h-screen bg-gray-50">
       <Header />
       
-      <main className="flex-1 bg-blue-50 py-12">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-blue-900 mb-4">Auto Body Finishing</h1>
-            <p className="text-xl text-blue-800 max-w-3xl mx-auto">
-              Professional tips, techniques, and best practices for automotive paint and body work.
-            </p>
-          </div>
-
-          <Tabs defaultValue="all" className="w-full mb-8">
-            <div className="flex justify-center mb-6">
-              <TabsList className="bg-orange-100">
-                <TabsTrigger value="all">All Articles</TabsTrigger>
-                <TabsTrigger value="preparation">Preparation</TabsTrigger>
-                <TabsTrigger value="painting">Painting</TabsTrigger>
-                <TabsTrigger value="equipment">Equipment</TabsTrigger>
-                <TabsTrigger value="troubleshooting">Troubleshooting</TabsTrigger>
-              </TabsList>
-            </div>
-            
-            <TabsContent value="all" className="mt-6">
-              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {articles.map((article, index) => (
-                  <Card key={index} className="overflow-hidden hover:shadow-lg transition-shadow">
-                    <CardHeader className="flex flex-row items-center gap-4 pb-2">
-                      <div className="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center">
-                        {article.icon}
-                      </div>
-                      <CardTitle className="text-xl">{article.title}</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <CardDescription className="text-base">{article.description}</CardDescription>
-                    </CardContent>
-                    <CardFooter>
-                      <Button variant="outline" className="w-full" onClick={() => openArticle(article)}>Read Article</Button>
-                    </CardFooter>
-                  </Card>
-                ))}
+      <main>
+        {/* Hero section with background image */}
+        <div 
+          className="bg-cover bg-center pt-24 pb-16 px-4 md:px-8 lg:px-16" 
+          style={{ 
+            backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1621135802920-133df287f89c?q=80&w=1964')", 
+            backgroundPosition: "center" 
+          }}
+        >
+          <div className="max-w-6xl mx-auto text-white">
+            <div className="max-w-2xl">
+              <Badge className="bg-orange-500 text-white hover:bg-orange-600 mb-4">Expert Guide</Badge>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">Auto Body Finishing Excellence</h1>
+              <p className="text-lg md:text-xl opacity-90 mb-8">
+                Master professional auto body techniques with our comprehensive guides. 
+                From preparation to troubleshooting, elevate your finishing skills.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <Button size="lg" className="bg-orange-500 hover:bg-orange-600 text-white font-medium">
+                  Start Learning <BookOpen className="ml-2 h-5 w-5" />
+                </Button>
+                <Button size="lg" variant="outline" className="bg-white/10 hover:bg-white/20 border-white/20">
+                  Popular Techniques
+                </Button>
               </div>
-            </TabsContent>
-            
-            {["preparation", "painting", "equipment", "troubleshooting"].map(category => (
-              <TabsContent key={category} value={category} className="mt-6">
-                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                  {articles.filter(article => article.category === category).map((article, index) => (
-                    <Card key={index} className="overflow-hidden hover:shadow-lg transition-shadow">
-                      <CardHeader className="flex flex-row items-center gap-4 pb-2">
-                        <div className="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center">
-                          {article.icon}
-                        </div>
-                        <CardTitle className="text-xl">{article.title}</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <CardDescription className="text-base">{article.description}</CardDescription>
-                      </CardContent>
-                      <CardFooter>
-                        <Button variant="outline" className="w-full" onClick={() => openArticle(article)}>Read Article</Button>
-                      </CardFooter>
-                    </Card>
-                  ))}
-                </div>
-              </TabsContent>
-            ))}
-          </Tabs>
-
-          <div className="bg-blue-100 p-6 rounded-lg shadow-md mb-12">
-            <h2 className="text-2xl font-bold text-blue-900 mb-4">Get Professional Auto Body Tips</h2>
-            <p className="text-blue-800 mb-4">Subscribe to receive industry insights, product reviews, and advanced techniques directly to your inbox.</p>
-            <div className="flex flex-col sm:flex-row gap-2">
-              <input type="email" placeholder="Your email address" className="flex-1 px-4 py-2 rounded border" />
-              <Button>Subscribe</Button>
             </div>
           </div>
         </div>
+        
+        {/* Main content area */}
+        <div className="max-w-7xl mx-auto px-4 py-12 md:px-8">
+          <Tabs 
+            defaultValue="all" 
+            className="w-full"
+            onValueChange={setActiveCategory}
+          >
+            <div className="sticky top-0 z-10 bg-gray-50 pt-4 pb-2">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-2xl font-bold text-blue-900">Auto Body Resources</h2>
+                <div className="hidden md:block">
+                  <Button variant="outline" className="text-blue-700">
+                    Filter <ChevronRight className="ml-1 h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+              
+              <ScrollArea className="pb-2 md:hidden">
+                <TabsList className="inline-flex w-max pb-2 pt-2">
+                  <TabsTrigger value="all" className="px-4 py-2 whitespace-nowrap rounded-full text-sm font-medium">
+                    All Articles
+                  </TabsTrigger>
+                  {Object.keys(categoryInfo).filter(cat => cat !== "all").map((category) => (
+                    <TabsTrigger 
+                      key={category} 
+                      value={category}
+                      className="px-4 py-2 whitespace-nowrap rounded-full text-sm font-medium"
+                    >
+                      {categoryInfo[category].title}
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
+              </ScrollArea>
+              
+              <div className="hidden md:flex md:items-center md:justify-center">
+                <TabsList className="flex justify-center">
+                  <TabsTrigger value="all">
+                    All Articles
+                  </TabsTrigger>
+                  {Object.keys(categoryInfo).filter(cat => cat !== "all").map((category) => (
+                    <TabsTrigger key={category} value={category}>
+                      {categoryInfo[category].title}
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
+              </div>
+            </div>
+            
+            <div className="mt-8">
+              <TabsContent value={activeCategory}>
+                <ContentDisplay 
+                  category={activeCategory}
+                  articles={categories[activeCategory]}
+                  title={categoryInfo[activeCategory].title}
+                  description={categoryInfo[activeCategory].description}
+                  onReadArticle={setSelectedArticle}
+                />
+              </TabsContent>
+            </div>
+          </Tabs>
+          
+          {/* Featured content section */}
+          <section className="mt-20 bg-blue-50 rounded-xl overflow-hidden">
+            <div className="md:grid md:grid-cols-2">
+              <div className="p-8 md:p-10">
+                <Badge className="bg-blue-200 text-blue-800 hover:bg-blue-300 mb-2">Featured</Badge>
+                <h2 className="text-2xl md:text-3xl font-bold text-blue-900 mb-3">
+                  Ultimate Auto Paint Selection Guide
+                </h2>
+                <p className="text-blue-800 opacity-90 mb-6">
+                  Not sure which paint system to use? Our comprehensive guide will walk 
+                  you through selecting the perfect automotive paint based on your project type,
+                  vehicle, and desired durability and appearance.
+                </p>
+                <Button className="bg-blue-700 hover:bg-blue-800 text-white">
+                  Read The Guide <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </div>
+              <div 
+                className="h-60 md:h-auto bg-cover bg-center" 
+                style={{ backgroundImage: "url('https://images.unsplash.com/photo-1635191969177-6322212cf7ab?q=80&w=1964')" }}
+              ></div>
+            </div>
+          </section>
+          
+          {/* Quick tips section */}
+          <section className="mt-20">
+            <div className="flex items-center gap-4 mb-8">
+              <div className="h-12 w-12 rounded-full bg-orange-100 flex items-center justify-center">
+                <Info className="h-6 w-6 text-orange-700" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold text-blue-900">Quick Finishing Tips</h2>
+                <p className="text-blue-700">Pro insights to improve your next project</p>
+              </div>
+            </div>
+            
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                <h3 className="text-xl font-bold text-blue-900 mb-2">Proper Surface Prep is Key</h3>
+                <p className="text-gray-700">
+                  90% of a quality finish is preparation. Always clean, sand, and mask thoroughly
+                  before applying any paint products.
+                </p>
+              </div>
+              
+              <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                <h3 className="text-xl font-bold text-blue-900 mb-2">Mix Paint in Batches</h3>
+                <p className="text-gray-700">
+                  When painting a large area, mix all the paint you'll need at once
+                  to ensure color consistency throughout the project.
+                </p>
+              </div>
+              
+              <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                <h3 className="text-xl font-bold text-blue-900 mb-2">Control Your Environment</h3>
+                <p className="text-gray-700">
+                  Temperature and humidity dramatically affect paint application and curing.
+                  Aim for 70-75°F with 50-60% humidity for optimal results.
+                </p>
+              </div>
+            </div>
+          </section>
+          
+          {/* Newsletter subscription */}
+          <section className="mt-20 bg-gradient-to-r from-blue-700 to-blue-900 rounded-xl shadow-lg p-8 text-white">
+            <div className="md:flex md:items-center md:justify-between">
+              <div className="mb-6 md:mb-0 md:mr-8 md:flex-1">
+                <div className="flex items-center gap-3 mb-2">
+                  <Mail className="h-6 w-6" />
+                  <h2 className="text-2xl font-bold">Auto Body Tips In Your Inbox</h2>
+                </div>
+                <p className="text-blue-100 mb-4">
+                  Join our newsletter to get expert advice, new techniques, product reviews, and project 
+                  inspiration delivered straight to your inbox.
+                </p>
+              </div>
+              
+              <div className="md:flex-1">
+                <div className="flex flex-col sm:flex-row gap-3 max-w-md">
+                  <input 
+                    type="email" 
+                    placeholder="Your email address" 
+                    className="flex-1 px-4 py-3 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-300" 
+                  />
+                  <Button className="bg-orange-500 hover:bg-orange-600 text-white font-medium">
+                    Subscribe
+                  </Button>
+                </div>
+                <p className="text-sm text-blue-200 mt-2">
+                  We'll never share your email. Unsubscribe anytime.
+                </p>
+              </div>
+            </div>
+          </section>
+        </div>
       </main>
       
-      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-w-4xl h-[80vh]">
-          <DialogHeader>
-            <DialogTitle className="text-2xl">{selectedArticle?.title}</DialogTitle>
-            <DialogDescription className="text-base">{selectedArticle?.description}</DialogDescription>
-          </DialogHeader>
-          <ScrollArea className="h-full pr-4">
-            <div 
-              className="prose prose-blue max-w-none" 
-              dangerouslySetInnerHTML={{ __html: selectedArticle?.content }}
-            />
-          </ScrollArea>
-        </DialogContent>
-      </Dialog>
-
+      <ArticleDialog 
+        article={selectedArticle} 
+        isOpen={selectedArticle !== null} 
+        onClose={() => setSelectedArticle(null)} 
+      />
+      
       <Footer />
     </div>
   );
 };
 
 export default AutoBodyFinishing;
+
