@@ -11,10 +11,12 @@ import PricingSection from "@/components/landing/PricingSection";
 import Footer from "@/components/landing/Footer";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
+
 const Index = () => {
   const {
     user
   } = useAuth();
+  
   return <div className="flex min-h-screen flex-col">
       <Header />
       
@@ -25,10 +27,10 @@ const Index = () => {
         <CtaSection />
         <BenefitsSection />
         <PricingSection />
-        
       </main>
       
       <Footer />
     </div>;
 };
+
 export default Index;
