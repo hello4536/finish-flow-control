@@ -5,16 +5,13 @@ import Footer from "@/components/landing/Footer";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-// Import our new components
+// Import our components
 import ContentDisplay from "@/components/woodworking/ContentDisplay";
 import ArticleDialog from "@/components/woodworking/ArticleDialog";
-import VideoDialog from "@/components/woodworking/VideoDialog";
 import { articles } from "@/components/woodworking/data/articlesData";
-import { videoReviews } from "@/components/woodworking/data/videoReviewsData";
 
 const WoodworkingFinishing = () => {
   const [selectedArticle, setSelectedArticle] = useState(null);
-  const [selectedVideo, setSelectedVideo] = useState(null);
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -39,18 +36,15 @@ const WoodworkingFinishing = () => {
                 <TabsTrigger value="materials">Materials</TabsTrigger>
                 <TabsTrigger value="preparation">Preparation</TabsTrigger>
                 <TabsTrigger value="troubleshooting">Troubleshooting</TabsTrigger>
-                <TabsTrigger value="product-reviews">Product Reviews</TabsTrigger>
               </TabsList>
             </div>
             
-            {["all", "staining", "clear-finishes", "techniques", "materials", "preparation", "troubleshooting", "product-reviews"].map((category) => (
+            {["all", "staining", "clear-finishes", "techniques", "materials", "preparation", "troubleshooting"].map((category) => (
               <TabsContent key={category} value={category} className="mt-6">
                 <ContentDisplay 
                   category={category} 
-                  articles={articles} 
-                  videos={videoReviews}
+                  articles={articles}
                   onReadArticle={setSelectedArticle}
-                  onWatchVideo={setSelectedVideo}
                 />
               </TabsContent>
             ))}
@@ -71,12 +65,6 @@ const WoodworkingFinishing = () => {
         article={selectedArticle} 
         isOpen={selectedArticle !== null} 
         onClose={() => setSelectedArticle(null)} 
-      />
-      
-      <VideoDialog 
-        video={selectedVideo} 
-        isOpen={selectedVideo !== null} 
-        onClose={() => setSelectedVideo(null)} 
       />
       
       <Footer />
