@@ -1,22 +1,18 @@
-
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
 import { Home } from "lucide-react";
-
 const Header: React.FC = () => {
   const {
     user,
     signOut
   } = useAuth();
   const navigate = useNavigate();
-  
   const handleSignOut = async () => {
     await signOut();
     navigate("/");
   };
-  
   return <header className="border-b sticky top-0 z-50 bg-blue-900">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <Link to="/" className="flex items-center">
@@ -39,7 +35,7 @@ const Header: React.FC = () => {
               <Button asChild variant="outline" size="sm">
                 <Link to="/dashboard">Dashboard</Link>
               </Button>
-              <Button size="sm" variant="ghost" onClick={handleSignOut}>
+              <Button size="sm" variant="ghost" onClick={handleSignOut} className="bg-orange-600 hover:bg-orange-500 text-slate-50">
                 Sign Out
               </Button>
             </> : <>
@@ -54,5 +50,4 @@ const Header: React.FC = () => {
       </div>
     </header>;
 };
-
 export default Header;
