@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -41,7 +40,8 @@ import {
   Users as UsersIcon,
   LayoutDashboard,
   List,
-  Menu
+  Menu,
+  Home
 } from "lucide-react";
 
 const Header = () => {
@@ -79,22 +79,21 @@ const Header = () => {
             }}
           >
             <TabsList className="bg-blue-50">
-              <TabsTrigger value="/dashboard" className={currentPath === '/dashboard' ? 'data-[state=active]' : ''}>
-                <LayoutDashboard className="mr-2 h-4 w-4" />
-                Dashboard
+              <TabsTrigger value="/" className={currentPath === '/' ? 'data-[state=active]' : ''}>
+                <Home className="mr-2 h-4 w-4" />
+                Home
               </TabsTrigger>
-              <TabsTrigger value="/jobs" className={currentPath.startsWith('/jobs') ? 'data-[state=active]' : ''}>
-                <List className="mr-2 h-4 w-4" />
-                Jobs
+              <TabsTrigger value="/#features" className={currentPath === '/#features' ? 'data-[state=active]' : ''}>
+                Features
               </TabsTrigger>
-              <TabsTrigger value="/workflows" className={currentPath.startsWith('/workflows') ? 'data-[state=active]' : ''}>
-                Workflows
+              <TabsTrigger value="/woodworking-finishing" className={currentPath.startsWith('/woodworking-finishing') ? 'data-[state=active]' : ''}>
+                Woodworking Finishing
               </TabsTrigger>
-              <TabsTrigger value="/materials" className={currentPath.startsWith('/materials') ? 'data-[state=active]' : ''}>
-                Materials
+              <TabsTrigger value="/auto-body-finishing" className={currentPath.startsWith('/auto-body-finishing') ? 'data-[state=active]' : ''}>
+                Auto Body Finishing
               </TabsTrigger>
-              <TabsTrigger value="/inventory" className={currentPath.startsWith('/inventory') ? 'data-[state=active]' : ''}>
-                Inventory
+              <TabsTrigger value="/#pricing" className={currentPath === '/#pricing' ? 'data-[state=active]' : ''}>
+                Pricing
               </TabsTrigger>
             </TabsList>
           </Tabs>
@@ -109,26 +108,19 @@ const Header = () => {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="w-48">
               <DropdownMenuItem asChild>
-                <Link to="/dashboard">Dashboard</Link>
+                <Link to="/">Home</Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link to="/jobs">Jobs</Link>
+                <Link to="/#features">Features</Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link to="/workflows">Workflows</Link>
+                <Link to="/woodworking-finishing">Woodworking Finishing</Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link to="/materials">Materials</Link>
+                <Link to="/auto-body-finishing">Auto Body Finishing</Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link to="/inventory">Inventory</Link>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem asChild>
-                <Link to="/quality">Quality</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link to="/schedule">Schedule</Link>
+                <Link to="/#pricing">Pricing</Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
