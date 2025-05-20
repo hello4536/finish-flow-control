@@ -1,13 +1,12 @@
-
 import React from "react";
 const HowItWorksSection = () => {
-  return <section className="py-20 bg-primary text-primary-foreground">
+  return <section className="py-20 text-primary-foreground bg-blue-900">
       <div className="container px-4 md:px-6">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
             Getting Started Is Easy
           </h2>
-          <p className="mt-4 text-lg text-primary-foreground/80 max-w-[700px] mx-auto">
+          <p className="mt-4 text-lg text-primary-foreground/80 max-w-[700px] mx-auto font-semibold">
             Three simple steps to transform your finishing department operations.
           </p>
         </div>
@@ -16,7 +15,7 @@ const HowItWorksSection = () => {
           {/* Step 1 */}
           <div className="relative">
             <div className="backdrop-blur-sm rounded-xl border border-white/20 p-6 shadow-sm h-full bg-orange-500">
-              <div className="absolute -top-4 -left-4 h-12 w-12 rounded-full flex items-center justify-center text-primary font-bold text-lg bg-gray-100">
+              <div className="absolute -top-4 -left-4 h-12 w-12 rounded-full flex items-center justify-center text-orange-500 font-bold text-lg bg-gray-100">
                 1
               </div>
               <h3 className="text-xl font-bold mb-4 mt-2">Sign Up</h3>
@@ -33,7 +32,7 @@ const HowItWorksSection = () => {
           {/* Step 2 */}
           <div className="relative">
             <div className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 p-6 shadow-sm h-full">
-              <div className="absolute -top-4 -left-4 h-12 w-12 rounded-full flex items-center justify-center text-primary font-bold text-lg bg-slate-50">
+              <div className="absolute -top-4 -left-4 h-12 w-12 rounded-full flex items-center justify-center text-blue-900 font-bold text-lg bg-slate-50">
                 2
               </div>
               <h3 className="text-xl font-bold mb-4 mt-2">Set Up Your Team</h3>
@@ -53,7 +52,7 @@ const HowItWorksSection = () => {
           {/* Step 3 */}
           <div className="relative">
             <div className="backdrop-blur-sm rounded-xl border border-white/20 p-6 shadow-sm h-full bg-orange-500">
-              <div className="absolute -top-4 -left-4 h-12 w-12 rounded-full flex items-center justify-center text-primary font-bold text-lg bg-slate-50">
+              <div className="absolute -top-4 -left-4 h-12 w-12 rounded-full flex items-center justify-center text-orange-500 font-bold text-lg bg-slate-50">
                 3
               </div>
               <h3 className="text-xl font-bold mb-4 mt-2">Manage Operations</h3>
