@@ -10,7 +10,7 @@ const HeroSection = () => {
           <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-indigo-50 opacity-80 rounded-3xl blur-3xl"></div>
         </div>
         <div className="flex flex-col items-center gap-6 text-center max-w-[800px] mx-auto">
-          <Badge className="rounded-full px-4 py-1 text-sm bg-accent text-accent-foreground border-none">
+          <Badge className="rounded-full px-4 py-1 text-sm text-slate-50 -foreground border-none bg-orange-500">
             Streamline Your Finishing Operations
           </Badge>
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
