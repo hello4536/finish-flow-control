@@ -1,49 +1,10 @@
 
 import React from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { useDevMode } from "@/context/DevModeContext";
+import { useAuth } from "@/context/AuthContext";
 
 const ActivityFeed: React.FC = () => {
-  const { isDevMode } = useDevMode();
-  
-  // Mock activity data for dev mode
-  const mockActivities = [
-    {
-      id: "1",
-      user: "Sarah Miller",
-      action: "completed",
-      item: "Acura TL Roof Painting",
-      time: "15 minutes ago"
-    },
-    {
-      id: "2",
-      user: "David Chen",
-      action: "started",
-      item: "Toyota Camry Clear Coating",
-      time: "35 minutes ago"
-    },
-    {
-      id: "3",
-      user: "Michael Brown",
-      action: "updated",
-      item: "Quality Inspection #QI-456",
-      time: "1 hour ago"
-    },
-    {
-      id: "4",
-      user: "Alex Johnson",
-      action: "approved",
-      item: "Paint Order #PO-789",
-      time: "2 hours ago"
-    },
-    {
-      id: "5",
-      user: "Emma Wilson",
-      action: "commented on",
-      item: "Nissan Altima Repair Estimate",
-      time: "3 hours ago"
-    }
-  ];
+  const { user } = useAuth();
   
   return (
     <Card className="lg:col-span-3">
@@ -54,28 +15,9 @@ const ActivityFeed: React.FC = () => {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        {isDevMode ? (
-          <div className="space-y-4">
-            {mockActivities.map((activity) => (
-              <div key={activity.id} className="flex items-start pb-4 last:pb-0 border-b last:border-0">
-                <div className="flex flex-col flex-1">
-                  <div className="text-sm">
-                    <span className="font-medium">{activity.user}</span>{" "}
-                    <span className="text-muted-foreground">{activity.action}</span>{" "}
-                    <span className="font-medium">{activity.item}</span>
-                  </div>
-                  <div className="text-xs text-muted-foreground mt-1">
-                    {activity.time}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="flex justify-center items-center h-[300px]">
-            <p className="text-muted-foreground">No recent activity to display</p>
-          </div>
-        )}
+        <div className="flex justify-center items-center h-[300px]">
+          <p className="text-muted-foreground">No recent activity to display</p>
+        </div>
       </CardContent>
     </Card>
   );

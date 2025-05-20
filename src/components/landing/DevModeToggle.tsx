@@ -1,7 +1,7 @@
 
 import React from "react";
 
-// Component is completely disabled in production
+// Component is completely removed for production
 const DevModeToggle = () => {
   return null;
 };

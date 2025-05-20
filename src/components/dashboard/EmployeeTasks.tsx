@@ -1,60 +1,12 @@
-
 import React from "react";
-import { format } from "date-fns";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { CheckSquare } from "lucide-react";
 import { useDailyTasks } from "@/hooks/useDailyTasks";
-import { useDevMode } from "@/context/DevModeContext";
+import { useAuth } from "@/context/AuthContext";
 
 const EmployeeTasks: React.FC = () => {
-  const { tasks, isLoading, completeTask } = useDailyTasks();
-  const { isDevMode } = useDevMode();
-  
-  // Get today's tasks only
-  const today = new Date();
-  const todaysDateString = format(today, 'yyyy-MM-dd');
-  const todaysTasks = tasks.filter(task => task.due_date === todaysDateString);
-  
-  // Add mock tasks for dev mode
-  const mockTasks = [
-    {
-      id: "mock-task-1",
-      title: "Sand and Prep Cherry Table for Staining",
-      priority: "high",
-      status: "pending",
-      due_date: todaysDateString,
-      assignee: { name: "Emily Carpenter" }
-    },
-    {
-      id: "mock-task-2",
-      title: "Apply First Coat of Polyurethane on Walnut Dining Set",
-      priority: "medium",
-      status: "pending",
-      due_date: todaysDateString,
-      assignee: { name: "Thomas Wright" }
-    },
-    {
-      id: "mock-task-3",
-      title: "Fill Wood Cracks on Antique Pine Table",
-      priority: "medium",
-      status: "completed",
-      due_date: todaysDateString,
-      assignee: { name: "Robert Mills" }
-    },
-    {
-      id: "mock-task-4",
-      title: "Color Match Stain for Oak Cabinet Project",
-      priority: "high",
-      status: "pending",
-      due_date: todaysDateString,
-      assignee: { name: "Sarah Turner" }
-    }
-  ];
-  
-  // Display mock tasks when in dev mode
-  const displayTasks = isDevMode ? mockTasks : todaysTasks;
-  const displayLoading = isDevMode ? false : isLoading;
+  const { tasks, isLoading } = useDailyTasks();
+  const { user } = useAuth();
 
   return (
     <Card className="lg:col-span-4">
@@ -65,13 +17,13 @@ const EmployeeTasks: React.FC = () => {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        {displayLoading ? (
+        {isLoading ? (
           <div className="flex justify-center items-center h-[300px]">
             <p className="text-muted-foreground">Loading tasks...</p>
           </div>
-        ) : displayTasks.length > 0 ? (
+        ) : tasks.length > 0 ? (
           <div className="space-y-4">
-            {displayTasks.map(task => (
+            {tasks.map(task => (
               <div key={task.id} className="flex items-center justify-between border-b pb-4">
                 <div className="space-y-1">
                   <p className="text-sm font-medium leading-none">{task.title}</p>
@@ -89,7 +41,7 @@ const EmployeeTasks: React.FC = () => {
                     <Button 
                       size="sm"
                       variant="outline"
-                      onClick={() => !isDevMode && completeTask(task.id)}
+                      onClick={() => completeTask(task.id)}
                     >
                       Complete
                     </Button>

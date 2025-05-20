@@ -3,10 +3,10 @@ import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ClipboardList, Calendar, CheckSquare, PackageOpen } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { useDevMode } from "@/context/DevModeContext";
+import { useAuth } from "@/context/AuthContext";
 
 const StatCards: React.FC = () => {
-  const { isDevMode } = useDevMode();
+  const { user } = useAuth();
   const [stats, setStats] = useState({
     activeJobs: 0,
     jobsDueToday: 0,
@@ -18,18 +18,6 @@ const StatCards: React.FC = () => {
   useEffect(() => {
     async function fetchDashboardStats() {
       try {
-        if (isDevMode) {
-          // Use mock data when in dev mode
-          setStats({
-            activeJobs: 12,
-            jobsDueToday: 4,
-            qcPending: 7,
-            lowStockItems: 3,
-            loading: false
-          });
-          return;
-        }
-        
         // Fetch active jobs count
         const { data: activeJobs, error: activeJobsError } = await supabase
           .from('jobs')
@@ -72,8 +60,18 @@ const StatCards: React.FC = () => {
       }
     }
     
-    fetchDashboardStats();
-  }, [isDevMode]);
+    if (user) {
+      fetchDashboardStats();
+    } else {
+      setStats({
+        activeJobs: 0,
+        jobsDueToday: 0,
+        qcPending: 0,
+        lowStockItems: 0,
+        loading: false
+      });
+    }
+  }, [user]);
 
   // Show loading skeletons if data is still being fetched
   const renderStats = (value: number, loading: boolean) => {
@@ -95,28 +93,22 @@ const StatCards: React.FC = () => {
           <p className="text-xs text-muted-foreground mt-1">
             Ongoing projects
           </p>
-          <div className="mt-4 h-1 w-full overflow-hidden rounded-full bg-secondary">
-            <div className="h-full w-4/5 rounded-full bg-primary"></div>
-          </div>
         </CardContent>
       </Card>
-
+      
       <Card>
         <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-sm font-medium">Jobs Due Today</CardTitle>
+          <CardTitle className="text-sm font-medium">Due Today</CardTitle>
           <Calendar className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
           {renderStats(stats.jobsDueToday, stats.loading)}
           <p className="text-xs text-muted-foreground mt-1">
-            Require immediate attention
+            Deadlines today
           </p>
-          <div className="mt-4 h-1 w-full overflow-hidden rounded-full bg-secondary">
-            <div className="h-full w-3/4 rounded-full bg-finish-amber-500"></div>
-          </div>
         </CardContent>
       </Card>
-
+      
       <Card>
         <CardHeader className="flex flex-row items-center justify-between pb-2">
           <CardTitle className="text-sm font-medium">QC Pending</CardTitle>
@@ -127,25 +119,19 @@ const StatCards: React.FC = () => {
           <p className="text-xs text-muted-foreground mt-1">
             Awaiting inspection
           </p>
-          <div className="mt-4 h-1 w-full overflow-hidden rounded-full bg-secondary">
-            <div className="h-full w-2/5 rounded-full bg-finish-green-500"></div>
-          </div>
         </CardContent>
       </Card>
-
+      
       <Card>
         <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-sm font-medium">Low Stock Alerts</CardTitle>
+          <CardTitle className="text-sm font-medium">Low Stock</CardTitle>
           <PackageOpen className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
           {renderStats(stats.lowStockItems, stats.loading)}
           <p className="text-xs text-muted-foreground mt-1">
-            Items need reordering
+            Items to reorder
           </p>
-          <div className="mt-4 h-1 w-full overflow-hidden rounded-full bg-secondary">
-            <div className="h-full w-1/5 rounded-full bg-finish-red-500"></div>
-          </div>
         </CardContent>
       </Card>
     </div>
