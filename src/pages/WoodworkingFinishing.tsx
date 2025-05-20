@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "@/components/landing/Header";
@@ -21,7 +20,7 @@ import {
   X, 
   Clock, 
   CheckSquare,
-  HandSaw,
+  Axe,
   FlaskConical
 } from "lucide-react";
 import { 
@@ -1056,7 +1055,7 @@ With practice and patience, spray finishing can transform your woodworking proje
       id: 7,
       title: "French Polishing Technique",
       description: "Learn the traditional technique of French polishing for a high-gloss, luxurious finish.",
-      icon: <HandSaw className="h-6 w-6 text-orange-500" />,
+      icon: <Axe className="h-6 w-6 text-orange-500" />,
       category: "techniques",
       content: `
 ## French Polishing Technique
