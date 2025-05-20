@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import Header from "@/components/landing/Header";
@@ -19,10 +20,10 @@ const Index = () => {
       
       <main className="flex-1">
         <HeroSection />
+        <HowItWorksSection />
         <FeaturesSection />
         <CtaSection />
         <BenefitsSection />
-        <HowItWorksSection />
         <PricingSection />
         
       </main>
