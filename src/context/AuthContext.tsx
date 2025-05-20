@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
@@ -185,7 +184,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         // Continue even if this fails
       }
       
-      // Create the user account
+      // Create the user account with Supabase auth
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
@@ -201,49 +200,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (data.user) {
         console.log("User created successfully:", data.user.id);
         
-        // Create organization
-        const { data: orgData, error: orgError } = await supabase
-          .from("organizations")
-          .insert([{ name: orgName }])
-          .select()
-          .single();
+        // Execute SQL directly using service role (bypassing RLS)
+        const { error: apiError } = await supabase.functions.invoke('create-organization', {
+          body: { 
+            userId: data.user.id,
+            orgName: orgName
+          }
+        });
 
-        if (orgError) {
-          console.error("Error creating organization:", orgError);
-          throw orgError;
+        if (apiError) {
+          console.error("Error setting up organization:", apiError);
+          throw apiError;
         }
-
-        console.log("Organization created:", orgData.id);
-
-        // Add user to organization
-        const { error: memberError } = await supabase
-          .from("org_members")
-          .insert([{ 
-            organization_id: orgData.id, 
-            user_id: data.user.id 
-          }]);
-
-        if (memberError) {
-          console.error("Error adding user to organization:", memberError);
-          throw memberError;
-        }
-
-        console.log("User added to organization");
-
-        // Set user as admin
-        const { error: roleError } = await supabase
-          .from("user_roles")
-          .insert([{ 
-            user_id: data.user.id,
-            role: "admin"
-          }]);
-
-        if (roleError) {
-          console.error("Error setting user role:", roleError);
-          throw roleError;
-        }
-
-        console.log("User role set to admin");
 
         toast({
           title: "Account created",
