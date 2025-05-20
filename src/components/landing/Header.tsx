@@ -35,7 +35,7 @@ const Header: React.FC = () => {
               <Button asChild variant="outline" size="sm">
                 <Link to="/dashboard">Dashboard</Link>
               </Button>
-              <Button size="sm" variant="ghost" onClick={handleSignOut} className="bg-orange-600 hover:bg-orange-500 text-slate-50">
+              <Button size="sm" variant="ghost" onClick={handleSignOut} className="text-slate-50 bg-orange-500 hover:bg-orange-600">
                 Sign Out
               </Button>
             </> : <>
