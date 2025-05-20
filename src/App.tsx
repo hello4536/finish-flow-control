@@ -27,6 +27,8 @@ import Reports from "./pages/Reports";
 import Users from "./pages/Users";
 import Settings from "./pages/Settings";
 import CustomCreations from "./pages/CustomCreations";
+import WoodworkingFinishing from "./pages/WoodworkingFinishing";
+import AutoBodyFinishing from "./pages/AutoBodyFinishing";
 import NotFound from "./pages/NotFound";
 import DailyTasks from "./pages/DailyTasks";
 import { initializeApp } from "./utils/initializeApp";
@@ -51,6 +53,8 @@ const App = () => {
               <Routes>
                 {/* Public landing page route */}
                 <Route path="/" element={<Index />} />
+                <Route path="/woodworking-finishing" element={<WoodworkingFinishing />} />
+                <Route path="/auto-body-finishing" element={<AutoBodyFinishing />} />
                 
                 {/* Auth routes - unprotected */}
                 <Route element={<ProtectedRoute requireAuth={false} />}>
