@@ -10,7 +10,7 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
-  requireAuth = false, // Keep this as false to disable auth requirement by default
+  requireAuth = true,
   requireAdmin = false,
 }) => {
   const { user, userRole, isLoading } = useAuth();
@@ -32,8 +32,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   }
 
   // If admin role is required and user is not an admin, redirect to home
-  // Only check if user is logged in to avoid null access on userRole
-  if (requireAdmin && user && userRole?.role !== "admin") {
+  if (requireAdmin && userRole?.role !== "admin") {
     return <Navigate to="/dashboard" replace />;
   }
 
