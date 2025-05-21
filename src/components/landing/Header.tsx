@@ -1,10 +1,9 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
-import { Home, Menu, X } from "lucide-react";
-import { useState } from "react";
+import { Menu, X } from "lucide-react";
 
 const Header: React.FC = () => {
   const { user, signOut } = useAuth();
@@ -24,30 +23,53 @@ const Header: React.FC = () => {
     <header className="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <Link to="/" className="flex items-center">
-          <h1 className="text-2xl font-bold text-blue-900">
-            Fini<span className="text-orange-500">v</span>i
+          <h1 className="text-2xl font-bold text-blue-500">
+            Fini<span className="text-blue-500">v</span>i
           </h1>
         </Link>
         
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
-          <Link to="/" className="text-sm font-medium text-gray-600 hover:text-blue-900 transition-colors">
-            Home
-          </Link>
-          <Link to="/woodworking-finishing" className="text-sm font-medium text-gray-600 hover:text-blue-900 transition-colors">
-            Woodworking
-          </Link>
-          <Link to="/auto-body-finishing" className="text-sm font-medium text-gray-600 hover:text-blue-900 transition-colors">
-            Auto Body
-          </Link>
-          <Link to="/#pricing" className="text-sm font-medium text-gray-600 hover:text-blue-900 transition-colors">
+          <div className="group relative">
+            <Link to="/" className="text-sm font-medium text-gray-600 hover:text-blue-500 transition-colors">
+              Platform
+            </Link>
+            <span className="inline-block ml-1 opacity-60">▾</span>
+          </div>
+          
+          <Link to="/#pricing" className="text-sm font-medium text-gray-600 hover:text-blue-500 transition-colors">
             Pricing
+          </Link>
+          
+          <div className="group relative">
+            <Link to="/woodworking-finishing" className="text-sm font-medium text-gray-600 hover:text-blue-500 transition-colors">
+              Solutions
+            </Link>
+            <span className="inline-block ml-1 opacity-60">▾</span>
+          </div>
+          
+          <div className="group relative">
+            <Link to="/auto-body-finishing" className="text-sm font-medium text-gray-600 hover:text-blue-500 transition-colors">
+              Resources
+            </Link>
+            <span className="inline-block ml-1 opacity-60">▾</span>
+          </div>
+          
+          <div className="group relative">
+            <Link to="/" className="text-sm font-medium text-gray-600 hover:text-blue-500 transition-colors">
+              Company
+            </Link>
+            <span className="inline-block ml-1 opacity-60">▾</span>
+          </div>
+          
+          <Link to="/blog" className="text-sm font-medium text-gray-600 hover:text-blue-500 transition-colors">
+            Blog
           </Link>
         </nav>
         
         {/* Mobile menu button */}
         <button 
-          className="md:hidden p-2 text-gray-600 hover:text-blue-900"
+          className="md:hidden p-2 text-gray-600 hover:text-blue-500"
           onClick={toggleMobileMenu}
         >
           {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -57,7 +79,7 @@ const Header: React.FC = () => {
         <div className="hidden md:flex items-center space-x-4">
           {user ? (
             <>
-              <Button asChild variant="outline" size="sm" className="rounded-md">
+              <Button asChild variant="ghost" size="sm" className="rounded-md">
                 <Link to="/dashboard">Dashboard</Link>
               </Button>
               <Button 
@@ -71,11 +93,14 @@ const Header: React.FC = () => {
             </>
           ) : (
             <>
-              <Button asChild variant="outline" size="sm" className="rounded-md">
-                <Link to="/auth/signin">Sign In</Link>
-              </Button>
-              <Button asChild size="sm" className="rounded-md bg-blue-900 hover:bg-blue-800">
-                <Link to="/auth/signup">Sign Up</Link>
+              <div className="text-sm text-gray-600">
+                Log in <span className="mx-1 text-gray-300">|</span> 
+                <Link to="/auth/signin" className="text-blue-500 hover:text-blue-700 ml-1">
+                  Book a demo
+                </Link>
+              </div>
+              <Button asChild size="sm" className="rounded-full bg-blue-500 hover:bg-blue-600 px-6">
+                <Link to="/auth/signup">Try for free</Link>
               </Button>
             </>
           )}

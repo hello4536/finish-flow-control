@@ -9,13 +9,10 @@ const FeaturesSection = () => {
   const [activeTab, setActiveTab] = useState(featureTabs[0].id);
 
   return (
-    <section id="features" className="py-24 bg-slate-50">
+    <section id="features" className="py-24 bg-white">
       <div className="container px-4 mx-auto">
         <div className="text-center mb-16">
-          <div className="inline-block rounded-lg bg-blue-100 px-3 py-1 text-sm text-blue-900 mb-4">
-            Our Features
-          </div>
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">
             Everything you need for finishing operations
           </h2>
           <p className="text-lg text-gray-600 max-w-[800px] mx-auto">

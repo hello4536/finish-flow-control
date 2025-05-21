@@ -9,6 +9,7 @@ import HowItWorksSection from "@/components/landing/HowItWorksSection";
 import PricingSection from "@/components/landing/PricingSection";
 import Footer from "@/components/landing/Footer";
 import { useAuth } from "@/context/AuthContext";
+import ProductOverviewSection from "@/components/landing/ProductOverviewSection";
 
 const Index = () => {
   const { user } = useAuth();
@@ -19,6 +20,7 @@ const Index = () => {
       
       <main className="flex-1">
         <HeroSection />
+        <ProductOverviewSection />
         <BenefitsSection />
         <FeaturesSection />
         <HowItWorksSection />

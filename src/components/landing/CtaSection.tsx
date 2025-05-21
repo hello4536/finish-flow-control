@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { User, MessageSquareQuote, ArrowRight } from "lucide-react";
+import { MessageSquareQuote, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
@@ -27,13 +27,10 @@ const testimonials = [{
 
 const CtaSection = () => {
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-gray-50">
       <div className="container px-4 md:px-6 mx-auto">
         <div className="text-center mb-16">
-          <div className="inline-block rounded-lg bg-blue-100 px-3 py-1 text-sm text-blue-900 mb-4">
-            Testimonials
-          </div>
-          <h2 className="text-3xl font-bold md:text-4xl">
+          <h2 className="text-3xl font-bold md:text-4xl text-gray-900">
             Trusted by finishing professionals
           </h2>
           <p className="mt-4 text-lg text-gray-600 max-w-[700px] mx-auto">
@@ -61,22 +58,25 @@ const CtaSection = () => {
           ))}
         </div>
         
-        <div className="mt-20 text-center bg-blue-50 rounded-2xl p-10 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-100/50 to-indigo-100/50"></div>
+        <div className="mt-20 text-center bg-white rounded-2xl p-10 relative overflow-hidden border border-gray-100 shadow-lg">
           <div className="relative z-10">
-            <h3 className="text-2xl md:text-3xl font-bold mb-4">
+            <h3 className="text-2xl md:text-3xl font-bold mb-4 text-gray-900">
               Ready to transform your finishing operations?
             </h3>
             <p className="text-lg text-gray-600 mb-6 max-w-[600px] mx-auto">
               Join thousands of finishing professionals who are experiencing the benefits of Finivi
             </p>
-            <Button asChild size="lg" className="rounded-md bg-blue-900 hover:bg-blue-800">
+            <Button asChild size="lg" className="rounded-full bg-blue-500 hover:bg-blue-600 px-8">
               <Link to="/auth/signup">
                 Start your free trial
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
           </div>
+          
+          {/* Decorative background */}
+          <div className="absolute top-0 right-0 h-64 w-64 rounded-full bg-blue-100/50 -mr-20 -mt-20"></div>
+          <div className="absolute bottom-0 left-0 h-48 w-48 rounded-full bg-yellow-100/50 -ml-16 -mb-16"></div>
         </div>
       </div>
     </section>

@@ -2,54 +2,44 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { ArrowRight, ChevronRight } from "lucide-react";
 
 const HeroSection = () => {
   return (
-    <section className="pt-16 pb-8 md:pt-24 md:pb-12 overflow-hidden relative">
+    <section className="pt-16 pb-16 md:pt-24 md:pb-20 overflow-hidden relative bg-white">
       <div className="container px-4 md:px-6 relative">
         {/* Background elements */}
         <div className="absolute inset-0 -z-10 overflow-hidden">
-          <div className="absolute right-1/4 top-0 h-[300px] w-[300px] rounded-full bg-blue-100/80 blur-3xl"></div>
-          <div className="absolute left-1/3 bottom-0 h-[250px] w-[250px] rounded-full bg-orange-100/60 blur-3xl"></div>
+          <div className="absolute right-1/3 top-0 h-[300px] w-[300px] rounded-full bg-blue-100/50 blur-3xl"></div>
+          <div className="absolute left-1/2 bottom-0 h-[250px] w-[250px] rounded-full bg-yellow-100/50 blur-3xl"></div>
+          <div className="absolute left-1/4 top-1/3 h-[200px] w-[200px] rounded-full bg-blue-100/30 blur-3xl"></div>
         </div>
         
         <div className="max-w-[800px] mx-auto text-center">
-          <Badge className="mb-4 inline-block rounded-full px-4 py-1 text-sm bg-blue-100 text-blue-900 border-none">
-            The Ultimate Finishing Management Platform
-          </Badge>
-          
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
-            Make your finishing department{" "}
-            <span className="bg-gradient-to-r from-blue-900 via-indigo-800 to-blue-900 bg-clip-text text-transparent">
-              more efficient
-            </span>
+          <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 text-gray-900">
+            Build great products with confidence
           </h1>
           
-          <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-[700px] mx-auto">
-            Track formulas, jobs, and materials in one clean dashboard with supporting tools 
-            for custom workflows, compliance and more. Built by finishers, for finishers.
+          <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-[700px] mx-auto leading-relaxed">
+            Make smart finishing decisions, align your team, and tell a compelling product story with Finivi. 
+            The end-to-end finishing management platform with best practices built-in.
           </p>
           
           <div className="flex flex-wrap items-center justify-center gap-4 mb-16">
-            <Button asChild size="lg" className="h-12 px-6 rounded-md bg-blue-900 hover:bg-blue-800 text-white">
+            <Button asChild size="lg" className="h-12 px-8 rounded-full bg-blue-500 hover:bg-blue-600 text-white">
               <Link to="/auth/signup">
-                Start free trial
-                <ArrowRight className="ml-2 h-4 w-4" />
+                Try for free
               </Link>
             </Button>
-            <Button asChild variant="outline" size="lg" className="h-12 px-6 rounded-md">
-              <Link to="#features">
-                See all features
-                <ChevronRight className="ml-2 h-4 w-4" />
+            <Button asChild variant="outline" size="lg" className="h-12 px-8 rounded-full border-blue-500 text-blue-500 hover:bg-blue-50">
+              <Link to="/auth/signin">
+                Book a demo
               </Link>
             </Button>
           </div>
           
           {/* App Screenshot */}
-          <div className="relative mx-auto max-w-5xl">
-            <div className="rounded-xl border shadow-2xl overflow-hidden">
+          <div className="relative mx-auto max-w-5xl mt-12">
+            <div className="rounded-xl border shadow-xl overflow-hidden">
               <img 
                 src="/lovable-uploads/8e9a6ded-9406-4eeb-8af1-b1e83ca9e786.png" 
                 alt="Finivi Dashboard" 
@@ -58,8 +48,8 @@ const HeroSection = () => {
             </div>
             
             {/* Decorative elements */}
-            <div className="absolute -bottom-4 -right-4 h-16 w-16 rounded-full bg-orange-500/10 hidden md:block"></div>
-            <div className="absolute -top-4 -left-4 h-24 w-24 rounded-full bg-blue-500/10 hidden md:block"></div>
+            <div className="absolute -bottom-10 -right-10 h-20 w-20 rounded-full bg-yellow-400/10 hidden md:block"></div>
+            <div className="absolute -top-10 -left-10 h-20 w-20 rounded-full bg-blue-500/10 hidden md:block"></div>
           </div>
         </div>
       </div>

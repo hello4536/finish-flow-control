@@ -4,13 +4,10 @@ import { ArrowRight } from "lucide-react";
 
 const HowItWorksSection = () => {
   return (
-    <section className="py-20 bg-white">
+    <section className="py-24 bg-white">
       <div className="container px-4 md:px-6">
         <div className="text-center mb-16">
-          <div className="inline-block rounded-lg bg-blue-100 px-3 py-1 text-sm text-blue-900 mb-4">
-            How It Works
-          </div>
-          <h2 className="text-3xl md:text-4xl font-bold">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
             Getting started is simple
           </h2>
           <p className="mt-4 text-lg text-gray-600 max-w-[700px] mx-auto">
@@ -18,14 +15,14 @@ const HowItWorksSection = () => {
           </p>
         </div>
         
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {/* Step 1 */}
           <div className="relative">
-            <div className="rounded-xl p-8 h-full border bg-gradient-to-br from-blue-50 to-white shadow-sm">
-              <div className="absolute -top-4 -left-4 h-10 w-10 rounded-full bg-blue-900 text-white flex items-center justify-center font-semibold text-lg">
+            <div className="rounded-xl p-8 h-full border bg-white shadow-sm">
+              <div className="absolute -top-4 -left-4 h-10 w-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-semibold text-lg">
                 1
               </div>
-              <h3 className="text-xl font-bold mb-4 mt-2 text-blue-900">Sign Up</h3>
+              <h3 className="text-xl font-bold mb-4 mt-2 text-gray-900">Sign Up</h3>
               <p className="text-gray-600 mb-4">
                 Create your account with a simple registration process. Choose your plan and set up your organization profile.
               </p>
@@ -38,11 +35,11 @@ const HowItWorksSection = () => {
           
           {/* Step 2 */}
           <div className="relative">
-            <div className="rounded-xl p-8 h-full border bg-gradient-to-br from-blue-50 to-white shadow-sm">
-              <div className="absolute -top-4 -left-4 h-10 w-10 rounded-full bg-blue-900 text-white flex items-center justify-center font-semibold text-lg">
+            <div className="rounded-xl p-8 h-full border bg-white shadow-sm">
+              <div className="absolute -top-4 -left-4 h-10 w-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-semibold text-lg">
                 2
               </div>
-              <h3 className="text-xl font-bold mb-4 mt-2 text-blue-900">Set Up Your Team</h3>
+              <h3 className="text-xl font-bold mb-4 mt-2 text-gray-900">Set Up Your Team</h3>
               <p className="text-gray-600 mb-4">
                 Invite team members, assign roles, and customize permissions to match your organizational structure.
               </p>
@@ -67,11 +64,11 @@ const HowItWorksSection = () => {
           
           {/* Step 3 */}
           <div className="relative">
-            <div className="rounded-xl p-8 h-full border bg-gradient-to-br from-blue-50 to-white shadow-sm">
-              <div className="absolute -top-4 -left-4 h-10 w-10 rounded-full bg-blue-900 text-white flex items-center justify-center font-semibold text-lg">
+            <div className="rounded-xl p-8 h-full border bg-white shadow-sm">
+              <div className="absolute -top-4 -left-4 h-10 w-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-semibold text-lg">
                 3
               </div>
-              <h3 className="text-xl font-bold mb-4 mt-2 text-blue-900">Manage Operations</h3>
+              <h3 className="text-xl font-bold mb-4 mt-2 text-gray-900">Manage Operations</h3>
               <p className="text-gray-600 mb-4">
                 Start using Finivi to track materials, manage workflows, ensure compliance, and streamline your finishing operations.
               </p>
