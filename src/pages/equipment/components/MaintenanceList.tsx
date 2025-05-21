@@ -12,13 +12,15 @@ import {
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Search, Filter, Plus, Calendar } from 'lucide-react';
+import { Search, Filter, Plus, Calendar, Wrench } from 'lucide-react';
 import { useEquipmentMaintenance } from '@/hooks/useEquipmentMaintenance';
 import { format } from 'date-fns';
 import { useAuth } from '@/context/AuthContext';
+import AddMaintenanceDialog from './AddMaintenanceDialog';
 
 const MaintenanceList: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { maintenanceRecords, isLoading } = useEquipmentMaintenance();
   const { userRole } = useAuth();
   const isAdmin = userRole?.role === 'admin';
@@ -48,7 +50,7 @@ const MaintenanceList: React.FC = () => {
               Filters
             </Button>
             {isAdmin && (
-              <Button size="sm">
+              <Button size="sm" onClick={() => setIsDialogOpen(true)}>
                 <Plus className="mr-2 h-4 w-4" />
                 Add Maintenance
               </Button>
@@ -90,7 +92,7 @@ const MaintenanceList: React.FC = () => {
                     <TableCell>${item.cost?.toFixed(2) || '0.00'}</TableCell>
                     <TableCell className="text-right">
                       <Button variant="ghost" size="icon">
-                        <Calendar className="h-4 w-4" />
+                        <Wrench className="h-4 w-4" />
                       </Button>
                     </TableCell>
                   </TableRow>
@@ -105,6 +107,11 @@ const MaintenanceList: React.FC = () => {
             </TableBody>
           </Table>
         )}
+        
+        <AddMaintenanceDialog 
+          open={isDialogOpen} 
+          onOpenChange={setIsDialogOpen} 
+        />
       </CardContent>
     </Card>
   );
