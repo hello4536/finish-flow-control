@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -66,10 +65,9 @@ const App = () => {
                   </Route>
                 </Route>
 
-                {/* Protected routes - require authentication */}
-                <Route element={<ProtectedRoute requireAuth={true} />}>
+                {/* Modified: Dashboard routes now don't require authentication by default */}
+                <Route element={<ProtectedRoute requireAuth={false} />}>
                   <Route element={<MainLayout />}>
-                    {/* Redirect /dashboard to / for authenticated users */}
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="subscription" element={<SubscriptionPage />} />
                     <Route path="jobs" element={<Jobs />} />

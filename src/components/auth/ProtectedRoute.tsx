@@ -10,7 +10,7 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
-  requireAuth = true,
+  requireAuth = false, // Changed from true to false to disable auth requirement by default
   requireAdmin = false,
 }) => {
   const { user, userRole, isLoading } = useAuth();
@@ -24,11 +24,6 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
         <span className="ml-2 text-xl">Loading...</span>
       </div>
     );
-  }
-
-  // If auth is required and user is not logged in, redirect to login
-  if (requireAuth && !user) {
-    return <Navigate to="/auth/signin" state={{ from: location }} replace />;
   }
 
   // If admin role is required and user is not an admin, redirect to home
