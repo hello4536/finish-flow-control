@@ -2,26 +2,33 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Check, ChevronDown } from "lucide-react";
+import { Check } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const PricingSection = () => {
   return (
-    <section className="py-20">
+    <section id="pricing" className="py-24 bg-white">
       <div className="container px-4 md:px-6">
-        <div className="mx-auto max-w-3xl text-center mb-10">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Simple, Transparent Pricing</h2>
-          <p className="mt-4 text-lg text-muted-foreground">
-            Choose the plan that suits your business needs.
+        <div className="mx-auto max-w-3xl text-center mb-12">
+          <div className="inline-block rounded-lg bg-blue-100 px-3 py-1 text-sm text-blue-900 mb-4">
+            Pricing
+          </div>
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+            Simple, transparent pricing
+          </h2>
+          <p className="mt-4 text-lg text-gray-600">
+            No hidden fees or surprise charges. Get started with our straightforward pricing plans.
           </p>
         </div>
-        <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-1 lg:grid-cols-2">
-          <div className="rounded-lg border p-6 shadow-sm">
+        
+        <div className="mx-auto grid max-w-4xl grid-cols-1 gap-8 md:grid-cols-2">
+          <div className="rounded-2xl border bg-white p-8 shadow-sm relative hover:shadow-md transition-shadow duration-300">
             <h3 className="text-xl font-bold">Admin Access</h3>
             <div className="mt-4 flex items-baseline">
               <span className="text-3xl font-bold">$49</span>
-              <span className="text-muted-foreground">/month</span>
+              <span className="text-gray-500 ml-2">/month</span>
             </div>
-            <p className="mt-2 text-muted-foreground">
+            <p className="mt-2 text-gray-600">
               Complete access for organizational administrators
             </p>
             <ul className="mt-6 space-y-3">
@@ -46,18 +53,21 @@ const PricingSection = () => {
                 <span>Admin subscription includes first user</span>
               </li>
             </ul>
-            <Button className="mt-6 w-full">Get Started</Button>
+            <Button asChild className="mt-8 w-full rounded-md bg-blue-900 hover:bg-blue-800">
+              <Link to="/auth/signup">Get Started</Link>
+            </Button>
           </div>
-          <div className="rounded-lg border p-6 shadow-sm">
+          
+          <div className="rounded-2xl border bg-white p-8 shadow-sm relative hover:shadow-md transition-shadow duration-300">
             <div className="flex justify-between items-center">
               <h3 className="text-xl font-bold">Employee Access</h3>
-              <Badge>Per User</Badge>
+              <Badge className="bg-orange-100 text-orange-700 hover:bg-orange-200">Per User</Badge>
             </div>
             <div className="mt-4 flex items-baseline">
               <span className="text-3xl font-bold">$10</span>
-              <span className="text-muted-foreground">/month per user</span>
+              <span className="text-gray-500 ml-2">/month per user</span>
             </div>
-            <p className="mt-2 text-muted-foreground">
+            <p className="mt-2 text-gray-600">
               Role-based access for your team members
             </p>
             <ul className="mt-6 space-y-3">
@@ -82,11 +92,14 @@ const PricingSection = () => {
                 <span>Add as many employees as needed</span>
               </li>
             </ul>
-            <Button className="mt-6 w-full" variant="outline">Learn More</Button>
+            <Button asChild className="mt-8 w-full rounded-md bg-white hover:bg-gray-50 text-blue-900 border border-blue-900">
+              <Link to="/auth/signup">Learn More</Link>
+            </Button>
           </div>
         </div>
+        
         <div className="mt-10 text-center">
-          <p className="text-muted-foreground">
+          <p className="text-gray-600">
             All plans include email support. For enterprise needs, contact our sales team.
           </p>
         </div>

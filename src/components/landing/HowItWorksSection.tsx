@@ -1,28 +1,35 @@
+
 import React from "react";
+import { ArrowRight } from "lucide-react";
+
 const HowItWorksSection = () => {
-  return <section className="py-20 text-primary-foreground bg-blue-900">
+  return (
+    <section className="py-20 bg-white">
       <div className="container px-4 md:px-6">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            Getting Started Is Easy
+          <div className="inline-block rounded-lg bg-blue-100 px-3 py-1 text-sm text-blue-900 mb-4">
+            How It Works
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold">
+            Getting started is simple
           </h2>
-          <p className="mt-4 text-lg text-primary-foreground/80 max-w-[700px] mx-auto font-semibold">
-            Three simple steps to transform your finishing department operations.
+          <p className="mt-4 text-lg text-gray-600 max-w-[700px] mx-auto">
+            Three easy steps to transform your finishing operations
           </p>
         </div>
         
-        <div className="grid gap-8 md:grid-cols-3">
+        <div className="grid md:grid-cols-3 gap-8">
           {/* Step 1 */}
           <div className="relative">
-            <div className="backdrop-blur-sm rounded-xl border border-white/20 p-6 shadow-sm h-full bg-orange-500">
-              <div className="absolute -top-4 -left-4 h-12 w-12 rounded-full flex items-center justify-center text-orange-500 font-bold text-lg bg-gray-100">
+            <div className="rounded-xl p-8 h-full border bg-gradient-to-br from-blue-50 to-white shadow-sm">
+              <div className="absolute -top-4 -left-4 h-10 w-10 rounded-full bg-blue-900 text-white flex items-center justify-center font-semibold text-lg">
                 1
               </div>
-              <h3 className="text-xl font-bold mb-4 mt-2">Sign Up</h3>
-              <p className="text-slate-50">
+              <h3 className="text-xl font-bold mb-4 mt-2 text-blue-900">Sign Up</h3>
+              <p className="text-gray-600 mb-4">
                 Create your account with a simple registration process. Choose your plan and set up your organization profile.
               </p>
-              <div className="mt-4 text-white/80 text-sm">
+              <div className="mt-4 text-sm text-gray-700">
                 <p><strong>Admin:</strong> $49/month (includes 1 admin user)</p>
                 <p><strong>+ Employees:</strong> $10/month each</p>
               </div>
@@ -31,19 +38,28 @@ const HowItWorksSection = () => {
           
           {/* Step 2 */}
           <div className="relative">
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 p-6 shadow-sm h-full">
-              <div className="absolute -top-4 -left-4 h-12 w-12 rounded-full flex items-center justify-center text-blue-900 font-bold text-lg bg-slate-50">
+            <div className="rounded-xl p-8 h-full border bg-gradient-to-br from-blue-50 to-white shadow-sm">
+              <div className="absolute -top-4 -left-4 h-10 w-10 rounded-full bg-blue-900 text-white flex items-center justify-center font-semibold text-lg">
                 2
               </div>
-              <h3 className="text-xl font-bold mb-4 mt-2">Set Up Your Team</h3>
-              <p className="text-primary-foreground/80">
+              <h3 className="text-xl font-bold mb-4 mt-2 text-blue-900">Set Up Your Team</h3>
+              <p className="text-gray-600 mb-4">
                 Invite team members, assign roles, and customize permissions to match your organizational structure.
               </p>
               <div className="mt-4">
-                <ul className="list-disc list-inside text-primary-foreground/80 text-sm">
-                  <li>Admins have full system access</li>
-                  <li>Employees have role-based access</li>
-                  <li>Add team members as needed</li>
+                <ul className="space-y-1 text-sm text-gray-700">
+                  <li className="flex items-center gap-2">
+                    <ArrowRight className="h-4 w-4 text-blue-500" />
+                    Admins have full system access
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <ArrowRight className="h-4 w-4 text-blue-500" />
+                    Employees have role-based access
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <ArrowRight className="h-4 w-4 text-blue-500" />
+                    Add team members as needed
+                  </li>
                 </ul>
               </div>
             </div>
@@ -51,21 +67,23 @@ const HowItWorksSection = () => {
           
           {/* Step 3 */}
           <div className="relative">
-            <div className="backdrop-blur-sm rounded-xl border border-white/20 p-6 shadow-sm h-full bg-orange-500">
-              <div className="absolute -top-4 -left-4 h-12 w-12 rounded-full flex items-center justify-center text-orange-500 font-bold text-lg bg-slate-50">
+            <div className="rounded-xl p-8 h-full border bg-gradient-to-br from-blue-50 to-white shadow-sm">
+              <div className="absolute -top-4 -left-4 h-10 w-10 rounded-full bg-blue-900 text-white flex items-center justify-center font-semibold text-lg">
                 3
               </div>
-              <h3 className="text-xl font-bold mb-4 mt-2">Manage Operations</h3>
-              <p className="text-primary-foreground/80">
+              <h3 className="text-xl font-bold mb-4 mt-2 text-blue-900">Manage Operations</h3>
+              <p className="text-gray-600 mb-4">
                 Start using Finivi to track materials, manage workflows, ensure compliance, and streamline your finishing operations.
               </p>
-              <div className="mt-4 text-white/80 text-sm">
+              <div className="mt-4 text-sm text-gray-700">
                 <p>Access all features immediately after subscription activation</p>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>;
+    </section>
+  );
 };
+
 export default HowItWorksSection;

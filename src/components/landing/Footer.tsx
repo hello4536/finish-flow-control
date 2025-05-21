@@ -3,43 +3,46 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
-  return <footer className="border-t py-12 bg-blue-900">
-      <div className="container px-4 md:px-6">
+  return (
+    <footer className="bg-gray-50 border-t">
+      <div className="container px-4 md:px-6 py-12 mx-auto">
         <div className="grid gap-8 lg:grid-cols-3">
           <div>
-            <div className="flex items-center gap-2 mb-4 text-white">
-              <div className="text-xl font-bold">Fini<span className="text-orange-500">v</span>i</div>
-            </div>
-            <p className="text-sm mb-4 text-slate-50">
+            <Link to="/" className="flex items-center gap-2 mb-4">
+              <div className="text-xl font-bold text-blue-900">Fini<span className="text-orange-500">v</span>i</div>
+            </Link>
+            <p className="text-sm mb-4 text-gray-600">
               Comprehensive finishing department management platform for modern businesses.
             </p>
-            <p className="text-sm text-slate-50">
+            <p className="text-sm text-gray-500">
               &copy; {new Date().getFullYear()} Finivi. All rights reserved.
             </p>
           </div>
           
           <div className="grid grid-cols-2 gap-8 lg:col-span-2">
             <div>
-              <h3 className="font-semibold mb-3 text-orange-500">Product</h3>
-              <ul className="space-y-2">
-                <li><Link to="/#features" className="text-sm text-white hover:text-primary">Features</Link></li>
-                <li><Link to="/#pricing" className="text-sm text-white hover:text-primary">Pricing</Link></li>
-                <li><Link to="/#testimonials" className="text-sm text-white hover:text-primary">Testimonials</Link></li>
-                <li><Link to="/#faq" className="text-sm text-white hover:text-primary">FAQ</Link></li>
+              <h3 className="font-semibold mb-4 text-gray-900">Product</h3>
+              <ul className="space-y-3">
+                <li><Link to="/#features" className="text-sm text-gray-600 hover:text-blue-900">Features</Link></li>
+                <li><Link to="/#pricing" className="text-sm text-gray-600 hover:text-blue-900">Pricing</Link></li>
+                <li><Link to="/#testimonials" className="text-sm text-gray-600 hover:text-blue-900">Testimonials</Link></li>
+                <li><Link to="/#faq" className="text-sm text-gray-600 hover:text-blue-900">FAQ</Link></li>
               </ul>
             </div>
             <div>
-              <h3 className="font-semibold mb-3 text-orange-500">Company</h3>
-              <ul className="space-y-2">
-                <li><Link to="/about" className="text-sm text-white hover:text-primary">About</Link></li>
-                <li><Link to="/contact" className="text-sm text-white hover:text-primary">Contact</Link></li>
-                <li><Link to="/privacy" className="text-sm text-white hover:text-primary">Privacy Policy</Link></li>
-                <li><Link to="/terms" className="text-sm text-white hover:text-primary">Terms of Service</Link></li>
+              <h3 className="font-semibold mb-4 text-gray-900">Company</h3>
+              <ul className="space-y-3">
+                <li><Link to="/about" className="text-sm text-gray-600 hover:text-blue-900">About</Link></li>
+                <li><Link to="/contact" className="text-sm text-gray-600 hover:text-blue-900">Contact</Link></li>
+                <li><Link to="/privacy" className="text-sm text-gray-600 hover:text-blue-900">Privacy Policy</Link></li>
+                <li><Link to="/terms" className="text-sm text-gray-600 hover:text-blue-900">Terms of Service</Link></li>
               </ul>
             </div>
           </div>
         </div>
       </div>
-    </footer>;
+    </footer>
+  );
 };
+
 export default Footer;

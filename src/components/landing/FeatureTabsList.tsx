@@ -25,13 +25,13 @@ const iconMap = {
 
 const FeatureTabsList = () => {
   return (
-    <div className="flex justify-center mb-8">
-      <TabsList className="h-auto p-1 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-1">
+    <div className="flex justify-center mb-12">
+      <TabsList className="h-auto p-2 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-2 bg-white rounded-xl">
         {featureTabs.map(tab => (
           <TabsTrigger 
             key={tab.id} 
             value={tab.id} 
-            className="flex items-center gap-1.5 h-10 px-3"
+            className="flex items-center gap-2 h-11 px-4 data-[state=active]:bg-blue-100 data-[state=active]:text-blue-900 rounded-lg transition-all"
           >
             {iconMap[tab.icon as keyof typeof iconMap]}
             <span className="hidden sm:inline">{tab.label}</span>
