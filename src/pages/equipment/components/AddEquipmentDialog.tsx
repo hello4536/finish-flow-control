@@ -75,8 +75,16 @@ const AddEquipmentDialog: React.FC<AddEquipmentDialogProps> = ({ open, onOpenCha
   const onSubmit = async (values: EquipmentFormValues) => {
     try {
       await addEquipment({
-        ...values,
-        purchaseCost: values.purchaseCost ? parseFloat(values.purchaseCost) : undefined,
+        name: values.name,
+        type: values.type,
+        brand: values.brand,
+        model: values.model,
+        serial_number: values.serialNumber,
+        purchase_date: values.purchaseDate,
+        purchase_cost: values.purchaseCost ? parseFloat(values.purchaseCost) : undefined,
+        condition: values.condition,
+        status: values.status,
+        notes: values.notes,
       });
       
       toast({

@@ -34,9 +34,25 @@ export const useEquipment = () => {
 
   const addEquipment = async (newEquipment: Partial<Equipment>) => {
     try {
+      // Make sure that required fields are present
+      if (!newEquipment.name || !newEquipment.type) {
+        throw new Error('Equipment name and type are required');
+      }
+      
       const { data, error } = await supabase
         .from('equipment')
-        .insert([newEquipment])
+        .insert({
+          name: newEquipment.name,
+          type: newEquipment.type,
+          brand: newEquipment.brand,
+          model: newEquipment.model,
+          serial_number: newEquipment.serial_number,
+          purchase_date: newEquipment.purchase_date,
+          purchase_cost: newEquipment.purchase_cost,
+          condition: newEquipment.condition || 'Good',
+          status: newEquipment.status || 'Available',
+          notes: newEquipment.notes
+        })
         .select();
 
       if (error) throw error;

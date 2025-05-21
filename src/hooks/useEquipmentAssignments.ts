@@ -12,38 +12,58 @@ export const useEquipmentAssignments = () => {
   const fetchAssignments = async () => {
     setIsLoading(true);
     try {
+      // Get user profiles for assigned_to and assigned_by
       const { data: assignmentData, error } = await supabase
         .from('equipment_assignments')
         .select(`
-          *,
+          id,
+          status,
+          assigned_date,
+          return_date,
+          notes,
           equipment:equipment_id(id, name, type),
-          assignee:assigned_to(id, name:email),
-          assigner:assigned_by(id, name:email)
+          assigned_to,
+          assigned_by
         `)
         .order('assigned_date', { ascending: false });
 
       if (error) throw error;
 
-      const formattedAssignments = assignmentData.map(assignment => ({
-        id: assignment.id,
-        equipment: {
-          id: assignment.equipment.id,
-          name: assignment.equipment.name,
-          type: assignment.equipment.type
-        },
-        assignee: {
-          id: assignment.assignee.id,
-          name: assignment.assignee.name
-        },
-        assigner: {
-          id: assignment.assigner.id,
-          name: assignment.assigner.name
-        },
-        assignedDate: assignment.assigned_date,
-        returnDate: assignment.return_date,
-        status: assignment.status,
-        notes: assignment.notes
-      }));
+      // Since we can't directly join with auth.users, we need to fetch user profiles separately
+      const formattedAssignments: EquipmentAssignment[] = [];
+      
+      for (const assignment of assignmentData) {
+        // Get assignee info
+        const { data: assigneeData } = await supabase
+          .from('profiles')
+          .select('id, full_name')
+          .eq('id', assignment.assigned_to)
+          .single();
+          
+        // Get assigner info
+        const { data: assignerData } = await supabase
+          .from('profiles')
+          .select('id, full_name')
+          .eq('id', assignment.assigned_by)
+          .single();
+          
+        formattedAssignments.push({
+          id: assignment.id,
+          equipment: assignment.equipment,
+          assignee: {
+            id: assignment.assigned_to,
+            name: assigneeData?.full_name || 'Unknown User'
+          },
+          assigner: {
+            id: assignment.assigned_by,
+            name: assignerData?.full_name || 'Unknown User'
+          },
+          assignedDate: assignment.assigned_date,
+          returnDate: assignment.return_date,
+          status: assignment.status,
+          notes: assignment.notes
+        });
+      }
 
       setAssignments(formattedAssignments);
     } catch (error: any) {
