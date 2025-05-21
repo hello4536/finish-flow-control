@@ -302,6 +302,148 @@ export type Database = {
         }
         Relationships: []
       }
+      equipment: {
+        Row: {
+          brand: string | null
+          condition: string
+          created_at: string
+          id: string
+          model: string | null
+          name: string
+          notes: string | null
+          purchase_cost: number | null
+          purchase_date: string | null
+          serial_number: string | null
+          status: string
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          brand?: string | null
+          condition?: string
+          created_at?: string
+          id?: string
+          model?: string | null
+          name: string
+          notes?: string | null
+          purchase_cost?: number | null
+          purchase_date?: string | null
+          serial_number?: string | null
+          status?: string
+          type: string
+          updated_at?: string
+        }
+        Update: {
+          brand?: string | null
+          condition?: string
+          created_at?: string
+          id?: string
+          model?: string | null
+          name?: string
+          notes?: string | null
+          purchase_cost?: number | null
+          purchase_date?: string | null
+          serial_number?: string | null
+          status?: string
+          type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      equipment_assignments: {
+        Row: {
+          assigned_by: string
+          assigned_date: string
+          assigned_to: string
+          created_at: string
+          equipment_id: string
+          id: string
+          notes: string | null
+          return_date: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          assigned_by: string
+          assigned_date?: string
+          assigned_to: string
+          created_at?: string
+          equipment_id: string
+          id?: string
+          notes?: string | null
+          return_date?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          assigned_by?: string
+          assigned_date?: string
+          assigned_to?: string
+          created_at?: string
+          equipment_id?: string
+          id?: string
+          notes?: string | null
+          return_date?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "equipment_assignments_equipment_id_fkey"
+            columns: ["equipment_id"]
+            isOneToOne: false
+            referencedRelation: "equipment"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      equipment_maintenance: {
+        Row: {
+          cost: number | null
+          created_at: string
+          equipment_id: string
+          id: string
+          maintenance_date: string
+          maintenance_type: string
+          next_maintenance_date: string | null
+          notes: string | null
+          performed_by: string
+          updated_at: string
+        }
+        Insert: {
+          cost?: number | null
+          created_at?: string
+          equipment_id: string
+          id?: string
+          maintenance_date?: string
+          maintenance_type: string
+          next_maintenance_date?: string | null
+          notes?: string | null
+          performed_by: string
+          updated_at?: string
+        }
+        Update: {
+          cost?: number | null
+          created_at?: string
+          equipment_id?: string
+          id?: string
+          maintenance_date?: string
+          maintenance_type?: string
+          next_maintenance_date?: string | null
+          notes?: string | null
+          performed_by?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "equipment_maintenance_equipment_id_fkey"
+            columns: ["equipment_id"]
+            isOneToOne: false
+            referencedRelation: "equipment"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       hazardous_waste: {
         Row: {
           created_at: string

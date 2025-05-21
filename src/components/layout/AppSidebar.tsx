@@ -1,7 +1,8 @@
+
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
-import { BarChart, Box, Calendar, CheckSquare, ClipboardList, Database, Home, PackageOpen, Settings, Users, Link, Palette, ShieldCheck, CheckCircle } from "lucide-react";
+import { BarChart, Box, Calendar, CheckSquare, ClipboardList, Database, Home, PackageOpen, Settings, Users, Link, Palette, ShieldCheck, CheckCircle, Archive } from "lucide-react";
 
 export function AppSidebar() {
   const {
@@ -13,7 +14,7 @@ export function AppSidebar() {
   
   const mainItems = [{
     title: "Dashboard",
-    url: "/dashboard",  // Changed from "/" to "/dashboard" to correctly point to dashboard
+    url: "/dashboard",
     icon: Home,
     color: "bg-accent/90"
   }, {
@@ -40,6 +41,11 @@ export function AppSidebar() {
     title: "Inventory",
     url: "/inventory",
     icon: Database,
+    color: "bg-accent/90"
+  }, {
+    title: "Equipment",
+    url: "/equipment",
+    icon: Archive,
     color: "bg-accent/90"
   }, {
     title: "Quality Control",

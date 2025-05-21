@@ -31,6 +31,7 @@ import WoodworkingFinishing from "./pages/WoodworkingFinishing";
 import AutoBodyFinishing from "./pages/AutoBodyFinishing";
 import NotFound from "./pages/NotFound";
 import DailyTasks from "./pages/DailyTasks";
+import Equipment from "./pages/equipment";
 import { initializeApp } from "./utils/initializeApp";
 import Index from "./pages/Index";
 import TestingPlan from "./pages/TestingPlan";
@@ -76,6 +77,7 @@ const App = () => {
                     <Route path="workflows" element={<Workflows />} />
                     <Route path="materials" element={<Materials />} />
                     <Route path="inventory" element={<Inventory />} />
+                    <Route path="equipment" element={<Equipment />} />
                     <Route path="quality" element={<Quality />} />
                     <Route path="compliance" element={<Compliance />} />
                     <Route path="schedule" element={<Schedule />} />
