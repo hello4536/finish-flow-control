@@ -11,7 +11,7 @@ const SubscriptionWarning: React.FC<SubscriptionWarningProps> = ({
   const navigate = useNavigate();
   if (!show) return null;
   return <Card className="border-purple-600 mb-6 bg-transparent">
-      <CardContent className="pt-6 bg-blue-100">
+      <CardContent className="pt-6 bg-blue-100 rounded-lg">
         <div className="flex items-start flex-col md:flex-row">
           <div className="mr-4 flex h-10 w-10 items-center justify-center rounded-full bg-amber-100">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-600">
