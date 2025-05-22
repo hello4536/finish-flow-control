@@ -24,7 +24,7 @@ const UsersHeader: React.FC<UsersHeaderProps> = ({
         </div>
         
         {/* Add User Button */}
-        {isAdmin && <Button className="gap-1" onClick={openInviteDialog}>
+        {isAdmin && <Button onClick={openInviteDialog} className="gap-1 bg-purple-600 hover:bg-purple-500">
             <UserPlus className="h-4 w-4" />
             <span className="hidden sm:inline">Invite User</span>
           </Button>}
