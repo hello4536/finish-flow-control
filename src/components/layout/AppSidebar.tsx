@@ -105,7 +105,7 @@ export function AppSidebar() {
       isActive: boolean;
     }) => {
       // Base classes with white fill, navy text and orange border
-      const baseClasses = "flex items-center rounded-md transition-colors p-2 bg-white text-primary border border-accent";
+      const baseClasses = "flex items-center rounded-md transition-colors p-2 bg-white text-primary border border-purple-600";
 
       // Active state with light blue background and navy text
       if (isActive) {
