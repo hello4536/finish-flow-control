@@ -48,12 +48,12 @@ const AssignmentsList: React.FC = () => {
             <TableCaption>A list of all equipment assignments.</TableCaption>
             <TableHeader>
               <TableRow>
-                <TableHead className="bg-sky-50">Equipment</TableHead>
-                <TableHead className="bg-sky-50">Assigned To</TableHead>
-                <TableHead className="bg-sky-50">Date Assigned</TableHead>
-                <TableHead className="bg-sky-50">Return Date</TableHead>
-                <TableHead className="bg-sky-50">Status</TableHead>
-                <TableHead className="text-right bg-sky-50">Actions</TableHead>
+                <TableHead className="bg-sky-100">Equipment</TableHead>
+                <TableHead className="bg-sky-100">Assigned To</TableHead>
+                <TableHead className="bg-sky-100">Date Assigned</TableHead>
+                <TableHead className="bg-sky-100">Return Date</TableHead>
+                <TableHead className="bg-sky-100">Status</TableHead>
+                <TableHead className="text-right bg-sky-100">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
