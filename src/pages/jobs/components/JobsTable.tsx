@@ -26,14 +26,14 @@ const JobsTable: React.FC = () => {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px] bg-sky-50 rounded-sm">Job ID</TableHead>
-            <TableHead>Name</TableHead>
-            <TableHead>Current Step</TableHead>
-            <TableHead>Trade</TableHead>
-            <TableHead>Assigned To</TableHead>
-            <TableHead>Due Date</TableHead>
-            <TableHead className="w-[100px]">Status</TableHead>
-            <TableHead className="text-right">Actions</TableHead>
+            <TableHead className="w-[100px] rounded-sm bg-purple-100">Job ID</TableHead>
+            <TableHead className="bg-purple-100">Name</TableHead>
+            <TableHead className="bg-purple-100">Current Step</TableHead>
+            <TableHead className="bg-purple-100">Trade</TableHead>
+            <TableHead className="bg-purple-100">Assigned To</TableHead>
+            <TableHead className="bg-purple-100">Due Date</TableHead>
+            <TableHead className="w-[100px] bg-purple-100">Status</TableHead>
+            <TableHead className="text-right bg-purple-100">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
