@@ -136,7 +136,7 @@ const Resources = () => {
         <TabsContent value="reimbursements" className="mt-6">
           <Card>
             <CardHeader>
-              <CardTitle>Reimbursements</CardTitle>
+              <CardTitle className="text-blue-600">Reimbursements</CardTitle>
               <CardDescription>Track and manage employee reimbursement requests</CardDescription>
             </CardHeader>
             <CardContent>
