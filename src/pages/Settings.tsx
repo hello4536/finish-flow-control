@@ -315,7 +315,7 @@ export default function Settings() {
         <TabsContent value="security">
           <Card>
             <CardHeader>
-              <CardTitle>Security</CardTitle>
+              <CardTitle className="text-blue-600">Security</CardTitle>
               <CardDescription>
                 Manage your security settings and preferences.
               </CardDescription>
@@ -331,7 +331,7 @@ export default function Settings() {
                             <FormLabel className="text-base">
                               Two-Factor Authentication
                             </FormLabel>
-                            <Badge variant="outline" className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100">
+                            <Badge variant="outline" className="bg-orange-100 text-orange-600 hover:bg-orange-100">
                               Recommended
                             </Badge>
                           </div>
