@@ -8,7 +8,7 @@ const LogoLink: React.FC = () => {
       <img 
         src="/lovable-uploads/a1f0f208-8d98-4c76-bf9a-d97b8ee7ffea.png" 
         alt="Finivo Logo" 
-        className="h-8"
+        className="h-16"
       />
     </Link>
   );
