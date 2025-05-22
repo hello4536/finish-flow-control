@@ -22,8 +22,8 @@ const ReimbursementSummaryCards = () => {
                 {formatCurrency(getTotalByStatus('pending'))}
               </h3>
             </div>
-            <div className="p-2 bg-yellow-100 rounded-full">
-              <CalendarIcon className="h-5 w-5 text-yellow-600 bg-orange-50" />
+            <div className="p-2 rounded-full bg-orange-500">
+              <CalendarIcon className="h-5 w-5 text-white bg-orange-500" />
             </div>
           </div>
         </CardContent>
