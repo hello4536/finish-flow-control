@@ -8,11 +8,11 @@ const Footer = () => {
       <div className="container px-4 md:px-6 py-12 mx-auto">
         <div className="grid gap-8 lg:grid-cols-3">
           <div>
-            <Link to="/" className="flex items-center gap-2 mb-4">
+            <Link to="/" className="flex items-center gap-2 mb-4 h-16 overflow-visible">
               <img 
                 src="/lovable-uploads/831be762-1da7-4615-9dac-d59cc2386de3.png" 
                 alt="Finivo Logo" 
-                className="h-16"
+                className="h-20 object-contain -my-2" /* Increased to h-20 (80px) with negative margins */
               />
             </Link>
             <p className="text-sm mb-4 text-gray-600">
