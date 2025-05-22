@@ -59,14 +59,14 @@ const InventoryTable: React.FC<InventoryTableProps> = ({
           <TableHead className="w-12 bg-sky-100">
             <Checkbox id="select-all" checked={selectedItems.length === items.length && items.length > 0} onCheckedChange={handleSelectAll} className="text-white bg-white" />
           </TableHead>
-          <TableHead>Product Name</TableHead>
-          <TableHead>SKU</TableHead>
-          <TableHead>Category / Type</TableHead>
-          <TableHead>Brand</TableHead>
-          <TableHead className="text-right">In Stock</TableHead>
-          <TableHead className="text-right">Available</TableHead>
-          <TableHead>Storage</TableHead>
-          <TableHead className="text-right">Actions</TableHead>
+          <TableHead className="bg-sky-100">Product Name</TableHead>
+          <TableHead className="bg-sky-100">SKU</TableHead>
+          <TableHead className="bg-sky-100">Category / Type</TableHead>
+          <TableHead className="bg-sky-100">Brand</TableHead>
+          <TableHead className="text-right bg-sky-100">In Stock</TableHead>
+          <TableHead className="text-right bg-sky-100">Available</TableHead>
+          <TableHead className="bg-sky-100">Storage</TableHead>
+          <TableHead className="text-right bg-sky-100">Actions</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
