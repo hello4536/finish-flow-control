@@ -112,7 +112,7 @@ const Resources = () => {
         <TabsContent value="vendors" className="mt-6">
           <Card>
             <CardHeader>
-              <CardTitle>Vendors</CardTitle>
+              <CardTitle className="text-blue-600">Vendors</CardTitle>
               <CardDescription>Manage your supplier and vendor contact information</CardDescription>
             </CardHeader>
             <CardContent>
