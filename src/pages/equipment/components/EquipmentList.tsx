@@ -63,12 +63,12 @@ const EquipmentList: React.FC = () => {
             <TableCaption>A list of all equipment.</TableCaption>
             <TableHeader>
               <TableRow>
-                <TableHead className="bg-sky-50">Name</TableHead>
-                <TableHead className="bg-sky-50">Type</TableHead>
-                <TableHead className="bg-sky-50">Brand/Model</TableHead>
-                <TableHead className="bg-sky-50">Status</TableHead>
-                <TableHead className="bg-sky-50">Condition</TableHead>
-                <TableHead className="text-right bg-sky-50">Actions</TableHead>
+                <TableHead className="bg-sky-100">Name</TableHead>
+                <TableHead className="bg-sky-100">Type</TableHead>
+                <TableHead className="bg-sky-100">Brand/Model</TableHead>
+                <TableHead className="bg-sky-100">Status</TableHead>
+                <TableHead className="bg-sky-100">Condition</TableHead>
+                <TableHead className="text-right bg-sky-100">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
