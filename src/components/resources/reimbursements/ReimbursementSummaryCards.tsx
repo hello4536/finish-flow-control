@@ -17,7 +17,7 @@ const ReimbursementSummaryCards = () => {
         <CardContent className="pt-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-orange-500">Pending</p>
+              <p className="text-sm text-orange-500 font-semibold">Pending</p>
               <h3 className="text-2xl font-bold text-orange-500">
                 {formatCurrency(getTotalByStatus('pending'))}
               </h3>
@@ -33,7 +33,7 @@ const ReimbursementSummaryCards = () => {
         <CardContent className="pt-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-muted-foreground">Approved</p>
+              <p className="text-sm text-blue-600 font-semibold">Approved</p>
               <h3 className="text-2xl font-bold text-blue-600">
                 {formatCurrency(getTotalByStatus('approved'))}
               </h3>
@@ -49,7 +49,7 @@ const ReimbursementSummaryCards = () => {
         <CardContent className="pt-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-muted-foreground">Paid</p>
+              <p className="text-sm text-green-600 font-semibold">Paid</p>
               <h3 className="text-2xl font-bold text-green-600">
                 {formatCurrency(getTotalByStatus('paid'))}
               </h3>
