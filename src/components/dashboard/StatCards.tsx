@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ClipboardList, Calendar, CheckSquare, PackageOpen } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/context/AuthContext";
+
 const StatCards: React.FC = () => {
   const {
     user
@@ -73,12 +74,13 @@ const StatCards: React.FC = () => {
   }, [user]);
 
   // Show loading skeletons if data is still being fetched
-  const renderStats = (value: number, loading: boolean) => {
+  const renderStats = (value: number, loading: boolean, isLowStock: boolean = false) => {
     if (loading) {
       return <div className="h-8 w-16 animate-pulse bg-muted rounded"></div>;
     }
-    return <div className="text-2xl font-bold text-blue-600 text-center">{value}</div>;
+    return <div className={`text-2xl font-bold ${isLowStock ? 'text-red-500' : 'text-blue-600'} text-center`}>{value}</div>;
   };
+
   return <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -125,7 +127,7 @@ const StatCards: React.FC = () => {
           <PackageOpen className="h-4 w-4 text-red-500" />
         </CardHeader>
         <CardContent>
-          {renderStats(stats.lowStockItems, stats.loading)}
+          {renderStats(stats.lowStockItems, stats.loading, true)}
           <p className="text-xs text-muted-foreground mt-1 text-center">
             Items to reorder
           </p>
@@ -133,4 +135,5 @@ const StatCards: React.FC = () => {
       </Card>
     </div>;
 };
+
 export default StatCards;
