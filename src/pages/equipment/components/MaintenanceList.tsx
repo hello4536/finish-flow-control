@@ -49,10 +49,10 @@ const MaintenanceList: React.FC = () => {
                 <TableHead className="bg-sky-100">Equipment</TableHead>
                 <TableHead className="bg-sky-100">Maintenance Type</TableHead>
                 <TableHead className="bg-sky-100">Performed By</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Next Maintenance</TableHead>
-                <TableHead>Cost</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead className="bg-sky-100">Date</TableHead>
+                <TableHead className="bg-sky-100">Next Maintenance</TableHead>
+                <TableHead className="bg-sky-100">Cost</TableHead>
+                <TableHead className="bg-sky-100">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
