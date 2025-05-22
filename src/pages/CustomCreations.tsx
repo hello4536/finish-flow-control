@@ -62,40 +62,40 @@ const CustomCreations = () => {
             <PaintBucket className="h-4 w-4 text-blue-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.paintColors}</div>
+            <div className="text-2xl font-bold text-blue-600">{stats.paintColors}</div>
             <p className="text-xs text-muted-foreground">Custom colors saved</p>
           </CardContent>
         </Card>
         
         <Card className={`cursor-pointer hover:border-primary/50 transition-all ${activeTab === "stains" ? "border-primary" : ""}`} onClick={() => setActiveTab("stains")}>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Stains</CardTitle>
-            <SwatchBook className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-blue-600">Stains</CardTitle>
+            <SwatchBook className="h-4 w-4 text-blue-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.stains}</div>
+            <div className="text-2xl font-bold text-blue-600">{stats.stains}</div>
             <p className="text-xs text-muted-foreground">Custom stains saved</p>
           </CardContent>
         </Card>
         
         <Card className={`cursor-pointer hover:border-primary/50 transition-all ${activeTab === "recipes" ? "border-primary" : ""}`} onClick={() => setActiveTab("recipes")}>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Recipes</CardTitle>
-            <Utensils className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-blue-600">Recipes</CardTitle>
+            <Utensils className="h-4 w-4 text-blue-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.recipes}</div>
+            <div className="text-2xl font-bold text-blue-600">{stats.recipes}</div>
             <p className="text-xs text-muted-foreground">Custom recipes saved</p>
           </CardContent>
         </Card>
         
         <Card className={`cursor-pointer hover:border-primary/50 transition-all ${activeTab === "bookmarks" ? "border-primary" : ""}`} onClick={() => setActiveTab("bookmarks")}>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Bookmarks</CardTitle>
-            <Bookmark className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-blue-600">Bookmarks</CardTitle>
+            <Bookmark className="h-4 w-4 text-blue-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.bookmarks}</div>
+            <div className="text-2xl font-bold text-blue-600">{stats.bookmarks}</div>
             <p className="text-xs text-muted-foreground">Reference items saved</p>
           </CardContent>
         </Card>
