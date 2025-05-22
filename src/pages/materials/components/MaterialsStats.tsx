@@ -26,7 +26,7 @@ const MaterialsStats: React.FC<MaterialsStatsProps> = ({
         </CardHeader>
         <CardContent className="pt-6">
           <p className="text-3xl font-bold">{totalMaterials}</p>
-          <p className="text-muted-foreground mt-1 text-base">Across {materialTypes} categories</p>
+          <p className="text-muted-foreground mt-1 text-lg">Across {materialTypes} categories</p>
         </CardContent>
       </Card>
       
@@ -39,7 +39,7 @@ const MaterialsStats: React.FC<MaterialsStatsProps> = ({
         </CardHeader>
         <CardContent className="pt-6">
           <p className="text-3xl font-bold">{lowStockCount}</p>
-          <p className="text-muted-foreground mt-1 text-base">Requiring reorder soon</p>
+          <p className="text-muted-foreground mt-1 text-lg">Requiring reorder soon</p>
         </CardContent>
       </Card>
 
