@@ -1,4 +1,3 @@
-
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
@@ -96,7 +95,7 @@ export function AppSidebar() {
   const isMainExpanded = mainItems.some(i => isActive(i.url));
   const isAdminExpanded = adminItems.some(i => isActive(i.url));
 
-  // Updated function to generate NavLink classes with new styling
+  // Updated function to generate NavLink classes with white fill, navy text, and orange border
   const getNavCls = (item: {
     color: string;
   }) => {
@@ -105,16 +104,16 @@ export function AppSidebar() {
     }: {
       isActive: boolean;
     }) => {
-      // Base classes with white border
-      const baseClasses = "flex items-center rounded-md transition-colors p-2 border border-purple-600";
+      // Base classes with white fill, navy text and orange border
+      const baseClasses = "flex items-center rounded-md transition-colors p-2 bg-white text-primary border border-purple-600";
 
-      // Active state with blue background and white text
+      // Active state with light blue background and navy text
       if (isActive) {
-        return `${baseClasses} bg-blue-600 text-white font-medium shadow-md`;
+        return `${baseClasses} bg-accent/10 text-primary font-medium shadow-md`;
       }
 
-      // Inactive state with hover effect in purple-200
-      return `${baseClasses} bg-white text-primary hover:bg-purple-200`;
+      // Inactive state with hover effect
+      return `${baseClasses} hover:bg-accent/5`;
     };
   };
   return <Sidebar className={`${collapsed ? "w-14" : "w-60"} bg-gradient-to-b from-primary to-primary/90 shadow-xl`} collapsible="icon">
