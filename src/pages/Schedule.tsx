@@ -79,7 +79,7 @@ const Schedule: React.FC = () => {
                   </div>
                   
                   {date && <div className="mt-6">
-                      <h3 className="text-xl font-medium mb-4">Events on {format(date, 'MMMM d, yyyy')}</h3>
+                      <h3 className="text-xl font-medium mb-4 text-blue-600">Events on {format(date, 'MMMM d, yyyy')}</h3>
                       <div className="space-y-3">
                         {getEventsForDate(date).length > 0 ? getEventsForDate(date).map(event => <ScheduleEventCard key={event.id} event={event} />) : <p className="text-muted-foreground py-8 text-center border rounded-md bg-slate-50">
                             No events scheduled for this day.

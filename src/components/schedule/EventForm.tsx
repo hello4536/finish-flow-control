@@ -128,7 +128,7 @@ const EventForm: React.FC<EventFormProps> = ({
             <Textarea id="description" value={description} onChange={e => setDescription(e.target.value)} placeholder="Add details about this event (optional)" rows={3} />
           </div>
           
-          <Button type="submit" className="w-full" disabled={addEvent.isPending}>
+          <Button type="submit" disabled={addEvent.isPending} className="w-full bg-blue-600 hover:bg-blue-500">
             {addEvent.isPending ? "Adding..." : "Add Event"}
           </Button>
         </form>
