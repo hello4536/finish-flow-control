@@ -100,7 +100,7 @@ const Resources = () => {
         <TabsContent value="notes" className="mt-6">
           <Card>
             <CardHeader>
-              <CardTitle>Notes</CardTitle>
+              <CardTitle className="text-blue-600">Notes</CardTitle>
               <CardDescription>Keep track of important information</CardDescription>
             </CardHeader>
             <CardContent>
