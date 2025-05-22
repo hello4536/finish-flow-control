@@ -1,9 +1,7 @@
-
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import { BarChart, Box, Calendar, CheckSquare, ClipboardList, Database, Home, PackageOpen, Settings, Users, Link, Palette, ShieldCheck, CheckCircle, Archive } from "lucide-react";
-
 export function AppSidebar() {
   const {
     state
@@ -11,7 +9,6 @@ export function AppSidebar() {
   const collapsed = state === "collapsed";
   const location = useLocation();
   const currentPath = location.pathname;
-  
   const mainItems = [{
     title: "Dashboard",
     url: "/dashboard",
@@ -73,7 +70,6 @@ export function AppSidebar() {
     icon: Link,
     color: "bg-accent/90"
   }];
-  
   const adminItems = [{
     title: "Reports",
     url: "/reports",
@@ -90,14 +86,12 @@ export function AppSidebar() {
     icon: Settings,
     color: "bg-accent/90"
   }];
-  
   const isActive = (path: string) => {
     // Root path should only be active if exact match
     if (path === "/dashboard") return currentPath === path;
     // Other paths active if they begin with the path
     return currentPath.startsWith(path);
   };
-  
   const isMainExpanded = mainItems.some(i => isActive(i.url));
   const isAdminExpanded = adminItems.some(i => isActive(i.url));
 
@@ -122,18 +116,13 @@ export function AppSidebar() {
       return `${baseClasses} hover:bg-accent/5`;
     };
   };
-  
   return <Sidebar className={`${collapsed ? "w-14" : "w-60"} bg-gradient-to-b from-primary to-primary/90 shadow-xl`} collapsible="icon">
       <SidebarTrigger className="m-2 self-end text-white hover:bg-primary/70" />
-      <div className="flex items-center justify-center border-b border-white/10 py-[10px] my-[20px] bg-blue-900">
-        {!collapsed ? <h1 className="text-xl font-bold text-white">
-            Fini<span className="text-accent">v</span>i
-          </h1> : <span className="text-xl font-bold text-accent">F</span>}
-      </div>
+      
 
       <SidebarContent className="bg-sky-50">
         <SidebarGroup>
-          <SidebarGroupLabel className="text-accent font-semibold uppercase tracking-wider text-xs">
+          <SidebarGroupLabel className="text-purple-700 font-semibold uppercase tracking-wider text-xs py-0 my-[20px]">
             Main
           </SidebarGroupLabel>
 
@@ -152,7 +141,7 @@ export function AppSidebar() {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel className="text-accent font-semibold uppercase tracking-wider text-xs">
+          <SidebarGroupLabel className="text-purple-700 font-semibold uppercase tracking-wider text-xs">
             Administration
           </SidebarGroupLabel>
 
