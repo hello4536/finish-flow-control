@@ -15,7 +15,7 @@ const EmployeeTasks: React.FC = () => {
   } = useAuth();
   return <Card className="lg:col-span-4">
       <CardHeader>
-        <CardTitle className="text-violet-700">Employee Tasks</CardTitle>
+        <CardTitle className="text-purple-700">Employee Tasks</CardTitle>
         <CardDescription>
           Today's assigned tasks and status
         </CardDescription>
