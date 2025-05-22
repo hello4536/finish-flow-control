@@ -340,7 +340,7 @@ export default function Settings() {
                           </FormDescription>
                         </div>
                         <FormControl>
-                          <Switch checked={field.value} onCheckedChange={field.onChange} />
+                          <Switch checked={field.value} onCheckedChange={field.onChange} className="bg-blue-600 hover:bg-blue-500" />
                         </FormControl>
                       </FormItem>} />
 
@@ -414,7 +414,7 @@ export default function Settings() {
                         <FormMessage />
                       </FormItem>} />
 
-                  <Button type="submit" className="flex items-center gap-2">
+                  <Button type="submit" className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500">
                     <ShieldCheck className="h-4 w-4" />
                     Save Security Settings
                   </Button>
