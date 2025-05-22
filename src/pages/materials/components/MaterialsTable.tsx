@@ -36,8 +36,8 @@ const MaterialsTable: React.FC<MaterialsTableProps> = ({
           <TableHead className="bg-sky-100">Type</TableHead>
           <TableHead className="bg-sky-100">Quantity</TableHead>
           <TableHead className="bg-sky-100">Status</TableHead>
-          <TableHead className="bg-blue-100">Safety</TableHead>
-          <TableHead className="text-right bg-blue-100">Actions</TableHead>
+          <TableHead className="bg-sky-100">Safety</TableHead>
+          <TableHead className="text-right bg-sky-100">Actions</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
