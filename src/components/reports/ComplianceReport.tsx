@@ -183,7 +183,7 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <h3 className="font-medium mb-2">PPE Compliance by Department</h3>
+          <h3 className="font-medium mb-2 text-blue-600 text-center">PPE Compliance by Department</h3>
           <div className="h-[300px] border rounded-md p-4 bg-white">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={departmentData} margin={{
@@ -216,7 +216,7 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <h3 className="font-medium mb-2">PPE Status</h3>
+            <h3 className="font-medium mb-2 text-blue-600 text-center">PPE Status</h3>
             <div className="h-[300px] border rounded-md p-4 bg-white">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
@@ -234,7 +234,7 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
           </div>
           
           <div>
-            <h3 className="font-medium mb-2">Waste Status</h3>
+            <h3 className="font-medium mb-2 text-center text-blue-600">Waste Status</h3>
             <div className="h-[300px] border rounded-md p-4 bg-white">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
@@ -254,7 +254,7 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
       </div>
       
       {detailed && <>
-          <h3 className="font-medium mt-6 mb-2">Department Compliance Breakdown</h3>
+          <h3 className="font-medium mt-6 mb-2 text-blue-600">Department Compliance Breakdown</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {departmentData.map((dept, index) => <div key={dept.department} className="border rounded-md p-4 bg-white">
                 <h4 className="font-medium">{dept.department}</h4>
