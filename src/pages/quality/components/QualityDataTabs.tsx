@@ -18,7 +18,7 @@ const QualityDataTabs: React.FC<QualityDataTabsProps> = ({
       <CardContent className="p-0">
         <Tabs defaultValue="inspections" className="w-full">
           <TabsList className="w-full justify-start rounded-b-none rounded-t-lg border-b p-0">
-            <TabsTrigger value="inspections" className="rounded-t-lg rounded-b-none py-3 px-6 data-[state=active]:border-b-2 data-[state=active]:border-blue-600 text-blue-600 bg-sky-100">
+            <TabsTrigger value="inspections" className="rounded-t-lg rounded-b-none py-3 px-6 data-[state=active]:border-b-2 data-[state=active]:border-blue-600 text-blue-600 bg-zinc-300 hover:bg-zinc-200">
               Quality Inspections
             </TabsTrigger>
           </TabsList>
