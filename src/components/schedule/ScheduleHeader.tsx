@@ -30,7 +30,7 @@ const ScheduleHeader: React.FC<ScheduleHeaderProps> = ({
         </Card>
         
         <Card>
-          <CardContent className="pt-6 bg-blue-100">
+          <CardContent className="pt-6 rounded-sm bg-blue-100">
             <div className="flex justify-between items-center">
               <div>
                 <p className="text-sm font-medium text-blue-600">Upcoming Meetings</p>
