@@ -16,7 +16,7 @@ const JobsStats: React.FC = () => {
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm font-medium text-blue-600">In Progress</p>
-            <p className="text-2xl font-bold">{stats.inProgress}</p>
+            <p className="text-2xl font-bold text-blue-600">{stats.inProgress}</p>
           </div>
           <div className="rounded-full p-2 bg-sky-100">
             <Clock className="h-5 w-5 text-blue-600" />
@@ -28,7 +28,7 @@ const JobsStats: React.FC = () => {
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm font-medium text-red-500">Overdue</p>
-            <p className="text-2xl font-bold">{stats.overdue}</p>
+            <p className="text-2xl font-bold text-red-500">{stats.overdue}</p>
           </div>
           <div className="rounded-full bg-red-100 p-2">
             <AlertTriangle className="h-5 w-5 text-red-600" />
@@ -40,7 +40,7 @@ const JobsStats: React.FC = () => {
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm font-medium text-green-500">Completed</p>
-            <p className="text-2xl font-bold">{stats.completed}</p>
+            <p className="text-2xl font-bold text-green-500">{stats.completed}</p>
           </div>
           <div className="rounded-full bg-green-100 p-2">
             <CheckCircle className="h-5 w-5 text-green-600" />
@@ -52,7 +52,7 @@ const JobsStats: React.FC = () => {
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm font-medium text-orange-500">Upcoming</p>
-            <p className="text-2xl font-bold">{stats.upcoming}</p>
+            <p className="text-2xl font-bold text-orange-500">{stats.upcoming}</p>
           </div>
           <div className="rounded-full bg-amber-100 p-2">
             <CalendarClock className="h-5 w-5 text-orange-500" />
