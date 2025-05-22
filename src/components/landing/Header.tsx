@@ -23,9 +23,11 @@ const Header: React.FC = () => {
     <header className="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <Link to="/" className="flex items-center">
-          <h1 className="text-2xl font-bold text-blue-500">
-            Fini<span className="text-blue-500">v</span>i
-          </h1>
+          <img 
+            src="/lovable-uploads/a1f0f208-8d98-4c76-bf9a-d97b8ee7ffea.png" 
+            alt="Finivo Logo" 
+            className="h-8"
+          />
         </Link>
         
         {/* Desktop Navigation */}

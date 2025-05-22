@@ -9,7 +9,11 @@ const Footer = () => {
         <div className="grid gap-8 lg:grid-cols-3">
           <div>
             <Link to="/" className="flex items-center gap-2 mb-4">
-              <div className="text-xl font-bold text-blue-500">Fini<span className="text-blue-500">v</span>i</div>
+              <img 
+                src="/lovable-uploads/a1f0f208-8d98-4c76-bf9a-d97b8ee7ffea.png" 
+                alt="Finivo Logo" 
+                className="h-8"
+              />
             </Link>
             <p className="text-sm mb-4 text-gray-600">
               Comprehensive finishing department management platform for modern businesses.

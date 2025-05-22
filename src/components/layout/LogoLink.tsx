@@ -5,9 +5,11 @@ import { Link } from "react-router-dom";
 const LogoLink: React.FC = () => {
   return (
     <Link to="/dashboard" className="flex items-center">
-      <h1 className="text-xl font-bold text-blue-900">
-        Fini<span className="text-accent">v</span>i
-      </h1>
+      <img 
+        src="/lovable-uploads/a1f0f208-8d98-4c76-bf9a-d97b8ee7ffea.png" 
+        alt="Finivo Logo" 
+        className="h-8"
+      />
     </Link>
   );
 };
