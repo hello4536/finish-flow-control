@@ -7,6 +7,7 @@ import NotesSection from '@/components/resources/NotesSection';
 import VendorsSection from '@/components/resources/VendorsSection';
 import ReceiptsSection from '@/components/resources/ReceiptsSection';
 import ReimbursementsSection from '@/components/resources/ReimbursementsSection';
+
 const Resources = () => {
   // Resource counts for badges
   const [counts, setCounts] = useState({
@@ -66,7 +67,7 @@ const Resources = () => {
               </span>}
           </TabsTrigger>
           <TabsTrigger value="reimbursements" className="relative">
-            Reimburse
+            Reimbursements
             {counts.reimbursements > 0 && <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 {counts.reimbursements}
               </span>}
