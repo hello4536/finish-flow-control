@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
@@ -17,15 +16,14 @@ import BasicInfoTab from "./form-sections/BasicInfoTab";
 import ColorValuesTab from "./form-sections/ColorValuesTab";
 import ApplicationTab from "./form-sections/ApplicationTab";
 import EnvironmentTab from "./form-sections/EnvironmentTab";
-
 interface PaintColorFormProps {
   addPaintColor: UseMutationResult<any, Error, Omit<PaintColor, 'id' | 'created_at' | 'updated_at'>, unknown>;
 }
-
-const PaintColorForm: React.FC<PaintColorFormProps> = ({ addPaintColor }) => {
+const PaintColorForm: React.FC<PaintColorFormProps> = ({
+  addPaintColor
+}) => {
   const [swatchImage, setSwatchImage] = useState<File | null>(null);
   const [uploadingImage, setUploadingImage] = useState(false);
-
   const form = useForm<PaintColorFormValues>({
     resolver: zodResolver(paintColorSchema),
     defaultValues: {
@@ -44,7 +42,6 @@ const PaintColorForm: React.FC<PaintColorFormProps> = ({ addPaintColor }) => {
       notes: ""
     }
   });
-
   const uploadImage = async () => {
     if (!swatchImage) return null;
     setUploadingImage(true);
@@ -52,9 +49,13 @@ const PaintColorForm: React.FC<PaintColorFormProps> = ({ addPaintColor }) => {
       const fileExt = swatchImage.name.split('.').pop();
       const fileName = `${Math.random().toString(36).substring(2)}.${fileExt}`;
       const filePath = `color-swatches/${fileName}`;
-      const { error } = await supabase.storage.from('paint_colors').upload(filePath, swatchImage);
+      const {
+        error
+      } = await supabase.storage.from('paint_colors').upload(filePath, swatchImage);
       if (error) throw error;
-      const { data } = supabase.storage.from('paint_colors').getPublicUrl(filePath);
+      const {
+        data
+      } = supabase.storage.from('paint_colors').getPublicUrl(filePath);
       return data.publicUrl;
     } catch (error) {
       console.error('Error uploading image:', error);
@@ -68,7 +69,6 @@ const PaintColorForm: React.FC<PaintColorFormProps> = ({ addPaintColor }) => {
       setUploadingImage(false);
     }
   };
-
   const onSubmit = async (values: PaintColorFormValues) => {
     let imageUrl = null;
     if (swatchImage) {
@@ -104,7 +104,6 @@ const PaintColorForm: React.FC<PaintColorFormProps> = ({ addPaintColor }) => {
       }
     });
   };
-
   const handleImageChange = (file: File | null) => {
     if (file) {
       if (file.type === "image/png" || file.type === "image/jpeg") {
@@ -118,9 +117,7 @@ const PaintColorForm: React.FC<PaintColorFormProps> = ({ addPaintColor }) => {
       }
     }
   };
-
-  return (
-    <Form {...form}>
+  return <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <TabsContent value="basic" className="space-y-4">
           <BasicInfoTab form={form} />
@@ -131,11 +128,7 @@ const PaintColorForm: React.FC<PaintColorFormProps> = ({ addPaintColor }) => {
         </TabsContent>
         
         <TabsContent value="application" className="space-y-4">
-          <ApplicationTab 
-            form={form} 
-            swatchImage={swatchImage}
-            onImageChange={handleImageChange}
-          />
+          <ApplicationTab form={form} swatchImage={swatchImage} onImageChange={handleImageChange} />
         </TabsContent>
         
         <TabsContent value="environment" className="space-y-4">
@@ -144,26 +137,16 @@ const PaintColorForm: React.FC<PaintColorFormProps> = ({ addPaintColor }) => {
         
         <Separator className="my-4" />
         
-        <Button 
-          type="submit" 
-          disabled={addPaintColor.isPending || uploadingImage}
-          className="w-full sm:w-auto"
-        >
-          {addPaintColor.isPending || uploadingImage ? (
-            <>
+        <Button type="submit" disabled={addPaintColor.isPending || uploadingImage} className="w-full sm:w-auto bg-blue-600 hover:bg-blue-500">
+          {addPaintColor.isPending || uploadingImage ? <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               Saving...
-            </>
-          ) : (
-            <>
+            </> : <>
               <Plus className="mr-2 h-4 w-4" />
               Save Paint Color
-            </>
-          )}
+            </>}
         </Button>
       </form>
-    </Form>
-  );
+    </Form>;
 };
-
 export default PaintColorForm;
