@@ -1,25 +1,11 @@
-
 import React from 'react';
-import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  Legend, 
-  ResponsiveContainer, 
-  PieChart, 
-  Pie, 
-  Cell
-} from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { HazardousWaste, PPERequirement } from '@/types/quality';
 import { Skeleton } from '@/components/ui/skeleton';
 import { DateRange } from '@/hooks/useReportsData';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { AlertTriangle, CheckSquare, ShieldAlert } from 'lucide-react';
-
 interface ComplianceReportProps {
   dateRange: DateRange;
   hazardousWaste: HazardousWaste[];
@@ -35,7 +21,6 @@ interface DepartmentComplianceData {
   compliant: number;
   complianceRate: number; // Add this property to fix the TypeScript errors
 }
-
 export const ComplianceReport: React.FC<ComplianceReportProps> = ({
   dateRange,
   hazardousWaste,
@@ -44,44 +29,50 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
   detailed = false
 }) => {
   if (isLoading) {
-    return (
-      <div className="space-y-3">
+    return <div className="space-y-3">
         <Skeleton className="h-[20px] w-[250px]" />
         <Skeleton className="h-[300px] w-full" />
-      </div>
-    );
+      </div>;
   }
-  
+
   // Calculate compliance statistics
   const totalPPE = ppeRequirements.length;
   const compliantPPE = ppeRequirements.filter(ppe => ppe.status === 'Compliant').length;
   const nonCompliantPPE = ppeRequirements.filter(ppe => ppe.status === 'Non-Compliant').length;
   const pendingPPE = totalPPE - compliantPPE - nonCompliantPPE;
-  
   const pendingWaste = hazardousWaste.filter(waste => waste.status === 'Pending').length;
   const inProgressWaste = hazardousWaste.filter(waste => waste.status === 'In Progress').length;
   const disposedWaste = hazardousWaste.filter(waste => waste.status === 'Disposed').length;
-  
+
   // Prepare data for charts
-  const ppeStatusData = [
-    { name: 'Compliant', value: compliantPPE },
-    { name: 'Non-Compliant', value: nonCompliantPPE },
-    { name: 'Pending Review', value: pendingPPE }
-  ];
-  
-  const wasteStatusData = [
-    { name: 'Pending', value: pendingWaste },
-    { name: 'In Progress', value: inProgressWaste },
-    { name: 'Disposed', value: disposedWaste }
-  ];
-  
+  const ppeStatusData = [{
+    name: 'Compliant',
+    value: compliantPPE
+  }, {
+    name: 'Non-Compliant',
+    value: nonCompliantPPE
+  }, {
+    name: 'Pending Review',
+    value: pendingPPE
+  }];
+  const wasteStatusData = [{
+    name: 'Pending',
+    value: pendingWaste
+  }, {
+    name: 'In Progress',
+    value: inProgressWaste
+  }, {
+    name: 'Disposed',
+    value: disposedWaste
+  }];
+
   // Create department data with the proper type
   const departmentData: DepartmentComplianceData[] = ppeRequirements.reduce<DepartmentComplianceData[]>((acc, curr) => {
     const existing = acc.find(item => item.department === curr.department);
     if (existing) {
       existing.total += 1;
       if (curr.status === 'Compliant') existing.compliant += 1;
-      existing.complianceRate = Math.round((existing.compliant / existing.total) * 100);
+      existing.complianceRate = Math.round(existing.compliant / existing.total * 100);
     } else {
       const compliant = curr.status === 'Compliant' ? 1 : 0;
       acc.push({
@@ -93,38 +84,33 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
     }
     return acc;
   }, []);
-  
+
   // Calculate upcoming inspections
   const today = new Date();
   const thirtyDaysFromNow = new Date();
   thirtyDaysFromNow.setDate(today.getDate() + 30);
-  
   const upcomingInspections = ppeRequirements.filter(ppe => {
     const nextInspection = new Date(ppe.next_inspection);
     return nextInspection <= thirtyDaysFromNow && nextInspection >= today;
   }).length;
-  
   const upcomingDisposals = hazardousWaste.filter(waste => {
     const disposalDate = new Date(waste.disposal_date);
     return disposalDate <= thirtyDaysFromNow && disposalDate >= today && waste.status !== 'Disposed';
   }).length;
-  
+
   // Colors for charts
   const COLORS = ['#22c55e', '#ef4444', '#f59e0b', '#3b82f6'];
   const COMPLIANCE_COLORS = ['#dcfce7', '#fee2e2', '#fef3c7', '#dbeafe'];
-  
-  return (
-    <div className="space-y-6">
-      {detailed && (
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+  return <div className="space-y-6">
+      {detailed && <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-lg">PPE Compliance</CardTitle>
+              <CardTitle className="text-lg text-blue-600">PPE Compliance</CardTitle>
               <CardDescription>Required equipment status</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold">
-                {Math.round((compliantPPE / totalPPE) * 100)}%
+                {Math.round(compliantPPE / totalPPE * 100)}%
               </div>
               <div className="text-sm text-muted-foreground">
                 {compliantPPE} of {totalPPE} requirements met
@@ -134,7 +120,7 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
           
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-lg">Waste Management</CardTitle>
+              <CardTitle className="text-lg text-blue-600">Waste Management</CardTitle>
               <CardDescription>Disposal status</CardDescription>
             </CardHeader>
             <CardContent>
@@ -143,7 +129,7 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
                   {pendingWaste}
                 </div>
                 <div className="text-sm text-amber-600">
-                  <Badge variant="outline" className="bg-amber-50 text-amber-700 hover:bg-amber-50">
+                  <Badge variant="outline" className="bg-orange-500 text-white hover:bg-orange-500">
                     Pending
                   </Badge>
                 </div>
@@ -156,7 +142,7 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
           
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-lg">Upcoming Inspections</CardTitle>
+              <CardTitle className="text-lg text-blue-600">Upcoming Inspections</CardTitle>
               <CardDescription>Next 30 days</CardDescription>
             </CardHeader>
             <CardContent>
@@ -176,7 +162,7 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
           
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-lg">Upcoming Disposals</CardTitle>
+              <CardTitle className="text-lg text-blue-600">Upcoming Disposals</CardTitle>
               <CardDescription>Next 30 days</CardDescription>
             </CardHeader>
             <CardContent>
@@ -193,22 +179,31 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
               </div>
             </CardContent>
           </Card>
-        </div>
-      )}
+        </div>}
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <h3 className="font-medium mb-2">PPE Compliance by Department</h3>
           <div className="h-[300px] border rounded-md p-4 bg-white">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                data={departmentData}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-              >
+              <BarChart data={departmentData} margin={{
+              top: 5,
+              right: 30,
+              left: 20,
+              bottom: 5
+            }}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="department" />
-                <YAxis yAxisId="left" orientation="left" stroke="#8884d8" label={{ value: 'Count', angle: -90, position: 'insideLeft' }} />
-                <YAxis yAxisId="right" orientation="right" stroke="#82ca9d" label={{ value: 'Rate (%)', angle: 90, position: 'insideRight' }} />
+                <YAxis yAxisId="left" orientation="left" stroke="#8884d8" label={{
+                value: 'Count',
+                angle: -90,
+                position: 'insideLeft'
+              }} />
+                <YAxis yAxisId="right" orientation="right" stroke="#82ca9d" label={{
+                value: 'Rate (%)',
+                angle: 90,
+                position: 'insideRight'
+              }} />
                 <Tooltip />
                 <Legend />
                 <Bar yAxisId="left" dataKey="total" name="Total Requirements" fill="#8884d8" />
@@ -225,19 +220,11 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
             <div className="h-[300px] border rounded-md p-4 bg-white">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
-                  <Pie
-                    data={ppeStatusData}
-                    cx="50%"
-                    cy="50%"
-                    labelLine={false}
-                    outerRadius={80}
-                    fill="#8884d8"
-                    dataKey="value"
-                    label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                  >
-                    {ppeStatusData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                    ))}
+                  <Pie data={ppeStatusData} cx="50%" cy="50%" labelLine={false} outerRadius={80} fill="#8884d8" dataKey="value" label={({
+                  name,
+                  percent
+                }) => `${name}: ${(percent * 100).toFixed(0)}%`}>
+                    {ppeStatusData.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />)}
                   </Pie>
                   <Tooltip />
                   <Legend />
@@ -251,19 +238,11 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
             <div className="h-[300px] border rounded-md p-4 bg-white">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
-                  <Pie
-                    data={wasteStatusData}
-                    cx="50%"
-                    cy="50%"
-                    labelLine={false}
-                    outerRadius={80}
-                    fill="#8884d8"
-                    dataKey="value"
-                    label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                  >
-                    {wasteStatusData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                    ))}
+                  <Pie data={wasteStatusData} cx="50%" cy="50%" labelLine={false} outerRadius={80} fill="#8884d8" dataKey="value" label={({
+                  name,
+                  percent
+                }) => `${name}: ${(percent * 100).toFixed(0)}%`}>
+                    {wasteStatusData.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />)}
                   </Pie>
                   <Tooltip />
                   <Legend />
@@ -274,12 +253,10 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
         </div>
       </div>
       
-      {detailed && (
-        <>
+      {detailed && <>
           <h3 className="font-medium mt-6 mb-2">Department Compliance Breakdown</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {departmentData.map((dept, index) => (
-              <div key={dept.department} className="border rounded-md p-4 bg-white">
+            {departmentData.map((dept, index) => <div key={dept.department} className="border rounded-md p-4 bg-white">
                 <h4 className="font-medium">{dept.department}</h4>
                 <div className="mt-2 flex items-end">
                   <span className="text-2xl font-bold">{dept.complianceRate}%</span>
@@ -287,26 +264,16 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
                 </div>
                 <div className="mt-2">
                   <div className="w-full bg-gray-200 rounded-full h-2.5">
-                    <div
-                      className={`h-2.5 rounded-full ${
-                        dept.complianceRate > 80
-                          ? "bg-green-500"
-                          : dept.complianceRate > 50
-                          ? "bg-yellow-500"
-                          : "bg-red-500"
-                      }`}
-                      style={{ width: `${dept.complianceRate}%` }}
-                    ></div>
+                    <div className={`h-2.5 rounded-full ${dept.complianceRate > 80 ? "bg-green-500" : dept.complianceRate > 50 ? "bg-yellow-500" : "bg-red-500"}`} style={{
+                width: `${dept.complianceRate}%`
+              }}></div>
                   </div>
                 </div>
                 <div className="mt-2 text-sm text-gray-500">
                   {dept.compliant} of {dept.total} requirements met
                 </div>
-              </div>
-            ))}
+              </div>)}
           </div>
-        </>
-      )}
-    </div>
-  );
+        </>}
+    </div>;
 };

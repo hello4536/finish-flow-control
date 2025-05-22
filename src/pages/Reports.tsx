@@ -147,7 +147,7 @@ const Reports = () => {
         <TabsContent value="efficiency" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Efficiency Analysis</CardTitle>
+              <CardTitle className="text-blue-600">Efficiency Analysis</CardTitle>
               <CardDescription>Detailed efficiency metrics and utilization rates</CardDescription>
             </CardHeader>
             <CardContent className="pt-2">
@@ -159,7 +159,7 @@ const Reports = () => {
         <TabsContent value="compliance" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Compliance Analysis</CardTitle>
+              <CardTitle className="text-blue-600">Compliance Analysis</CardTitle>
               <CardDescription>PPE requirements and hazardous waste management</CardDescription>
             </CardHeader>
             <CardContent className="pt-2">
