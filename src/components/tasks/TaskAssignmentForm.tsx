@@ -59,7 +59,7 @@ const TaskAssignmentForm: React.FC<TaskAssignmentFormProps> = ({
         <TaskDueTimeField form={form} />
         
         <div className="pt-2">
-          <Button type="submit" className="w-full text-slate-50 bg-purple-600 hover:bg-purple-500">
+          <Button type="submit" className="w-full text-slate-50 bg-blue-600 hover:bg-blue-500">
             Assign Task
           </Button>
         </div>
