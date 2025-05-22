@@ -17,11 +17,11 @@ const EquipmentHeader = () => {
         </p>
       </div>
       <div className="flex items-center gap-2">
-        <Button variant="outline" size="sm">
+        <Button variant="outline" size="sm" className="text-purple-600">
           <FileText className="mr-2 h-4 w-4" />
           Generate Report
         </Button>
-        <Button variant="outline" size="sm">
+        <Button variant="outline" size="sm" className="text-purple-600">
           <Download className="mr-2 h-4 w-4" />
           Export Data
         </Button>
