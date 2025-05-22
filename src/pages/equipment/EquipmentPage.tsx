@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
@@ -7,23 +6,17 @@ import AssignmentsList from './components/AssignmentsList';
 import MaintenanceList from './components/MaintenanceList';
 import EquipmentStats from './components/EquipmentStats';
 import EquipmentHeader from './components/EquipmentHeader';
-
 const EquipmentPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState('equipment');
-  const { toast } = useToast();
-
-  return (
-    <div className="space-y-6">
+  const {
+    toast
+  } = useToast();
+  return <div className="space-y-6">
       <EquipmentHeader />
       <EquipmentStats />
       
-      <Tabs
-        defaultValue="equipment"
-        value={activeTab}
-        onValueChange={setActiveTab}
-        className="space-y-4"
-      >
-        <TabsList className="bg-white">
+      <Tabs defaultValue="equipment" value={activeTab} onValueChange={setActiveTab} className="space-y-4">
+        <TabsList className="bg-sky-50">
           <TabsTrigger value="equipment">Equipment</TabsTrigger>
           <TabsTrigger value="assignments">Assignments</TabsTrigger>
           <TabsTrigger value="maintenance">Maintenance</TabsTrigger>
@@ -41,8 +34,6 @@ const EquipmentPage: React.FC = () => {
           <MaintenanceList />
         </TabsContent>
       </Tabs>
-    </div>
-  );
+    </div>;
 };
-
 export default EquipmentPage;
