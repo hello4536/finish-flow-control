@@ -12,7 +12,7 @@ const WorkflowsHeader: React.FC<WorkflowsHeaderProps> = ({
   return <div className="flex justify-between items-center mb-6">
       <h1 className="text-3xl font-bold text-purple-600">Workflows</h1>
       <div className="flex gap-2">
-        <Button variant="outline" onClick={onImportClick} className="flex items-center gap-2">
+        <Button variant="outline" onClick={onImportClick} className="flex items-center gap-2 text-purple-600">
           <FileUp className="h-5 w-5" />
           Import
         </Button>
