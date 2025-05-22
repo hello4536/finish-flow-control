@@ -26,7 +26,7 @@ const JobsTable: React.FC = () => {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px]">Job ID</TableHead>
+            <TableHead className="w-[100px] bg-sky-50 rounded-sm">Job ID</TableHead>
             <TableHead>Name</TableHead>
             <TableHead>Current Step</TableHead>
             <TableHead>Trade</TableHead>
