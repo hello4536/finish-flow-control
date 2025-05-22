@@ -13,52 +13,48 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Bell, Globe, Lock, Mail, ShieldCheck, User } from "lucide-react";
-
 const profileFormSchema = z.object({
   name: z.string().min(2, {
-    message: "Name must be at least 2 characters.",
+    message: "Name must be at least 2 characters."
   }),
   email: z.string().email({
-    message: "Please enter a valid email address.",
+    message: "Please enter a valid email address."
   }),
   bio: z.string().max(160).optional(),
   jobTitle: z.string().max(50).optional(),
-  department: z.string().max(50).optional(),
+  department: z.string().max(50).optional()
 });
-
 const notificationsFormSchema = z.object({
   emailNotifications: z.boolean().default(true),
   pushNotifications: z.boolean().default(true),
   jobCompletionAlerts: z.boolean().default(true),
   materialAlerts: z.boolean().default(true),
-  weeklyReports: z.boolean().default(true),
+  weeklyReports: z.boolean().default(true)
 });
-
 const securityFormSchema = z.object({
   twoFactorAuth: z.boolean().default(false),
   loginMethod: z.enum(["password", "sso"], {
-    required_error: "You need to select a login method.",
+    required_error: "You need to select a login method."
   }),
   sessionTimeout: z.enum(["30min", "1hour", "4hours", "always"], {
-    required_error: "You need to select a session timeout.",
-  }),
+    required_error: "You need to select a session timeout."
+  })
 });
-
 const appearanceFormSchema = z.object({
   language: z.enum(["en", "es", "fr"], {
-    required_error: "Please select a language.",
+    required_error: "Please select a language."
   }),
-  compactMode: z.boolean().default(false),
+  compactMode: z.boolean().default(false)
 });
-
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 type NotificationsFormValues = z.infer<typeof notificationsFormSchema>;
 type SecurityFormValues = z.infer<typeof securityFormSchema>;
 type AppearanceFormValues = z.infer<typeof appearanceFormSchema>;
-
 export default function Settings() {
   const [activeTab, setActiveTab] = useState("profile");
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
 
   // Profile form
   const profileForm = useForm<ProfileFormValues>({
@@ -68,8 +64,8 @@ export default function Settings() {
       email: "john.smith@finishflow.com",
       bio: "Production Manager with 10 years of experience in manufacturing operations.",
       jobTitle: "Production Manager",
-      department: "Manufacturing",
-    },
+      department: "Manufacturing"
+    }
   });
 
   // Notifications form
@@ -80,8 +76,8 @@ export default function Settings() {
       pushNotifications: true,
       jobCompletionAlerts: true,
       materialAlerts: true,
-      weeklyReports: true,
-    },
+      weeklyReports: true
+    }
   });
 
   // Security form
@@ -90,8 +86,8 @@ export default function Settings() {
     defaultValues: {
       twoFactorAuth: false,
       loginMethod: "password",
-      sessionTimeout: "1hour",
-    },
+      sessionTimeout: "1hour"
+    }
   });
 
   // Appearance form with theme removed
@@ -99,45 +95,39 @@ export default function Settings() {
     resolver: zodResolver(appearanceFormSchema),
     defaultValues: {
       language: "en",
-      compactMode: false,
-    },
+      compactMode: false
+    }
   });
-
   function onProfileSubmit(data: ProfileFormValues) {
     toast({
       title: "Profile updated",
-      description: "Your profile information has been updated successfully.",
+      description: "Your profile information has been updated successfully."
     });
     console.log(data);
   }
-
   function onNotificationsSubmit(data: NotificationsFormValues) {
     toast({
       title: "Notification preferences updated",
-      description: "Your notification settings have been saved.",
+      description: "Your notification settings have been saved."
     });
     console.log(data);
   }
-
   function onSecuritySubmit(data: SecurityFormValues) {
     toast({
       title: "Security settings updated",
-      description: "Your security preferences have been saved.",
+      description: "Your security preferences have been saved."
     });
     console.log(data);
   }
-
   function onAppearanceSubmit(data: AppearanceFormValues) {
     toast({
       title: "Appearance settings updated",
-      description: "Your display preferences have been saved.",
+      description: "Your display preferences have been saved."
     });
     console.log(data);
   }
-
-  return (
-    <div className="container mx-auto py-6">
-      <h1 className="text-3xl font-bold mb-6">Settings</h1>
+  return <div className="container mx-auto py-6">
+      <h1 className="text-3xl font-bold mb-6 text-purple-600">Settings</h1>
       
       <Tabs defaultValue="profile" onValueChange={setActiveTab} value={activeTab}>
         <TabsList className="grid grid-cols-4 w-full max-w-4xl mb-8">
@@ -162,7 +152,7 @@ export default function Settings() {
         <TabsContent value="profile">
           <Card>
             <CardHeader>
-              <CardTitle>Profile</CardTitle>
+              <CardTitle className="text-blue-600">Profile</CardTitle>
               <CardDescription>
                 Manage your personal information and preferences.
               </CardDescription>
@@ -171,80 +161,56 @@ export default function Settings() {
               <Form {...profileForm}>
                 <form onSubmit={profileForm.handleSubmit(onProfileSubmit)} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <FormField
-                      control={profileForm.control}
-                      name="name"
-                      render={({ field }) => (
-                        <FormItem>
+                    <FormField control={profileForm.control} name="name" render={({
+                    field
+                  }) => <FormItem>
                           <FormLabel>Full Name</FormLabel>
                           <FormControl>
                             <Input {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={profileForm.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem>
+                        </FormItem>} />
+                    <FormField control={profileForm.control} name="email" render={({
+                    field
+                  }) => <FormItem>
                           <FormLabel>Email</FormLabel>
                           <FormControl>
                             <Input {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={profileForm.control}
-                      name="jobTitle"
-                      render={({ field }) => (
-                        <FormItem>
+                        </FormItem>} />
+                    <FormField control={profileForm.control} name="jobTitle" render={({
+                    field
+                  }) => <FormItem>
                           <FormLabel>Job Title</FormLabel>
                           <FormControl>
                             <Input {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={profileForm.control}
-                      name="department"
-                      render={({ field }) => (
-                        <FormItem>
+                        </FormItem>} />
+                    <FormField control={profileForm.control} name="department" render={({
+                    field
+                  }) => <FormItem>
                           <FormLabel>Department</FormLabel>
                           <FormControl>
                             <Input {...field} />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
-                  <FormField
-                    control={profileForm.control}
-                    name="bio"
-                    render={({ field }) => (
-                      <FormItem>
+                  <FormField control={profileForm.control} name="bio" render={({
+                  field
+                }) => <FormItem>
                         <FormLabel>Bio</FormLabel>
                         <FormControl>
-                          <Textarea
-                            placeholder="Tell us about yourself"
-                            className="resize-none"
-                            {...field}
-                          />
+                          <Textarea placeholder="Tell us about yourself" className="resize-none" {...field} />
                         </FormControl>
                         <FormDescription>
                           Brief description for your profile.
                         </FormDescription>
                         <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <Button type="submit">Save Profile</Button>
+                      </FormItem>} />
+                  <Button type="submit" className="bg-blue-600 hover:bg-blue-500">Save Profile</Button>
                 </form>
               </Form>
             </CardContent>
@@ -254,7 +220,7 @@ export default function Settings() {
         <TabsContent value="notifications">
           <Card>
             <CardHeader>
-              <CardTitle>Notifications</CardTitle>
+              <CardTitle className="text-blue-600">Notifications</CardTitle>
               <CardDescription>
                 Configure how you receive notifications and alerts.
               </CardDescription>
@@ -263,11 +229,9 @@ export default function Settings() {
               <Form {...notificationsForm}>
                 <form onSubmit={notificationsForm.handleSubmit(onNotificationsSubmit)} className="space-y-6">
                   <div className="space-y-4">
-                    <FormField
-                      control={notificationsForm.control}
-                      name="emailNotifications"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                    <FormField control={notificationsForm.control} name="emailNotifications" render={({
+                    field
+                  }) => <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                           <div className="space-y-0.5">
                             <FormLabel className="text-base">
                               Email Notifications
@@ -277,19 +241,12 @@ export default function Settings() {
                             </FormDescription>
                           </div>
                           <FormControl>
-                            <Switch
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Switch checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={notificationsForm.control}
-                      name="pushNotifications"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                        </FormItem>} />
+                    <FormField control={notificationsForm.control} name="pushNotifications" render={({
+                    field
+                  }) => <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                           <div className="space-y-0.5">
                             <FormLabel className="text-base">
                               Push Notifications
@@ -299,19 +256,12 @@ export default function Settings() {
                             </FormDescription>
                           </div>
                           <FormControl>
-                            <Switch
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Switch checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={notificationsForm.control}
-                      name="jobCompletionAlerts"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                        </FormItem>} />
+                    <FormField control={notificationsForm.control} name="jobCompletionAlerts" render={({
+                    field
+                  }) => <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                           <div className="space-y-0.5">
                             <FormLabel className="text-base">
                               Job Completion Alerts
@@ -321,19 +271,12 @@ export default function Settings() {
                             </FormDescription>
                           </div>
                           <FormControl>
-                            <Switch
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Switch checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={notificationsForm.control}
-                      name="materialAlerts"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                        </FormItem>} />
+                    <FormField control={notificationsForm.control} name="materialAlerts" render={({
+                    field
+                  }) => <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                           <div className="space-y-0.5">
                             <FormLabel className="text-base">
                               Material Alerts
@@ -343,19 +286,12 @@ export default function Settings() {
                             </FormDescription>
                           </div>
                           <FormControl>
-                            <Switch
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Switch checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={notificationsForm.control}
-                      name="weeklyReports"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                        </FormItem>} />
+                    <FormField control={notificationsForm.control} name="weeklyReports" render={({
+                    field
+                  }) => <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                           <div className="space-y-0.5">
                             <FormLabel className="text-base">
                               Weekly Reports
@@ -365,14 +301,9 @@ export default function Settings() {
                             </FormDescription>
                           </div>
                           <FormControl>
-                            <Switch
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Switch checked={field.value} onCheckedChange={field.onChange} />
                           </FormControl>
-                        </FormItem>
-                      )}
-                    />
+                        </FormItem>} />
                   </div>
                   <Button type="submit">Save Notification Settings</Button>
                 </form>
@@ -392,11 +323,9 @@ export default function Settings() {
             <CardContent>
               <Form {...securityForm}>
                 <form onSubmit={securityForm.handleSubmit(onSecuritySubmit)} className="space-y-6">
-                  <FormField
-                    control={securityForm.control}
-                    name="twoFactorAuth"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                  <FormField control={securityForm.control} name="twoFactorAuth" render={({
+                  field
+                }) => <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                         <div className="space-y-0.5">
                           <div className="flex items-center gap-2">
                             <FormLabel className="text-base">
@@ -411,27 +340,16 @@ export default function Settings() {
                           </FormDescription>
                         </div>
                         <FormControl>
-                          <Switch
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                          />
+                          <Switch checked={field.value} onCheckedChange={field.onChange} />
                         </FormControl>
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
 
-                  <FormField
-                    control={securityForm.control}
-                    name="loginMethod"
-                    render={({ field }) => (
-                      <FormItem className="space-y-3">
+                  <FormField control={securityForm.control} name="loginMethod" render={({
+                  field
+                }) => <FormItem className="space-y-3">
                         <FormLabel>Login Method</FormLabel>
                         <FormControl>
-                          <RadioGroup
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                            className="flex flex-col space-y-1"
-                          >
+                          <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex flex-col space-y-1">
                             <FormItem className="flex items-center space-x-3 space-y-0">
                               <FormControl>
                                 <RadioGroupItem value="password" />
@@ -451,22 +369,14 @@ export default function Settings() {
                           </RadioGroup>
                         </FormControl>
                         <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
 
-                  <FormField
-                    control={securityForm.control}
-                    name="sessionTimeout"
-                    render={({ field }) => (
-                      <FormItem className="space-y-3">
+                  <FormField control={securityForm.control} name="sessionTimeout" render={({
+                  field
+                }) => <FormItem className="space-y-3">
                         <FormLabel>Session Timeout</FormLabel>
                         <FormControl>
-                          <RadioGroup
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                            className="flex flex-col space-y-1"
-                          >
+                          <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex flex-col space-y-1">
                             <FormItem className="flex items-center space-x-3 space-y-0">
                               <FormControl>
                                 <RadioGroupItem value="30min" />
@@ -502,9 +412,7 @@ export default function Settings() {
                           </RadioGroup>
                         </FormControl>
                         <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
 
                   <Button type="submit" className="flex items-center gap-2">
                     <ShieldCheck className="h-4 w-4" />
@@ -535,18 +443,12 @@ export default function Settings() {
             <CardContent>
               <Form {...appearanceForm}>
                 <form onSubmit={appearanceForm.handleSubmit(onAppearanceSubmit)} className="space-y-6">
-                  <FormField
-                    control={appearanceForm.control}
-                    name="language"
-                    render={({ field }) => (
-                      <FormItem className="space-y-3">
+                  <FormField control={appearanceForm.control} name="language" render={({
+                  field
+                }) => <FormItem className="space-y-3">
                         <FormLabel>Language</FormLabel>
                         <FormControl>
-                          <RadioGroup
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                            className="flex flex-row space-x-4"
-                          >
+                          <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex flex-row space-x-4">
                             <FormItem className="flex items-center space-x-2 space-y-0">
                               <FormControl>
                                 <RadioGroupItem value="en" />
@@ -574,15 +476,11 @@ export default function Settings() {
                           </RadioGroup>
                         </FormControl>
                         <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
 
-                  <FormField
-                    control={appearanceForm.control}
-                    name="compactMode"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                  <FormField control={appearanceForm.control} name="compactMode" render={({
+                  field
+                }) => <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                         <div className="space-y-0.5">
                           <FormLabel className="text-base">
                             Compact Mode
@@ -592,14 +490,9 @@ export default function Settings() {
                           </FormDescription>
                         </div>
                         <FormControl>
-                          <Switch
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                          />
+                          <Switch checked={field.value} onCheckedChange={field.onChange} />
                         </FormControl>
-                      </FormItem>
-                    )}
-                  />
+                      </FormItem>} />
 
                   <Button type="submit">Save Appearance Settings</Button>
                 </form>
@@ -608,6 +501,5 @@ export default function Settings() {
           </Card>
         </TabsContent>
       </Tabs>
-    </div>
-  );
+    </div>;
 }
