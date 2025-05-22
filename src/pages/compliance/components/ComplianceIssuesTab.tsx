@@ -41,8 +41,8 @@ const ComplianceIssuesTab: React.FC<ComplianceIssuesTabProps> = ({
   };
   return <>
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-medium">Compliance Issues</h3>
-        <Button onClick={handleExport} variant="outline">Export Data</Button>
+        <h3 className="text-lg font-medium text-blue-600">Compliance Issues</h3>
+        <Button onClick={handleExport} variant="outline" className="text-blue-600">Export Data</Button>
       </div>
       {isLoading ? <div className="flex justify-center p-8">
           <p>Loading compliance issue data...</p>
