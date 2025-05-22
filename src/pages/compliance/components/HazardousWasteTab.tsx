@@ -45,23 +45,23 @@ const HazardousWasteTab: React.FC<HazardousWasteTabProps> = ({
   const filteredWaste = filterStatus ? hazardousWaste.filter(item => item.status === filterStatus) : hazardousWaste;
   return <>
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-medium">Hazardous Waste Management</h3>
+        <h3 className="text-lg font-medium text-blue-600">Hazardous Waste Management</h3>
         <div className="flex gap-2">
           <div className="flex gap-1">
-            <Button onClick={() => setFilterStatus(null)} variant={filterStatus === null ? "default" : "outline"} size="sm">
+            <Button onClick={() => setFilterStatus(null)} variant={filterStatus === null ? "default" : "outline"} size="sm" className="bg-blue-600 hover:bg-blue-500">
               All
             </Button>
-            <Button onClick={() => setFilterStatus("Pending")} variant={filterStatus === "Pending" ? "default" : "outline"} size="sm">
+            <Button onClick={() => setFilterStatus("Pending")} variant={filterStatus === "Pending" ? "default" : "outline"} size="sm" className="text-white bg-blue-600 hover:bg-blue-500">
               Pending
             </Button>
-            <Button onClick={() => setFilterStatus("In Progress")} variant={filterStatus === "In Progress" ? "default" : "outline"} size="sm">
+            <Button onClick={() => setFilterStatus("In Progress")} variant={filterStatus === "In Progress" ? "default" : "outline"} size="sm" className="text-white bg-blue-600 hover:bg-blue-500">
               In Progress
             </Button>
-            <Button onClick={() => setFilterStatus("Disposed")} variant={filterStatus === "Disposed" ? "default" : "outline"} size="sm">
+            <Button onClick={() => setFilterStatus("Disposed")} variant={filterStatus === "Disposed" ? "default" : "outline"} size="sm" className="text-white bg-blue-600 hover:bg-blue-500">
               Disposed
             </Button>
           </div>
-          <Button onClick={handleExport} variant="outline" size="sm" className="flex gap-1">
+          <Button onClick={handleExport} variant="outline" size="sm" className="flex gap-1 text-blue-600">
             <Download className="h-4 w-4" />
             Export
           </Button>
@@ -115,7 +115,7 @@ const HazardousWasteTab: React.FC<HazardousWasteTabProps> = ({
           </Table>
         </div>}
       <div className="mt-4">
-        <h4 className="font-medium mb-2">Upcoming Disposals</h4>
+        <h4 className="font-medium mb-2 text-blue-600">Upcoming Disposals</h4>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {hazardousWaste.filter(w => w.status === 'Pending').slice(0, 3).map(waste => <div key={`upcoming-${waste.id}`} className="border rounded-md p-3 bg-yellow-50">
                 <div className="flex items-center gap-2 font-medium text-sm">
