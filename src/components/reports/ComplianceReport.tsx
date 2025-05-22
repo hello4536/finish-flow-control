@@ -151,7 +151,7 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
                   {upcomingInspections}
                 </div>
                 <div className="text-sm">
-                  <CheckSquare className="h-5 w-5 text-blue-600" />
+                  <CheckSquare className="h-6 w-6 text-blue-600" />
                 </div>
               </div>
               <div className="text-sm text-muted-foreground">
@@ -171,7 +171,7 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
                   {upcomingDisposals}
                 </div>
                 <div className="text-sm">
-                  <ShieldAlert className="h-5 w-5 text-amber-600" />
+                  <ShieldAlert className="h-6 w-6 text-orange-500" />
                 </div>
               </div>
               <div className="text-sm text-muted-foreground">
