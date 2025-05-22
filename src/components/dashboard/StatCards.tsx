@@ -108,7 +108,7 @@ const StatCards: React.FC = () => {
       
       <Card>
         <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-sm font-medium text-orange-500">QC Pending</CardTitle>
+          <CardTitle className="text-sm font-medium text-sky-500">QC Pending</CardTitle>
           <CheckSquare className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
