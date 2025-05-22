@@ -121,10 +121,8 @@ export function AppSidebar() {
       
 
       <SidebarContent className="bg-sky-50">
-        <SidebarGroup>
-          <SidebarGroupLabel className="text-purple-700 font-semibold uppercase tracking-wider text-xs py-0 my-[20px]">
-            Main
-          </SidebarGroupLabel>
+        <SidebarGroup className="my-[20px]">
+          
 
           <SidebarGroupContent>
             <SidebarMenu>
