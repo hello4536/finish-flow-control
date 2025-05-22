@@ -34,7 +34,7 @@ const ScheduleHeader: React.FC<ScheduleHeaderProps> = ({
             <div className="flex justify-between items-center">
               <div>
                 <p className="text-sm font-medium text-blue-600">Upcoming Meetings</p>
-                <h3 className="text-3xl font-bold">{meetingCount}</h3>
+                <h3 className="text-3xl font-bold text-blue-600">{meetingCount}</h3>
               </div>
               <Clock className="h-8 w-8 text-blue-600" />
             </div>
@@ -46,7 +46,7 @@ const ScheduleHeader: React.FC<ScheduleHeaderProps> = ({
             <div className="flex justify-between items-center">
               <div>
                 <p className="text-sm font-medium text-blue-600">This Week</p>
-                <h3 className="text-3xl font-bold">{weeklyEventCount}</h3>
+                <h3 className="text-3xl font-bold text-blue-600">{weeklyEventCount}</h3>
               </div>
               <CalendarIcon className="h-8 w-8 text-blue-600" />
             </div>
