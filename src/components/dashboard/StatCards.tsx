@@ -3,7 +3,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ClipboardList, Calendar, CheckSquare, PackageOpen } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/context/AuthContext";
-
 const StatCards: React.FC = () => {
   const {
     user
@@ -88,7 +87,7 @@ const StatCards: React.FC = () => {
         </CardHeader>
         <CardContent>
           {renderStats(stats.activeJobs, stats.loading)}
-          <p className="text-xs text-muted-foreground mt-1">
+          <p className="text-xs text-muted-foreground mt-1 text-center">
             Ongoing projects
           </p>
         </CardContent>
@@ -101,7 +100,7 @@ const StatCards: React.FC = () => {
         </CardHeader>
         <CardContent>
           {renderStats(stats.jobsDueToday, stats.loading)}
-          <p className="text-xs text-muted-foreground mt-1">
+          <p className="text-xs text-muted-foreground mt-1 text-center">
             Deadlines today
           </p>
         </CardContent>
@@ -109,12 +108,12 @@ const StatCards: React.FC = () => {
       
       <Card>
         <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="font-medium text-base text-blue-600">QC Pending</CardTitle>
+          <CardTitle className="font-medium text-base text-blue-600 text-left">QC Pending</CardTitle>
           <CheckSquare className="h-4 w-4 text-blue-600" />
         </CardHeader>
         <CardContent>
           {renderStats(stats.qcPending, stats.loading)}
-          <p className="text-xs text-muted-foreground mt-1">
+          <p className="text-xs text-muted-foreground mt-1 text-center">
             Awaiting inspection
           </p>
         </CardContent>
@@ -122,17 +121,16 @@ const StatCards: React.FC = () => {
       
       <Card>
         <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="font-medium text-red-500 text-base">Low Stock</CardTitle>
+          <CardTitle className="font-medium text-red-500 text-base text-left">Low Stock</CardTitle>
           <PackageOpen className="h-4 w-4 text-red-500" />
         </CardHeader>
         <CardContent>
           {renderStats(stats.lowStockItems, stats.loading)}
-          <p className="text-xs text-muted-foreground mt-1">
+          <p className="text-xs text-muted-foreground mt-1 text-center">
             Items to reorder
           </p>
         </CardContent>
       </Card>
     </div>;
 };
-
 export default StatCards;
