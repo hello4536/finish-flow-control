@@ -1,15 +1,13 @@
-
 import React from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuth } from "@/context/AuthContext";
-
 const ActivityFeed: React.FC = () => {
-  const { user } = useAuth();
-  
-  return (
-    <Card className="lg:col-span-3">
+  const {
+    user
+  } = useAuth();
+  return <Card className="lg:col-span-3">
       <CardHeader>
-        <CardTitle>Recent Activity</CardTitle>
+        <CardTitle className="text-violet-700">Recent Activity</CardTitle>
         <CardDescription>
           Latest actions from your team
         </CardDescription>
@@ -19,8 +17,6 @@ const ActivityFeed: React.FC = () => {
           <p className="text-muted-foreground">No recent activity to display</p>
         </div>
       </CardContent>
-    </Card>
-  );
+    </Card>;
 };
-
 export default ActivityFeed;
