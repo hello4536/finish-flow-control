@@ -27,7 +27,7 @@ const Resources = () => {
   };
   return <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Resources</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-purple-600">Resources</h1>
         <p className="text-muted-foreground mt-1">
           Save and organize your important resources in one place
         </p>
@@ -76,7 +76,7 @@ const Resources = () => {
         <TabsContent value="links" className="mt-6">
           <Card>
             <CardHeader>
-              <CardTitle>Links</CardTitle>
+              <CardTitle className="text-blue-600">Links</CardTitle>
               <CardDescription>Save important URLs and website links</CardDescription>
             </CardHeader>
             <CardContent>
