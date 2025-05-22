@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
 import { Menu, X } from "lucide-react";
+
 const Header: React.FC = () => {
   const {
     user,
@@ -11,17 +12,24 @@ const Header: React.FC = () => {
   } = useAuth();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  
   const handleSignOut = async () => {
     await signOut();
     navigate("/");
   };
+  
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
+  
   return <header className="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <Link to="/" className="flex items-center">
-          <img src="/lovable-uploads/a1f0f208-8d98-4c76-bf9a-d97b8ee7ffea.png" alt="Finivo Logo" className="h-16 object-contain" />
+          <img 
+            src="/lovable-uploads/831be762-1da7-4615-9dac-d59cc2386de3.png" 
+            alt="Finivo Logo" 
+            className="h-16 object-contain" 
+          />
         </Link>
         
         {/* Desktop Navigation */}
@@ -131,4 +139,5 @@ const Header: React.FC = () => {
         </div>}
     </header>;
 };
+
 export default Header;
