@@ -25,7 +25,7 @@ const JobsHeader: React.FC = () => {
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input placeholder="Search jobs..." className="pl-8 w-full sm:w-[250px]" />
         </div>
-        <Button onClick={handleAddNew} className="flex items-center gap-2 text-purple-700 text-sm font-semibold bg-sky-300 hover:bg-sky-300">
+        <Button onClick={handleAddNew} className="flex items-center gap-2 text-sm font-semibold text-slate-50 bg-purple-600 hover:bg-purple-500">
           <Plus className="h-4 w-4" />
           Add New Job
         </Button>
