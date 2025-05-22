@@ -123,7 +123,7 @@ const Reports = () => {
         <TabsContent value="production" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Production Details</CardTitle>
+              <CardTitle className="text-blue-600">Production Details</CardTitle>
               <CardDescription>Comprehensive production metrics</CardDescription>
             </CardHeader>
             <CardContent className="pt-2">
@@ -135,7 +135,7 @@ const Reports = () => {
         <TabsContent value="quality" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Quality Analysis</CardTitle>
+              <CardTitle className="text-blue-600">Quality Analysis</CardTitle>
               <CardDescription>Detailed quality metrics and defect tracking</CardDescription>
             </CardHeader>
             <CardContent className="pt-2">
