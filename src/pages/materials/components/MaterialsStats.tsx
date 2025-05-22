@@ -25,33 +25,33 @@ const MaterialsStats: React.FC<MaterialsStatsProps> = ({
           </CardTitle>
         </CardHeader>
         <CardContent className="pt-6">
-          <p className="text-3xl font-bold text-center">{totalMaterials}</p>
+          <p className="text-3xl font-bold text-center text-blue-600">{totalMaterials}</p>
           <p className="text-muted-foreground mt-1 text-lg text-center">Across {materialTypes} categories</p>
         </CardContent>
       </Card>
       
       <Card className="card-hover">
         <CardHeader className="pb-2 bg-orange-500">
-          <CardTitle className="flex items-center text-slate-50 text-lg">
-            <PackageOpen className="mr-2 h-5 w-5 text-slate-50" />
+          <CardTitle className="flex items-center text-lg text-white">
+            <PackageOpen className="mr-2 h-5 w-5 text-white" />
             Low Stock Items
           </CardTitle>
         </CardHeader>
         <CardContent className="pt-6">
-          <p className="text-3xl font-bold text-center">{lowStockCount}</p>
+          <p className="text-3xl font-bold text-center text-orange-500">{lowStockCount}</p>
           <p className="text-muted-foreground mt-1 text-lg text-center">Requiring reorder soon</p>
         </CardContent>
       </Card>
 
       <Card className="card-hover">
         <CardHeader className="pb-2 bg-amber-500">
-          <CardTitle className="flex items-center text-slate-50 text-lg">
-            <AlertTriangle className="mr-2 h-5 w-5 text-slate-50" />
+          <CardTitle className="flex items-center text-white text-lg">
+            <AlertTriangle className="mr-2 h-5 w-5 text-white" />
             Hazardous Materials
           </CardTitle>
         </CardHeader>
         <CardContent className="pt-6">
-          <p className="text-3xl font-bold text-center">{hazardousCount}</p>
+          <p className="text-3xl font-bold text-center text-amber-500">{hazardousCount}</p>
           <p className="text-muted-foreground mt-1 text-center text-sm font-medium">
             {missingSdsCount > 0 && `${missingSdsCount} missing SDS`}
             {missingSdsCount === 0 && 'All documentation complete'}
@@ -60,14 +60,14 @@ const MaterialsStats: React.FC<MaterialsStatsProps> = ({
       </Card>
       
       <Card className="card-hover">
-        <CardHeader className="pb-2 bg-green-200">
-          <CardTitle className="flex items-center text-green-700 text-lg">
-            <Users className="mr-2 h-5 w-5 text-green-700" />
+        <CardHeader className="pb-2 bg-green-500">
+          <CardTitle className="flex items-center text-white text-lg">
+            <Users className="mr-2 h-5 w-5 text-white" />
             Suppliers
           </CardTitle>
         </CardHeader>
         <CardContent className="pt-6">
-          <p className="text-3xl font-bold text-center">{suppliers.length}</p>
+          <p className="text-3xl font-bold text-center text-green-500">{suppliers.length}</p>
           <p className="text-muted-foreground mt-1 text-lg text-center">Active material providers</p>
         </CardContent>
       </Card>
