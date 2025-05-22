@@ -82,8 +82,8 @@ const StatCards: React.FC = () => {
   return <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-sm font-medium text-sky-500">Active Jobs</CardTitle>
-          <ClipboardList className="h-4 w-4 text-muted-foreground" />
+          <CardTitle className="font-medium text-sky-500 text-base">Active Jobs</CardTitle>
+          <ClipboardList className="h-4 w-4 text-sky-500" />
         </CardHeader>
         <CardContent>
           {renderStats(stats.activeJobs, stats.loading)}
@@ -95,8 +95,8 @@ const StatCards: React.FC = () => {
       
       <Card>
         <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-sm font-medium text-sky-500">Due Today</CardTitle>
-          <Calendar className="h-4 w-4 text-muted-foreground" />
+          <CardTitle className="font-medium text-sky-500 text-base">Due Today</CardTitle>
+          <Calendar className="h-4 w-4 text-sky-500" />
         </CardHeader>
         <CardContent>
           {renderStats(stats.jobsDueToday, stats.loading)}
@@ -108,8 +108,8 @@ const StatCards: React.FC = () => {
       
       <Card>
         <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-sm font-medium text-sky-500">QC Pending</CardTitle>
-          <CheckSquare className="h-4 w-4 text-muted-foreground" />
+          <CardTitle className="font-medium text-sky-500 text-base">QC Pending</CardTitle>
+          <CheckSquare className="h-4 w-4 text-sky-500" />
         </CardHeader>
         <CardContent>
           {renderStats(stats.qcPending, stats.loading)}
@@ -121,7 +121,7 @@ const StatCards: React.FC = () => {
       
       <Card>
         <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-sm font-medium text-red-500">Low Stock</CardTitle>
+          <CardTitle className="font-medium text-red-500 text-base">Low Stock</CardTitle>
           <PackageOpen className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
