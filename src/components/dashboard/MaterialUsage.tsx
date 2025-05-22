@@ -1,12 +1,9 @@
-
 import React from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-
 const MaterialUsage: React.FC = () => {
-  return (
-    <Card>
+  return <Card>
       <CardHeader>
-        <CardTitle>Material Usage</CardTitle>
+        <CardTitle className="text-purple-700">Material Usage</CardTitle>
         <CardDescription>Top materials used this week</CardDescription>
       </CardHeader>
       <CardContent>
@@ -14,8 +11,6 @@ const MaterialUsage: React.FC = () => {
           <p className="text-muted-foreground">No usage data available</p>
         </div>
       </CardContent>
-    </Card>
-  );
+    </Card>;
 };
-
 export default MaterialUsage;

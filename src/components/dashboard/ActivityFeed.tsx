@@ -7,7 +7,7 @@ const ActivityFeed: React.FC = () => {
   } = useAuth();
   return <Card className="lg:col-span-3">
       <CardHeader>
-        <CardTitle className="text-violet-700">Recent Activity</CardTitle>
+        <CardTitle className="text-purple-700">Recent Activity</CardTitle>
         <CardDescription>
           Latest actions from your team
         </CardDescription>

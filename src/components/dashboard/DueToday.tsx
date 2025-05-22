@@ -1,12 +1,9 @@
-
 import React from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-
 const DueToday: React.FC = () => {
-  return (
-    <Card className="col-span-2">
+  return <Card className="col-span-2">
       <CardHeader>
-        <CardTitle>Due Today</CardTitle>
+        <CardTitle className="text-purple-700">Due Today</CardTitle>
         <CardDescription>Items requiring attention today</CardDescription>
       </CardHeader>
       <CardContent>
@@ -14,8 +11,6 @@ const DueToday: React.FC = () => {
           <p className="text-muted-foreground">No items due today</p>
         </div>
       </CardContent>
-    </Card>
-  );
+    </Card>;
 };
-
 export default DueToday;
