@@ -77,7 +77,7 @@ const PPERequirementsTab: React.FC<PPERequirementsTabProps> = ({
               </SelectContent>
             </Select>
           </div>
-          <Button onClick={handleExport} variant="outline" size="sm" className="flex gap-1">
+          <Button onClick={handleExport} variant="outline" size="sm" className="flex gap-1 text-blue-600">
             <Download className="h-4 w-4" />
             Export
           </Button>
