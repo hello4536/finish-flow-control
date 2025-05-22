@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ClipboardList, Calendar, CheckSquare, PackageOpen } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/context/AuthContext";
+
 const StatCards: React.FC = () => {
   const {
     user
@@ -77,7 +78,7 @@ const StatCards: React.FC = () => {
     if (loading) {
       return <div className="h-8 w-16 animate-pulse bg-muted rounded"></div>;
     }
-    return <div className="text-2xl font-bold">{value}</div>;
+    return <div className="text-2xl font-bold text-blue-600 text-center">{value}</div>;
   };
   return <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       <Card>
@@ -133,4 +134,5 @@ const StatCards: React.FC = () => {
       </Card>
     </div>;
 };
+
 export default StatCards;
