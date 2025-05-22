@@ -25,8 +25,8 @@ const MaterialsStats: React.FC<MaterialsStatsProps> = ({
           </CardTitle>
         </CardHeader>
         <CardContent className="pt-6">
-          <p className="text-3xl font-bold">{totalMaterials}</p>
-          <p className="text-muted-foreground mt-1 text-lg">Across {materialTypes} categories</p>
+          <p className="text-3xl font-bold text-center">{totalMaterials}</p>
+          <p className="text-muted-foreground mt-1 text-lg text-center">Across {materialTypes} categories</p>
         </CardContent>
       </Card>
       
@@ -38,8 +38,8 @@ const MaterialsStats: React.FC<MaterialsStatsProps> = ({
           </CardTitle>
         </CardHeader>
         <CardContent className="pt-6">
-          <p className="text-3xl font-bold">{lowStockCount}</p>
-          <p className="text-muted-foreground mt-1 text-lg">Requiring reorder soon</p>
+          <p className="text-3xl font-bold text-center">{lowStockCount}</p>
+          <p className="text-muted-foreground mt-1 text-lg text-center">Requiring reorder soon</p>
         </CardContent>
       </Card>
 
@@ -51,8 +51,8 @@ const MaterialsStats: React.FC<MaterialsStatsProps> = ({
           </CardTitle>
         </CardHeader>
         <CardContent className="pt-6">
-          <p className="text-3xl font-bold">{hazardousCount}</p>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-3xl font-bold text-center">{hazardousCount}</p>
+          <p className="text-muted-foreground mt-1 text-center text-sm font-medium">
             {missingSdsCount > 0 && `${missingSdsCount} missing SDS`}
             {missingSdsCount === 0 && 'All documentation complete'}
           </p>
@@ -67,8 +67,8 @@ const MaterialsStats: React.FC<MaterialsStatsProps> = ({
           </CardTitle>
         </CardHeader>
         <CardContent className="pt-6">
-          <p className="text-3xl font-bold">{suppliers.length}</p>
-          <p className="text-sm text-muted-foreground mt-1">Active material providers</p>
+          <p className="text-3xl font-bold text-center">{suppliers.length}</p>
+          <p className="text-muted-foreground mt-1 text-lg text-center">Active material providers</p>
         </CardContent>
       </Card>
     </div>;
