@@ -13,8 +13,8 @@ const SubscriptionWarning: React.FC<SubscriptionWarningProps> = ({
   return <Card className="border-purple-600 mb-6 bg-transparent">
       <CardContent className="pt-6 bg-blue-100 rounded-lg">
         <div className="flex items-start flex-col md:flex-row">
-          <div className="mr-4 flex h-10 w-10 items-center justify-center rounded-full bg-amber-100">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-600">
+          <div className="mr-4 flex h-10 w-10 items-center justify-center rounded-full bg-white">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600">
               <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"></path>
               <line x1="12" y1="9" x2="12" y2="13"></line>
               <line x1="12" y1="17" x2="12.01" y2="17"></line>
