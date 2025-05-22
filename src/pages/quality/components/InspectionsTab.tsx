@@ -48,7 +48,7 @@ const InspectionsTab: React.FC<InspectionsTabProps> = ({
   };
   return <>
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-medium">Recent Quality Inspections</h3>
+        <h3 className="font-medium text-[finish-blue-600] text-blue-600">Recent Quality Inspections</h3>
         <Button onClick={handleExport} variant="outline">Export Data</Button>
       </div>
       {isLoading ? <div className="flex justify-center p-8">
