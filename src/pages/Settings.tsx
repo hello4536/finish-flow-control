@@ -241,7 +241,7 @@ export default function Settings() {
                             </FormDescription>
                           </div>
                           <FormControl>
-                            <Switch checked={field.value} onCheckedChange={field.onChange} />
+                            <Switch checked={field.value} onCheckedChange={field.onChange} className="bg-blue-600 hover:bg-blue-500" />
                           </FormControl>
                         </FormItem>} />
                     <FormField control={notificationsForm.control} name="pushNotifications" render={({
@@ -256,7 +256,7 @@ export default function Settings() {
                             </FormDescription>
                           </div>
                           <FormControl>
-                            <Switch checked={field.value} onCheckedChange={field.onChange} />
+                            <Switch checked={field.value} onCheckedChange={field.onChange} className="bg-blue-600 hover:bg-blue-500" />
                           </FormControl>
                         </FormItem>} />
                     <FormField control={notificationsForm.control} name="jobCompletionAlerts" render={({
@@ -271,7 +271,7 @@ export default function Settings() {
                             </FormDescription>
                           </div>
                           <FormControl>
-                            <Switch checked={field.value} onCheckedChange={field.onChange} />
+                            <Switch checked={field.value} onCheckedChange={field.onChange} className="bg-blue-600 hover:bg-blue-500" />
                           </FormControl>
                         </FormItem>} />
                     <FormField control={notificationsForm.control} name="materialAlerts" render={({
@@ -286,7 +286,7 @@ export default function Settings() {
                             </FormDescription>
                           </div>
                           <FormControl>
-                            <Switch checked={field.value} onCheckedChange={field.onChange} />
+                            <Switch checked={field.value} onCheckedChange={field.onChange} className="bg-blue-600 hover:bg-blue-500" />
                           </FormControl>
                         </FormItem>} />
                     <FormField control={notificationsForm.control} name="weeklyReports" render={({
@@ -301,11 +301,11 @@ export default function Settings() {
                             </FormDescription>
                           </div>
                           <FormControl>
-                            <Switch checked={field.value} onCheckedChange={field.onChange} />
+                            <Switch checked={field.value} onCheckedChange={field.onChange} className="bg-blue-600 hover:bg-blue-500" />
                           </FormControl>
                         </FormItem>} />
                   </div>
-                  <Button type="submit">Save Notification Settings</Button>
+                  <Button type="submit" className="bg-blue-600 hover:bg-blue-500">Save Notification Settings</Button>
                 </form>
               </Form>
             </CardContent>
