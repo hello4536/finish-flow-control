@@ -41,7 +41,7 @@ const CertificationsTab: React.FC<CertificationsTabProps> = ({
   };
   return <>
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-medium">Active Certifications</h3>
+        <h3 className="text-lg font-medium text-blue-600">Active Certifications</h3>
         <Button onClick={handleExport} variant="outline" className="text-blue-600">Export Data</Button>
       </div>
       {isLoading ? <div className="flex justify-center p-8">
