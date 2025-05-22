@@ -70,7 +70,7 @@ const InventoryPage: React.FC = () => {
       
       <div className="bg-white rounded-lg shadow-sm border p-6 mb-6">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-          <h2 className="text-xl font-semibold">Inventory Items</h2>
+          <h2 className="text-xl font-semibold text-blue-600">Inventory Items</h2>
           <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} filters={filters} setFilters={setFilters} />
         </div>
         
