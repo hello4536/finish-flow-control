@@ -19,7 +19,7 @@ const MaterialsStats: React.FC<MaterialsStatsProps> = ({
   return <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
       <Card className="card-hover rounded">
         <CardHeader className="pb-2 bg-sky-100">
-          <CardTitle className="flex items-center text-blue-600">
+          <CardTitle className="flex items-center text-blue-600 text-lg">
             <Box className="mr-2 h-5 w-5 text-blue-600" />
             Total Materials
           </CardTitle>
@@ -32,7 +32,7 @@ const MaterialsStats: React.FC<MaterialsStatsProps> = ({
       
       <Card className="card-hover">
         <CardHeader className="pb-2 bg-orange-500">
-          <CardTitle className="flex items-center text-slate-50">
+          <CardTitle className="flex items-center text-slate-50 text-lg">
             <PackageOpen className="mr-2 h-5 w-5 text-slate-50" />
             Low Stock Items
           </CardTitle>
@@ -45,7 +45,7 @@ const MaterialsStats: React.FC<MaterialsStatsProps> = ({
 
       <Card className="card-hover">
         <CardHeader className="pb-2 bg-amber-500">
-          <CardTitle className="flex items-center text-slate-50 text-base">
+          <CardTitle className="flex items-center text-slate-50 text-lg">
             <AlertTriangle className="mr-2 h-5 w-5 text-slate-50" />
             Hazardous Materials
           </CardTitle>
@@ -61,7 +61,7 @@ const MaterialsStats: React.FC<MaterialsStatsProps> = ({
       
       <Card className="card-hover">
         <CardHeader className="pb-2 bg-green-200">
-          <CardTitle className="flex items-center text-green-700">
+          <CardTitle className="flex items-center text-green-700 text-lg">
             <Users className="mr-2 h-5 w-5 text-green-700" />
             Suppliers
           </CardTitle>
