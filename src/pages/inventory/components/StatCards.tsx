@@ -24,7 +24,7 @@ const StatCards: React.FC<StatCardsProps> = ({
           <Package2 className="h-4 w-4 text-blue-600" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{totalProducts}</div>
+          <div className="text-2xl font-bold text-blue-600">{totalProducts}</div>
           <p className="text-xs text-muted-foreground mt-1">
             Items in inventory
           </p>
@@ -39,7 +39,7 @@ const StatCards: React.FC<StatCardsProps> = ({
           <Grid3X3 className="h-4 w-4 text-blue-600" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{categoryCount}</div>
+          <div className="text-2xl font-bold text-blue-600">{categoryCount}</div>
           <p className="text-xs text-muted-foreground mt-1">
             Unique product categories
           </p>
@@ -84,7 +84,7 @@ const StatCards: React.FC<StatCardsProps> = ({
           <Warehouse className="h-4 w-4 text-blue-600" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{warehouseCount}</div>
+          <div className="text-2xl font-bold text-blue-600">{warehouseCount}</div>
           <p className="text-xs text-muted-foreground mt-1">
             Storage locations
           </p>
