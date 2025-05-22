@@ -139,7 +139,7 @@ export function AppSidebar() {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel className="text-purple-700 font-semibold uppercase tracking-wider text-xs">
+          <SidebarGroupLabel className="text-purple-700 font-semibold uppercase tracking-wider text-xs px-[50px]">
             Administration
           </SidebarGroupLabel>
 
