@@ -18,13 +18,13 @@ const ScheduleHeader: React.FC<ScheduleHeaderProps> = ({
 
       <div className="grid gap-4 md:grid-cols-3">
         <Card className="bg-primary text-primary-foreground">
-          <CardContent className="pt-6 bg-purple-600">
+          <CardContent className="pt-6 bg-purple-200">
             <div className="flex justify-between items-center">
               <div>
-                <p className="text-sm font-medium">Scheduled Jobs</p>
-                <h3 className="text-3xl font-bold">{jobCount}</h3>
+                <p className="text-sm font-medium text-purple-600">Scheduled Jobs</p>
+                <h3 className="text-3xl font-bold text-purple-600">{jobCount}</h3>
               </div>
-              <CalendarDays className="h-8 w-8 text-white" />
+              <CalendarDays className="h-8 w-8 text-purple-600" />
             </div>
           </CardContent>
         </Card>
