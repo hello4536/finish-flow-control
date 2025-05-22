@@ -46,9 +46,9 @@ const MaintenanceList: React.FC = () => {
             <TableCaption>Equipment maintenance records.</TableCaption>
             <TableHeader>
               <TableRow>
-                <TableHead>Equipment</TableHead>
-                <TableHead>Maintenance Type</TableHead>
-                <TableHead>Performed By</TableHead>
+                <TableHead className="bg-sky-100">Equipment</TableHead>
+                <TableHead className="bg-sky-100">Maintenance Type</TableHead>
+                <TableHead className="bg-sky-100">Performed By</TableHead>
                 <TableHead>Date</TableHead>
                 <TableHead>Next Maintenance</TableHead>
                 <TableHead>Cost</TableHead>
