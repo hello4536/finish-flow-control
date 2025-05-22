@@ -435,7 +435,7 @@ export default function Settings() {
         <TabsContent value="appearance">
           <Card>
             <CardHeader>
-              <CardTitle>Appearance</CardTitle>
+              <CardTitle className="text-blue-600">Appearance</CardTitle>
               <CardDescription>
                 Customize how FinishFlow looks and feels.
               </CardDescription>
@@ -490,11 +490,11 @@ export default function Settings() {
                           </FormDescription>
                         </div>
                         <FormControl>
-                          <Switch checked={field.value} onCheckedChange={field.onChange} />
+                          <Switch checked={field.value} onCheckedChange={field.onChange} className="bg-blue-600 hover:bg-blue-500" />
                         </FormControl>
                       </FormItem>} />
 
-                  <Button type="submit">Save Appearance Settings</Button>
+                  <Button type="submit" className="bg-blue-600 hover:bg-blue-500">Save Appearance Settings</Button>
                 </form>
               </Form>
             </CardContent>
