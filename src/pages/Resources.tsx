@@ -88,7 +88,7 @@ const Resources = () => {
         <TabsContent value="documents" className="mt-6">
           <Card>
             <CardHeader>
-              <CardTitle>Documents</CardTitle>
+              <CardTitle className="text-blue-600">Documents</CardTitle>
               <CardDescription>Upload and organize important files</CardDescription>
             </CardHeader>
             <CardContent>
