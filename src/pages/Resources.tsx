@@ -124,7 +124,7 @@ const Resources = () => {
         <TabsContent value="receipts" className="mt-6">
           <Card>
             <CardHeader>
-              <CardTitle>Receipts</CardTitle>
+              <CardTitle className="text-blue-600">Receipts</CardTitle>
               <CardDescription>Upload and categorize your digital receipts</CardDescription>
             </CardHeader>
             <CardContent>
