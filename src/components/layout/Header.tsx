@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useLocation } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
@@ -7,6 +8,7 @@ import MobileMenu from "./MobileMenu";
 import SubscriptionButton from "./SubscriptionButton";
 import NotificationsDropdown from "./NotificationsDropdown";
 import UserProfileMenu from "./UserProfileMenu";
+
 const Header = () => {
   const {
     user,
@@ -17,9 +19,10 @@ const Header = () => {
   } = useAuth();
   const location = useLocation();
   const currentPath = location.pathname;
+  
   return <header className="sticky top-0 z-40 border-b bg-sky-50">
       <div className="container flex h-16 items-center justify-between px-[45px] py-[16px]">
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-4 w-full">
           <LogoLink />
           <HeaderTabs currentPath={currentPath} />
           <MobileMenu />
@@ -33,4 +36,5 @@ const Header = () => {
       </div>
     </header>;
 };
+
 export default Header;
