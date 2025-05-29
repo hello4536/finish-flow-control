@@ -21,7 +21,7 @@ const Header = () => {
   const currentPath = location.pathname;
   
   return <header className="sticky top-0 z-40 border-b bg-sky-50">
-      <div className="container flex h-16 items-center justify-between px-[45px] py-[16px]">
+      <div className="w-full flex h-16 items-center justify-between px-[45px] py-[16px]">
         <div className="flex items-center space-x-4 w-full">
           <LogoLink />
           <HeaderTabs currentPath={currentPath} />
