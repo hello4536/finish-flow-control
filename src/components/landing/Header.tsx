@@ -23,7 +23,7 @@ const Header: React.FC = () => {
   };
   
   return <header className="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm">
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+      <div className="w-full px-4 py-4 flex items-center justify-between">
         <Link to="/" className="flex items-center h-16 overflow-visible">
           <img 
             src="/lovable-uploads/831be762-1da7-4615-9dac-d59cc2386de3.png" 
