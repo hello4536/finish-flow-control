@@ -1,3 +1,4 @@
+
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
@@ -15,49 +16,9 @@ export function AppSidebar() {
     icon: Home,
     color: "bg-accent/90"
   }, {
-    title: "Jobs",
-    url: "/jobs",
-    icon: ClipboardList,
-    color: "bg-accent/90"
-  }, {
-    title: "Daily Tasks",
-    url: "/daily-tasks",
-    icon: CheckCircle,
-    color: "bg-accent/90"
-  }, {
-    title: "Workflows",
-    url: "/workflows",
-    icon: PackageOpen,
-    color: "bg-accent/90"
-  }, {
-    title: "Materials",
-    url: "/materials",
-    icon: Box,
-    color: "bg-accent/90"
-  }, {
-    title: "Inventory",
-    url: "/inventory",
-    icon: Database,
-    color: "bg-accent/90"
-  }, {
-    title: "Equipment",
-    url: "/equipment",
-    icon: Archive,
-    color: "bg-accent/90"
-  }, {
-    title: "Quality Control",
-    url: "/quality",
-    icon: CheckSquare,
-    color: "bg-accent/90"
-  }, {
     title: "Compliance",
     url: "/compliance",
     icon: ShieldCheck,
-    color: "bg-accent/90"
-  }, {
-    title: "Schedule",
-    url: "/schedule",
-    icon: Calendar,
     color: "bg-accent/90"
   }, {
     title: "Custom Creations",
@@ -65,9 +26,49 @@ export function AppSidebar() {
     icon: Palette,
     color: "bg-accent/90"
   }, {
+    title: "Daily Tasks",
+    url: "/daily-tasks",
+    icon: CheckCircle,
+    color: "bg-accent/90"
+  }, {
+    title: "Equipment",
+    url: "/equipment",
+    icon: Archive,
+    color: "bg-accent/90"
+  }, {
+    title: "Inventory",
+    url: "/inventory",
+    icon: Database,
+    color: "bg-accent/90"
+  }, {
+    title: "Jobs",
+    url: "/jobs",
+    icon: ClipboardList,
+    color: "bg-accent/90"
+  }, {
+    title: "Materials",
+    url: "/materials",
+    icon: Box,
+    color: "bg-accent/90"
+  }, {
+    title: "Quality Control",
+    url: "/quality",
+    icon: CheckSquare,
+    color: "bg-accent/90"
+  }, {
     title: "Resources",
     url: "/resources",
     icon: Link,
+    color: "bg-accent/90"
+  }, {
+    title: "Schedule",
+    url: "/schedule",
+    icon: Calendar,
+    color: "bg-accent/90"
+  }, {
+    title: "Workflows",
+    url: "/workflows",
+    icon: PackageOpen,
     color: "bg-accent/90"
   }];
   const adminItems = [{
@@ -76,14 +77,14 @@ export function AppSidebar() {
     icon: BarChart,
     color: "bg-accent/90"
   }, {
-    title: "Users",
-    url: "/users",
-    icon: Users,
-    color: "bg-accent/90"
-  }, {
     title: "Settings",
     url: "/settings",
     icon: Settings,
+    color: "bg-accent/90"
+  }, {
+    title: "Users",
+    url: "/users",
+    icon: Users,
     color: "bg-accent/90"
   }];
   const isActive = (path: string) => {
