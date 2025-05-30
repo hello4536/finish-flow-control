@@ -123,6 +123,59 @@ export type Database = {
         }
         Relationships: []
       }
+      booth_reservations: {
+        Row: {
+          booth_id: string
+          created_at: string
+          date: string
+          end_time: string
+          id: string
+          job_reference: string | null
+          notes: string | null
+          priority: string
+          reserved_by: string
+          start_time: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          booth_id: string
+          created_at?: string
+          date: string
+          end_time: string
+          id?: string
+          job_reference?: string | null
+          notes?: string | null
+          priority?: string
+          reserved_by: string
+          start_time: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          booth_id?: string
+          created_at?: string
+          date?: string
+          end_time?: string
+          id?: string
+          job_reference?: string | null
+          notes?: string | null
+          priority?: string
+          reserved_by?: string
+          start_time?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "booth_reservations_booth_id_fkey"
+            columns: ["booth_id"]
+            isOneToOne: false
+            referencedRelation: "spray_booths"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       certifications: {
         Row: {
           authority: string
@@ -1521,6 +1574,45 @@ export type Database = {
           time?: string
           title?: string
           type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      spray_booths: {
+        Row: {
+          booth_number: string
+          capacity: number | null
+          created_at: string
+          id: string
+          location: string | null
+          name: string
+          notes: string | null
+          specifications: Json | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          booth_number: string
+          capacity?: number | null
+          created_at?: string
+          id?: string
+          location?: string | null
+          name: string
+          notes?: string | null
+          specifications?: Json | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          booth_number?: string
+          capacity?: number | null
+          created_at?: string
+          id?: string
+          location?: string | null
+          name?: string
+          notes?: string | null
+          specifications?: Json | null
+          status?: string
           updated_at?: string
         }
         Relationships: []

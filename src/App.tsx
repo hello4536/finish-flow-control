@@ -1,104 +1,91 @@
 
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
+import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { useEffect } from "react";
-import { AuthProvider } from "./context/AuthContext";
-import { DevModeProvider } from "./context/DevModeContext";
-import ProtectedRoute from "./components/auth/ProtectedRoute";
-import MainLayout from "./components/layout/MainLayout";
-import AuthLayout from "./components/layout/AuthLayout";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "@/context/AuthContext";
+import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import SignInPage from "./pages/auth/SignInPage";
 import SignUpPage from "./pages/auth/SignUpPage";
 import VerifyPage from "./pages/auth/VerifyPage";
-import SubscriptionPage from "./pages/SubscriptionPage";
-import Jobs from "./pages/jobs";
-import Workflows from "./pages/workflows";
-import Materials from "./pages/materials";
-import Inventory from "./pages/inventory";
-import Quality from "./pages/quality";
-import Compliance from "./pages/compliance";
-import Schedule from "./pages/Schedule";
-import Resources from "./pages/Resources";
-import Reports from "./pages/Reports";
-import Users from "./pages/Users";
-import Settings from "./pages/Settings";
-import CustomCreations from "./pages/CustomCreations";
 import WoodworkingFinishing from "./pages/WoodworkingFinishing";
 import AutoBodyFinishing from "./pages/AutoBodyFinishing";
-import NotFound from "./pages/NotFound";
+import CustomCreations from "./pages/CustomCreations";
 import DailyTasks from "./pages/DailyTasks";
-import Equipment from "./pages/equipment";
-import { initializeApp } from "./utils/initializeApp";
-import Index from "./pages/Index";
-import TestingPlan from "./pages/TestingPlan";
+import Inventory from "./pages/inventory";
+import Materials from "./pages/Materials";
+import Jobs from "./pages/Jobs";
+import Schedule from "./pages/Schedule";
+import Reports from "./pages/Reports";
+import Resources from "./pages/Resources";
+import Settings from "./pages/Settings";
+import Users from "./pages/Users";
+import SubscriptionPage from "./pages/SubscriptionPage";
+import EquipmentPage from "./pages/equipment/EquipmentPage";
+import CompliancePage from "./pages/compliance/CompliancePage";
+import QualityPage from "./pages/quality/QualityPage";
+import WorkflowsPage from "./pages/workflows";
+import SprayBoothSchedulerPage from "./pages/spray-booth/SprayBoothSchedulerPage";
+import NotFound from "./pages/NotFound";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
+import MainLayout from "./components/layout/MainLayout";
+import AuthLayout from "./components/layout/AuthLayout";
+import { DevModeProvider } from "./context/DevModeContext";
 
 const queryClient = new QueryClient();
 
-const App = () => {
-  // Initialize app data on first load
-  useEffect(() => {
-    initializeApp();
-  }, []);
-
+function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <AuthProvider>
-            <DevModeProvider>
+      <DevModeProvider>
+        <TooltipProvider>
+          <Toaster />
+          <BrowserRouter>
+            <AuthProvider>
               <Routes>
-                {/* Public landing page routes - accessible to all */}
+                {/* Public routes */}
                 <Route path="/" element={<Index />} />
                 <Route path="/woodworking-finishing" element={<WoodworkingFinishing />} />
                 <Route path="/auto-body-finishing" element={<AutoBodyFinishing />} />
                 
-                {/* Auth routes - unprotected */}
-                <Route element={<ProtectedRoute requireAuth={false} />}>
-                  <Route path="/auth" element={<AuthLayout />}>
-                    <Route path="signin" element={<SignInPage />} />
-                    <Route path="signup" element={<SignUpPage />} />
-                    <Route path="verify" element={<VerifyPage />} />
-                  </Route>
+                {/* Auth routes */}
+                <Route element={<AuthLayout />}>
+                  <Route path="/auth/signin" element={<SignInPage />} />
+                  <Route path="/auth/signup" element={<SignUpPage />} />
+                  <Route path="/auth/verify" element={<VerifyPage />} />
                 </Route>
 
-                {/* Protected routes - require authentication */}
-                <Route element={<ProtectedRoute requireAuth={true} />}>
-                  <Route element={<MainLayout />}>
-                    {/* Redirect /dashboard to / for authenticated users */}
-                    <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="subscription" element={<SubscriptionPage />} />
-                    <Route path="jobs" element={<Jobs />} />
-                    <Route path="workflows" element={<Workflows />} />
-                    <Route path="materials" element={<Materials />} />
-                    <Route path="inventory" element={<Inventory />} />
-                    <Route path="equipment" element={<Equipment />} />
-                    <Route path="quality" element={<Quality />} />
-                    <Route path="compliance" element={<Compliance />} />
-                    <Route path="schedule" element={<Schedule />} />
-                    <Route path="resources" element={<Resources />} />
-                    <Route path="reports" element={<Reports />} />
-                    <Route path="users" element={<Users />} />
-                    <Route path="settings" element={<Settings />} />
-                    <Route path="custom-creations" element={<CustomCreations />} />
-                    <Route path="/daily-tasks" element={<DailyTasks />} />
-                    <Route path="/testing-plan" element={<TestingPlan />} />
-                  </Route>
+                {/* Protected routes */}
+                <Route element={<ProtectedRoute><MainLayout /></ProtectedRoute>}>
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/custom-creations" element={<CustomCreations />} />
+                  <Route path="/daily-tasks" element={<DailyTasks />} />
+                  <Route path="/inventory" element={<Inventory />} />
+                  <Route path="/materials" element={<Materials />} />
+                  <Route path="/jobs" element={<Jobs />} />
+                  <Route path="/schedule" element={<Schedule />} />
+                  <Route path="/spray-booth-scheduler" element={<SprayBoothSchedulerPage />} />
+                  <Route path="/reports" element={<Reports />} />
+                  <Route path="/resources" element={<Resources />} />
+                  <Route path="/settings" element={<Settings />} />
+                  <Route path="/users" element={<Users />} />
+                  <Route path="/subscription" element={<SubscriptionPage />} />
+                  <Route path="/equipment" element={<EquipmentPage />} />
+                  <Route path="/compliance" element={<CompliancePage />} />
+                  <Route path="/quality" element={<QualityPage />} />
+                  <Route path="/workflows" element={<WorkflowsPage />} />
                 </Route>
 
+                {/* 404 route */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
-            </DevModeProvider>
-          </AuthProvider>
-        </BrowserRouter>
-      </TooltipProvider>
+            </AuthProvider>
+          </BrowserRouter>
+        </TooltipProvider>
+      </DevModeProvider>
     </QueryClientProvider>
   );
-};
+}
 
 export default App;
