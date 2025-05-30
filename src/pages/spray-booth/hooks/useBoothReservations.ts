@@ -74,7 +74,7 @@ export const useUpdateReservation = () => {
       };
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["booth-booths"] });
+      queryClient.invalidateQueries({ queryKey: ["booth-reservations"] });
     }
   });
 };

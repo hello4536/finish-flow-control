@@ -57,24 +57,26 @@ function App() {
                 </Route>
 
                 {/* Protected routes */}
-                <Route element={<ProtectedRoute><MainLayout /></ProtectedRoute>}>
-                  <Route path="/dashboard" element={<Dashboard />} />
-                  <Route path="/custom-creations" element={<CustomCreations />} />
-                  <Route path="/daily-tasks" element={<DailyTasks />} />
-                  <Route path="/inventory" element={<Inventory />} />
-                  <Route path="/materials" element={<Materials />} />
-                  <Route path="/jobs" element={<Jobs />} />
-                  <Route path="/schedule" element={<Schedule />} />
-                  <Route path="/spray-booth-scheduler" element={<SprayBoothSchedulerPage />} />
-                  <Route path="/reports" element={<Reports />} />
-                  <Route path="/resources" element={<Resources />} />
-                  <Route path="/settings" element={<Settings />} />
-                  <Route path="/users" element={<Users />} />
-                  <Route path="/subscription" element={<SubscriptionPage />} />
-                  <Route path="/equipment" element={<EquipmentPage />} />
-                  <Route path="/compliance" element={<CompliancePage />} />
-                  <Route path="/quality" element={<QualityPage />} />
-                  <Route path="/workflows" element={<WorkflowsPage />} />
+                <Route element={<ProtectedRoute />}>
+                  <Route element={<MainLayout />}>
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/custom-creations" element={<CustomCreations />} />
+                    <Route path="/daily-tasks" element={<DailyTasks />} />
+                    <Route path="/inventory" element={<Inventory />} />
+                    <Route path="/materials" element={<Materials />} />
+                    <Route path="/jobs" element={<Jobs />} />
+                    <Route path="/schedule" element={<Schedule />} />
+                    <Route path="/spray-booth-scheduler" element={<SprayBoothSchedulerPage />} />
+                    <Route path="/reports" element={<Reports />} />
+                    <Route path="/resources" element={<Resources />} />
+                    <Route path="/settings" element={<Settings />} />
+                    <Route path="/users" element={<Users />} />
+                    <Route path="/subscription" element={<SubscriptionPage />} />
+                    <Route path="/equipment" element={<EquipmentPage />} />
+                    <Route path="/compliance" element={<CompliancePage />} />
+                    <Route path="/quality" element={<QualityPage />} />
+                    <Route path="/workflows" element={<WorkflowsPage />} />
+                  </Route>
                 </Route>
 
                 {/* 404 route */}

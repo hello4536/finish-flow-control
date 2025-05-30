@@ -15,7 +15,11 @@ export const useSprayBooths = () => {
       if (error) throw error;
       return (data || []).map(booth => ({
         ...booth,
-        status: booth.status as "active" | "maintenance" | "offline"
+        status: booth.status as "active" | "maintenance" | "offline",
+        location: booth.location || "",
+        notes: booth.notes || "",
+        capacity: booth.capacity || 1,
+        specifications: booth.specifications as Record<string, any> || {}
       }));
     }
   });
@@ -35,7 +39,11 @@ export const useCreateBooth = () => {
       if (error) throw error;
       return {
         ...result,
-        status: result.status as "active" | "maintenance" | "offline"
+        status: result.status as "active" | "maintenance" | "offline",
+        location: result.location || "",
+        notes: result.notes || "",
+        capacity: result.capacity || 1,
+        specifications: result.specifications as Record<string, any> || {}
       };
     },
     onSuccess: () => {
@@ -59,7 +67,11 @@ export const useUpdateBooth = () => {
       if (error) throw error;
       return {
         ...result,
-        status: result.status as "active" | "maintenance" | "offline"
+        status: result.status as "active" | "maintenance" | "offline",
+        location: result.location || "",
+        notes: result.notes || "",
+        capacity: result.capacity || 1,
+        specifications: result.specifications as Record<string, any> || {}
       };
     },
     onSuccess: () => {

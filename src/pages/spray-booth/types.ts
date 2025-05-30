@@ -3,11 +3,11 @@ export interface SprayBooth {
   id: string;
   name: string;
   booth_number: string;
-  location?: string;
+  location: string;
   capacity: number;
   status: "active" | "maintenance" | "offline";
-  specifications?: Record<string, any>;
-  notes?: string;
+  specifications: Record<string, any>;
+  notes: string;
   created_at: string;
   updated_at: string;
 }
