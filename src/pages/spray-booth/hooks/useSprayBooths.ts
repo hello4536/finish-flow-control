@@ -13,7 +13,10 @@ export const useSprayBooths = () => {
         .order("booth_number");
 
       if (error) throw error;
-      return data || [];
+      return (data || []).map(booth => ({
+        ...booth,
+        status: booth.status as "active" | "maintenance" | "offline"
+      }));
     }
   });
 };
@@ -30,7 +33,10 @@ export const useCreateBooth = () => {
         .single();
 
       if (error) throw error;
-      return result;
+      return {
+        ...result,
+        status: result.status as "active" | "maintenance" | "offline"
+      };
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["spray-booths"] });
@@ -51,7 +57,10 @@ export const useUpdateBooth = () => {
         .single();
 
       if (error) throw error;
-      return result;
+      return {
+        ...result,
+        status: result.status as "active" | "maintenance" | "offline"
+      };
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["spray-booths"] });

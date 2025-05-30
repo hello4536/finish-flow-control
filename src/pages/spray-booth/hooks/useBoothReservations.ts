@@ -21,7 +21,11 @@ export const useBoothReservations = (selectedDate: Date) => {
         .order("start_time");
 
       if (error) throw error;
-      return data || [];
+      return (data || []).map(reservation => ({
+        ...reservation,
+        status: reservation.status as "scheduled" | "in_progress" | "completed" | "cancelled",
+        priority: reservation.priority as "low" | "medium" | "high" | "urgent"
+      }));
     }
   });
 };
@@ -38,7 +42,11 @@ export const useCreateReservation = () => {
         .single();
 
       if (error) throw error;
-      return result;
+      return {
+        ...result,
+        status: result.status as "scheduled" | "in_progress" | "completed" | "cancelled",
+        priority: result.priority as "low" | "medium" | "high" | "urgent"
+      };
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["booth-reservations"] });
@@ -59,10 +67,14 @@ export const useUpdateReservation = () => {
         .single();
 
       if (error) throw error;
-      return result;
+      return {
+        ...result,
+        status: result.status as "scheduled" | "in_progress" | "completed" | "cancelled",
+        priority: result.priority as "low" | "medium" | "high" | "urgent"
+      };
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["booth-reservations"] });
+      queryClient.invalidateQueries({ queryKey: ["booth-booths"] });
     }
   });
 };

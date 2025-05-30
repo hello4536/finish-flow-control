@@ -1,7 +1,8 @@
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
-import { BarChart, Box, Calendar, CheckSquare, ClipboardList, Database, Home, PackageOpen, Settings, Users, Link, Palette, ShieldCheck, CheckCircle, Archive, Spray } from "lucide-react";
+import { BarChart, Box, Calendar, CheckSquare, ClipboardList, Database, Home, PackageOpen, Settings, Users, Link, Palette, ShieldCheck, CheckCircle, Archive, Paintbrush } from "lucide-react";
+
 export function AppSidebar() {
   const {
     state
@@ -67,7 +68,7 @@ export function AppSidebar() {
   }, {
     title: "Spray Booth Scheduler",
     url: "/spray-booth-scheduler",
-    icon: Spray,
+    icon: Paintbrush,
     color: "bg-accent/90"
   }, {
     title: "Workflows",

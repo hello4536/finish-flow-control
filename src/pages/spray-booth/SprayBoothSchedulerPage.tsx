@@ -10,7 +10,7 @@ import { toast } from "sonner";
 
 const SprayBoothSchedulerPage = () => {
   const [activeTab, setActiveTab] = useState<"scheduler" | "management">("scheduler");
-  const { booths, isLoading, error } = useSprayBooths();
+  const { data: booths = [], isLoading, error } = useSprayBooths();
 
   if (error) {
     toast.error("Failed to load spray booths");

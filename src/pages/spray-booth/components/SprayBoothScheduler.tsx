@@ -22,7 +22,7 @@ export const SprayBoothScheduler: React.FC<SprayBoothSchedulerProps> = ({ booths
     startTime: string;
   } | null>(null);
 
-  const { reservations, isLoading } = useBoothReservations(selectedDate);
+  const { data: reservations = [], isLoading } = useBoothReservations(selectedDate);
 
   const weekStart = startOfWeek(selectedDate);
   const weekDays = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
