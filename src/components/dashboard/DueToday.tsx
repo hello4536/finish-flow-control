@@ -12,15 +12,15 @@ const DueToday: React.FC = () => {
   const getTypeIcon = (type: string) => {
     switch (type) {
       case "inspection":
-        return <CheckCircle className="h-4 w-4" />;
+        return <CheckCircle className="h-3 w-3" />;
       case "delivery":
-        return <Truck className="h-4 w-4" />;
+        return <Truck className="h-3 w-3" />;
       case "procurement":
-        return <AlertTriangle className="h-4 w-4" />;
+        return <AlertTriangle className="h-3 w-3" />;
       case "training":
-        return <GraduationCap className="h-4 w-4" />;
+        return <GraduationCap className="h-3 w-3" />;
       default:
-        return <Clock className="h-4 w-4" />;
+        return <Clock className="h-3 w-3" />;
     }
   };
 
@@ -38,47 +38,47 @@ const DueToday: React.FC = () => {
   };
 
   return (
-    <Card className="col-span-2">
-      <CardHeader>
-        <CardTitle className="text-purple-700">Due Today</CardTitle>
-        <CardDescription>Items requiring attention today</CardDescription>
+    <Card>
+      <CardHeader className="pb-3">
+        <CardTitle className="text-lg text-purple-700">Due Today</CardTitle>
+        <CardDescription className="text-xs">Items requiring attention</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="space-y-3">
         {showMockData ? (
-          <div className="space-y-3">
+          <>
             {mockData.dueToday.map((item) => (
-              <div key={item.id} className="flex items-center justify-between p-3 border rounded-lg">
-                <div className="flex items-start space-x-3">
-                  <div className="flex-shrink-0 mt-1 text-blue-600">
+              <div key={item.id} className="flex items-center justify-between p-2 border rounded-lg">
+                <div className="flex items-start space-x-2 flex-1 min-w-0">
+                  <div className="flex-shrink-0 mt-0.5 text-blue-600">
                     {getTypeIcon(item.type)}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className="text-sm font-medium text-gray-900 mb-1">
+                    <h4 className="text-xs font-medium text-gray-900 mb-1 truncate">
                       {item.title}
                     </h4>
-                    <p className="text-xs text-gray-600">
-                      Assigned to: <span className="font-medium">{item.assignee}</span>
+                    <p className="text-xs text-gray-600 truncate">
+                      <span className="font-medium">{item.assignee}</span>
                     </p>
-                    <div className="flex items-center space-x-2 mt-2">
-                      <Badge variant="outline" className={getPriorityColor(item.priority)}>
+                    <div className="flex items-center space-x-1 mt-1">
+                      <Badge variant="outline" className={`text-xs ${getPriorityColor(item.priority)}`}>
                         {item.priority}
                       </Badge>
                       <span className="text-xs text-gray-500 flex items-center">
-                        <Clock className="h-3 w-3 mr-1" />
+                        <Clock className="h-2 w-2 mr-1" />
                         {item.time}
                       </span>
                     </div>
                   </div>
                 </div>
-                <Button size="sm" variant="outline">
+                <Button size="sm" variant="outline" className="text-xs px-2 py-1 h-6 ml-2">
                   View
                 </Button>
               </div>
             ))}
-          </div>
+          </>
         ) : (
-          <div className="flex justify-center items-center py-8">
-            <p className="text-muted-foreground">No items due today</p>
+          <div className="flex justify-center items-center h-32">
+            <p className="text-xs text-muted-foreground">No items due today</p>
           </div>
         )}
       </CardContent>

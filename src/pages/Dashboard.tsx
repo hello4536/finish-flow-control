@@ -14,12 +14,9 @@ const Dashboard: React.FC = () => {
       
       <StatCards />
       
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+      <div className="grid gap-4 lg:grid-cols-4">
         <ActivityFeed />
         <EmployeeTasks />
-      </div>
-      
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <DueToday />
         <MaterialUsage />
       </div>

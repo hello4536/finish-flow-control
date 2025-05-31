@@ -29,63 +29,64 @@ const EmployeeTasks: React.FC = () => {
   const displayTasks = showMockData ? mockData.employeeTasks : tasks;
 
   return (
-    <Card className="lg:col-span-4">
-      <CardHeader>
-        <CardTitle className="text-purple-700">Employee Tasks</CardTitle>
-        <CardDescription>
-          Today's assigned tasks and status
+    <Card>
+      <CardHeader className="pb-3">
+        <CardTitle className="text-lg text-purple-700">Employee Tasks</CardTitle>
+        <CardDescription className="text-xs">
+          Today's assigned tasks
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="space-y-3">
         {isLoading && !showMockData ? (
-          <div className="flex justify-center items-center h-[300px]">
-            <p className="text-muted-foreground">Loading tasks...</p>
+          <div className="flex justify-center items-center h-32">
+            <p className="text-xs text-muted-foreground">Loading tasks...</p>
           </div>
         ) : displayTasks.length > 0 ? (
-          <div className="space-y-4">
-            {displayTasks.map((task) => (
-              <div key={task.id} className="flex items-center justify-between border-b pb-4 last:border-b-0">
-                <div className="space-y-2 flex-1">
+          <>
+            {displayTasks.slice(0, 4).map((task) => (
+              <div key={task.id} className="flex items-center justify-between pb-2 last:pb-0 border-b last:border-b-0">
+                <div className="space-y-1 flex-1 min-w-0">
                   <div className="flex items-center justify-between">
-                    <p className="text-sm font-medium leading-none">{task.title}</p>
+                    <p className="text-xs font-medium leading-none truncate">{task.title}</p>
                     {showMockData && task.estimatedTime && (
-                      <span className="text-xs text-gray-500 flex items-center">
-                        <Clock className="h-3 w-3 mr-1" />
+                      <span className="text-xs text-gray-500 flex items-center ml-2">
+                        <Clock className="h-2 w-2 mr-1" />
                         {task.estimatedTime}
                       </span>
                     )}
                   </div>
                   <div className="flex items-center space-x-2">
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-xs text-muted-foreground truncate">
                       {task.assignee?.name || 'Unassigned'}
                     </p>
-                    <Badge variant="outline" className={getPriorityColor(task.priority)}>
+                    <Badge variant="outline" className={`text-xs ${getPriorityColor(task.priority)}`}>
                       {task.priority}
                     </Badge>
                   </div>
                 </div>
-                <div className="flex items-center ml-4">
+                <div className="flex items-center ml-2">
                   {task.status === "pending" ? (
                     <Button 
                       size="sm" 
                       variant="outline" 
+                      className="text-xs px-2 py-1 h-6"
                       onClick={() => showMockData ? null : completeTask(task.id)}
                     >
                       Complete
                     </Button>
                   ) : (
                     <span className="text-xs text-green-600 font-medium flex items-center">
-                      <CheckSquare className="h-3.5 w-3.5 mr-1" /> Completed
+                      <CheckSquare className="h-3 w-3 mr-1" /> Done
                     </span>
                   )}
                 </div>
               </div>
             ))}
-          </div>
+          </>
         ) : (
-          <div className="flex justify-center items-center h-[300px] flex-col">
-            <CheckSquare className="h-12 w-12 text-muted-foreground/50 mb-2" />
-            <p className="text-muted-foreground">No tasks assigned for today</p>
+          <div className="flex justify-center items-center h-32 flex-col">
+            <CheckSquare className="h-8 w-8 text-muted-foreground/50 mb-1" />
+            <p className="text-xs text-muted-foreground">No tasks assigned</p>
           </div>
         )}
       </CardContent>

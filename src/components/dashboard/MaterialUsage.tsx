@@ -10,26 +10,26 @@ const MaterialUsage: React.FC = () => {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className="text-purple-700">Material Usage</CardTitle>
-        <CardDescription>Top materials used this week</CardDescription>
+      <CardHeader className="pb-3">
+        <CardTitle className="text-lg text-purple-700">Material Usage</CardTitle>
+        <CardDescription className="text-xs">Top materials this week</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="space-y-3">
         {showMockData ? (
-          <div className="space-y-4">
+          <>
             {mockData.materialUsage.map((material, index) => (
-              <div key={index} className="space-y-2">
+              <div key={index} className="space-y-1">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">{material.material}</span>
-                  <div className="flex items-center space-x-2">
-                    <span className="text-sm text-gray-600">{material.usage}%</span>
+                  <span className="text-xs font-medium truncate">{material.material}</span>
+                  <div className="flex items-center space-x-1 ml-2">
+                    <span className="text-xs text-gray-600">{material.usage}%</span>
                     <div className={`flex items-center text-xs ${
                       material.trend.startsWith('+') ? 'text-green-600' : 'text-red-600'
                     }`}>
                       {material.trend.startsWith('+') ? (
-                        <TrendingUp className="h-3 w-3 mr-1" />
+                        <TrendingUp className="h-2 w-2 mr-0.5" />
                       ) : (
-                        <TrendingDown className="h-3 w-3 mr-1" />
+                        <TrendingDown className="h-2 w-2 mr-0.5" />
                       )}
                       {material.trend}
                     </div>
@@ -37,19 +37,19 @@ const MaterialUsage: React.FC = () => {
                 </div>
                 <Progress 
                   value={material.usage} 
-                  className="h-2"
+                  className="h-1.5"
                 />
               </div>
             ))}
-            <div className="pt-2 border-t">
+            <div className="pt-1 border-t">
               <p className="text-xs text-gray-500">
-                Usage compared to last week's consumption
+                vs. last week's consumption
               </p>
             </div>
-          </div>
+          </>
         ) : (
-          <div className="flex justify-center items-center py-8">
-            <p className="text-muted-foreground">No usage data available</p>
+          <div className="flex justify-center items-center h-32">
+            <p className="text-xs text-muted-foreground">No usage data available</p>
           </div>
         )}
       </CardContent>

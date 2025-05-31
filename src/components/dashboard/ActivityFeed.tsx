@@ -13,17 +13,17 @@ const ActivityFeed: React.FC = () => {
   const getActivityIcon = (type: string) => {
     switch (type) {
       case "completion":
-        return <CheckCircle className="h-4 w-4 text-green-600" />;
+        return <CheckCircle className="h-3 w-3 text-green-600" />;
       case "inventory":
-        return <Package className="h-4 w-4 text-blue-600" />;
+        return <Package className="h-3 w-3 text-blue-600" />;
       case "quality":
-        return <CheckCircle className="h-4 w-4 text-purple-600" />;
+        return <CheckCircle className="h-3 w-3 text-purple-600" />;
       case "maintenance":
-        return <Wrench className="h-4 w-4 text-orange-600" />;
+        return <Wrench className="h-3 w-3 text-orange-600" />;
       case "assignment":
-        return <UserPlus className="h-4 w-4 text-indigo-600" />;
+        return <UserPlus className="h-3 w-3 text-indigo-600" />;
       default:
-        return <Clock className="h-4 w-4 text-gray-600" />;
+        return <Clock className="h-3 w-3 text-gray-600" />;
     }
   };
 
@@ -45,44 +45,44 @@ const ActivityFeed: React.FC = () => {
   };
 
   return (
-    <Card className="lg:col-span-3">
-      <CardHeader>
-        <CardTitle className="text-purple-700">Recent Activity</CardTitle>
-        <CardDescription>
-          Latest actions from your team
+    <Card>
+      <CardHeader className="pb-3">
+        <CardTitle className="text-lg text-purple-700">Recent Activity</CardTitle>
+        <CardDescription className="text-xs">
+          Latest team actions
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="space-y-3">
         {showMockData ? (
-          <div className="space-y-4">
-            {mockData.activityFeed.map((activity) => (
-              <div key={activity.id} className="flex items-start space-x-3 border-b pb-3 last:border-b-0">
-                <div className="flex-shrink-0 mt-1">
+          <>
+            {mockData.activityFeed.slice(0, 4).map((activity) => (
+              <div key={activity.id} className="flex items-start space-x-2 pb-2 last:pb-0 border-b last:border-b-0">
+                <div className="flex-shrink-0 mt-0.5">
                   {getActivityIcon(activity.type)}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between">
-                    <p className="text-sm font-medium text-gray-900">
+                  <div className="flex items-center justify-between mb-1">
+                    <p className="text-xs font-medium text-gray-900 truncate">
                       {activity.action}
                     </p>
-                    <Badge variant="outline" className={getActivityColor(activity.type)}>
+                    <Badge variant="outline" className={`text-xs ${getActivityColor(activity.type)}`}>
                       {activity.type}
                     </Badge>
                   </div>
-                  <p className="text-sm text-gray-600 mt-1">
+                  <p className="text-xs text-gray-600 truncate">
                     <span className="font-medium">{activity.user}</span> - {activity.details}
                   </p>
-                  <p className="text-xs text-gray-500 mt-1 flex items-center">
-                    <Clock className="h-3 w-3 mr-1" />
+                  <p className="text-xs text-gray-500 flex items-center mt-1">
+                    <Clock className="h-2 w-2 mr-1" />
                     {activity.timestamp}
                   </p>
                 </div>
               </div>
             ))}
-          </div>
+          </>
         ) : (
-          <div className="flex justify-center items-center h-[300px]">
-            <p className="text-muted-foreground">No recent activity to display</p>
+          <div className="flex justify-center items-center h-32">
+            <p className="text-xs text-muted-foreground">No recent activity</p>
           </div>
         )}
       </CardContent>
