@@ -1,71 +1,98 @@
 
 import React from "react";
-import {
-  Table,
-  TableBody,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { useJobsData } from "../hooks/useJobsData";
-import { useMockJobsData } from "../hooks/useMockJobsData";
-import { useMockData } from "@/utils/mockData";
-import JobRow from "./JobRow";
-import LoadingSpinner from "./LoadingSpinner";
-import EmptyJobsState from "./EmptyJobsState";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Eye, FileText, Calendar, User } from "lucide-react";
+import { Job } from "../hooks/useJobsData";
 
-const JobsTable: React.FC = () => {
-  const showMockData = useMockData();
-  const { data: realJobs = [], isLoading: realLoading, error: realError } = useJobsData();
-  const { data: mockJobs = [], isLoading: mockLoading } = useMockJobsData();
-  
-  const jobs = showMockData ? mockJobs : realJobs;
-  const isLoading = showMockData ? mockLoading : realLoading;
-  const error = showMockData ? null : realError;
+interface JobsTableProps {
+  jobs: Job[];
+  isLoading: boolean;
+}
 
+const JobsTable: React.FC<JobsTableProps> = ({ jobs, isLoading }) => {
   const handleViewJob = (jobId: string) => {
-    console.log("View job:", jobId);
-    // Add view job functionality here
+    console.log("Viewing job:", jobId);
   };
 
   if (isLoading) {
-    return <LoadingSpinner />;
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>Jobs</CardTitle>
+          <CardDescription>Loading jobs...</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex justify-center items-center h-32">
+            <p className="text-muted-foreground">Loading...</p>
+          </div>
+        </CardContent>
+      </Card>
+    );
   }
 
-  if (error && !showMockData) {
+  if (!jobs.length) {
     return (
-      <div className="text-center py-8">
-        <p className="text-red-600">Error loading jobs: {error.message}</p>
-      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle>Jobs</CardTitle>
+          <CardDescription>No jobs found</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex justify-center items-center h-32">
+            <p className="text-muted-foreground">No jobs available</p>
+          </div>
+        </CardContent>
+      </Card>
     );
   }
 
   return (
-    <div className="rounded-md border">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Job Number</TableHead>
-            <TableHead>Name</TableHead>
-            <TableHead>Trade</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Assigned To</TableHead>
-            <TableHead>Current Step</TableHead>
-            <TableHead>Due Date</TableHead>
-            <TableHead>Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {jobs.length === 0 ? (
-            <EmptyJobsState />
-          ) : (
-            jobs.map((job) => (
-              <JobRow key={job.id} job={job} onViewJob={handleViewJob} />
-            ))
-          )}
-        </TableBody>
-      </Table>
-    </div>
+    <Card>
+      <CardHeader>
+        <CardTitle>Jobs</CardTitle>
+        <CardDescription>Manage your jobs and projects</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Job Name</TableHead>
+              <TableHead>Client</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Due Date</TableHead>
+              <TableHead>Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {jobs.map((job) => (
+              <TableRow key={job.id}>
+                <TableCell className="font-medium">{job.name}</TableCell>
+                <TableCell>{job.client}</TableCell>
+                <TableCell>
+                  <Badge variant={job.status === 'completed' ? 'default' : 'secondary'}>
+                    {job.status}
+                  </Badge>
+                </TableCell>
+                <TableCell>{job.due_date}</TableCell>
+                <TableCell>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleViewJob(job.id)}
+                  >
+                    <Eye className="h-4 w-4 mr-1" />
+                    View
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </CardContent>
+    </Card>
   );
 };
 
