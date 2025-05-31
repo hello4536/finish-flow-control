@@ -7,6 +7,8 @@ import { format, addDays, startOfWeek } from "date-fns";
 import { ScheduleGrid } from "./ScheduleGrid";
 import { ReservationDialog } from "./ReservationDialog";
 import { useBoothReservations } from "../hooks/useBoothReservations";
+import { useMockBoothReservations } from "../hooks/useMockBoothReservations";
+import { useMockData } from "@/utils/mockData";
 import { SprayBooth } from "../types";
 
 interface SprayBoothSchedulerProps {
@@ -22,14 +24,21 @@ export const SprayBoothScheduler: React.FC<SprayBoothSchedulerProps> = ({ booths
     startTime: string;
   } | null>(null);
 
-  const { data: reservations = [], isLoading } = useBoothReservations(selectedDate);
+  const showMockData = useMockData();
+  const { data: realReservations = [], isLoading: realLoading } = useBoothReservations(selectedDate);
+  const { data: mockReservations = [], isLoading: mockLoading } = useMockBoothReservations(selectedDate);
+  
+  const reservations = showMockData ? mockReservations : realReservations;
+  const isLoading = showMockData ? mockLoading : realLoading;
 
   const weekStart = startOfWeek(selectedDate);
   const weekDays = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
 
   const handleSlotClick = (boothId: string, date: Date, startTime: string) => {
-    setSelectedSlot({ boothId, date, startTime });
-    setShowReservationDialog(true);
+    if (!showMockData) {
+      setSelectedSlot({ boothId, date, startTime });
+      setShowReservationDialog(true);
+    }
   };
 
   if (booths.length === 0) {
@@ -39,12 +48,17 @@ export const SprayBoothScheduler: React.FC<SprayBoothSchedulerProps> = ({ booths
           <Calendar className="h-12 w-12 text-muted-foreground mb-4" />
           <h3 className="text-lg font-semibold mb-2">No Spray Booths Available</h3>
           <p className="text-muted-foreground text-center mb-4">
-            Add spray booths to start scheduling reservations
+            {showMockData 
+              ? "Demo booths are loading..." 
+              : "Add spray booths to start scheduling reservations"
+            }
           </p>
-          <Button onClick={() => {}} className="flex items-center gap-2">
-            <Plus className="h-4 w-4" />
-            Add First Booth
-          </Button>
+          {!showMockData && (
+            <Button onClick={() => {}} className="flex items-center gap-2">
+              <Plus className="h-4 w-4" />
+              Add First Booth
+            </Button>
+          )}
         </CardContent>
       </Card>
     );
@@ -89,12 +103,14 @@ export const SprayBoothScheduler: React.FC<SprayBoothSchedulerProps> = ({ booths
         </CardContent>
       </Card>
 
-      <ReservationDialog
-        open={showReservationDialog}
-        onOpenChange={setShowReservationDialog}
-        selectedSlot={selectedSlot}
-        booths={booths}
-      />
+      {!showMockData && (
+        <ReservationDialog
+          open={showReservationDialog}
+          onOpenChange={setShowReservationDialog}
+          selectedSlot={selectedSlot}
+          booths={booths}
+        />
+      )}
     </div>
   );
 };

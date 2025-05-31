@@ -6,13 +6,22 @@ import { Plus, Settings } from "lucide-react";
 import { SprayBoothScheduler } from "./components/SprayBoothScheduler";
 import { BoothManagement } from "./components/BoothManagement";
 import { useSprayBooths } from "./hooks/useSprayBooths";
+import { useMockSprayBooths } from "./hooks/useMockSprayBooths";
+import { useMockData } from "@/utils/mockData";
 import { toast } from "sonner";
 
 const SprayBoothSchedulerPage = () => {
   const [activeTab, setActiveTab] = useState<"scheduler" | "management">("scheduler");
-  const { data: booths = [], isLoading, error } = useSprayBooths();
+  const showMockData = useMockData();
+  
+  const { data: realBooths = [], isLoading: realLoading, error: realError } = useSprayBooths();
+  const { data: mockBooths = [], isLoading: mockLoading } = useMockSprayBooths();
+  
+  const booths = showMockData ? mockBooths : realBooths;
+  const isLoading = showMockData ? mockLoading : realLoading;
+  const error = showMockData ? null : realError;
 
-  if (error) {
+  if (error && !showMockData) {
     toast.error("Failed to load spray booths");
   }
 
@@ -23,6 +32,11 @@ const SprayBoothSchedulerPage = () => {
           <h1 className="text-3xl font-bold">Spray Booth Scheduler</h1>
           <p className="text-muted-foreground">
             Manage spray booth reservations and optimize workflow scheduling
+            {showMockData && (
+              <span className="ml-2 text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                Demo Mode
+              </span>
+            )}
           </p>
         </div>
         <div className="flex gap-2">
