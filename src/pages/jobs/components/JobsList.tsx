@@ -10,7 +10,7 @@ import EmptyJobsState from "./EmptyJobsState";
 const JobsList: React.FC = () => {
   const { isDevMode } = useDevMode();
   const { data: mockJobs, isLoading: mockLoading } = useMockJobsData();
-  const { data: realJobs, isLoading: realLoading } = useJobsData();
+  const { jobs: realJobs, isLoading: realLoading } = useJobsData();
   
   // Use mock data when dev mode is on, real data otherwise
   const jobs = isDevMode ? mockJobs : realJobs;
