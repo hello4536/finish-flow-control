@@ -1,156 +1,130 @@
 
-import { useState, useEffect } from "react";
-import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
-import { TaskWithAssignee, TaskFormData } from "./types";
-import { 
-  fetchAllTasks, 
-  mapTasksWithAssignees, 
-  createTask, 
-  updateTaskStatus, 
-  deleteTask 
-} from "./taskService";
+import { useState, useEffect } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
+import { TaskWithAssignee, TaskFormData } from './types';
+import { mockData, useMockData } from '@/utils/mockData';
 
-export function useDailyTasks() {
-  const [tasks, setTasks] = useState<TaskWithAssignee[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+export const useDailyTasks = () => {
   const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const showMockData = useMockData();
 
-  // Fetch all tasks
-  const fetchTasks = async () => {
-    setIsLoading(true);
-    try {
-      const { tasks: tasksData, users: usersData } = await fetchAllTasks();
-      
-      // Transform the data to match our TaskWithAssignee interface
-      const transformedTasks = mapTasksWithAssignees(tasksData, usersData);
-      setTasks(transformedTasks);
-    } catch (error) {
-      console.error("Error fetching tasks:", error);
-      toast({
-        title: "Error",
-        description: "Failed to load tasks.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  // Mock data query
+  const mockQuery = useQuery({
+    queryKey: ['mock-daily-tasks'],
+    queryFn: async (): Promise<TaskWithAssignee[]> => {
+      await new Promise(resolve => setTimeout(resolve, 500));
+      return mockData.dailyTasks;
+    },
+    enabled: showMockData
+  });
 
-  // Assign a new task
-  const assignTask = async (taskData: TaskFormData & { dueDate: Date }) => {
-    try {
-      const { task, assignee } = await createTask(taskData);
+  // Real data query
+  const realQuery = useQuery({
+    queryKey: ['daily-tasks'],
+    queryFn: async (): Promise<TaskWithAssignee[]> => {
+      const { data, error } = await supabase
+        .from('daily_tasks')
+        .select(`
+          *,
+          assignee:user_id(id, full_name)
+        `)
+        .order('created_at', { ascending: false });
 
-      const assignedTask = {
+      if (error) throw error;
+
+      return data.map(task => ({
         ...task,
-        assignee
-      } as TaskWithAssignee;
-
-      setTasks((prev) => [assignedTask, ...prev]);
-
-      toast({
-        title: "Task Assigned",
-        description: "The task has been successfully assigned.",
-      });
-
-      return assignedTask;
-    } catch (error) {
-      console.error("Error assigning task:", error);
-      toast({
-        title: "Error",
-        description: "Failed to assign task.",
-        variant: "destructive",
-      });
-      return null;
-    }
-  };
-
-  // Mark a task as completed
-  const completeTask = async (taskId: string) => {
-    try {
-      const { task, assignee } = await updateTaskStatus(taskId, "completed");
-
-      const updatedTask = {
-        ...task,
-        assignee
-      } as TaskWithAssignee;
-
-      setTasks((prevTasks) =>
-        prevTasks.map((t) => (t.id === taskId ? updatedTask : t))
-      );
-
-      toast({
-        title: "Task Completed",
-        description: "The task has been marked as completed.",
-      });
-
-      return true;
-    } catch (error) {
-      console.error("Error completing task:", error);
-      toast({
-        title: "Error",
-        description: "Failed to update task status.",
-        variant: "destructive",
-      });
-      return false;
-    }
-  };
-
-  // Delete a task
-  const deleteTaskById = async (taskId: string) => {
-    try {
-      await deleteTask(taskId);
-      
-      setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
-
-      toast({
-        title: "Task Deleted",
-        description: "The task has been deleted successfully.",
-      });
-
-      return true;
-    } catch (error) {
-      console.error("Error deleting task:", error);
-      toast({
-        title: "Error",
-        description: "Failed to delete task.",
-        variant: "destructive",
-      });
-      return false;
-    }
-  };
-
-  // Set up real-time subscription
-  useEffect(() => {
-    fetchTasks();
-
-    const channel = supabase
-      .channel("table-db-changes")
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "daily_tasks",
-        },
-        () => {
-          fetchTasks();
+        assignee: {
+          id: task.assignee?.id || task.user_id,
+          name: task.assignee?.full_name || 'Unknown User'
         }
-      )
-      .subscribe();
+      }));
+    },
+    enabled: !showMockData
+  });
 
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, []);
+  // Use mock or real data based on dev mode
+  const { data: tasks = [], isLoading, error } = showMockData ? mockQuery : realQuery;
 
-  return { 
-    tasks, 
-    isLoading, 
-    assignTask, 
-    completeTask, 
-    deleteTask: deleteTaskById,
-    fetchTasks 
+  const addTaskMutation = useMutation({
+    mutationFn: async (newTask: TaskFormData) => {
+      if (showMockData) {
+        // Simulate adding to mock data
+        await new Promise(resolve => setTimeout(resolve, 300));
+        return;
+      }
+
+      const { error } = await supabase
+        .from('daily_tasks')
+        .insert([{
+          title: newTask.title,
+          description: newTask.description,
+          priority: newTask.priority,
+          due_date: newTask.due_date,
+          due_time: newTask.due_time,
+          user_id: newTask.user_id,
+          status: 'pending'
+        }]);
+
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: showMockData ? ['mock-daily-tasks'] : ['daily-tasks'] });
+      toast({
+        title: 'Task created',
+        description: 'The task has been created successfully.',
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: 'Error creating task',
+        description: error.message,
+        variant: 'destructive',
+      });
+    },
+  });
+
+  const updateTaskMutation = useMutation({
+    mutationFn: async ({ id, updates }: { id: string; updates: Partial<TaskWithAssignee> }) => {
+      if (showMockData) {
+        // Simulate updating mock data
+        await new Promise(resolve => setTimeout(resolve, 300));
+        return;
+      }
+
+      const { error } = await supabase
+        .from('daily_tasks')
+        .update(updates)
+        .eq('id', id);
+
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: showMockData ? ['mock-daily-tasks'] : ['daily-tasks'] });
+      toast({
+        title: 'Task updated',
+        description: 'The task has been updated successfully.',
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: 'Error updating task',
+        description: error.message,
+        variant: 'destructive',
+      });
+    },
+  });
+
+  return {
+    tasks,
+    isLoading,
+    error,
+    addTask: addTaskMutation.mutate,
+    updateTask: updateTaskMutation.mutate,
+    isAddingTask: addTaskMutation.isPending,
+    isUpdatingTask: updateTaskMutation.isPending,
   };
-}
+};

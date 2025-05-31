@@ -1,17 +1,29 @@
-
 import { useState, useEffect } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { MaintenanceRecord } from '@/types/equipment';
+import { mockData, useMockData } from '@/utils/mockData';
 
 export const useEquipmentMaintenance = () => {
-  const [maintenanceRecords, setMaintenanceRecords] = useState<MaintenanceRecord[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const showMockData = useMockData();
 
-  const fetchMaintenanceRecords = async () => {
-    setIsLoading(true);
-    try {
+  // Mock data query
+  const mockQuery = useQuery({
+    queryKey: ['mock-equipment-maintenance'],
+    queryFn: async (): Promise<MaintenanceRecord[]> => {
+      await new Promise(resolve => setTimeout(resolve, 500));
+      return mockData.equipmentMaintenance;
+    },
+    enabled: showMockData
+  });
+
+  // Real data query (keeping existing logic)
+  const realQuery = useQuery({
+    queryKey: ['equipment-maintenance'],
+    queryFn: async (): Promise<MaintenanceRecord[]> => {
       const { data, error } = await supabase
         .from('equipment_maintenance')
         .select(`
@@ -37,20 +49,23 @@ export const useEquipmentMaintenance = () => {
         notes: record.notes
       }));
 
-      setMaintenanceRecords(formattedRecords);
-    } catch (error: any) {
-      console.error('Error fetching maintenance records:', error);
-      toast({
-        title: 'Error fetching maintenance records',
-        description: error.message,
-        variant: 'destructive',
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
+      return formattedRecords;
+    },
+    enabled: !showMockData
+  });
+
+  // Use mock or real data based on dev mode
+  const { data: maintenanceRecords = [], isLoading, error } = showMockData ? mockQuery : realQuery;
 
   const addMaintenanceRecord = async (newRecord: Partial<MaintenanceRecord>) => {
+    if (showMockData) {
+      toast({
+        title: 'Mock Mode',
+        description: 'Maintenance record added to mock data.',
+      });
+      return;
+    }
+
     try {
       const { error } = await supabase
         .from('equipment_maintenance')
@@ -66,7 +81,7 @@ export const useEquipmentMaintenance = () => {
 
       if (error) throw error;
       
-      fetchMaintenanceRecords();
+      queryClient.invalidateQueries({ queryKey: ['equipment-maintenance'] });
       
       toast({
         title: 'Maintenance record added',
@@ -83,30 +98,10 @@ export const useEquipmentMaintenance = () => {
     }
   };
 
-  useEffect(() => {
-    fetchMaintenanceRecords();
-    
-    // Set up real-time subscription
-    const channel = supabase
-      .channel('maintenance_changes')
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'equipment_maintenance' },
-        () => {
-          fetchMaintenanceRecords();
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, []);
-
   return {
     maintenanceRecords,
     isLoading,
     addMaintenanceRecord,
-    refresh: fetchMaintenanceRecords,
+    refresh: () => queryClient.invalidateQueries({ queryKey: showMockData ? ['mock-equipment-maintenance'] : ['equipment-maintenance'] }),
   };
 };

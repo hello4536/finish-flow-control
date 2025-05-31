@@ -852,6 +852,6 @@ export const mockData = {
 
 // Helper function to enable/disable mock data
 export const useMockData = () => {
-  // This can be controlled via environment variable or settings
-  return true; // Set to false to disable mock data
+  // Return true to show mock data by default
+  return true;
 };

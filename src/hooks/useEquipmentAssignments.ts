@@ -1,18 +1,29 @@
-
 import { useState, useEffect } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { EquipmentAssignment } from '@/types/equipment';
+import { mockData, useMockData } from '@/utils/mockData';
 
 export const useEquipmentAssignments = () => {
-  const [assignments, setAssignments] = useState<EquipmentAssignment[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const showMockData = useMockData();
 
-  const fetchAssignments = async () => {
-    setIsLoading(true);
-    try {
-      // Get user profiles for assigned_to and assigned_by
+  // Mock data query
+  const mockQuery = useQuery({
+    queryKey: ['mock-equipment-assignments'],
+    queryFn: async (): Promise<EquipmentAssignment[]> => {
+      await new Promise(resolve => setTimeout(resolve, 400));
+      return mockData.equipmentAssignments;
+    },
+    enabled: showMockData
+  });
+
+  // Real data query (keeping existing logic)
+  const realQuery = useQuery({
+    queryKey: ['equipment-assignments'],
+    queryFn: async (): Promise<EquipmentAssignment[]> => {
       const { data: assignmentData, error } = await supabase
         .from('equipment_assignments')
         .select(`
@@ -29,18 +40,15 @@ export const useEquipmentAssignments = () => {
 
       if (error) throw error;
 
-      // Since we can't directly join with auth.users, we need to fetch user profiles separately
       const formattedAssignments: EquipmentAssignment[] = [];
       
       for (const assignment of assignmentData) {
-        // Get assignee info
         const { data: assigneeData } = await supabase
           .from('profiles')
           .select('id, full_name')
           .eq('id', assignment.assigned_to)
           .single();
           
-        // Get assigner info
         const { data: assignerData } = await supabase
           .from('profiles')
           .select('id, full_name')
@@ -65,20 +73,23 @@ export const useEquipmentAssignments = () => {
         });
       }
 
-      setAssignments(formattedAssignments);
-    } catch (error: any) {
-      console.error('Error fetching assignments:', error);
-      toast({
-        title: 'Error fetching assignments',
-        description: error.message,
-        variant: 'destructive',
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
+      return formattedAssignments;
+    },
+    enabled: !showMockData
+  });
+
+  // Use mock or real data based on dev mode
+  const { data: assignments = [], isLoading, error } = showMockData ? mockQuery : realQuery;
 
   const addAssignment = async (newAssignment: Partial<EquipmentAssignment>) => {
+    if (showMockData) {
+      toast({
+        title: 'Mock Mode',
+        description: 'Equipment assignment added to mock data.',
+      });
+      return;
+    }
+
     try {
       const { error } = await supabase
         .from('equipment_assignments')
@@ -100,7 +111,7 @@ export const useEquipmentAssignments = () => {
         .update({ status: 'Assigned' })
         .eq('id', newAssignment.equipment.id);
       
-      fetchAssignments();
+      queryClient.invalidateQueries({ queryKey: ['equipment-assignments'] });
       
       toast({
         title: 'Equipment assigned',
@@ -118,6 +129,14 @@ export const useEquipmentAssignments = () => {
   };
 
   const updateAssignment = async (id: string, updates: Partial<EquipmentAssignment>) => {
+    if (showMockData) {
+      toast({
+        title: 'Mock Mode',
+        description: 'Equipment assignment updated in mock data.',
+      });
+      return;
+    }
+
     try {
       const updateData: Record<string, any> = {};
       
@@ -143,7 +162,7 @@ export const useEquipmentAssignments = () => {
         }
       }
       
-      fetchAssignments();
+      queryClient.invalidateQueries({ queryKey: ['equipment-assignments'] });
       
       toast({
         title: 'Assignment updated',
@@ -160,31 +179,11 @@ export const useEquipmentAssignments = () => {
     }
   };
 
-  useEffect(() => {
-    fetchAssignments();
-    
-    // Set up real-time subscription
-    const channel = supabase
-      .channel('assignment_changes')
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'equipment_assignments' },
-        () => {
-          fetchAssignments();
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, []);
-
   return {
     assignments,
     isLoading,
     addAssignment,
     updateAssignment,
-    refresh: fetchAssignments,
+    refresh: () => queryClient.invalidateQueries({ queryKey: showMockData ? ['mock-equipment-assignments'] : ['equipment-assignments'] }),
   };
 };

@@ -10,17 +10,16 @@ interface DevModeContextType {
 const DevModeContext = createContext<DevModeContextType | undefined>(undefined);
 
 export function DevModeProvider({ children }: { children: ReactNode }) {
-  // Always set isDevMode to false and make methods no-ops
-  const [isDevMode] = useState<boolean>(false);
+  // Enable dev mode by default to show mock data
+  const [isDevMode, setIsDevMode] = useState<boolean>(true);
 
   const toggleDevMode = () => {
-    // This function is now disabled
-    console.log("Developer mode has been disabled in this version");
+    setIsDevMode(prev => !prev);
+    console.log("Developer mode toggled:", !isDevMode);
   };
   
   const seedDemoData = async () => {
-    // This function is now disabled
-    console.log("Demo data seeding has been disabled in this version");
+    console.log("Demo data seeding simulation");
     return Promise.resolve();
   };
 

@@ -1,40 +1,54 @@
 
 import { useState, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Equipment } from '@/types/equipment';
+import { mockData, useMockData } from '@/utils/mockData';
 
 export const useEquipment = () => {
-  const [equipment, setEquipment] = useState<Equipment[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const showMockData = useMockData();
 
-  const fetchEquipment = async () => {
-    setIsLoading(true);
-    try {
+  // Mock data query
+  const mockQuery = useQuery({
+    queryKey: ['mock-equipment'],
+    queryFn: async (): Promise<Equipment[]> => {
+      await new Promise(resolve => setTimeout(resolve, 600));
+      return mockData.equipment;
+    },
+    enabled: showMockData
+  });
+
+  // Real data query
+  const realQuery = useQuery({
+    queryKey: ['equipment'],
+    queryFn: async (): Promise<Equipment[]> => {
       const { data, error } = await supabase
         .from('equipment')
         .select('*')
         .order('name', { ascending: true });
 
       if (error) throw error;
-      
-      setEquipment(data || []);
-    } catch (error: any) {
-      console.error('Error fetching equipment:', error);
-      toast({
-        title: 'Error fetching equipment',
-        description: error.message,
-        variant: 'destructive',
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
+      return data || [];
+    },
+    enabled: !showMockData
+  });
+
+  // Use mock or real data based on dev mode
+  const { data: equipment = [], isLoading, error } = showMockData ? mockQuery : realQuery;
 
   const addEquipment = async (newEquipment: Partial<Equipment>) => {
+    if (showMockData) {
+      toast({
+        title: 'Mock Mode',
+        description: 'Equipment added to mock data.',
+      });
+      return;
+    }
+
     try {
-      // Make sure that required fields are present
       if (!newEquipment.name || !newEquipment.type) {
         throw new Error('Equipment name and type are required');
       }
@@ -57,7 +71,7 @@ export const useEquipment = () => {
 
       if (error) throw error;
       
-      setEquipment(prev => [...prev, data[0]]);
+      queryClient.invalidateQueries({ queryKey: ['equipment'] });
       return data[0];
     } catch (error: any) {
       console.error('Error adding equipment:', error);
@@ -71,6 +85,14 @@ export const useEquipment = () => {
   };
 
   const updateEquipment = async (id: string, updates: Partial<Equipment>) => {
+    if (showMockData) {
+      toast({
+        title: 'Mock Mode',
+        description: 'Equipment updated in mock data.',
+      });
+      return;
+    }
+
     try {
       const { data, error } = await supabase
         .from('equipment')
@@ -80,10 +102,7 @@ export const useEquipment = () => {
 
       if (error) throw error;
       
-      setEquipment(prev => 
-        prev.map(item => (item.id === id ? { ...item, ...data[0] } : item))
-      );
-      
+      queryClient.invalidateQueries({ queryKey: ['equipment'] });
       return data[0];
     } catch (error: any) {
       console.error('Error updating equipment:', error);
@@ -97,6 +116,14 @@ export const useEquipment = () => {
   };
 
   const deleteEquipment = async (id: string) => {
+    if (showMockData) {
+      toast({
+        title: 'Mock Mode',
+        description: 'Equipment deleted from mock data.',
+      });
+      return;
+    }
+
     try {
       const { error } = await supabase
         .from('equipment')
@@ -105,7 +132,7 @@ export const useEquipment = () => {
 
       if (error) throw error;
       
-      setEquipment(prev => prev.filter(item => item.id !== id));
+      queryClient.invalidateQueries({ queryKey: ['equipment'] });
       
       toast({
         title: 'Equipment deleted',
@@ -121,32 +148,12 @@ export const useEquipment = () => {
     }
   };
 
-  useEffect(() => {
-    fetchEquipment();
-    
-    // Set up real-time subscription
-    const channel = supabase
-      .channel('equipment_changes')
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'equipment' },
-        () => {
-          fetchEquipment();
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, []);
-
   return {
     equipment,
     isLoading,
     addEquipment,
     updateEquipment,
     deleteEquipment,
-    refresh: fetchEquipment,
+    refresh: () => queryClient.invalidateQueries({ queryKey: showMockData ? ['mock-equipment'] : ['equipment'] }),
   };
 };
