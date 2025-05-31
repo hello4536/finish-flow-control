@@ -29,7 +29,7 @@ export const useDailyTasks = () => {
         .from('daily_tasks')
         .select(`
           *,
-          assignee:user_id(id, full_name)
+          profiles:user_id(id, full_name)
         `)
         .order('created_at', { ascending: false });
 
@@ -37,10 +37,10 @@ export const useDailyTasks = () => {
 
       return data.map(task => ({
         ...task,
-        assignee: {
-          id: task.assignee?.id || task.user_id,
-          name: task.assignee?.full_name || 'Unknown User'
-        }
+        assignee: task.profiles ? {
+          id: task.profiles.id || task.user_id,
+          name: task.profiles.full_name || 'Unknown User'
+        } : undefined
       }));
     },
     enabled: !showMockData
@@ -64,8 +64,8 @@ export const useDailyTasks = () => {
           description: newTask.description,
           priority: newTask.priority,
           due_date: newTask.due_date,
-          due_time: newTask.due_time,
-          user_id: newTask.user_id,
+          due_time: newTask.dueTime,
+          user_id: newTask.userId,
           status: 'pending'
         }]);
 
@@ -118,12 +118,75 @@ export const useDailyTasks = () => {
     },
   });
 
+  const completeTaskMutation = useMutation({
+    mutationFn: async (taskId: string) => {
+      if (showMockData) {
+        await new Promise(resolve => setTimeout(resolve, 300));
+        return;
+      }
+
+      const { error } = await supabase
+        .from('daily_tasks')
+        .update({ status: 'completed' })
+        .eq('id', taskId);
+
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: showMockData ? ['mock-daily-tasks'] : ['daily-tasks'] });
+      toast({
+        title: 'Task completed',
+        description: 'The task has been marked as completed.',
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: 'Error completing task',
+        description: error.message,
+        variant: 'destructive',
+      });
+    },
+  });
+
+  const deleteTaskMutation = useMutation({
+    mutationFn: async (taskId: string) => {
+      if (showMockData) {
+        await new Promise(resolve => setTimeout(resolve, 300));
+        return;
+      }
+
+      const { error } = await supabase
+        .from('daily_tasks')
+        .delete()
+        .eq('id', taskId);
+
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: showMockData ? ['mock-daily-tasks'] : ['daily-tasks'] });
+      toast({
+        title: 'Task deleted',
+        description: 'The task has been deleted successfully.',
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: 'Error deleting task',
+        description: error.message,
+        variant: 'destructive',
+      });
+    },
+  });
+
   return {
     tasks,
     isLoading,
     error,
     addTask: addTaskMutation.mutate,
+    assignTask: addTaskMutation.mutate, // Alias for addTask
     updateTask: updateTaskMutation.mutate,
+    completeTask: completeTaskMutation.mutate,
+    deleteTask: deleteTaskMutation.mutate,
     isAddingTask: addTaskMutation.isPending,
     isUpdatingTask: updateTaskMutation.isPending,
   };

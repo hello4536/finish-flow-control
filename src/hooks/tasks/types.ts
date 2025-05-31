@@ -14,8 +14,14 @@ export interface Task {
   updated_at: string;
 }
 
+// Simplified assignee type for tasks
+export interface TaskAssignee {
+  id: string;
+  name: string;
+}
+
 export interface TaskWithAssignee extends Task {
-  assignee?: User;
+  assignee?: TaskAssignee;
 }
 
 export type TaskFormData = {
@@ -23,5 +29,6 @@ export type TaskFormData = {
   description?: string;
   userId: string;
   priority: "low" | "medium" | "high";
+  due_date: string;
   dueTime?: string;
 };
