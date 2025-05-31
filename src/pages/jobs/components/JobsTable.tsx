@@ -4,7 +4,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Eye, FileText, Calendar, User } from "lucide-react";
+import { Eye } from "lucide-react";
 import { Job } from "../hooks/useJobsData";
 
 interface JobsTableProps {
@@ -33,7 +33,7 @@ const JobsTable: React.FC<JobsTableProps> = ({ jobs, isLoading }) => {
     );
   }
 
-  if (!jobs.length) {
+  if (!jobs || jobs.length === 0) {
     return (
       <Card>
         <CardHeader>
@@ -59,8 +59,9 @@ const JobsTable: React.FC<JobsTableProps> = ({ jobs, isLoading }) => {
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead>Job Number</TableHead>
               <TableHead>Job Name</TableHead>
-              <TableHead>Client</TableHead>
+              <TableHead>Assigned To</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Due Date</TableHead>
               <TableHead>Actions</TableHead>
@@ -69,14 +70,15 @@ const JobsTable: React.FC<JobsTableProps> = ({ jobs, isLoading }) => {
           <TableBody>
             {jobs.map((job) => (
               <TableRow key={job.id}>
-                <TableCell className="font-medium">{job.name}</TableCell>
-                <TableCell>{job.client}</TableCell>
+                <TableCell className="font-medium">{job.job_number}</TableCell>
+                <TableCell>{job.name}</TableCell>
+                <TableCell>{job.assigned_to || 'Unassigned'}</TableCell>
                 <TableCell>
                   <Badge variant={job.status === 'completed' ? 'default' : 'secondary'}>
                     {job.status}
                   </Badge>
                 </TableCell>
-                <TableCell>{job.due_date}</TableCell>
+                <TableCell>{job.due_date || 'No due date'}</TableCell>
                 <TableCell>
                   <Button
                     variant="outline"
