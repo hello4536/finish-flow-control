@@ -16,7 +16,12 @@ export const useDailyTasks = () => {
     queryKey: ['mock-daily-tasks'],
     queryFn: async (): Promise<TaskWithAssignee[]> => {
       await new Promise(resolve => setTimeout(resolve, 500));
-      return mockData.dailyTasks;
+      // Ensure mock data conforms to the TaskWithAssignee type
+      return mockData.dailyTasks.map(task => ({
+        ...task,
+        priority: task.priority as "low" | "medium" | "high",
+        status: task.status as "pending" | "completed"
+      }));
     },
     enabled: showMockData
   });
