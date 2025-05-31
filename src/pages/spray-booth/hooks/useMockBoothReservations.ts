@@ -17,6 +17,8 @@ export const useMockBoothReservations = (selectedDate: Date) => {
       
       return mockData.boothReservations.map(reservation => ({
         ...reservation,
+        status: reservation.status as "scheduled" | "in_progress" | "completed" | "cancelled",
+        priority: reservation.priority as "low" | "medium" | "high" | "urgent",
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString()
       }));

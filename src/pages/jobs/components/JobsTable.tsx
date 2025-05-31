@@ -23,6 +23,11 @@ const JobsTable: React.FC = () => {
   const isLoading = showMockData ? mockLoading : realLoading;
   const error = showMockData ? null : realError;
 
+  const handleViewJob = (jobId: string) => {
+    console.log("View job:", jobId);
+    // Add view job functionality here
+  };
+
   if (isLoading) {
     return <LoadingSpinner />;
   }
@@ -55,7 +60,7 @@ const JobsTable: React.FC = () => {
             <EmptyJobsState />
           ) : (
             jobs.map((job) => (
-              <JobRow key={job.id} job={job} />
+              <JobRow key={job.id} job={job} onViewJob={handleViewJob} />
             ))
           )}
         </TableBody>

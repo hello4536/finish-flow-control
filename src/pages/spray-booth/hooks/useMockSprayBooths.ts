@@ -14,6 +14,7 @@ export const useMockSprayBooths = () => {
       
       return mockData.sprayBooths.map(booth => ({
         ...booth,
+        status: booth.status as "active" | "maintenance" | "offline",
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString()
       }));
