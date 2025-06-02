@@ -9,29 +9,29 @@ const JobsStats: React.FC = () => {
 
   const statCards = [
     {
-      title: 'Active Jobs',
-      value: stats?.activeJobs || 0,
+      title: 'In Progress',
+      value: stats?.inProgress || 0,
       icon: Briefcase,
       color: 'text-blue-600',
       bgColor: 'bg-blue-50'
     },
     {
-      title: 'Total Revenue',
-      value: `$${(stats?.totalRevenue || 0).toLocaleString()}`,
+      title: 'Completed',
+      value: stats?.completed || 0,
       icon: DollarSign,
       color: 'text-green-600',
       bgColor: 'bg-green-50'
     },
     {
-      title: 'Avg Profit Margin',
-      value: `${(stats?.avgProfitMargin || 0).toFixed(1)}%`,
+      title: 'Upcoming',
+      value: stats?.upcoming || 0,
       icon: TrendingUp,
       color: 'text-purple-600',
       bgColor: 'bg-purple-50'
     },
     {
       title: 'Overdue Jobs',
-      value: stats?.overdueJobs || 0,
+      value: stats?.overdue || 0,
       icon: Clock,
       color: 'text-orange-600',
       bgColor: 'bg-orange-50'
