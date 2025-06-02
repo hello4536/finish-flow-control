@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,20 +12,19 @@ import { TaskDescriptionField } from "./form/TaskDescription";
 import { TaskAssigneeField } from "./form/TaskAssigneeField";
 import { TaskPriorityField } from "./form/TaskPriorityField";
 import { TaskDueTimeField } from "./form/TaskDueTimeField";
+
 interface TaskAssignmentFormProps {
   selectedDate: Date;
-  onTaskAssigned: (task: TaskFormData & {
-    dueDate: Date;
-  }) => void;
+  onTaskAssigned: (task: TaskFormData & { dueDate: Date }) => void;
 }
+
 const TaskAssignmentForm: React.FC<TaskAssignmentFormProps> = ({
   selectedDate,
   onTaskAssigned
 }) => {
-  const {
-    users
-  } = useUserData();
+  const { users } = useUserData();
   const activeUsers = users.filter(user => user.status === "active");
+
   const form = useForm<TaskFormData>({
     resolver: zodResolver(taskFormSchema),
     defaultValues: {
@@ -34,6 +34,7 @@ const TaskAssignmentForm: React.FC<TaskAssignmentFormProps> = ({
       dueTime: ""
     }
   });
+
   const onSubmit = (data: TaskFormData) => {
     onTaskAssigned({
       ...data,
@@ -46,7 +47,9 @@ const TaskAssignmentForm: React.FC<TaskAssignmentFormProps> = ({
       dueTime: ""
     });
   };
-  return <Form {...form}>
+
+  return (
+    <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <TaskTitleField form={form} />
         <TaskDescriptionField form={form} />
@@ -59,11 +62,16 @@ const TaskAssignmentForm: React.FC<TaskAssignmentFormProps> = ({
         <TaskDueTimeField form={form} />
         
         <div className="pt-2">
-          <Button type="submit" className="w-full text-slate-50 bg-blue-600 hover:bg-blue-500">
+          <Button 
+            type="submit" 
+            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+          >
             Assign Task
           </Button>
         </div>
       </form>
-    </Form>;
+    </Form>
+  );
 };
+
 export default TaskAssignmentForm;
