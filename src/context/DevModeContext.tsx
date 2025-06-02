@@ -10,8 +10,8 @@ interface DevModeContextType {
 const DevModeContext = createContext<DevModeContextType | undefined>(undefined);
 
 export function DevModeProvider({ children }: { children: ReactNode }) {
-  // Enable dev mode by default to show mock data
-  const [isDevMode, setIsDevMode] = useState<boolean>(true);
+  // Disable dev mode by default to hide mock data
+  const [isDevMode, setIsDevMode] = useState<boolean>(false);
 
   const toggleDevMode = () => {
     setIsDevMode(prev => !prev);
