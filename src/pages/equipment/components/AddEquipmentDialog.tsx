@@ -1,61 +1,50 @@
-
 import React from 'react';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { useEquipment } from '@/hooks/useEquipment';
-
 const equipmentSchema = z.object({
-  name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
-  type: z.string().min(1, { message: 'Type is required.' }),
+  name: z.string().min(2, {
+    message: 'Name must be at least 2 characters.'
+  }),
+  type: z.string().min(1, {
+    message: 'Type is required.'
+  }),
   brand: z.string().optional(),
   model: z.string().optional(),
   serialNumber: z.string().optional(),
   purchaseDate: z.string().optional(),
   purchaseCost: z.string().optional(),
-  condition: z.string().min(1, { message: 'Condition is required.' }),
-  status: z.string().min(1, { message: 'Status is required.' }),
-  notes: z.string().optional(),
+  condition: z.string().min(1, {
+    message: 'Condition is required.'
+  }),
+  status: z.string().min(1, {
+    message: 'Status is required.'
+  }),
+  notes: z.string().optional()
 });
-
 type EquipmentFormValues = z.infer<typeof equipmentSchema>;
-
 interface AddEquipmentDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
-
-const AddEquipmentDialog: React.FC<AddEquipmentDialogProps> = ({ open, onOpenChange }) => {
-  const { addEquipment } = useEquipment();
-  const { toast } = useToast();
-  
+const AddEquipmentDialog: React.FC<AddEquipmentDialogProps> = ({
+  open,
+  onOpenChange
+}) => {
+  const {
+    addEquipment
+  } = useEquipment();
+  const {
+    toast
+  } = useToast();
   const form = useForm<EquipmentFormValues>({
     resolver: zodResolver(equipmentSchema),
     defaultValues: {
@@ -68,10 +57,9 @@ const AddEquipmentDialog: React.FC<AddEquipmentDialogProps> = ({ open, onOpenCha
       purchaseCost: '',
       condition: 'Good',
       status: 'Available',
-      notes: '',
-    },
+      notes: ''
+    }
   });
-
   const onSubmit = async (values: EquipmentFormValues) => {
     try {
       await addEquipment({
@@ -84,14 +72,12 @@ const AddEquipmentDialog: React.FC<AddEquipmentDialogProps> = ({ open, onOpenCha
         purchase_cost: values.purchaseCost ? parseFloat(values.purchaseCost) : undefined,
         condition: values.condition,
         status: values.status,
-        notes: values.notes,
+        notes: values.notes
       });
-      
       toast({
         title: 'Equipment added',
-        description: 'The equipment has been added successfully.',
+        description: 'The equipment has been added successfully.'
       });
-      
       form.reset();
       onOpenChange(false);
     } catch (error) {
@@ -99,16 +85,14 @@ const AddEquipmentDialog: React.FC<AddEquipmentDialogProps> = ({ open, onOpenCha
       toast({
         title: 'Failed to add equipment',
         description: 'There was an error adding the equipment. Please try again.',
-        variant: 'destructive',
+        variant: 'destructive'
       });
     }
   };
-
-  return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+  return <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>Add New Equipment</DialogTitle>
+          <DialogTitle className="text-blue-600">Add New Equipment</DialogTitle>
           <DialogDescription>
             Enter the details of the new equipment to add to inventory.
           </DialogDescription>
@@ -117,25 +101,19 @@ const AddEquipmentDialog: React.FC<AddEquipmentDialogProps> = ({ open, onOpenCha
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
+              <FormField control={form.control} name="name" render={({
+              field
+            }) => <FormItem>
                     <FormLabel>Name *</FormLabel>
                     <FormControl>
                       <Input placeholder="Equipment name" {...field} />
                     </FormControl>
                     <FormMessage />
-                  </FormItem>
-                )}
-              />
+                  </FormItem>} />
               
-              <FormField
-                control={form.control}
-                name="type"
-                render={({ field }) => (
-                  <FormItem>
+              <FormField control={form.control} name="type" render={({
+              field
+            }) => <FormItem>
                     <FormLabel>Type *</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
@@ -155,85 +133,61 @@ const AddEquipmentDialog: React.FC<AddEquipmentDialogProps> = ({ open, onOpenCha
                       </SelectContent>
                     </Select>
                     <FormMessage />
-                  </FormItem>
-                )}
-              />
+                  </FormItem>} />
               
-              <FormField
-                control={form.control}
-                name="brand"
-                render={({ field }) => (
-                  <FormItem>
+              <FormField control={form.control} name="brand" render={({
+              field
+            }) => <FormItem>
                     <FormLabel>Brand</FormLabel>
                     <FormControl>
                       <Input placeholder="Brand name" {...field} />
                     </FormControl>
                     <FormMessage />
-                  </FormItem>
-                )}
-              />
+                  </FormItem>} />
               
-              <FormField
-                control={form.control}
-                name="model"
-                render={({ field }) => (
-                  <FormItem>
+              <FormField control={form.control} name="model" render={({
+              field
+            }) => <FormItem>
                     <FormLabel>Model</FormLabel>
                     <FormControl>
                       <Input placeholder="Model number" {...field} />
                     </FormControl>
                     <FormMessage />
-                  </FormItem>
-                )}
-              />
+                  </FormItem>} />
               
-              <FormField
-                control={form.control}
-                name="serialNumber"
-                render={({ field }) => (
-                  <FormItem>
+              <FormField control={form.control} name="serialNumber" render={({
+              field
+            }) => <FormItem>
                     <FormLabel>Serial Number</FormLabel>
                     <FormControl>
                       <Input placeholder="Serial number" {...field} />
                     </FormControl>
                     <FormMessage />
-                  </FormItem>
-                )}
-              />
+                  </FormItem>} />
               
-              <FormField
-                control={form.control}
-                name="purchaseDate"
-                render={({ field }) => (
-                  <FormItem>
+              <FormField control={form.control} name="purchaseDate" render={({
+              field
+            }) => <FormItem>
                     <FormLabel>Purchase Date</FormLabel>
                     <FormControl>
                       <Input type="date" {...field} />
                     </FormControl>
                     <FormMessage />
-                  </FormItem>
-                )}
-              />
+                  </FormItem>} />
               
-              <FormField
-                control={form.control}
-                name="purchaseCost"
-                render={({ field }) => (
-                  <FormItem>
+              <FormField control={form.control} name="purchaseCost" render={({
+              field
+            }) => <FormItem>
                     <FormLabel>Purchase Cost</FormLabel>
                     <FormControl>
                       <Input placeholder="0.00" {...field} />
                     </FormControl>
                     <FormMessage />
-                  </FormItem>
-                )}
-              />
+                  </FormItem>} />
               
-              <FormField
-                control={form.control}
-                name="condition"
-                render={({ field }) => (
-                  <FormItem>
+              <FormField control={form.control} name="condition" render={({
+              field
+            }) => <FormItem>
                     <FormLabel>Condition *</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
@@ -251,15 +205,11 @@ const AddEquipmentDialog: React.FC<AddEquipmentDialogProps> = ({ open, onOpenCha
                       </SelectContent>
                     </Select>
                     <FormMessage />
-                  </FormItem>
-                )}
-              />
+                  </FormItem>} />
               
-              <FormField
-                control={form.control}
-                name="status"
-                render={({ field }) => (
-                  <FormItem>
+              <FormField control={form.control} name="status" render={({
+              field
+            }) => <FormItem>
                     <FormLabel>Status *</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
@@ -276,40 +226,28 @@ const AddEquipmentDialog: React.FC<AddEquipmentDialogProps> = ({ open, onOpenCha
                       </SelectContent>
                     </Select>
                     <FormMessage />
-                  </FormItem>
-                )}
-              />
+                  </FormItem>} />
             </div>
             
-            <FormField
-              control={form.control}
-              name="notes"
-              render={({ field }) => (
-                <FormItem>
+            <FormField control={form.control} name="notes" render={({
+            field
+          }) => <FormItem>
                   <FormLabel>Notes</FormLabel>
                   <FormControl>
                     <Textarea placeholder="Additional notes or details" {...field} />
                   </FormControl>
                   <FormMessage />
-                </FormItem>
-              )}
-            />
+                </FormItem>} />
             
             <DialogFooter>
-              <Button 
-                type="button" 
-                variant="outline" 
-                onClick={() => onOpenChange(false)}
-              >
+              <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
                 Cancel
               </Button>
-              <Button type="submit">Add Equipment</Button>
+              <Button type="submit" className="text-white bg-blue-600 hover:bg-blue-500">Add Equipment</Button>
             </DialogFooter>
           </form>
         </Form>
       </DialogContent>
-    </Dialog>
-  );
+    </Dialog>;
 };
-
 export default AddEquipmentDialog;
