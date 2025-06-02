@@ -1,3 +1,4 @@
+
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
@@ -101,7 +102,7 @@ export function AppSidebar() {
   const isMainExpanded = mainItems.some(i => isActive(i.url));
   const isAdminExpanded = adminItems.some(i => isActive(i.url));
 
-  // Updated function to generate NavLink classes with white fill, navy text, and orange border
+  // Enhanced function to generate NavLink classes with gradient active states
   const getNavCls = (item: {
     color: string;
   }) => {
@@ -110,58 +111,65 @@ export function AppSidebar() {
     }: {
       isActive: boolean;
     }) => {
-      // Base classes with white fill, navy text and orange border
-      const baseClasses = "flex items-center rounded-md transition-colors p-2 bg-white text-primary border border-purple-600";
+      // Base classes with enhanced styling
+      const baseClasses = "flex items-center rounded-lg transition-all duration-300 p-3 bg-white/80 backdrop-blur-sm border border-slate-200 text-slate-700 hover:shadow-md";
 
-      // Active state with light blue background and navy text
+      // Active state with gradient background
       if (isActive) {
-        return `${baseClasses} bg-accent/10 text-primary font-medium shadow-md`;
+        return `${baseClasses} bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold shadow-lg hover:shadow-xl border-transparent transform hover:-translate-y-0.5`;
       }
 
-      // Inactive state with hover effect
-      return `${baseClasses} hover:bg-accent/5`;
+      // Inactive state with enhanced hover effects
+      return `${baseClasses} hover:bg-white hover:border-purple-200 hover:text-purple-700 hover:transform hover:-translate-y-0.5`;
     };
   };
-  return <Sidebar className={`${collapsed ? "w-14" : "w-60"} bg-gradient-to-b from-primary to-primary/90 shadow-xl`} collapsible="icon">
-      <SidebarTrigger className="m-2 self-end text-white hover:bg-primary/70" />
+  
+  return (
+    <Sidebar 
+      className={`${collapsed ? "w-14" : "w-60"} bg-gradient-to-b from-slate-50 via-blue-50/50 to-indigo-100/30 shadow-2xl border-r border-slate-200/50`} 
+      collapsible="icon"
+    >
+      <SidebarTrigger className="m-3 self-end text-slate-600 hover:bg-white/80 hover:text-purple-600 backdrop-blur-sm border border-slate-200 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md" />
       
-
-      <SidebarContent className="bg-sky-50">
-        <SidebarGroup className="my-[20px]">
-          
-
+      <SidebarContent className="bg-transparent px-2">
+        <SidebarGroup className="my-4">
           <SidebarGroupContent>
-            <SidebarMenu>
-              {mainItems.map(item => <SidebarMenuItem key={item.title}>
+            <SidebarMenu className="space-y-2">
+              {mainItems.map(item => 
+                <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <NavLink to={item.url} end={item.url === "/dashboard"} className={getNavCls(item)}>
-                      <item.icon className="mr-2 h-5 w-5" />
-                      {!collapsed && <span className="text-sm font-semibold">{item.title}</span>}
+                      <item.icon className="mr-3 h-5 w-5 flex-shrink-0" />
+                      {!collapsed && <span className="text-sm font-medium truncate">{item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
-                </SidebarMenuItem>)}
+                </SidebarMenuItem>
+              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
 
-        <SidebarGroup>
-          <SidebarGroupLabel className="text-purple-700 font-semibold uppercase tracking-wider text-xs px-[50px]">
+        <SidebarGroup className="mt-6">
+          <SidebarGroupLabel className="text-slate-500 font-bold uppercase tracking-wider text-xs px-3 mb-3 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
             Administration
           </SidebarGroupLabel>
 
           <SidebarGroupContent>
-            <SidebarMenu>
-              {adminItems.map(item => <SidebarMenuItem key={item.title}>
+            <SidebarMenu className="space-y-2">
+              {adminItems.map(item => 
+                <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <NavLink to={item.url} className={getNavCls(item)}>
-                      <item.icon className="mr-2 h-5 w-5" />
-                      {!collapsed && <span>{item.title}</span>}
+                      <item.icon className="mr-3 h-5 w-5 flex-shrink-0" />
+                      {!collapsed && <span className="text-sm font-medium truncate">{item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
-                </SidebarMenuItem>)}
+                </SidebarMenuItem>
+              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-    </Sidebar>;
+    </Sidebar>
+  );
 }
