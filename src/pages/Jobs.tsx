@@ -6,10 +6,12 @@ import JobsList from "./jobs/components/JobsList";
 
 const Jobs: React.FC = () => {
   return (
-    <div className="space-y-6">
-      <JobsHeader />
-      <JobsStats />
-      <JobsList />
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+      <div className="container mx-auto px-6 py-8 space-y-8">
+        <JobsHeader />
+        <JobsStats />
+        <JobsList />
+      </div>
     </div>
   );
 };
