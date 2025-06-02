@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
@@ -34,7 +33,7 @@ export const useDailyTasks = () => {
         .from('daily_tasks')
         .select(`
           *,
-          profiles(id, full_name)
+          profiles!daily_tasks_user_id_fkey(id, full_name)
         `)
         .order('created_at', { ascending: false });
 

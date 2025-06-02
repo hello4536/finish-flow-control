@@ -13,19 +13,35 @@ interface BasicInfoTabProps {
 const BasicInfoTab: React.FC<BasicInfoTabProps> = ({ form }) => {
   return (
     <div className="space-y-4">
-      <FormField
-        control={form.control}
-        name="name"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Color Name</FormLabel>
-            <FormControl>
-              <Input placeholder="Ocean Blue" {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Color Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Ocean Blue" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        
+        <FormField
+          control={form.control}
+          name="deltaE"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Delta E (Spectrophotometer)</FormLabel>
+              <FormControl>
+                <Input placeholder="1.2" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </div>
       
       <FormField
         control={form.control}

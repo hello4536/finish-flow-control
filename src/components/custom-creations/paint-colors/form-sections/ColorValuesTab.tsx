@@ -23,7 +23,7 @@ const ColorValuesTab: React.FC<ColorValuesTabProps> = ({ form }) => {
                 <Input placeholder="#0066CC" {...field} />
               </FormControl>
               <div 
-                className="h-10 w-10 rounded-md border border-input" 
+                className="h-10 w-10 rounded-md border border-input flex-shrink-0" 
                 style={{ backgroundColor: field.value }}
               />
             </div>
@@ -75,20 +75,6 @@ const ColorValuesTab: React.FC<ColorValuesTabProps> = ({ form }) => {
           )}
         />
       </div>
-      
-      <FormField
-        control={form.control}
-        name="deltaE"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Delta E (Spectrophotometer)</FormLabel>
-            <FormControl>
-              <Input placeholder="1.2" {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
     </div>
   );
 };
