@@ -12,36 +12,20 @@ interface BasicInfoTabProps {
 
 const BasicInfoTab: React.FC<BasicInfoTabProps> = ({ form }) => {
   return (
-    <div className="space-y-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Color Name</FormLabel>
-              <FormControl>
-                <Input placeholder="Ocean Blue" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        
-        <FormField
-          control={form.control}
-          name="deltaE"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Delta E (Spectrophotometer)</FormLabel>
-              <FormControl>
-                <Input placeholder="1.2" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </div>
+    <div className="space-y-3">
+      <FormField
+        control={form.control}
+        name="name"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Color Name</FormLabel>
+            <FormControl>
+              <Input placeholder="Ocean Blue" {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
       
       <FormField
         control={form.control}
@@ -52,7 +36,7 @@ const BasicInfoTab: React.FC<BasicInfoTabProps> = ({ form }) => {
             <FormControl>
               <Textarea 
                 placeholder="Additional notes about this color" 
-                className="min-h-[100px]"
+                className="min-h-[80px]"
                 {...field} 
               />
             </FormControl>

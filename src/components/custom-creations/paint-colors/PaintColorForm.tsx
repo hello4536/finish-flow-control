@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
@@ -132,39 +131,39 @@ const PaintColorForm: React.FC<PaintColorFormProps> = ({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         
         {/* Basic Information Section */}
         <div>
-          <h3 className="text-lg font-semibold text-blue-600 mb-4">Basic Information</h3>
+          <h3 className="text-base font-semibold text-blue-600 mb-3">Basic Information</h3>
           <BasicInfoTab form={form} />
         </div>
         
-        <Separator />
+        <Separator className="my-3" />
         
         {/* Color Values Section */}
         <div>
-          <h3 className="text-lg font-semibold text-blue-600 mb-4">Color Values</h3>
+          <h3 className="text-base font-semibold text-blue-600 mb-3">Color Values</h3>
           <ColorValuesTab form={form} />
         </div>
         
-        <Separator />
+        <Separator className="my-3" />
         
         {/* Application Section */}
         <div>
-          <h3 className="text-lg font-semibold text-blue-600 mb-4">Application Details</h3>
+          <h3 className="text-base font-semibold text-blue-600 mb-3">Application Details</h3>
           <ApplicationTab form={form} swatchImage={swatchImage} onImageChange={handleImageChange} />
         </div>
         
-        <Separator />
+        <Separator className="my-3" />
         
         {/* Environment Section */}
         <div>
-          <h3 className="text-lg font-semibold text-blue-600 mb-4">Environment Conditions</h3>
+          <h3 className="text-base font-semibold text-blue-600 mb-3">Environment Conditions</h3>
           <EnvironmentTab form={form} />
         </div>
         
-        <Separator className="my-6" />
+        <Separator className="my-4" />
         
         <Button 
           type="submit" 

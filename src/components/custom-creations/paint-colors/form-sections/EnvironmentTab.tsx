@@ -12,8 +12,8 @@ interface EnvironmentTabProps {
 
 const EnvironmentTab: React.FC<EnvironmentTabProps> = ({ form }) => {
   return (
-    <div className="space-y-4">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div className="space-y-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         <FormField
           control={form.control}
           name="temperature"
@@ -66,7 +66,7 @@ const EnvironmentTab: React.FC<EnvironmentTabProps> = ({ form }) => {
             <FormControl>
               <Textarea 
                 placeholder="Notes about environmental conditions during color creation" 
-                className="min-h-[80px]" 
+                className="min-h-[60px]" 
                 {...field} 
               />
             </FormControl>

@@ -21,23 +21,7 @@ const ApplicationTab: React.FC<ApplicationTabProps> = ({ form, swatchImage, onIm
 
   return (
     <div className="space-y-4">
-      <FormItem>
-        <FormLabel>Color Swatch Image</FormLabel>
-        <div className="flex items-center gap-2">
-          <Input type="file" accept="image/png, image/jpeg" onChange={handleImageChange} />
-          {swatchImage && (
-            <div className="h-10 w-10 rounded border border-input overflow-hidden">
-              <img 
-                src={URL.createObjectURL(swatchImage)} 
-                alt="Color swatch preview" 
-                className="h-full w-full object-cover" 
-              />
-            </div>
-          )}
-        </div>
-      </FormItem>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <FormField
           control={form.control}
           name="substrateType"
@@ -90,6 +74,22 @@ const ApplicationTab: React.FC<ApplicationTabProps> = ({ form, swatchImage, onIm
           )}
         />
       </div>
+
+      <FormItem>
+        <FormLabel>Color Swatch Image</FormLabel>
+        <div className="flex items-center gap-2">
+          <Input type="file" accept="image/png, image/jpeg" onChange={handleImageChange} />
+          {swatchImage && (
+            <div className="h-10 w-10 rounded border border-input overflow-hidden">
+              <img 
+                src={URL.createObjectURL(swatchImage)} 
+                alt="Color swatch preview" 
+                className="h-full w-full object-cover" 
+              />
+            </div>
+          )}
+        </div>
+      </FormItem>
     </div>
   );
 };

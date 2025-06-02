@@ -32,7 +32,7 @@ const ColorValuesTab: React.FC<ColorValuesTabProps> = ({ form }) => {
         )}
       />
       
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         <FormField
           control={form.control}
           name="rgbValues"
@@ -69,6 +69,20 @@ const ColorValuesTab: React.FC<ColorValuesTabProps> = ({ form }) => {
               <FormLabel>L*a*b* Values</FormLabel>
               <FormControl>
                 <Input placeholder="32.3, 79.2, -107.9" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="deltaE"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Delta E</FormLabel>
+              <FormControl>
+                <Input placeholder="1.2" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
