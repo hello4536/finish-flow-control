@@ -1,6 +1,8 @@
+
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Package2, Grid3X3, AlertCircle, Warehouse, Clock } from "lucide-react";
+
 interface StatCardsProps {
   totalProducts: number;
   categoryCount: number;
@@ -8,6 +10,7 @@ interface StatCardsProps {
   warehouseCount: number;
   expiringSoonCount?: number;
 }
+
 const StatCards: React.FC<StatCardsProps> = ({
   totalProducts,
   categoryCount,
@@ -15,81 +18,89 @@ const StatCards: React.FC<StatCardsProps> = ({
   warehouseCount,
   expiringSoonCount = 0
 }) => {
-  return <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-6">
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium text-blue-600">
-            Total Products
-          </CardTitle>
-          <Package2 className="h-4 w-4 text-blue-600" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold text-blue-600">{totalProducts}</div>
-          <p className="text-xs text-muted-foreground mt-1">
-            Items in inventory
-          </p>
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-6">
+      {/* Total Products Card */}
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-blue-50 to-indigo-100 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="text-sm font-semibold text-blue-700 uppercase tracking-wide">Total Products</div>
+            <div className="rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 p-3 shadow-lg">
+              <Package2 className="h-5 w-5 text-white" />
+            </div>
+          </div>
+          <div className="mb-2">
+            <div className="text-4xl font-bold text-blue-800 mb-1">{totalProducts}</div>
+            <div className="text-sm text-blue-600 font-medium">Items in inventory</div>
+          </div>
         </CardContent>
       </Card>
       
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium text-blue-600">
-            Categories
-          </CardTitle>
-          <Grid3X3 className="h-4 w-4 text-blue-600" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold text-blue-600">{categoryCount}</div>
-          <p className="text-xs text-muted-foreground mt-1">
-            Unique product categories
-          </p>
+      {/* Categories Card */}
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-cyan-50 to-blue-100 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="text-sm font-semibold text-cyan-700 uppercase tracking-wide">Categories</div>
+            <div className="rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 p-3 shadow-lg">
+              <Grid3X3 className="h-5 w-5 text-white" />
+            </div>
+          </div>
+          <div className="mb-2">
+            <div className="text-4xl font-bold text-cyan-800 mb-1">{categoryCount}</div>
+            <div className="text-sm text-cyan-600 font-medium">Unique categories</div>
+          </div>
         </CardContent>
       </Card>
       
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium text-orange-500">
-            Low Stock Items
-          </CardTitle>
-          <AlertCircle className="h-4 w-4 text-orange-500" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold text-orange-500">{lowStockCount}</div>
-          <p className="text-xs text-muted-foreground mt-1">
-            Below minimum threshold
-          </p>
+      {/* Low Stock Items Card */}
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-orange-50 to-red-100 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="text-sm font-semibold text-orange-700 uppercase tracking-wide">Low Stock Items</div>
+            <div className="rounded-xl bg-gradient-to-br from-orange-500 to-red-600 p-3 shadow-lg">
+              <AlertCircle className="h-5 w-5 text-white" />
+            </div>
+          </div>
+          <div className="mb-2">
+            <div className="text-4xl font-bold text-orange-800 mb-1">{lowStockCount}</div>
+            <div className="text-sm text-orange-600 font-medium">Below threshold</div>
+          </div>
         </CardContent>
       </Card>
       
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium text-orange-500">
-            Expiring Soon
-          </CardTitle>
-          <Clock className="h-4 w-4 text-orange-500" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold text-orange-500">{expiringSoonCount}</div>
-          <p className="text-xs text-muted-foreground mt-1">
-            Expiring within 30 days
-          </p>
+      {/* Expiring Soon Card */}
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-amber-50 to-yellow-100 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="text-sm font-semibold text-amber-700 uppercase tracking-wide">Expiring Soon</div>
+            <div className="rounded-xl bg-gradient-to-br from-amber-500 to-yellow-600 p-3 shadow-lg">
+              <Clock className="h-5 w-5 text-white" />
+            </div>
+          </div>
+          <div className="mb-2">
+            <div className="text-4xl font-bold text-amber-800 mb-1">{expiringSoonCount}</div>
+            <div className="text-sm text-amber-600 font-medium">Within 30 days</div>
+          </div>
         </CardContent>
       </Card>
       
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium text-blue-600">
-            Warehouses
-          </CardTitle>
-          <Warehouse className="h-4 w-4 text-blue-600" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold text-blue-600">{warehouseCount}</div>
-          <p className="text-xs text-muted-foreground mt-1">
-            Storage locations
-          </p>
+      {/* Warehouses Card */}
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-slate-50 to-gray-100 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="text-sm font-semibold text-slate-700 uppercase tracking-wide">Warehouses</div>
+            <div className="rounded-xl bg-gradient-to-br from-slate-500 to-gray-600 p-3 shadow-lg">
+              <Warehouse className="h-5 w-5 text-white" />
+            </div>
+          </div>
+          <div className="mb-2">
+            <div className="text-4xl font-bold text-slate-800 mb-1">{warehouseCount}</div>
+            <div className="text-sm text-slate-600 font-medium">Storage locations</div>
+          </div>
         </CardContent>
       </Card>
-    </div>;
+    </div>
+  );
 };
+
 export default StatCards;

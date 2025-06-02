@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ClipboardList, Calendar, CheckSquare, PackageOpen } from "lucide-react";
@@ -5,9 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/context/AuthContext";
 
 const StatCards: React.FC = () => {
-  const {
-    user
-  } = useAuth();
+  const { user } = useAuth();
   const [stats, setStats] = useState({
     activeJobs: 0,
     jobsDueToday: 0,
@@ -15,36 +14,39 @@ const StatCards: React.FC = () => {
     lowStockItems: 0,
     loading: true
   });
+
   useEffect(() => {
     async function fetchDashboardStats() {
       try {
         // Fetch active jobs count
-        const {
-          data: activeJobs,
-          error: activeJobsError
-        } = await supabase.from('jobs').select('id').eq('status', 'in_progress');
+        const { data: activeJobs, error: activeJobsError } = await supabase
+          .from('jobs')
+          .select('id')
+          .eq('status', 'in_progress');
 
         // Fetch jobs due today
         const today = new Date().toISOString().split('T')[0];
-        const {
-          data: dueJobs,
-          error: dueJobsError
-        } = await supabase.from('jobs').select('id').eq('due_date', today);
+        const { data: dueJobs, error: dueJobsError } = await supabase
+          .from('jobs')
+          .select('id')
+          .eq('due_date', today);
 
         // Fetch QC pending inspections
-        const {
-          data: qcPending,
-          error: qcError
-        } = await supabase.from('quality_inspections').select('id').eq('status', 'Pending');
+        const { data: qcPending, error: qcError } = await supabase
+          .from('quality_inspections')
+          .select('id')
+          .eq('status', 'Pending');
 
         // Fetch low stock inventory items
-        const {
-          data: lowStock,
-          error: lowStockError
-        } = await supabase.from('inventory_items').select('id').eq('status', 'Low Stock');
+        const { data: lowStock, error: lowStockError } = await supabase
+          .from('inventory_items')
+          .select('id')
+          .eq('status', 'Low Stock');
+
         if (activeJobsError || dueJobsError || qcError || lowStockError) {
           console.error("Error fetching dashboard statistics");
         }
+
         setStats({
           activeJobs: activeJobs?.length || 0,
           jobsDueToday: dueJobs?.length || 0,
@@ -54,12 +56,10 @@ const StatCards: React.FC = () => {
         });
       } catch (error) {
         console.error("Error fetching dashboard stats:", error);
-        setStats(prev => ({
-          ...prev,
-          loading: false
-        }));
+        setStats(prev => ({ ...prev, loading: false }));
       }
     }
+
     if (user) {
       fetchDashboardStats();
     } else {
@@ -73,67 +73,81 @@ const StatCards: React.FC = () => {
     }
   }, [user]);
 
-  // Show loading skeletons if data is still being fetched
-  const renderStats = (value: number, loading: boolean, isLowStock: boolean = false) => {
+  const renderStats = (value: number, loading: boolean, isWarning: boolean = false) => {
     if (loading) {
-      return <div className="h-8 w-16 animate-pulse bg-muted rounded"></div>;
+      return <div className="h-10 w-16 animate-pulse bg-slate-200 rounded mx-auto"></div>;
     }
-    return <div className={`text-2xl font-bold ${isLowStock ? 'text-red-500' : 'text-blue-600'} text-center`}>{value}</div>;
+    const colorClass = isWarning ? 'text-red-800' : 'text-blue-800';
+    return <div className={`text-4xl font-bold ${colorClass} mb-1`}>{value}</div>;
   };
 
-  return <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="font-medium text-base text-blue-600">Active Jobs</CardTitle>
-          <ClipboardList className="h-4 w-4 text-blue-600" />
-        </CardHeader>
-        <CardContent>
-          {renderStats(stats.activeJobs, stats.loading)}
-          <p className="text-xs text-muted-foreground mt-1 text-center">
-            Ongoing projects
-          </p>
+  return (
+    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      {/* Active Jobs Card */}
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-blue-50 to-indigo-100 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="text-sm font-semibold text-blue-700 uppercase tracking-wide">Active Jobs</div>
+            <div className="rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 p-3 shadow-lg">
+              <ClipboardList className="h-5 w-5 text-white" />
+            </div>
+          </div>
+          <div className="mb-2">
+            {renderStats(stats.activeJobs, stats.loading)}
+            <div className="text-sm text-blue-600 font-medium">Ongoing projects</div>
+          </div>
         </CardContent>
       </Card>
-      
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="font-medium text-base text-blue-600">Due Today</CardTitle>
-          <Calendar className="h-4 w-4 text-blue-600" />
-        </CardHeader>
-        <CardContent>
-          {renderStats(stats.jobsDueToday, stats.loading)}
-          <p className="text-xs text-muted-foreground mt-1 text-center">
-            Deadlines today
-          </p>
+
+      {/* Due Today Card */}
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-amber-50 to-orange-100 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="text-sm font-semibold text-amber-700 uppercase tracking-wide">Due Today</div>
+            <div className="rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 p-3 shadow-lg">
+              <Calendar className="h-5 w-5 text-white" />
+            </div>
+          </div>
+          <div className="mb-2">
+            {renderStats(stats.jobsDueToday, stats.loading)}
+            <div className="text-sm text-amber-600 font-medium">Deadlines today</div>
+          </div>
         </CardContent>
       </Card>
-      
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="font-medium text-base text-blue-600 text-left">QC Pending</CardTitle>
-          <CheckSquare className="h-4 w-4 text-blue-600" />
-        </CardHeader>
-        <CardContent>
-          {renderStats(stats.qcPending, stats.loading)}
-          <p className="text-xs text-muted-foreground mt-1 text-center">
-            Awaiting inspection
-          </p>
+
+      {/* QC Pending Card */}
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-purple-50 to-violet-100 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="text-sm font-semibold text-purple-700 uppercase tracking-wide">QC Pending</div>
+            <div className="rounded-xl bg-gradient-to-br from-purple-500 to-violet-600 p-3 shadow-lg">
+              <CheckSquare className="h-5 w-5 text-white" />
+            </div>
+          </div>
+          <div className="mb-2">
+            {renderStats(stats.qcPending, stats.loading)}
+            <div className="text-sm text-purple-600 font-medium">Awaiting inspection</div>
+          </div>
         </CardContent>
       </Card>
-      
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="font-medium text-red-500 text-base text-left">Low Stock</CardTitle>
-          <PackageOpen className="h-4 w-4 text-red-500" />
-        </CardHeader>
-        <CardContent>
-          {renderStats(stats.lowStockItems, stats.loading, true)}
-          <p className="text-xs text-muted-foreground mt-1 text-center">
-            Items to reorder
-          </p>
+
+      {/* Low Stock Card */}
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-red-50 to-rose-100 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="text-sm font-semibold text-red-700 uppercase tracking-wide">Low Stock</div>
+            <div className="rounded-xl bg-gradient-to-br from-red-500 to-rose-600 p-3 shadow-lg">
+              <PackageOpen className="h-5 w-5 text-white" />
+            </div>
+          </div>
+          <div className="mb-2">
+            {renderStats(stats.lowStockItems, stats.loading, true)}
+            <div className="text-sm text-red-600 font-medium">Items to reorder</div>
+          </div>
         </CardContent>
       </Card>
-    </div>;
+    </div>
+  );
 };
 
 export default StatCards;
