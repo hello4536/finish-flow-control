@@ -12,6 +12,7 @@ export interface Material {
   hazard_class?: string;
   disposal_method?: string;
   safety_data_sheet_url?: string;
+  cost_per_unit?: number;
 }
 
 export interface Supplier {
@@ -53,6 +54,12 @@ export interface MaterialUsageLog {
   job_reference?: string;
   notes?: string;
   created_at: string;
+  unit_cost?: number;
+  total_cost?: number;
+  materials?: {
+    name: string;
+    type: string;
+  };
 }
 
 export interface MaterialCompliance {

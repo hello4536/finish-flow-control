@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, DollarSign, Package, Timeline } from 'lucide-react';
+import { Calendar, DollarSign, Package, Activity } from 'lucide-react';
 import JobCostingTab from './JobCostingTab';
 import JobMaterialsTab from './JobMaterialsTab';
 
@@ -69,7 +69,7 @@ const JobDetailDialog: React.FC<JobDetailDialogProps> = ({ job, open, onOpenChan
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           <TabsList className="grid w-full grid-cols-4 bg-white/80 backdrop-blur-sm border border-slate-200 shadow-lg rounded-2xl p-2">
             <TabsTrigger value="overview" className="flex items-center gap-2 data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-indigo-500 data-[state=active]:text-white data-[state=active]:shadow-lg rounded-xl">
-              <Timeline className="h-4 w-4" />
+              <Activity className="h-4 w-4" />
               <span className="hidden sm:inline">Overview</span>
             </TabsTrigger>
             <TabsTrigger value="costing" className="flex items-center gap-2 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-emerald-500 data-[state=active]:text-white data-[state=active]:shadow-lg rounded-xl">

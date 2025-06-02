@@ -6,7 +6,7 @@ import JobsTable from './JobsTable';
 import EmptyJobsState from './EmptyJobsState';
 
 const JobsList: React.FC = () => {
-  const { data: jobs = [], isLoading } = useJobsData();
+  const { jobs = [], isLoading } = useJobsData();
 
   return (
     <Card>

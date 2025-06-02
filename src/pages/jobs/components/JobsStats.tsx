@@ -5,7 +5,7 @@ import { Briefcase, DollarSign, TrendingUp, Clock } from 'lucide-react';
 import { useJobsStatsData } from '../hooks/useJobsStatsData';
 
 const JobsStats: React.FC = () => {
-  const { data: stats } = useJobsStatsData();
+  const { stats } = useJobsStatsData();
 
   const statCards = [
     {
