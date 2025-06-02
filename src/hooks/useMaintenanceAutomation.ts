@@ -48,7 +48,7 @@ export const useMaintenanceAutomation = () => {
     mutationFn: async (schedule: Partial<MaintenanceSchedule>) => {
       const { data, error } = await supabase
         .from('maintenance_schedules')
-        .insert([schedule])
+        .insert(schedule)
         .select()
         .single();
 

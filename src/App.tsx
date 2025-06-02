@@ -6,8 +6,8 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Toaster } from 'sonner';
 import { AuthProvider } from './context/AuthContext';
 import { DevModeProvider } from './context/DevModeContext';
-import { ProtectedRoute } from './components/auth/ProtectedRoute';
-import { AuthLayout } from './components/layout/AuthLayout';
+import ProtectedRoute from './components/auth/ProtectedRoute';
+import AuthLayout from './components/layout/AuthLayout';
 import MainLayout from './components/layout/MainLayout';
 
 // Page imports

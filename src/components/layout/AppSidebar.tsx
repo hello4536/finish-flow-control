@@ -21,7 +21,7 @@ import {
   ShieldCheck,
   Award,
   Workflow,
-  Spray,
+  Droplets,
   Bot
 } from "lucide-react";
 
@@ -36,7 +36,7 @@ const AppSidebar = () => {
     { to: "/quality", icon: Award, label: "Quality" },
     { to: "/automation", icon: Bot, label: "Automation" },
     { to: "/workflows", icon: Workflow, label: "Workflows" },
-    { to: "/spray-booth", icon: Spray, label: "Spray Booth" },
+    { to: "/spray-booth", icon: Droplets, label: "Spray Booth" },
     { to: "/reports", icon: BarChart3, label: "Reports" },
     { to: "/tasks", icon: CheckSquare, label: "Daily Tasks" },
     { to: "/schedule", icon: Calendar, label: "Schedule" },
