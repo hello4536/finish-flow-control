@@ -7,6 +7,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
+import { useCustomCategories } from "@/hooks/useCustomCategories";
+import { inventoryCategories } from "../components/AddInventoryForm/schema";
+
 interface SearchBarProps {
   searchTerm: string;
   setSearchTerm: (term: string) => void;
@@ -21,17 +24,23 @@ interface SearchBarProps {
   };
   setFilters?: (filters: any) => void;
 }
-const categories = ["All", "Basecoats", "Clearcoats", "Primers", "Masking Supplies", "Tools", "Abrasives", "PPE", "Furniture", "Kitchen"];
+
 const productTypes = ["All", "Paint", "Primer", "Abrasive", "Clear Coat", "Filler", "Tape", "Sandpaper", "Respirator", "Tool"];
 const hazardClasses = ["All", "None", "Flammable", "Toxic", "Corrosive", "Oxidizing", "Compressed Gas", "Harmful", "Irritant"];
 const brands = ["All", "3M", "PPG", "Sherwin-Williams", "SATA", "DeVilbiss", "Norton", "Mirka"];
+
 const SearchBar: React.FC<SearchBarProps> = ({
   searchTerm,
   setSearchTerm,
   filters = {},
   setFilters = () => {}
 }) => {
+  const { customCategories } = useCustomCategories();
   const [activeFilters, setActiveFilters] = React.useState(0);
+
+  // Combine default categories with custom ones for the filter dropdown
+  const allCategories = ["All", ...inventoryCategories, ...customCategories];
+
   React.useEffect(() => {
     let count = 0;
     if (filters.category && filters.category !== "All") count++;
@@ -42,12 +51,14 @@ const SearchBar: React.FC<SearchBarProps> = ({
     if (filters.isConsumable !== undefined && filters.isConsumable !== null) count++;
     setActiveFilters(count);
   }, [filters]);
+
   const handleFilterChange = (key: string, value: any) => {
     setFilters({
       ...filters,
       [key]: value
     });
   };
+
   const clearFilters = () => {
     setFilters({
       category: "All",
@@ -59,10 +70,17 @@ const SearchBar: React.FC<SearchBarProps> = ({
       isConsumable: null
     });
   };
-  return <div className="flex flex-col md:flex-row gap-4 w-full">
+
+  return (
+    <div className="flex flex-col md:flex-row gap-4 w-full">
       <div className="relative w-full">
         <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-        <Input placeholder="Search inventory..." className="pl-9" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
+        <Input
+          placeholder="Search inventory..."
+          className="pl-9"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
       </div>
 
       <Popover>
@@ -70,9 +88,11 @@ const SearchBar: React.FC<SearchBarProps> = ({
           <Button variant="outline" className="flex gap-2 bg-blue-600 hover:bg-blue-500 text-white">
             <Filter className="h-4 w-4" />
             Filters
-            {activeFilters > 0 && <Badge className="ml-1 h-5 w-5 p-0 flex items-center justify-center">
+            {activeFilters > 0 && (
+              <Badge className="ml-1 h-5 w-5 p-0 flex items-center justify-center">
                 {activeFilters}
-              </Badge>}
+              </Badge>
+            )}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-80">
@@ -88,14 +108,19 @@ const SearchBar: React.FC<SearchBarProps> = ({
               <div className="grid grid-cols-2 gap-2">
                 <div className="space-y-1">
                   <Label htmlFor="category">Category</Label>
-                  <Select value={filters.category || "All"} onValueChange={value => handleFilterChange("category", value)}>
+                  <Select
+                    value={filters.category || "All"}
+                    onValueChange={(value) => handleFilterChange("category", value)}
+                  >
                     <SelectTrigger id="category">
                       <SelectValue placeholder="Category" />
                     </SelectTrigger>
                     <SelectContent>
-                      {categories.map(category => <SelectItem key={category} value={category}>
+                      {allCategories.map((category) => (
+                        <SelectItem key={category} value={category}>
                           {category}
-                        </SelectItem>)}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
@@ -181,6 +206,8 @@ const SearchBar: React.FC<SearchBarProps> = ({
           </div>
         </PopoverContent>
       </Popover>
-    </div>;
+    </div>
+  );
 };
+
 export default SearchBar;

@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+
+import React, { useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { FormField, FormItem, FormLabel, FormControl, FormMessage, FormDescription } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -9,6 +10,7 @@ import { Plus } from "lucide-react";
 import { z } from "zod";
 import { formSchema, inventoryCategories } from "../schema";
 import { useInventoryData } from "@/hooks/inventory";
+import { useCustomCategories } from "@/hooks/useCustomCategories";
 import { Location } from "@/types/inventory";
 
 type FormValues = z.infer<typeof formSchema>;
@@ -19,7 +21,7 @@ interface CategoryLocationFieldsProps {
 
 export const CategoryLocationFields: React.FC<CategoryLocationFieldsProps> = ({ form }) => {
   const { locations, isLoading: locationsLoading } = useInventoryData();
-  const [customCategories, setCustomCategories] = useState<string[]>([]);
+  const { customCategories, addCustomCategory } = useCustomCategories();
   const [isCreateCategoryOpen, setIsCreateCategoryOpen] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState("");
 
@@ -28,11 +30,12 @@ export const CategoryLocationFields: React.FC<CategoryLocationFieldsProps> = ({ 
 
   const handleCreateCategory = () => {
     if (newCategoryName.trim() && !allCategories.includes(newCategoryName.trim())) {
-      const newCategory = newCategoryName.trim();
-      setCustomCategories(prev => [...prev, newCategory]);
-      form.setValue("category", newCategory);
-      setNewCategoryName("");
-      setIsCreateCategoryOpen(false);
+      const success = addCustomCategory(newCategoryName.trim());
+      if (success) {
+        form.setValue("category", newCategoryName.trim());
+        setNewCategoryName("");
+        setIsCreateCategoryOpen(false);
+      }
     }
   };
 

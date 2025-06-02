@@ -1,6 +1,8 @@
 
 import { useState } from 'react';
 import { InventoryItem } from '@/types/inventory';
+import { useCustomCategories } from '@/hooks/useCustomCategories';
+import { inventoryCategories } from '@/pages/inventory/components/AddInventoryForm/schema';
 
 type InventoryFilters = {
   category: string;
@@ -25,7 +27,9 @@ export function useInventoryFilters() {
     isConsumable: null,
   });
 
-  // Enhanced filter function to handle auto body fields
+  const { customCategories } = useCustomCategories();
+
+  // Enhanced filter function to handle custom categories
   const applyFilters = (items: InventoryItem[]) => {
     // First apply search term and tab filters
     let filteredItems = items.filter(item => {
@@ -51,6 +55,14 @@ export function useInventoryFilters() {
       if (activeTab === "basecoats") return matchesSearch && item.category === "Basecoats";
       if (activeTab === "clearcoats") return matchesSearch && item.category === "Clearcoats";
       if (activeTab === "abrasives") return matchesSearch && item.category === "Abrasives";
+      
+      // Check if the active tab matches a custom category
+      const matchingCustomCategory = customCategories.find(
+        category => category.toLowerCase() === activeTab.toLowerCase()
+      );
+      if (matchingCustomCategory) {
+        return matchesSearch && item.category === matchingCustomCategory;
+      }
       
       return matchesSearch;
     });
