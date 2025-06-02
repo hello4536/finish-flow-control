@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -12,24 +13,20 @@ import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
 import { useScheduleData } from "@/hooks/useScheduleData";
 import { v4 as uuidv4 } from "@/lib/utils";
+
 interface EventFormProps {
   selectedDate?: Date;
 }
-const EventForm: React.FC<EventFormProps> = ({
-  selectedDate
-}) => {
+
+const EventForm: React.FC<EventFormProps> = ({ selectedDate }) => {
   const [title, setTitle] = useState("");
   const [date, setDate] = useState<Date | undefined>(selectedDate || new Date());
   const [time, setTime] = useState("");
   const [type, setType] = useState<"job" | "meeting" | "delivery">("job");
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
-  const {
-    toast
-  } = useToast();
-  const {
-    addEvent
-  } = useScheduleData();
+  const { toast } = useToast();
+  const { addEvent } = useScheduleData();
 
   // Update local date when selectedDate prop changes
   useEffect(() => {
@@ -37,6 +34,7 @@ const EventForm: React.FC<EventFormProps> = ({
       setDate(selectedDate);
     }
   }, [selectedDate]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!title || !date || !time) {
@@ -67,50 +65,74 @@ const EventForm: React.FC<EventFormProps> = ({
     setLocation("");
     setDescription("");
   };
-  return <Card>
+
+  return (
+    <Card className="border-0 bg-white/80 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300">
       <CardHeader>
-        <CardTitle className="text-blue-600">Add New Event</CardTitle>
-        <CardDescription>Create a new event in your schedule</CardDescription>
+        <CardTitle className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+          Add New Event
+        </CardTitle>
+        <CardDescription className="text-slate-600 font-medium">
+          Create a new event in your schedule
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="title">Event Title *</Label>
-            <Input id="title" value={title} onChange={e => setTitle(e.target.value)} placeholder="Enter event title" required />
+            <Label htmlFor="title" className="text-slate-700 font-medium">Event Title *</Label>
+            <Input 
+              id="title" 
+              value={title} 
+              onChange={e => setTitle(e.target.value)} 
+              placeholder="Enter event title" 
+              className="bg-white/80 backdrop-blur-sm border-slate-200 focus:bg-white transition-all duration-300"
+              required 
+            />
           </div>
           
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="date">Date *</Label>
+              <Label htmlFor="date" className="text-slate-700 font-medium">Date *</Label>
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button variant={"outline"} className="w-full justify-start text-left font-normal" id="date">
+                  <Button 
+                    variant={"outline"} 
+                    className="w-full justify-start text-left font-normal bg-white/80 backdrop-blur-sm border-slate-200 hover:bg-white transition-all duration-300" 
+                    id="date"
+                  >
                     <CalendarIcon className="mr-2 h-4 w-4" />
                     {date ? format(date, "PPP") : <span>Pick a date</span>}
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0">
+                <PopoverContent className="w-auto p-0 bg-white/95 backdrop-blur-sm border-slate-200 shadow-xl">
                   <Calendar mode="single" selected={date} onSelect={setDate} initialFocus />
                 </PopoverContent>
               </Popover>
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="time">Time *</Label>
+              <Label htmlFor="time" className="text-slate-700 font-medium">Time *</Label>
               <div className="flex w-full items-center space-x-2">
-                <Clock className="h-4 w-4 text-muted-foreground" />
-                <Input id="time" value={time} onChange={e => setTime(e.target.value)} placeholder="e.g. 9:00 AM - 10:00 AM" required />
+                <Clock className="h-4 w-4 text-slate-500" />
+                <Input 
+                  id="time" 
+                  value={time} 
+                  onChange={e => setTime(e.target.value)} 
+                  placeholder="e.g. 9:00 AM - 10:00 AM" 
+                  className="bg-white/80 backdrop-blur-sm border-slate-200 focus:bg-white transition-all duration-300"
+                  required 
+                />
               </div>
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="type">Event Type *</Label>
+            <Label htmlFor="type" className="text-slate-700 font-medium">Event Type *</Label>
             <Select value={type} onValueChange={(value: "job" | "meeting" | "delivery") => setType(value)}>
-              <SelectTrigger id="type">
+              <SelectTrigger id="type" className="bg-white/80 backdrop-blur-sm border-slate-200 focus:bg-white transition-all duration-300">
                 <SelectValue placeholder="Select event type" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-white/95 backdrop-blur-sm border-slate-200 shadow-xl">
                 <SelectItem value="job">Job</SelectItem>
                 <SelectItem value="meeting">Meeting</SelectItem>
                 <SelectItem value="delivery">Delivery</SelectItem>
@@ -119,20 +141,39 @@ const EventForm: React.FC<EventFormProps> = ({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="location">Location</Label>
-            <Input id="location" value={location} onChange={e => setLocation(e.target.value)} placeholder="Enter location (optional)" />
+            <Label htmlFor="location" className="text-slate-700 font-medium">Location</Label>
+            <Input 
+              id="location" 
+              value={location} 
+              onChange={e => setLocation(e.target.value)} 
+              placeholder="Enter location (optional)" 
+              className="bg-white/80 backdrop-blur-sm border-slate-200 focus:bg-white transition-all duration-300"
+            />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="description">Description</Label>
-            <Textarea id="description" value={description} onChange={e => setDescription(e.target.value)} placeholder="Add details about this event (optional)" rows={3} />
+            <Label htmlFor="description" className="text-slate-700 font-medium">Description</Label>
+            <Textarea 
+              id="description" 
+              value={description} 
+              onChange={e => setDescription(e.target.value)} 
+              placeholder="Add details about this event (optional)" 
+              className="bg-white/80 backdrop-blur-sm border-slate-200 focus:bg-white transition-all duration-300"
+              rows={3} 
+            />
           </div>
           
-          <Button type="submit" disabled={addEvent.isPending} className="w-full bg-blue-600 hover:bg-blue-500">
+          <Button 
+            type="submit" 
+            disabled={addEvent.isPending} 
+            className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+          >
             {addEvent.isPending ? "Adding..." : "Add Event"}
           </Button>
         </form>
       </CardContent>
-    </Card>;
+    </Card>
+  );
 };
+
 export default EventForm;

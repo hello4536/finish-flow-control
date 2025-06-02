@@ -17,7 +17,14 @@ const ScheduleHeader: React.FC<ScheduleHeaderProps> = ({
   return (
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-        <h2 className="text-3xl font-bold tracking-tight text-purple-600">Schedule</h2>
+        <div>
+          <h2 className="text-4xl font-bold bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            Schedule
+          </h2>
+          <p className="text-slate-600 mt-2 font-medium">
+            Manage events, meetings, and job schedules
+          </p>
+        </div>
       </div>
 
       <div className="grid gap-4 md:grid-cols-3">
@@ -54,7 +61,7 @@ const ScheduleHeader: React.FC<ScheduleHeaderProps> = ({
         <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-cyan-50 to-teal-100 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-4">
-              <div className="text-sm font-semibold text-cyan-700 uppercase tracking-wide">This Week</div>
+              <div className="text-sm font-semibold text-cyan-700 uppercase tracking-wide">This Month</div>
               <div className="rounded-xl bg-gradient-to-br from-cyan-500 to-teal-600 p-3 shadow-lg">
                 <CalendarIcon className="h-5 w-5 text-white" />
               </div>
