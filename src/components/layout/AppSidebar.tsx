@@ -24,6 +24,16 @@ import {
   Droplets,
   Bot
 } from "lucide-react";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "@/components/ui/sidebar";
 
 const AppSidebar = () => {
   const navigationItems = [
@@ -51,29 +61,36 @@ const AppSidebar = () => {
   ];
 
   return (
-    <div className="w-64 h-screen bg-white border-r border-gray-200 shadow-sm overflow-y-auto">
-      <div className="p-6">
-        <h2 className="text-lg font-semibold text-gray-800 mb-6">Navigation</h2>
-        <nav className="space-y-1">
-          {navigationItems.map((item) => (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              className={({ isActive }) =>
-                `flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200 ${
-                  isActive
-                    ? "bg-blue-50 text-blue-700 border-r-2 border-blue-700"
-                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-                }`
-              }
-            >
-              <item.icon className="mr-3 h-5 w-5" />
-              {item.label}
-            </NavLink>
-          ))}
-        </nav>
-      </div>
-    </div>
+    <Sidebar>
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {navigationItems.map((item) => (
+                <SidebarMenuItem key={item.to}>
+                  <SidebarMenuButton asChild>
+                    <NavLink
+                      to={item.to}
+                      className={({ isActive }) =>
+                        `flex items-center gap-2 ${
+                          isActive
+                            ? "bg-blue-50 text-blue-700 font-medium"
+                            : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                        }`
+                      }
+                    >
+                      <item.icon className="h-4 w-4" />
+                      <span>{item.label}</span>
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+    </Sidebar>
   );
 };
 
