@@ -21,7 +21,7 @@ export function AppSidebar() {
     { title: "Quality Control", url: "/quality", icon: CheckSquare, color: "bg-accent/90" },
     { title: "Resources", url: "/resources", icon: Link, color: "bg-accent/90" },
     { title: "Schedule", url: "/schedule", icon: Calendar, color: "bg-accent/90" },
-    { title: "Spray Booth Scheduler", url: "/spray-booth-scheduler", icon: Paintbrush, color: "bg-accent/90" },
+    { title: "Spray Booths", url: "/spray-booth-scheduler", icon: Paintbrush, color: "bg-accent/90" },
     { title: "Workflows", url: "/workflows", icon: PackageOpen, color: "bg-accent/90" }
   ];
 
