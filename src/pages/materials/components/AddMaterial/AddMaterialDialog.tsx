@@ -28,7 +28,9 @@ const AddMaterialDialog: React.FC<AddMaterialDialogProps> = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>Add New Material</DialogTitle>
+          <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+            Add New Material
+          </DialogTitle>
           <DialogDescription>
             Add a new material to your inventory. Fill in the details below.
           </DialogDescription>
@@ -36,7 +38,7 @@ const AddMaterialDialog: React.FC<AddMaterialDialogProps> = ({
 
         <MaterialForm onSubmit={handleSubmit} suppliers={suppliers} />
 
-        <DialogFooter>
+        <DialogFooter className="gap-2">
           <Button 
             type="button" 
             variant="outline" 
@@ -49,6 +51,7 @@ const AddMaterialDialog: React.FC<AddMaterialDialogProps> = ({
             type="submit" 
             onClick={() => document.getElementById('submit-material-form')?.click()}
             disabled={isSubmitting}
+            className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
           >
             {isSubmitting ? 'Adding...' : 'Add Material'}
           </Button>
