@@ -52,51 +52,65 @@ const Workflows: React.FC = () => {
   };
 
   if (isLoading) {
-    return <WorkflowsLoading />;
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+        <div className="container mx-auto px-6 py-8">
+          <WorkflowsLoading />
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="space-y-6">
-      <WorkflowsHeader 
-        onCreateClick={() => setCreateDialogOpen(true)}
-        onImportClick={() => setImportDialogOpen(true)}
-      />
-
-      {workflows.length > 0 && (
-        <WorkflowsStatistics workflows={workflows} isLoading={isLoading} />
-      )}
-
-      {workflows.length === 0 ? (
-        <WorkflowsEmptyState 
-          onCreateClick={() => setCreateDialogOpen(true)}
-        />
-      ) : (
-        <WorkflowsTabs
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-          workflows={workflows}
-          getWorkflowsByTrade={getWorkflowsByTrade}
-          getFilteredWorkflows={getFilteredWorkflows}
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+      <div className="container mx-auto px-6 py-8 space-y-8">
+        <WorkflowsHeader 
           onCreateClick={() => setCreateDialogOpen(true)}
           onImportClick={() => setImportDialogOpen(true)}
-          onExportClick={exportWorkflows}
-          fetchWorkflows={fetchWorkflows}
         />
-      )}
 
-      <CreateWorkflowDialog 
-        open={createDialogOpen} 
-        onOpenChange={setCreateDialogOpen}
-        onSubmit={handleCreateWorkflow}
-      />
+        {workflows.length > 0 && (
+          <div className="bg-white/80 backdrop-blur-sm rounded-lg shadow-lg">
+            <WorkflowsStatistics workflows={workflows} isLoading={isLoading} />
+          </div>
+        )}
 
-      <ImportWorkflowDialog
-        open={importDialogOpen}
-        onOpenChange={setImportDialogOpen}
-        onImport={handleImportWorkflows}
-      />
+        {workflows.length === 0 ? (
+          <div className="bg-white/80 backdrop-blur-sm rounded-lg shadow-lg">
+            <WorkflowsEmptyState 
+              onCreateClick={() => setCreateDialogOpen(true)}
+            />
+          </div>
+        ) : (
+          <div className="bg-white/80 backdrop-blur-sm rounded-lg shadow-lg">
+            <WorkflowsTabs
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+              workflows={workflows}
+              getWorkflowsByTrade={getWorkflowsByTrade}
+              getFilteredWorkflows={getFilteredWorkflows}
+              onCreateClick={() => setCreateDialogOpen(true)}
+              onImportClick={() => setImportDialogOpen(true)}
+              onExportClick={exportWorkflows}
+              fetchWorkflows={fetchWorkflows}
+            />
+          </div>
+        )}
+
+        <CreateWorkflowDialog 
+          open={createDialogOpen} 
+          onOpenChange={setCreateDialogOpen}
+          onSubmit={handleCreateWorkflow}
+        />
+
+        <ImportWorkflowDialog
+          open={importDialogOpen}
+          onOpenChange={setImportDialogOpen}
+          onImport={handleImportWorkflows}
+        />
+      </div>
     </div>
   );
 };
