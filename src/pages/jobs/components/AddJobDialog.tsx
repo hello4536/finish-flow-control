@@ -1,161 +1,225 @@
 
-import React from "react";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useForm } from "react-hook-form";
-import { useToast } from "@/hooks/use-toast";
+import React, { useState } from 'react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
+import { useQueryClient } from '@tanstack/react-query';
+import { Plus } from 'lucide-react';
 
-interface AddJobDialogProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-}
-
-interface JobFormData {
-  name: string;
-  description: string;
-  client: string;
-  assigned_to: string;
-  priority: string;
-  due_date: string;
-  estimated_hours: number;
-}
-
-const AddJobDialog: React.FC<AddJobDialogProps> = ({ open, onOpenChange }) => {
+const AddJobDialog: React.FC = () => {
+  const [open, setOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<JobFormData>();
+  const queryClient = useQueryClient();
 
-  const onSubmit = async (data: JobFormData) => {
+  const [formData, setFormData] = useState({
+    name: '',
+    job_number: '',
+    trade: '',
+    assigned_to: '',
+    status: 'pending',
+    due_date: '',
+    current_step: '',
+    estimated_total: 0,
+    hourly_rate: 50,
+    estimated_hours: 0
+  });
+
+  const generateJobNumber = () => {
+    const timestamp = Date.now().toString().slice(-6);
+    const random = Math.floor(Math.random() * 100).toString().padStart(2, '0');
+    return `JOB-${timestamp}${random}`;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
     try {
-      // Here you would typically save to your database
-      console.log("Creating job:", data);
+      const jobNumber = formData.job_number || generateJobNumber();
       
+      const { error } = await supabase
+        .from('jobs')
+        .insert({
+          ...formData,
+          job_number: jobNumber
+        });
+
+      if (error) throw error;
+
       toast({
-        title: "Job Created Successfully",
-        description: `Job "${data.name}" has been created and assigned to ${data.assigned_to}.`
+        title: 'Job created successfully',
+        description: `Job ${jobNumber} has been created.`
       });
+
+      queryClient.invalidateQueries({ queryKey: ['jobs'] });
+      setOpen(false);
       
-      reset();
-      onOpenChange(false);
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to create job. Please try again.",
-        variant: "destructive"
+      // Reset form
+      setFormData({
+        name: '',
+        job_number: '',
+        trade: '',
+        assigned_to: '',
+        status: 'pending',
+        due_date: '',
+        current_step: '',
+        estimated_total: 0,
+        hourly_rate: 50,
+        estimated_hours: 0
       });
+    } catch (error: any) {
+      toast({
+        title: 'Error creating job',
+        description: error.message,
+        variant: 'destructive'
+      });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[600px]">
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
+          <Plus className="h-4 w-4 mr-2" />
+          Add New Job
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="max-w-2xl">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-            Create New Job
-          </DialogTitle>
-          <DialogDescription>
-            Fill in the details below to create a new refinishing job or project.
-          </DialogDescription>
+          <DialogTitle>Create New Job</DialogTitle>
         </DialogHeader>
         
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="name">Job Name *</Label>
+            <div>
+              <Label htmlFor="name">Job Name</Label>
               <Input
                 id="name"
-                {...register("name", { required: "Job name is required" })}
-                placeholder="e.g., Kitchen Cabinet Refinishing"
-              />
-              {errors.name && <p className="text-sm text-red-600">{errors.name.message}</p>}
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="client">Client Name *</Label>
-              <Input
-                id="client"
-                {...register("client", { required: "Client name is required" })}
-                placeholder="e.g., John Smith"
-              />
-              {errors.client && <p className="text-sm text-red-600">{errors.client.message}</p>}
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="description">Description</Label>
-            <Textarea
-              id="description"
-              {...register("description")}
-              placeholder="Describe the job details, materials needed, special requirements..."
-              rows={3}
-            />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="assigned_to">Assigned To</Label>
-              <Input
-                id="assigned_to"
-                {...register("assigned_to")}
-                placeholder="Employee name"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                required
               />
             </div>
             
-            <div className="space-y-2">
-              <Label htmlFor="priority">Priority</Label>
-              <Select>
+            <div>
+              <Label htmlFor="job_number">Job Number</Label>
+              <Input
+                id="job_number"
+                value={formData.job_number}
+                onChange={(e) => setFormData({ ...formData, job_number: e.target.value })}
+                placeholder="Auto-generated if empty"
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="trade">Trade</Label>
+              <Select value={formData.trade} onValueChange={(value) => setFormData({ ...formData, trade: value })}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select priority" />
+                  <SelectValue placeholder="Select trade" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="low">Low</SelectItem>
-                  <SelectItem value="medium">Medium</SelectItem>
-                  <SelectItem value="high">High</SelectItem>
-                  <SelectItem value="urgent">Urgent</SelectItem>
+                  <SelectItem value="Auto Body">Auto Body</SelectItem>
+                  <SelectItem value="Millwork">Millwork</SelectItem>
+                  <SelectItem value="Cabinet Making">Cabinet Making</SelectItem>
+                  <SelectItem value="Furniture Finishing">Furniture Finishing</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             
-            <div className="space-y-2">
+            <div>
+              <Label htmlFor="status">Status</Label>
+              <Select value={formData.status} onValueChange={(value) => setFormData({ ...formData, status: value })}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="pending">Pending</SelectItem>
+                  <SelectItem value="active">Active</SelectItem>
+                  <SelectItem value="on hold">On Hold</SelectItem>
+                  <SelectItem value="completed">Completed</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div>
+              <Label htmlFor="assigned_to">Assigned To</Label>
+              <Input
+                id="assigned_to"
+                value={formData.assigned_to}
+                onChange={(e) => setFormData({ ...formData, assigned_to: e.target.value })}
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="due_date">Due Date</Label>
+              <Input
+                id="due_date"
+                type="date"
+                value={formData.due_date}
+                onChange={(e) => setFormData({ ...formData, due_date: e.target.value })}
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="estimated_total">Estimated Total ($)</Label>
+              <Input
+                id="estimated_total"
+                type="number"
+                step="0.01"
+                value={formData.estimated_total}
+                onChange={(e) => setFormData({ ...formData, estimated_total: parseFloat(e.target.value) || 0 })}
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="hourly_rate">Hourly Rate ($)</Label>
+              <Input
+                id="hourly_rate"
+                type="number"
+                step="0.01"
+                value={formData.hourly_rate}
+                onChange={(e) => setFormData({ ...formData, hourly_rate: parseFloat(e.target.value) || 0 })}
+              />
+            </div>
+            
+            <div>
               <Label htmlFor="estimated_hours">Estimated Hours</Label>
               <Input
                 id="estimated_hours"
                 type="number"
-                step="0.5"
-                min="0"
-                {...register("estimated_hours", { valueAsNumber: true })}
-                placeholder="0"
+                step="0.25"
+                value={formData.estimated_hours}
+                onChange={(e) => setFormData({ ...formData, estimated_hours: parseFloat(e.target.value) || 0 })}
               />
             </div>
           </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="due_date">Due Date</Label>
-            <Input
-              id="due_date"
-              type="date"
-              {...register("due_date")}
+          
+          <div>
+            <Label htmlFor="current_step">Current Step</Label>
+            <Textarea
+              id="current_step"
+              value={formData.current_step}
+              onChange={(e) => setFormData({ ...formData, current_step: e.target.value })}
+              placeholder="Describe the current step or phase"
             />
           </div>
-
-          <DialogFooter className="gap-2">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => onOpenChange(false)}
-            >
+          
+          <div className="flex justify-end gap-3">
+            <Button type="button" variant="outline" onClick={() => setOpen(false)}>
               Cancel
             </Button>
-            <Button
-              type="submit"
-              className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
-            >
-              Create Job
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? 'Creating...' : 'Create Job'}
             </Button>
-          </DialogFooter>
+          </div>
         </form>
       </DialogContent>
     </Dialog>

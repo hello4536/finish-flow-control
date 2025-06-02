@@ -563,6 +563,7 @@ export type Database = {
           barcode: string | null
           brand: string | null
           category: string
+          cost_per_unit: number | null
           created_at: string
           expiration_date: string | null
           grit: number | null
@@ -588,6 +589,7 @@ export type Database = {
           barcode?: string | null
           brand?: string | null
           category: string
+          cost_per_unit?: number | null
           created_at?: string
           expiration_date?: string | null
           grit?: number | null
@@ -613,6 +615,7 @@ export type Database = {
           barcode?: string | null
           brand?: string | null
           category?: string
+          cost_per_unit?: number | null
           created_at?: string
           expiration_date?: string | null
           grit?: number | null
@@ -685,37 +688,61 @@ export type Database = {
       }
       jobs: {
         Row: {
+          actual_total: number | null
           assigned_to: string | null
           created_at: string
           current_step: string | null
           due_date: string | null
+          estimated_hours: number | null
+          estimated_total: number | null
+          hourly_rate: number | null
           id: string
           job_number: string
+          labor_cost: number | null
+          material_cost: number | null
           name: string
+          overhead_cost: number | null
+          profit_margin: number | null
           status: string
           trade: string
           updated_at: string
         }
         Insert: {
+          actual_total?: number | null
           assigned_to?: string | null
           created_at?: string
           current_step?: string | null
           due_date?: string | null
+          estimated_hours?: number | null
+          estimated_total?: number | null
+          hourly_rate?: number | null
           id?: string
           job_number: string
+          labor_cost?: number | null
+          material_cost?: number | null
           name: string
+          overhead_cost?: number | null
+          profit_margin?: number | null
           status: string
           trade: string
           updated_at?: string
         }
         Update: {
+          actual_total?: number | null
           assigned_to?: string | null
           created_at?: string
           current_step?: string | null
           due_date?: string | null
+          estimated_hours?: number | null
+          estimated_total?: number | null
+          hourly_rate?: number | null
           id?: string
           job_number?: string
+          labor_cost?: number | null
+          material_cost?: number | null
           name?: string
+          overhead_cost?: number | null
+          profit_margin?: number | null
           status?: string
           trade?: string
           updated_at?: string
@@ -885,7 +912,9 @@ export type Database = {
           material_id: string
           notes: string | null
           quantity: number
+          total_cost: number | null
           unit: string
+          unit_cost: number | null
           used_at: string
           used_by: string | null
         }
@@ -896,7 +925,9 @@ export type Database = {
           material_id: string
           notes?: string | null
           quantity: number
+          total_cost?: number | null
           unit: string
+          unit_cost?: number | null
           used_at?: string
           used_by?: string | null
         }
@@ -907,7 +938,9 @@ export type Database = {
           material_id?: string
           notes?: string | null
           quantity?: number
+          total_cost?: number | null
           unit?: string
+          unit_cost?: number | null
           used_at?: string
           used_by?: string | null
         }
@@ -923,6 +956,7 @@ export type Database = {
       }
       materials: {
         Row: {
+          cost_per_unit: number | null
           created_at: string
           disposal_method: string | null
           hazard_class: string | null
@@ -937,6 +971,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          cost_per_unit?: number | null
           created_at?: string
           disposal_method?: string | null
           hazard_class?: string | null
@@ -951,6 +986,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          cost_per_unit?: number | null
           created_at?: string
           disposal_method?: string | null
           hazard_class?: string | null
@@ -1808,6 +1844,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      calculate_job_costs: {
+        Args: { job_id: string }
+        Returns: undefined
+      }
       get_current_user_role: {
         Args: Record<PropertyKey, never>
         Returns: Database["public"]["Enums"]["app_role"]
