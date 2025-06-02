@@ -45,7 +45,7 @@ export const useMaintenanceAutomation = () => {
 
   // Create maintenance schedule
   const createSchedule = useMutation({
-    mutationFn: async (schedule: Partial<MaintenanceSchedule>) => {
+    mutationFn: async (schedule: Omit<MaintenanceSchedule, 'id' | 'created_at' | 'updated_at' | 'equipment'>) => {
       const { data, error } = await supabase
         .from('maintenance_schedules')
         .insert(schedule)
