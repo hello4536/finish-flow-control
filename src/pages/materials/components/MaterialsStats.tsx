@@ -1,11 +1,14 @@
+
 import React from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Box, PackageOpen, Users, AlertTriangle } from "lucide-react";
 import { Material, Supplier } from "@/types/materials";
+
 interface MaterialsStatsProps {
   materials: Material[];
   suppliers: Supplier[];
 }
+
 const MaterialsStats: React.FC<MaterialsStatsProps> = ({
   materials,
   suppliers
@@ -16,61 +19,77 @@ const MaterialsStats: React.FC<MaterialsStatsProps> = ({
   const lowStockCount = materials.filter(m => m.status === "Low Stock" || m.status === "Critical Low").length;
   const hazardousCount = materials.filter(m => m.is_hazardous).length;
   const missingSdsCount = materials.filter(m => m.is_hazardous && !m.safety_data_sheet_url).length;
-  return <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
-      <Card className="card-hover rounded">
-        <CardHeader className="pb-2 bg-sky-100">
-          <CardTitle className="flex items-center text-blue-600 text-lg">
-            <Box className="mr-2 h-5 w-5 text-blue-600" />
-            Total Materials
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="pt-6">
-          <p className="text-3xl font-bold text-center text-blue-600">{totalMaterials}</p>
-          <p className="text-muted-foreground mt-1 text-lg text-center">Across {materialTypes} categories</p>
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+      {/* Total Materials Card */}
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-blue-50 to-indigo-100 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="text-sm font-semibold text-blue-700 uppercase tracking-wide">Total Materials</div>
+            <div className="rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 p-3 shadow-lg">
+              <Box className="h-5 w-5 text-white" />
+            </div>
+          </div>
+          <div className="mb-2">
+            <div className="text-4xl font-bold text-blue-800 mb-1">{totalMaterials}</div>
+            <div className="text-sm text-blue-600 font-medium">Across {materialTypes} categories</div>
+          </div>
         </CardContent>
       </Card>
       
-      <Card className="card-hover">
-        <CardHeader className="pb-2 bg-orange-500">
-          <CardTitle className="flex items-center text-lg text-white">
-            <PackageOpen className="mr-2 h-5 w-5 text-white" />
-            Low Stock Items
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="pt-6">
-          <p className="text-3xl font-bold text-center text-orange-500">{lowStockCount}</p>
-          <p className="text-muted-foreground mt-1 text-lg text-center">Requiring reorder soon</p>
+      {/* Low Stock Items Card */}
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-orange-50 to-red-100 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="text-sm font-semibold text-orange-700 uppercase tracking-wide">Low Stock Items</div>
+            <div className="rounded-xl bg-gradient-to-br from-orange-500 to-red-600 p-3 shadow-lg">
+              <PackageOpen className="h-5 w-5 text-white" />
+            </div>
+          </div>
+          <div className="mb-2">
+            <div className="text-4xl font-bold text-orange-800 mb-1">{lowStockCount}</div>
+            <div className="text-sm text-orange-600 font-medium">Requiring reorder soon</div>
+          </div>
         </CardContent>
       </Card>
 
-      <Card className="card-hover">
-        <CardHeader className="pb-2 bg-amber-500">
-          <CardTitle className="flex items-center text-white text-lg">
-            <AlertTriangle className="mr-2 h-5 w-5 text-white" />
-            Hazardous Materials
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="pt-6">
-          <p className="text-3xl font-bold text-center text-amber-500">{hazardousCount}</p>
-          <p className="text-muted-foreground mt-1 text-center text-sm font-medium">
-            {missingSdsCount > 0 && `${missingSdsCount} missing SDS`}
-            {missingSdsCount === 0 && 'All documentation complete'}
-          </p>
+      {/* Hazardous Materials Card */}
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-amber-50 to-yellow-100 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="text-sm font-semibold text-amber-700 uppercase tracking-wide">Hazardous Materials</div>
+            <div className="rounded-xl bg-gradient-to-br from-amber-500 to-yellow-600 p-3 shadow-lg">
+              <AlertTriangle className="h-5 w-5 text-white" />
+            </div>
+          </div>
+          <div className="mb-2">
+            <div className="text-4xl font-bold text-amber-800 mb-1">{hazardousCount}</div>
+            <div className="text-sm text-amber-600 font-medium">
+              {missingSdsCount > 0 && `${missingSdsCount} missing SDS`}
+              {missingSdsCount === 0 && 'All documentation complete'}
+            </div>
+          </div>
         </CardContent>
       </Card>
       
-      <Card className="card-hover">
-        <CardHeader className="pb-2 bg-green-500">
-          <CardTitle className="flex items-center text-white text-lg">
-            <Users className="mr-2 h-5 w-5 text-white" />
-            Suppliers
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="pt-6">
-          <p className="text-3xl font-bold text-center text-green-500">{suppliers.length}</p>
-          <p className="text-muted-foreground mt-1 text-lg text-center">Active material providers</p>
+      {/* Suppliers Card */}
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-green-50 to-emerald-100 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="text-sm font-semibold text-green-700 uppercase tracking-wide">Suppliers</div>
+            <div className="rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 p-3 shadow-lg">
+              <Users className="h-5 w-5 text-white" />
+            </div>
+          </div>
+          <div className="mb-2">
+            <div className="text-4xl font-bold text-green-800 mb-1">{suppliers.length}</div>
+            <div className="text-sm text-green-600 font-medium">Active material providers</div>
+          </div>
         </CardContent>
       </Card>
-    </div>;
+    </div>
+  );
 };
+
 export default MaterialsStats;

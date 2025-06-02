@@ -37,11 +37,11 @@ const StatCards: React.FC<StatCardsProps> = ({
       </Card>
       
       {/* Categories Card */}
-      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-cyan-50 to-blue-100 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-cyan-50 to-teal-100 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
         <CardContent className="p-6">
           <div className="flex items-center justify-between mb-4">
             <div className="text-sm font-semibold text-cyan-700 uppercase tracking-wide">Categories</div>
-            <div className="rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 p-3 shadow-lg">
+            <div className="rounded-xl bg-gradient-to-br from-cyan-500 to-teal-600 p-3 shadow-lg">
               <Grid3X3 className="h-5 w-5 text-white" />
             </div>
           </div>
