@@ -66,18 +66,29 @@ const CompliancePage = () => {
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input placeholder="Search compliance data..." className="pl-8" value={search} onChange={e => setSearch(e.target.value)} />
           </div>
-          <div className="flex gap-2">
-            <AddCertificationDialog onAddCertification={handleAddCertification} />
-            <AddComplianceIssueDialog onAddComplianceIssue={handleAddComplianceIssue} />
-            <AddHazardousWasteDialog onAddHazardousWaste={handleAddHazardousWaste} />
-            <AddPPERequirementDialog onAddPPERequirement={handleAddPPERequirement} />
-          </div>
         </div>
       </div>
       
-      <ComplianceStatCards certifications={certifications} complianceIssues={complianceIssues} hazardousWaste={hazardousWaste} ppeRequirements={ppeRequirements} />
+      <ComplianceStatCards 
+        certifications={certifications} 
+        complianceIssues={complianceIssues} 
+        hazardousWaste={hazardousWaste} 
+        ppeRequirements={ppeRequirements}
+        onAddCertification={handleAddCertification}
+        onAddComplianceIssue={handleAddComplianceIssue}
+        onAddHazardousWaste={handleAddHazardousWaste}
+        onAddPPERequirement={handleAddPPERequirement}
+      />
       
       <ComplianceDataTabs search={search} certifications={certifications} complianceIssues={complianceIssues} regulatoryCompliance={regulatoryCompliance} hazardousWaste={hazardousWaste} ppeRequirements={ppeRequirements} selectedRegion={selectedRegion} setSelectedRegion={setSelectedRegion} isLoading={isLoading} updateCertification={updateCertification} deleteCertification={deleteCertification} updateComplianceIssue={updateComplianceIssue} deleteComplianceIssue={deleteComplianceIssue} updateHazardousWaste={updateHazardousWaste} deleteHazardousWaste={deleteHazardousWaste} updatePPERequirement={updatePPERequirement} deletePPERequirement={deletePPERequirement} />
+      
+      {/* Hidden dialogs - keeping for backward compatibility */}
+      <div className="hidden">
+        <AddCertificationDialog onAddCertification={handleAddCertification} />
+        <AddComplianceIssueDialog onAddComplianceIssue={handleAddComplianceIssue} />
+        <AddHazardousWasteDialog onAddHazardousWaste={handleAddHazardousWaste} />
+        <AddPPERequirementDialog onAddPPERequirement={handleAddPPERequirement} />
+      </div>
     </div>;
 };
 export default CompliancePage;

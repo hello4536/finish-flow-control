@@ -1,21 +1,34 @@
 
 import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Certification, ComplianceIssue, HazardousWaste, PPERequirement } from "@/types/quality";
-import { ShieldCheck, AlertCircle, CalendarClock, Recycle, HardHat } from "lucide-react";
+import { ShieldCheck, AlertCircle, CalendarClock, Recycle, HardHat, Plus } from "lucide-react";
+import AddCertificationDialog from "./AddCertificationDialog";
+import AddComplianceIssueDialog from "./AddComplianceIssueDialog";
+import AddHazardousWasteDialog from "./AddHazardousWasteDialog";
+import AddPPERequirementDialog from "./AddPPERequirementDialog";
 
 interface ComplianceStatCardsProps {
   certifications: Certification[];
   complianceIssues: ComplianceIssue[];
   hazardousWaste: HazardousWaste[];
   ppeRequirements: PPERequirement[];
+  onAddCertification: (data: any) => void;
+  onAddComplianceIssue: (data: any) => void;
+  onAddHazardousWaste: (data: any) => void;
+  onAddPPERequirement: (data: any) => void;
 }
 
 const ComplianceStatCards: React.FC<ComplianceStatCardsProps> = ({ 
   certifications, 
   complianceIssues,
   hazardousWaste,
-  ppeRequirements
+  ppeRequirements,
+  onAddCertification,
+  onAddComplianceIssue,
+  onAddHazardousWaste,
+  onAddPPERequirement
 }) => {
   // Calculate stats for certifications
   const activeCertifications = certifications.filter(c => c.status === 'Active').length;
@@ -23,28 +36,24 @@ const ComplianceStatCards: React.FC<ComplianceStatCardsProps> = ({
   const totalCertifications = certifications.length;
   const certificationRate = totalCertifications > 0 ? (activeCertifications / totalCertifications) * 100 : 0;
 
-  // Calculate stats for compliance issues
   const resolvedIssues = complianceIssues.filter(i => i.status === 'Resolved').length;
   const pendingIssues = complianceIssues.filter(i => i.status === 'Pending Review').length;
   const inProgressIssues = complianceIssues.filter(i => i.status === 'In Progress').length;
   const totalIssues = complianceIssues.length;
   const issueResolutionRate = totalIssues > 0 ? (resolvedIssues / totalIssues) * 100 : 0;
 
-  // Calculate stats for hazardous waste
   const pendingDisposal = hazardousWaste.filter(w => w.status === 'Pending').length;
   const inProgressDisposal = hazardousWaste.filter(w => w.status === 'In Progress').length;
   const disposedWaste = hazardousWaste.filter(w => w.status === 'Disposed').length;
   const totalWaste = hazardousWaste.length;
   const wasteCompletionRate = totalWaste > 0 ? (disposedWaste / totalWaste) * 100 : 0;
   
-  // Calculate stats for PPE requirements
   const compliantPPE = ppeRequirements.filter(p => p.status === 'Compliant').length;
   const nonCompliantPPE = ppeRequirements.filter(p => p.status === 'Non-Compliant').length;
   const pendingPPE = ppeRequirements.filter(p => p.status === 'Pending Review').length;
   const totalPPE = ppeRequirements.length;
   const ppeComplianceRate = totalPPE > 0 ? (compliantPPE / totalPPE) * 100 : 0;
   
-  // Calculate overall compliance rate
   const overallComplianceRate = (certificationRate + issueResolutionRate + wasteCompletionRate + ppeComplianceRate) / 4;
   
   return (
@@ -93,6 +102,9 @@ const ComplianceStatCards: React.FC<ComplianceStatCardsProps> = ({
             </div>
           </div>
         </CardContent>
+        <CardFooter className="p-3 pt-0">
+          <AddCertificationDialog onAddCertification={onAddCertification} />
+        </CardFooter>
       </Card>
 
       <Card>
@@ -122,6 +134,9 @@ const ComplianceStatCards: React.FC<ComplianceStatCardsProps> = ({
             </div>
           </div>
         </CardContent>
+        <CardFooter className="p-3 pt-0">
+          <AddComplianceIssueDialog onAddComplianceIssue={onAddComplianceIssue} />
+        </CardFooter>
       </Card>
 
       <Card>
@@ -151,6 +166,9 @@ const ComplianceStatCards: React.FC<ComplianceStatCardsProps> = ({
             </div>
           </div>
         </CardContent>
+        <CardFooter className="p-3 pt-0">
+          <AddHazardousWasteDialog onAddHazardousWaste={onAddHazardousWaste} />
+        </CardFooter>
       </Card>
 
       <Card>
@@ -180,6 +198,9 @@ const ComplianceStatCards: React.FC<ComplianceStatCardsProps> = ({
             </div>
           </div>
         </CardContent>
+        <CardFooter className="p-3 pt-0">
+          <AddPPERequirementDialog onAddPPERequirement={onAddPPERequirement} />
+        </CardFooter>
       </Card>
     </div>
   );
