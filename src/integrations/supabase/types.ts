@@ -209,33 +209,6 @@ export type Database = {
         }
         Relationships: []
       }
-      compliance_automation_settings: {
-        Row: {
-          created_at: string
-          enabled: boolean | null
-          id: string
-          setting_key: string
-          setting_value: Json
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          enabled?: boolean | null
-          id?: string
-          setting_key: string
-          setting_value?: Json
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          enabled?: boolean | null
-          id?: string
-          setting_key?: string
-          setting_value?: Json
-          updated_at?: string
-        }
-        Relationships: []
-      }
       compliance_issues: {
         Row: {
           assignee: string
@@ -268,48 +241,6 @@ export type Database = {
           issue_id?: string
           status?: string
           type?: string
-          updated_at?: string
-        }
-        Relationships: []
-      }
-      compliance_reports: {
-        Row: {
-          content: Json | null
-          created_at: string
-          due_date: string
-          file_url: string | null
-          generated_at: string | null
-          id: string
-          notes: string | null
-          report_type: string
-          status: string
-          title: string
-          updated_at: string
-        }
-        Insert: {
-          content?: Json | null
-          created_at?: string
-          due_date: string
-          file_url?: string | null
-          generated_at?: string | null
-          id?: string
-          notes?: string | null
-          report_type: string
-          status?: string
-          title: string
-          updated_at?: string
-        }
-        Update: {
-          content?: Json | null
-          created_at?: string
-          due_date?: string
-          file_url?: string | null
-          generated_at?: string | null
-          id?: string
-          notes?: string | null
-          report_type?: string
-          status?: string
-          title?: string
           updated_at?: string
         }
         Relationships: []
@@ -858,125 +789,6 @@ export type Database = {
             columns: ["parent_id"]
             isOneToOne: false
             referencedRelation: "locations"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      maintenance_alerts: {
-        Row: {
-          acknowledged_at: string | null
-          acknowledged_by: string | null
-          alert_type: string
-          created_at: string
-          description: string | null
-          equipment_id: string
-          id: string
-          resolved_at: string | null
-          schedule_id: string | null
-          severity: string
-          status: string
-          title: string
-          updated_at: string
-        }
-        Insert: {
-          acknowledged_at?: string | null
-          acknowledged_by?: string | null
-          alert_type: string
-          created_at?: string
-          description?: string | null
-          equipment_id: string
-          id?: string
-          resolved_at?: string | null
-          schedule_id?: string | null
-          severity?: string
-          status?: string
-          title: string
-          updated_at?: string
-        }
-        Update: {
-          acknowledged_at?: string | null
-          acknowledged_by?: string | null
-          alert_type?: string
-          created_at?: string
-          description?: string | null
-          equipment_id?: string
-          id?: string
-          resolved_at?: string | null
-          schedule_id?: string | null
-          severity?: string
-          status?: string
-          title?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "maintenance_alerts_equipment_id_fkey"
-            columns: ["equipment_id"]
-            isOneToOne: false
-            referencedRelation: "equipment"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "maintenance_alerts_schedule_id_fkey"
-            columns: ["schedule_id"]
-            isOneToOne: false
-            referencedRelation: "maintenance_schedules"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      maintenance_schedules: {
-        Row: {
-          alert_days_before: number | null
-          automated_alert: boolean | null
-          created_at: string
-          equipment_id: string
-          frequency_days: number
-          id: string
-          last_performed: string | null
-          maintenance_type: string
-          next_due: string
-          notes: string | null
-          priority: string
-          status: string
-          updated_at: string
-        }
-        Insert: {
-          alert_days_before?: number | null
-          automated_alert?: boolean | null
-          created_at?: string
-          equipment_id: string
-          frequency_days?: number
-          id?: string
-          last_performed?: string | null
-          maintenance_type: string
-          next_due: string
-          notes?: string | null
-          priority?: string
-          status?: string
-          updated_at?: string
-        }
-        Update: {
-          alert_days_before?: number | null
-          automated_alert?: boolean | null
-          created_at?: string
-          equipment_id?: string
-          frequency_days?: number
-          id?: string
-          last_performed?: string | null
-          maintenance_type?: string
-          next_due?: string
-          notes?: string | null
-          priority?: string
-          status?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "maintenance_schedules_equipment_id_fkey"
-            columns: ["equipment_id"]
-            isOneToOne: false
-            referencedRelation: "equipment"
             referencedColumns: ["id"]
           },
         ]
