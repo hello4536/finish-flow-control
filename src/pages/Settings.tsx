@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -400,9 +401,11 @@ export default function Settings() {
               <CardContent>
                 <Form {...securityForm}>
                   <form onSubmit={securityForm.handleSubmit(onSecuritySubmit)} className="space-y-6">
-                    <FormField control={securityForm.control} name="twoFactorAuth" render={({
-                      field
-                    }) => <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                    <FormField
+                      control={securityForm.control}
+                      name="twoFactorAuth"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                           <div className="space-y-0.5">
                             <div className="flex items-center gap-2">
                               <FormLabel className="text-base">
@@ -417,100 +420,122 @@ export default function Settings() {
                             </FormDescription>
                           </div>
                           <FormControl>
-                            <Switch checked={field.value} onCheckedChange={field.onChange} className="bg-blue-600 hover:bg-blue-500" />
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                              className="bg-blue-600 hover:bg-blue-500"
+                            />
                           </FormControl>
-                        </FormItem>} />
+                        </FormItem>
+                      )}
+                    />
 
-                  <FormField control={securityForm.control} name="loginMethod" render={({
-                  field
-                }) => <FormItem className="space-y-3">
-                        <FormLabel>Login Method</FormLabel>
-                        <FormControl>
-                          <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex flex-col space-y-1">
-                            <FormItem className="flex items-center space-x-3 space-y-0">
-                              <FormControl>
-                                <RadioGroupItem value="password" />
-                              </FormControl>
-                              <FormLabel className="font-normal">
-                                Password
-                              </FormLabel>
-                            </FormItem>
-                            <FormItem className="flex items-center space-x-3 space-y-0">
-                              <FormControl>
-                                <RadioGroupItem value="sso" />
-                              </FormControl>
-                              <FormLabel className="font-normal">
-                                Single Sign-On (SSO)
-                              </FormLabel>
-                            </FormItem>
-                          </RadioGroup>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>} />
+                    <FormField
+                      control={securityForm.control}
+                      name="loginMethod"
+                      render={({ field }) => (
+                        <FormItem className="space-y-3">
+                          <FormLabel>Login Method</FormLabel>
+                          <FormControl>
+                            <RadioGroup
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                              className="flex flex-col space-y-1"
+                            >
+                              <FormItem className="flex items-center space-x-3 space-y-0">
+                                <FormControl>
+                                  <RadioGroupItem value="password" />
+                                </FormControl>
+                                <FormLabel className="font-normal">
+                                  Password
+                                </FormLabel>
+                              </FormItem>
+                              <FormItem className="flex items-center space-x-3 space-y-0">
+                                <FormControl>
+                                  <RadioGroupItem value="sso" />
+                                </FormControl>
+                                <FormLabel className="font-normal">
+                                  Single Sign-On (SSO)
+                                </FormLabel>
+                              </FormItem>
+                            </RadioGroup>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                  <FormField control={securityForm.control} name="sessionTimeout" render={({
-                  field
-                }) => <FormItem className="space-y-3">
-                        <FormLabel>Session Timeout</FormLabel>
-                        <FormControl>
-                          <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex flex-col space-y-1">
-                            <FormItem className="flex items-center space-x-3 space-y-0">
-                              <FormControl>
-                                <RadioGroupItem value="30min" />
-                              </FormControl>
-                              <FormLabel className="font-normal">
-                                30 minutes
-                              </FormLabel>
-                            </FormItem>
-                            <FormItem className="flex items-center space-x-3 space-y-0">
-                              <FormControl>
-                                <RadioGroupItem value="1hour" />
-                              </FormControl>
-                              <FormLabel className="font-normal">
-                                1 hour
-                              </FormLabel>
-                            </FormItem>
-                            <FormItem className="flex items-center space-x-3 space-y-0">
-                              <FormControl>
-                                <RadioGroupItem value="4hours" />
-                              </FormControl>
-                              <FormLabel className="font-normal">
-                                4 hours
-                              </FormLabel>
-                            </FormItem>
-                            <FormItem className="flex items-center space-x-3 space-y-0">
-                              <FormControl>
-                                <RadioGroupItem value="always" />
-                              </FormControl>
-                              <FormLabel className="font-normal">
-                                Keep me logged in
-                              </FormLabel>
-                            </FormItem>
-                          </RadioGroup>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>} />
+                    <FormField
+                      control={securityForm.control}
+                      name="sessionTimeout"
+                      render={({ field }) => (
+                        <FormItem className="space-y-3">
+                          <FormLabel>Session Timeout</FormLabel>
+                          <FormControl>
+                            <RadioGroup
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                              className="flex flex-col space-y-1"
+                            >
+                              <FormItem className="flex items-center space-x-3 space-y-0">
+                                <FormControl>
+                                  <RadioGroupItem value="30min" />
+                                </FormControl>
+                                <FormLabel className="font-normal">
+                                  30 minutes
+                                </FormLabel>
+                              </FormItem>
+                              <FormItem className="flex items-center space-x-3 space-y-0">
+                                <FormControl>
+                                  <RadioGroupItem value="1hour" />
+                                </FormControl>
+                                <FormLabel className="font-normal">
+                                  1 hour
+                                </FormLabel>
+                              </FormItem>
+                              <FormItem className="flex items-center space-x-3 space-y-0">
+                                <FormControl>
+                                  <RadioGroupItem value="4hours" />
+                                </FormControl>
+                                <FormLabel className="font-normal">
+                                  4 hours
+                                </FormLabel>
+                              </FormItem>
+                              <FormItem className="flex items-center space-x-3 space-y-0">
+                                <FormControl>
+                                  <RadioGroupItem value="always" />
+                                </FormControl>
+                                <FormLabel className="font-normal">
+                                  Keep me logged in
+                                </FormLabel>
+                              </FormItem>
+                            </RadioGroup>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                  <Button type="submit" className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500">
-                    <ShieldCheck className="h-4 w-4" />
-                    Save Security Settings
-                  </Button>
-                </form>
-              </Form>
-            </CardContent>
-            <CardFooter>
-              <div className="text-sm text-muted-foreground">
-                <p className="flex items-center gap-2">
-                  <Mail className="h-4 w-4" />
-                  Contact <a href="#" className="text-primary underline">support@finishflow.com</a> if you need help with your security settings.
-                </p>
-              </div>
-            </CardFooter>
-          </Card>
-        </TabsContent>
+                    <Button type="submit" className="flex items-center gap-2 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                      <ShieldCheck className="h-4 w-4" />
+                      Save Security Settings
+                    </Button>
+                  </form>
+                </Form>
+              </CardContent>
+              <CardFooter>
+                <div className="text-sm text-muted-foreground">
+                  <p className="flex items-center gap-2">
+                    <Mail className="h-4 w-4" />
+                    Contact <a href="#" className="text-primary underline">support@finishflow.com</a> if you need help with your security settings.
+                  </p>
+                </div>
+              </CardFooter>
+            </Card>
+          </TabsContent>
         
-        <TabsContent value="appearance">
-          <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-white via-purple-50/30 to-violet-100/40 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all duration-300 rounded-2xl">
+          <TabsContent value="appearance">
+            <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-white via-purple-50/30 to-violet-100/40 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all duration-300 rounded-2xl">
               <CardHeader>
                 <CardTitle className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-violet-600 bg-clip-text text-transparent">Appearance</CardTitle>
                 <CardDescription className="text-slate-600 font-medium">
@@ -520,64 +545,83 @@ export default function Settings() {
               <CardContent>
                 <Form {...appearanceForm}>
                   <form onSubmit={appearanceForm.handleSubmit(onAppearanceSubmit)} className="space-y-6">
-                  <FormField control={appearanceForm.control} name="language" render={({
-                  field
-                }) => <FormItem className="space-y-3">
-                        <FormLabel>Language</FormLabel>
-                        <FormControl>
-                          <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex flex-row space-x-4">
-                            <FormItem className="flex items-center space-x-2 space-y-0">
-                              <FormControl>
-                                <RadioGroupItem value="en" />
-                              </FormControl>
-                              <FormLabel className="font-normal">
-                                English
-                              </FormLabel>
-                            </FormItem>
-                            <FormItem className="flex items-center space-x-2 space-y-0">
-                              <FormControl>
-                                <RadioGroupItem value="es" />
-                              </FormControl>
-                              <FormLabel className="font-normal">
-                                Español
-                              </FormLabel>
-                            </FormItem>
-                            <FormItem className="flex items-center space-x-2 space-y-0">
-                              <FormControl>
-                                <RadioGroupItem value="fr" />
-                              </FormControl>
-                              <FormLabel className="font-normal">
-                                Français
-                              </FormLabel>
-                            </FormItem>
-                          </RadioGroup>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>} />
+                    <FormField
+                      control={appearanceForm.control}
+                      name="language"
+                      render={({ field }) => (
+                        <FormItem className="space-y-3">
+                          <FormLabel>Language</FormLabel>
+                          <FormControl>
+                            <RadioGroup
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                              className="flex flex-row space-x-4"
+                            >
+                              <FormItem className="flex items-center space-x-2 space-y-0">
+                                <FormControl>
+                                  <RadioGroupItem value="en" />
+                                </FormControl>
+                                <FormLabel className="font-normal">
+                                  English
+                                </FormLabel>
+                              </FormItem>
+                              <FormItem className="flex items-center space-x-2 space-y-0">
+                                <FormControl>
+                                  <RadioGroupItem value="es" />
+                                </FormControl>
+                                <FormLabel className="font-normal">
+                                  Español
+                                </FormLabel>
+                              </FormItem>
+                              <FormItem className="flex items-center space-x-2 space-y-0">
+                                <FormControl>
+                                  <RadioGroupItem value="fr" />
+                                </FormControl>
+                                <FormLabel className="font-normal">
+                                  Français
+                                </FormLabel>
+                              </FormItem>
+                            </RadioGroup>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                  <FormField control={appearanceForm.control} name="compactMode" render={({
-                  field
-                }) => <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                        <div className="space-y-0.5">
-                          <FormLabel className="text-base">
-                            Compact Mode
-                          </FormLabel>
-                          <FormDescription>
-                            Use a more compact layout to fit more content on screen.
-                          </FormDescription>
-                        </div>
-                        <FormControl>
-                          <Switch checked={field.value} onCheckedChange={field.onChange} className="bg-blue-600 hover:bg-blue-500" />
-                        </FormControl>
-                      </FormItem>} />
+                    <FormField
+                      control={appearanceForm.control}
+                      name="compactMode"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                          <div className="space-y-0.5">
+                            <FormLabel className="text-base">
+                              Compact Mode
+                            </FormLabel>
+                            <FormDescription>
+                              Use a more compact layout to fit more content on screen.
+                            </FormDescription>
+                          </div>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                              className="bg-blue-600 hover:bg-blue-500"
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
 
-                  <Button type="submit" className="bg-blue-600 hover:bg-blue-500">Save Appearance Settings</Button>
-                </form>
-              </Form>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
+                    <Button type="submit" className="bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-700 hover:to-violet-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                      Save Appearance Settings
+                    </Button>
+                  </form>
+                </Form>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   );
 }
