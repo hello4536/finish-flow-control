@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -135,9 +134,14 @@ export default function Settings() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
       <div className="container mx-auto px-6 py-8 space-y-8">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 bg-clip-text text-transparent">
-          Settings
-        </h1>
+        <div>
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            Settings
+          </h1>
+          <p className="text-slate-600 mt-2 font-medium">
+            Manage your account preferences and application settings
+          </p>
+        </div>
         
         <Tabs defaultValue="profile" onValueChange={setActiveTab} value={activeTab}>
           <TabsList className="grid grid-cols-4 w-full max-w-4xl mb-8 bg-white/80 backdrop-blur-sm border border-slate-200 shadow-lg rounded-2xl p-2">
