@@ -9,6 +9,7 @@ import { PlusCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+
 const formSchema = z.object({
   waste_id: z.string().min(1, {
     message: "Waste ID is required"
@@ -37,15 +38,21 @@ const formSchema = z.object({
   manifest_number: z.string().optional(),
   notes: z.string().optional()
 });
+
 const disposalMethods = ["Licensed Contractor", "Industrial Waste Facility", "On-site Treatment", "Recycling Facility", "Hazardous Waste Landfill"];
 const units = ["gallons", "liters", "kg", "lbs", "drums", "containers"];
+
 interface AddHazardousWasteDialogProps {
   onAddHazardousWaste: (data: any) => void;
+  children?: React.ReactNode;
 }
+
 const AddHazardousWasteDialog: React.FC<AddHazardousWasteDialogProps> = ({
-  onAddHazardousWaste
+  onAddHazardousWaste,
+  children
 }) => {
   const [open, setOpen] = React.useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -61,6 +68,7 @@ const AddHazardousWasteDialog: React.FC<AddHazardousWasteDialogProps> = ({
       notes: ""
     }
   });
+
   const onSubmit = (data: z.infer<typeof formSchema>) => {
     onAddHazardousWaste({
       ...data,
@@ -69,12 +77,16 @@ const AddHazardousWasteDialog: React.FC<AddHazardousWasteDialogProps> = ({
     form.reset();
     setOpen(false);
   };
-  return <Dialog open={open} onOpenChange={setOpen}>
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="gap-1 bg-purple-600 hover:bg-purple-500">
-          <PlusCircle className="h-4 w-4" />
-          Add Waste Record
-        </Button>
+        {children || (
+          <Button className="gap-1 bg-purple-600 hover:bg-purple-500">
+            <PlusCircle className="h-4 w-4" />
+            Add Waste Record
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[525px]">
         <DialogHeader>
@@ -86,18 +98,24 @@ const AddHazardousWasteDialog: React.FC<AddHazardousWasteDialogProps> = ({
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
-              <FormField control={form.control} name="waste_id" render={({
-              field
-            }) => <FormItem>
+              <FormField
+                control={form.control}
+                name="waste_id"
+                render={({ field }) => (
+                  <FormItem>
                     <FormLabel>Waste ID</FormLabel>
                     <FormControl>
                       <Input {...field} placeholder="HW-0001" />
                     </FormControl>
                     <FormMessage />
-                  </FormItem>} />
-              <FormField control={form.control} name="status" render={({
-              field
-            }) => <FormItem>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="status"
+                render={({ field }) => (
+                  <FormItem>
                     <FormLabel>Status</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
@@ -112,32 +130,44 @@ const AddHazardousWasteDialog: React.FC<AddHazardousWasteDialogProps> = ({
                       </SelectContent>
                     </Select>
                     <FormMessage />
-                  </FormItem>} />
+                  </FormItem>
+                )}
+              />
             </div>
             
-            <FormField control={form.control} name="material" render={({
-            field
-          }) => <FormItem>
+            <FormField
+              control={form.control}
+              name="material"
+              render={({ field }) => (
+                <FormItem>
                   <FormLabel>Material</FormLabel>
                   <FormControl>
                     <Input {...field} placeholder="Paint Thinner, Solvents, etc." />
                   </FormControl>
                   <FormMessage />
-                </FormItem>} />
+                </FormItem>
+              )}
+            />
             
             <div className="grid grid-cols-2 gap-4">
-              <FormField control={form.control} name="quantity" render={({
-              field
-            }) => <FormItem>
+              <FormField
+                control={form.control}
+                name="quantity"
+                render={({ field }) => (
+                  <FormItem>
                     <FormLabel>Quantity</FormLabel>
                     <FormControl>
                       <Input {...field} type="number" placeholder="10" />
                     </FormControl>
                     <FormMessage />
-                  </FormItem>} />
-              <FormField control={form.control} name="unit" render={({
-              field
-            }) => <FormItem>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="unit"
+                render={({ field }) => (
+                  <FormItem>
                     <FormLabel>Unit</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
@@ -146,39 +176,53 @@ const AddHazardousWasteDialog: React.FC<AddHazardousWasteDialogProps> = ({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {units.map(unit => <SelectItem key={unit} value={unit}>
+                        {units.map(unit => (
+                          <SelectItem key={unit} value={unit}>
                             {unit}
-                          </SelectItem>)}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />
-                  </FormItem>} />
+                  </FormItem>
+                )}
+              />
             </div>
             
             <div className="grid grid-cols-2 gap-4">
-              <FormField control={form.control} name="disposal_date" render={({
-              field
-            }) => <FormItem>
+              <FormField
+                control={form.control}
+                name="disposal_date"
+                render={({ field }) => (
+                  <FormItem>
                     <FormLabel>Disposal Date</FormLabel>
                     <FormControl>
                       <Input {...field} type="date" />
                     </FormControl>
                     <FormMessage />
-                  </FormItem>} />
-              <FormField control={form.control} name="manifest_number" render={({
-              field
-            }) => <FormItem>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="manifest_number"
+                render={({ field }) => (
+                  <FormItem>
                     <FormLabel>Manifest #</FormLabel>
                     <FormControl>
                       <Input {...field} placeholder="MN-12345 (optional)" />
                     </FormControl>
                     <FormMessage />
-                  </FormItem>} />
+                  </FormItem>
+                )}
+              />
             </div>
             
-            <FormField control={form.control} name="disposal_method" render={({
-            field
-          }) => <FormItem>
+            <FormField
+              control={form.control}
+              name="disposal_method"
+              render={({ field }) => (
+                <FormItem>
                   <FormLabel>Disposal Method</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
@@ -187,33 +231,45 @@ const AddHazardousWasteDialog: React.FC<AddHazardousWasteDialogProps> = ({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {disposalMethods.map(method => <SelectItem key={method} value={method}>
+                      {disposalMethods.map(method => (
+                        <SelectItem key={method} value={method}>
                           {method}
-                        </SelectItem>)}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                   <FormMessage />
-                </FormItem>} />
+                </FormItem>
+              )}
+            />
             
-            <FormField control={form.control} name="handler" render={({
-            field
-          }) => <FormItem>
+            <FormField
+              control={form.control}
+              name="handler"
+              render={({ field }) => (
+                <FormItem>
                   <FormLabel>Handler</FormLabel>
                   <FormControl>
                     <Input {...field} placeholder="Disposal Company or Internal" />
                   </FormControl>
                   <FormMessage />
-                </FormItem>} />
+                </FormItem>
+              )}
+            />
             
-            <FormField control={form.control} name="notes" render={({
-            field
-          }) => <FormItem>
+            <FormField
+              control={form.control}
+              name="notes"
+              render={({ field }) => (
+                <FormItem>
                   <FormLabel>Notes (Optional)</FormLabel>
                   <FormControl>
                     <Textarea {...field} placeholder="Additional details about this waste" />
                   </FormControl>
                   <FormMessage />
-                </FormItem>} />
+                </FormItem>
+              )}
+            />
 
             <div className="flex justify-end space-x-2 pt-4">
               <Button variant="outline" onClick={() => setOpen(false)} type="button">
@@ -224,6 +280,8 @@ const AddHazardousWasteDialog: React.FC<AddHazardousWasteDialogProps> = ({
           </form>
         </Form>
       </DialogContent>
-    </Dialog>;
+    </Dialog>
+  );
 };
+
 export default AddHazardousWasteDialog;
