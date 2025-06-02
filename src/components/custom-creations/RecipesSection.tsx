@@ -1,8 +1,9 @@
 
 import React, { useEffect } from 'react';
 import { useRecipes } from "@/hooks/useRecipes";
-import CreateRecipeCard from './recipes/CreateRecipeCard';
+import RecipeForm from './recipes/RecipeForm';
 import RecipesList from './recipes/RecipesList';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface RecipesSectionProps {
   onCountChange: (count: number) => void;
@@ -20,7 +21,18 @@ const RecipesSection: React.FC<RecipesSectionProps> = ({ onCountChange }) => {
 
   return (
     <div className="space-y-6">
-      <CreateRecipeCard />
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg text-blue-600">Create New Recipe</CardTitle>
+          <CardDescription>
+            Add a new recipe to your collection with ingredients, instructions, and properties.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <RecipeForm />
+        </CardContent>
+      </Card>
+      
       <RecipesList recipes={recipes} isLoading={isLoading} deleteRecipe={deleteRecipe} />
     </div>
   );

@@ -28,58 +28,34 @@ const ApplicationTab: React.FC<ApplicationTabProps> = ({
   };
 
   return (
-    <div className="space-y-4">
-      <FormField
-        control={form.control}
-        name="applicationMethod"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Preferred Application Method</FormLabel>
-            <Select 
-              onValueChange={field.onChange}
-              value={field.value}
-            >
-              <FormControl>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select application method" />
-                </SelectTrigger>
-              </FormControl>
-              <SelectContent>
-                {applicationMethods.map(method => (
-                  <SelectItem key={method} value={method}>{method}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-      
-      <div>
-        <FormLabel>Substrate Compatibility</FormLabel>
-        <div className="mt-1 grid grid-cols-2 md:grid-cols-3 gap-2">
-          {substrates.map(substrate => (
-            <div key={substrate} className="flex items-center">
-              <Button
-                type="button"
-                variant={selectedSubstrates.includes(substrate) ? "default" : "outline"}
-                size="sm"
-                className="w-full justify-start"
-                onClick={() => toggleSubstrate(substrate)}
+    <div className="space-y-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <FormField
+          control={form.control}
+          name="applicationMethod"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Application Method</FormLabel>
+              <Select 
+                onValueChange={field.onChange}
+                value={field.value}
               >
-                {substrate}
-              </Button>
-            </div>
-          ))}
-        </div>
-        {form.formState.errors.substrateCompatibility && (
-          <p className="text-sm font-medium text-destructive mt-2">
-            {form.formState.errors.substrateCompatibility.message}
-          </p>
-        )}
-      </div>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select method" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {applicationMethods.map(method => (
+                    <SelectItem key={method} value={method}>{method}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        
         <FormField
           control={form.control}
           name="dryingTime"
@@ -107,6 +83,30 @@ const ApplicationTab: React.FC<ApplicationTabProps> = ({
             </FormItem>
           )}
         />
+      </div>
+      
+      <div>
+        <FormLabel>Substrate Compatibility</FormLabel>
+        <div className="mt-1 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+          {substrates.map(substrate => (
+            <div key={substrate} className="flex items-center">
+              <Button
+                type="button"
+                variant={selectedSubstrates.includes(substrate) ? "default" : "outline"}
+                size="sm"
+                className="w-full justify-start"
+                onClick={() => toggleSubstrate(substrate)}
+              >
+                {substrate}
+              </Button>
+            </div>
+          ))}
+        </div>
+        {form.formState.errors.substrateCompatibility && (
+          <p className="text-sm font-medium text-destructive mt-2">
+            {form.formState.errors.substrateCompatibility.message}
+          </p>
+        )}
       </div>
     </div>
   );

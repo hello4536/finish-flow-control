@@ -12,8 +12,8 @@ interface BasicInfoTabProps {
 
 const BasicInfoTab: React.FC<BasicInfoTabProps> = ({ form }) => {
   return (
-    <div className="space-y-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="space-y-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         <FormField
           control={form.control}
           name="name"
@@ -41,21 +41,21 @@ const BasicInfoTab: React.FC<BasicInfoTabProps> = ({ form }) => {
             </FormItem>
           )}
         />
+        
+        <FormField
+          control={form.control}
+          name="color"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Color</FormLabel>
+              <FormControl>
+                <Input placeholder="Dark Walnut" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       </div>
-      
-      <FormField
-        control={form.control}
-        name="color"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Color</FormLabel>
-            <FormControl>
-              <Input placeholder="Dark Walnut" {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
       
       <FormField
         control={form.control}
@@ -66,7 +66,7 @@ const BasicInfoTab: React.FC<BasicInfoTabProps> = ({ form }) => {
             <FormControl>
               <Textarea 
                 placeholder="Additional notes about this stain" 
-                className="min-h-[100px]"
+                className="min-h-[80px]"
                 {...field} 
               />
             </FormControl>
