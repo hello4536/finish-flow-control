@@ -11,6 +11,7 @@ import PaintColorsSection from "@/components/custom-creations/paint-colors/Paint
 import StainsSection from "@/components/custom-creations/StainsSection";
 import RecipesSection from "@/components/custom-creations/RecipesSection";
 import BookmarksSection from "@/components/custom-creations/BookmarksSection";
+
 const CustomCreations = () => {
   const [activeTab, setActiveTab] = useState("paint-colors");
 
@@ -47,7 +48,8 @@ const CustomCreations = () => {
       bookmarks: count
     }));
   };
-  return <div className="space-y-6">
+  return (
+    <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold tracking-tight text-purple-600">Custom Creations</h1>
         <p className="text-muted-foreground mt-2">
@@ -56,47 +58,83 @@ const CustomCreations = () => {
       </div>
       
       <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-        <Card className={`cursor-pointer hover:border-primary/50 transition-all ${activeTab === "paint-colors" ? "border-primary" : ""}`} onClick={() => setActiveTab("paint-colors")}>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-blue-600">Paint Colors</CardTitle>
-            <PaintBucket className="h-4 w-4 text-blue-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-blue-600">{stats.paintColors}</div>
-            <p className="text-xs text-muted-foreground">Custom colors saved</p>
+        <Card 
+          className={`cursor-pointer transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl border-0 bg-gradient-to-br from-blue-50 to-indigo-100 shadow-lg ${
+            activeTab === "paint-colors" ? "ring-2 ring-blue-500" : ""
+          }`} 
+          onClick={() => setActiveTab("paint-colors")}
+        >
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div className="text-sm font-semibold text-blue-700 uppercase tracking-wide">Paint Colors</div>
+              <div className="rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 p-3 shadow-lg">
+                <PaintBucket className="h-5 w-5 text-white" />
+              </div>
+            </div>
+            <div className="mb-2">
+              <div className="text-4xl font-bold text-blue-800 mb-1">{stats.paintColors}</div>
+              <div className="text-sm text-blue-600 font-medium">Custom colors saved</div>
+            </div>
           </CardContent>
         </Card>
         
-        <Card className={`cursor-pointer hover:border-primary/50 transition-all ${activeTab === "stains" ? "border-primary" : ""}`} onClick={() => setActiveTab("stains")}>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-blue-600">Stains</CardTitle>
-            <SwatchBook className="h-4 w-4 text-blue-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-blue-600">{stats.stains}</div>
-            <p className="text-xs text-muted-foreground">Custom stains saved</p>
+        <Card 
+          className={`cursor-pointer transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl border-0 bg-gradient-to-br from-purple-50 to-violet-100 shadow-lg ${
+            activeTab === "stains" ? "ring-2 ring-purple-500" : ""
+          }`} 
+          onClick={() => setActiveTab("stains")}
+        >
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div className="text-sm font-semibold text-purple-700 uppercase tracking-wide">Stains</div>
+              <div className="rounded-xl bg-gradient-to-br from-purple-500 to-violet-600 p-3 shadow-lg">
+                <SwatchBook className="h-5 w-5 text-white" />
+              </div>
+            </div>
+            <div className="mb-2">
+              <div className="text-4xl font-bold text-purple-800 mb-1">{stats.stains}</div>
+              <div className="text-sm text-purple-600 font-medium">Custom stains saved</div>
+            </div>
           </CardContent>
         </Card>
         
-        <Card className={`cursor-pointer hover:border-primary/50 transition-all ${activeTab === "recipes" ? "border-primary" : ""}`} onClick={() => setActiveTab("recipes")}>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-blue-600">Recipes</CardTitle>
-            <Utensils className="h-4 w-4 text-blue-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-blue-600">{stats.recipes}</div>
-            <p className="text-xs text-muted-foreground">Custom recipes saved</p>
+        <Card 
+          className={`cursor-pointer transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl border-0 bg-gradient-to-br from-orange-50 to-amber-100 shadow-lg ${
+            activeTab === "recipes" ? "ring-2 ring-orange-500" : ""
+          }`} 
+          onClick={() => setActiveTab("recipes")}
+        >
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div className="text-sm font-semibold text-orange-700 uppercase tracking-wide">Recipes</div>
+              <div className="rounded-xl bg-gradient-to-br from-orange-500 to-amber-600 p-3 shadow-lg">
+                <Utensils className="h-5 w-5 text-white" />
+              </div>
+            </div>
+            <div className="mb-2">
+              <div className="text-4xl font-bold text-orange-800 mb-1">{stats.recipes}</div>
+              <div className="text-sm text-orange-600 font-medium">Custom recipes saved</div>
+            </div>
           </CardContent>
         </Card>
         
-        <Card className={`cursor-pointer hover:border-primary/50 transition-all ${activeTab === "bookmarks" ? "border-primary" : ""}`} onClick={() => setActiveTab("bookmarks")}>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-blue-600">Bookmarks</CardTitle>
-            <Bookmark className="h-4 w-4 text-blue-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-blue-600">{stats.bookmarks}</div>
-            <p className="text-xs text-muted-foreground">Reference items saved</p>
+        <Card 
+          className={`cursor-pointer transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl border-0 bg-gradient-to-br from-green-50 to-emerald-100 shadow-lg ${
+            activeTab === "bookmarks" ? "ring-2 ring-green-500" : ""
+          }`} 
+          onClick={() => setActiveTab("bookmarks")}
+        >
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div className="text-sm font-semibold text-green-700 uppercase tracking-wide">Bookmarks</div>
+              <div className="rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 p-3 shadow-lg">
+                <Bookmark className="h-5 w-5 text-white" />
+              </div>
+            </div>
+            <div className="mb-2">
+              <div className="text-4xl font-bold text-green-800 mb-1">{stats.bookmarks}</div>
+              <div className="text-sm text-green-600 font-medium">Reference items saved</div>
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -127,6 +165,8 @@ const CustomCreations = () => {
           <BookmarksSection onCountChange={updateBookmarksCount} />
         </TabsContent>
       </Tabs>
-    </div>;
+    </div>
+  );
 };
+
 export default CustomCreations;

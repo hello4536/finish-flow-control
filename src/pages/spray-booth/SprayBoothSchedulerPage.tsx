@@ -5,8 +5,11 @@ import { Button } from "@/components/ui/button";
 import { Plus, Settings } from "lucide-react";
 import { SprayBoothScheduler } from "./components/SprayBoothScheduler";
 import { BoothManagement } from "./components/BoothManagement";
+import SprayBoothStats from "./components/SprayBoothStats";
 import { useSprayBooths } from "./hooks/useSprayBooths";
 import { useMockSprayBooths } from "./hooks/useMockSprayBooths";
+import { useBoothReservations } from "./hooks/useBoothReservations";
+import { useMockBoothReservations } from "./hooks/useMockBoothReservations";
 import { useMockData } from "@/utils/mockData";
 import { toast } from "sonner";
 
@@ -14,11 +17,17 @@ const SprayBoothSchedulerPage = () => {
   const [activeTab, setActiveTab] = useState<"scheduler" | "management">("scheduler");
   const showMockData = useMockData();
   
-  const { data: realBooths = [], isLoading: realLoading, error: realError } = useSprayBooths();
-  const { data: mockBooths = [], isLoading: mockLoading } = useMockSprayBooths();
+  const { data: realBooths = [], isLoading: realBoothsLoading, error: realError } = useSprayBooths();
+  const { data: mockBooths = [], isLoading: mockBoothsLoading } = useMockSprayBooths();
+  
+  const { data: realReservations = [], isLoading: realReservationsLoading } = useBoothReservations(new Date());
+  const { data: mockReservations = [], isLoading: mockReservationsLoading } = useMockBoothReservations(new Date());
   
   const booths = showMockData ? mockBooths : realBooths;
-  const isLoading = showMockData ? mockLoading : realLoading;
+  const reservations = showMockData ? mockReservations : realReservations;
+  const isLoading = showMockData 
+    ? (mockBoothsLoading || mockReservationsLoading) 
+    : (realBoothsLoading || realReservationsLoading);
   const error = showMockData ? null : realError;
 
   if (error && !showMockData) {
@@ -56,6 +65,12 @@ const SprayBoothSchedulerPage = () => {
           </Button>
         </div>
       </div>
+
+      <SprayBoothStats 
+        booths={booths} 
+        reservations={reservations} 
+        isLoading={isLoading} 
+      />
 
       {isLoading ? (
         <div className="flex justify-center items-center h-64">

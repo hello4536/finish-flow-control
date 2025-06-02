@@ -1,60 +1,104 @@
 
-import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Layers, Activity, Clock, CheckCircle } from "lucide-react";
-import { WorkflowStatistics } from "../utils/types";
+import React from 'react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Workflow, Clock, CheckCircle, TrendingUp } from 'lucide-react';
+import { Workflow as WorkflowType } from '../utils/types';
 
 interface WorkflowsStatisticsProps {
-  statistics: WorkflowStatistics;
+  workflows: WorkflowType[];
+  isLoading?: boolean;
 }
 
-const WorkflowsStatistics: React.FC<WorkflowsStatisticsProps> = ({ statistics }) => {
+const WorkflowsStatistics: React.FC<WorkflowsStatisticsProps> = ({ 
+  workflows, 
+  isLoading = false 
+}) => {
+  // Calculate metrics
+  const totalWorkflows = workflows.length;
+  const activeWorkflows = workflows.filter(w => w.status === 'active').length;
+  const completedWorkflows = workflows.filter(w => w.status === 'completed').length;
+  const totalActiveJobs = workflows.reduce((sum, w) => sum + (w.active_jobs || 0), 0);
+
+  if (isLoading) {
+    return (
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-6">
+        {[1, 2, 3, 4].map((i) => (
+          <Card key={i} className="relative overflow-hidden border-0 bg-gradient-to-br from-gray-50 to-slate-100 shadow-lg">
+            <CardContent className="p-6">
+              <div className="animate-pulse">
+                <div className="h-4 bg-gray-200 rounded mb-4"></div>
+                <div className="h-8 bg-gray-200 rounded mb-2"></div>
+                <div className="h-3 bg-gray-200 rounded"></div>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    );
+  }
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-      <Card>
-        <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium text-muted-foreground">Total Workflows</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center justify-between">
-            <span className="text-2xl font-bold">{statistics.totalWorkflows}</span>
-            <Layers className="h-5 w-5 text-blue-500" />
+    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-6">
+      {/* Total Workflows Card */}
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-blue-50 to-indigo-100 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="text-sm font-semibold text-blue-700 uppercase tracking-wide">Total Workflows</div>
+            <div className="rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 p-3 shadow-lg">
+              <Workflow className="h-5 w-5 text-white" />
+            </div>
+          </div>
+          <div className="mb-2">
+            <div className="text-4xl font-bold text-blue-800 mb-1">{totalWorkflows}</div>
+            <div className="text-sm text-blue-600 font-medium">Configured workflows</div>
           </div>
         </CardContent>
       </Card>
       
-      <Card>
-        <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium text-muted-foreground">Active Jobs</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center justify-between">
-            <span className="text-2xl font-bold">{statistics.activeJobs}</span>
-            <Activity className="h-5 w-5 text-emerald-500" />
+      {/* Active Workflows Card */}
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-green-50 to-emerald-100 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="text-sm font-semibold text-green-700 uppercase tracking-wide">Active Workflows</div>
+            <div className="rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 p-3 shadow-lg">
+              <TrendingUp className="h-5 w-5 text-white" />
+            </div>
+          </div>
+          <div className="mb-2">
+            <div className="text-4xl font-bold text-green-800 mb-1">{activeWorkflows}</div>
+            <div className="text-sm text-green-600 font-medium">Currently running</div>
           </div>
         </CardContent>
       </Card>
       
-      <Card>
-        <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium text-muted-foreground">Completed Jobs</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center justify-between">
-            <span className="text-2xl font-bold">{statistics.completedJobs}</span>
-            <CheckCircle className="h-5 w-5 text-green-500" />
+      {/* Completed Workflows Card */}
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-purple-50 to-violet-100 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="text-sm font-semibold text-purple-700 uppercase tracking-wide">Completed</div>
+            <div className="rounded-xl bg-gradient-to-br from-purple-500 to-violet-600 p-3 shadow-lg">
+              <CheckCircle className="h-5 w-5 text-white" />
+            </div>
+          </div>
+          <div className="mb-2">
+            <div className="text-4xl font-bold text-purple-800 mb-1">{completedWorkflows}</div>
+            <div className="text-sm text-purple-600 font-medium">Successfully finished</div>
           </div>
         </CardContent>
       </Card>
       
-      <Card>
-        <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium text-muted-foreground">Efficiency Rate</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center justify-between">
-            <span className="text-2xl font-bold">{statistics.efficiency}%</span>
-            <Clock className="h-5 w-5 text-amber-500" />
+      {/* Active Jobs Card */}
+      <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-orange-50 to-amber-100 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="text-sm font-semibold text-orange-700 uppercase tracking-wide">Active Jobs</div>
+            <div className="rounded-xl bg-gradient-to-br from-orange-500 to-amber-600 p-3 shadow-lg">
+              <Clock className="h-5 w-5 text-white" />
+            </div>
+          </div>
+          <div className="mb-2">
+            <div className="text-4xl font-bold text-orange-800 mb-1">{totalActiveJobs}</div>
+            <div className="text-sm text-orange-600 font-medium">Jobs in progress</div>
           </div>
         </CardContent>
       </Card>
