@@ -1,11 +1,11 @@
+
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { Loader2, Plus, Upload } from "lucide-react";
+import { Loader2, Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UseMutationResult } from "@tanstack/react-query";
-import { TabsContent } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { paintColorSchema, PaintColorFormValues } from "./validation/paintColorSchema";
 import { supabase } from "@/integrations/supabase/client";
@@ -16,14 +16,17 @@ import BasicInfoTab from "./form-sections/BasicInfoTab";
 import ColorValuesTab from "./form-sections/ColorValuesTab";
 import ApplicationTab from "./form-sections/ApplicationTab";
 import EnvironmentTab from "./form-sections/EnvironmentTab";
+
 interface PaintColorFormProps {
   addPaintColor: UseMutationResult<any, Error, Omit<PaintColor, 'id' | 'created_at' | 'updated_at'>, unknown>;
 }
+
 const PaintColorForm: React.FC<PaintColorFormProps> = ({
   addPaintColor
 }) => {
   const [swatchImage, setSwatchImage] = useState<File | null>(null);
   const [uploadingImage, setUploadingImage] = useState(false);
+
   const form = useForm<PaintColorFormValues>({
     resolver: zodResolver(paintColorSchema),
     defaultValues: {
@@ -42,20 +45,26 @@ const PaintColorForm: React.FC<PaintColorFormProps> = ({
       notes: ""
     }
   });
+
   const uploadImage = async () => {
     if (!swatchImage) return null;
+
     setUploadingImage(true);
     try {
       const fileExt = swatchImage.name.split('.').pop();
       const fileName = `${Math.random().toString(36).substring(2)}.${fileExt}`;
       const filePath = `color-swatches/${fileName}`;
-      const {
-        error
-      } = await supabase.storage.from('paint_colors').upload(filePath, swatchImage);
+
+      const { error } = await supabase.storage
+        .from('paint_colors')
+        .upload(filePath, swatchImage);
+
       if (error) throw error;
-      const {
-        data
-      } = supabase.storage.from('paint_colors').getPublicUrl(filePath);
+
+      const { data } = supabase.storage
+        .from('paint_colors')
+        .getPublicUrl(filePath);
+
       return data.publicUrl;
     } catch (error) {
       console.error('Error uploading image:', error);
@@ -69,8 +78,10 @@ const PaintColorForm: React.FC<PaintColorFormProps> = ({
       setUploadingImage(false);
     }
   };
+
   const onSubmit = async (values: PaintColorFormValues) => {
     let imageUrl = null;
+
     if (swatchImage) {
       imageUrl = await uploadImage();
     }
@@ -104,6 +115,7 @@ const PaintColorForm: React.FC<PaintColorFormProps> = ({
       }
     });
   };
+
   const handleImageChange = (file: File | null) => {
     if (file) {
       if (file.type === "image/png" || file.type === "image/jpeg") {
@@ -117,36 +129,63 @@ const PaintColorForm: React.FC<PaintColorFormProps> = ({
       }
     }
   };
-  return <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <TabsContent value="basic" className="space-y-4">
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        
+        {/* Basic Information Section */}
+        <div>
+          <h3 className="text-lg font-semibold text-blue-600 mb-4">Basic Information</h3>
           <BasicInfoTab form={form} />
-        </TabsContent>
+        </div>
         
-        <TabsContent value="color-values" className="space-y-4">
+        <Separator />
+        
+        {/* Color Values Section */}
+        <div>
+          <h3 className="text-lg font-semibold text-blue-600 mb-4">Color Values</h3>
           <ColorValuesTab form={form} />
-        </TabsContent>
+        </div>
         
-        <TabsContent value="application" className="space-y-4">
+        <Separator />
+        
+        {/* Application Section */}
+        <div>
+          <h3 className="text-lg font-semibold text-blue-600 mb-4">Application Details</h3>
           <ApplicationTab form={form} swatchImage={swatchImage} onImageChange={handleImageChange} />
-        </TabsContent>
+        </div>
         
-        <TabsContent value="environment" className="space-y-4">
+        <Separator />
+        
+        {/* Environment Section */}
+        <div>
+          <h3 className="text-lg font-semibold text-blue-600 mb-4">Environment Conditions</h3>
           <EnvironmentTab form={form} />
-        </TabsContent>
+        </div>
         
-        <Separator className="my-4" />
+        <Separator className="my-6" />
         
-        <Button type="submit" disabled={addPaintColor.isPending || uploadingImage} className="w-full sm:w-auto bg-blue-600 hover:bg-blue-500">
-          {addPaintColor.isPending || uploadingImage ? <>
+        <Button 
+          type="submit" 
+          disabled={addPaintColor.isPending || uploadingImage} 
+          className="w-full sm:w-auto bg-blue-600 hover:bg-blue-500"
+        >
+          {addPaintColor.isPending || uploadingImage ? (
+            <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               Saving...
-            </> : <>
+            </>
+          ) : (
+            <>
               <Plus className="mr-2 h-4 w-4" />
               Save Paint Color
-            </>}
+            </>
+          )}
         </Button>
       </form>
-    </Form>;
+    </Form>
+  );
 };
+
 export default PaintColorForm;

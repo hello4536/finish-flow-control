@@ -34,7 +34,7 @@ export const useDailyTasks = () => {
         .from('daily_tasks')
         .select(`
           *,
-          profiles:user_id(id, full_name)
+          profiles(id, full_name)
         `)
         .order('created_at', { ascending: false });
 
@@ -42,6 +42,8 @@ export const useDailyTasks = () => {
 
       return data.map(task => ({
         ...task,
+        priority: task.priority as "low" | "medium" | "high",
+        status: task.status as "pending" | "completed",
         assignee: task.profiles ? {
           id: task.profiles.id || task.user_id,
           name: task.profiles.full_name || 'Unknown User'
