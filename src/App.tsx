@@ -51,8 +51,8 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <DevModeProvider>
-        <AuthProvider>
-          <Router>
+        <Router>
+          <AuthProvider>
             <div className="min-h-screen bg-background">
               <Routes>
                 {/* Public routes */}
@@ -282,10 +282,10 @@ function App() {
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </div>
-          </Router>
-          <Toaster position="top-right" />
-          <ReactQueryDevtools initialIsOpen={false} />
-        </AuthProvider>
+            <Toaster position="top-right" />
+            <ReactQueryDevtools initialIsOpen={false} />
+          </AuthProvider>
+        </Router>
       </DevModeProvider>
     </QueryClientProvider>
   );
