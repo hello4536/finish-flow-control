@@ -29,23 +29,45 @@ export const useDailyTasks = () => {
   const realQuery = useQuery({
     queryKey: ['daily-tasks'],
     queryFn: async (): Promise<TaskWithAssignee[]> => {
-      const { data, error } = await supabase
+      // First get the tasks
+      const { data: tasksData, error: tasksError } = await supabase
         .from('daily_tasks')
-        .select(`
-          *,
-          profiles!daily_tasks_user_id_fkey(id, full_name)
-        `)
+        .select('*')
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
+      if (tasksError) throw tasksError;
+      if (!tasksData) return [];
 
-      return data.map(task => ({
+      // Then get the profiles for the user_ids in the tasks
+      const userIds = [...new Set(tasksData.map(task => task.user_id))];
+      
+      if (userIds.length === 0) {
+        return tasksData.map(task => ({
+          ...task,
+          priority: task.priority as "low" | "medium" | "high",
+          status: task.status as "pending" | "completed",
+          assignee: undefined
+        }));
+      }
+
+      const { data: profilesData, error: profilesError } = await supabase
+        .from('profiles')
+        .select('id, full_name')
+        .in('id', userIds);
+
+      if (profilesError) {
+        console.error('Error fetching profiles:', profilesError);
+        // Continue without profile data
+      }
+
+      // Map tasks with their assignees
+      return tasksData.map(task => ({
         ...task,
         priority: task.priority as "low" | "medium" | "high",
         status: task.status as "pending" | "completed",
-        assignee: task.profiles ? {
-          id: task.profiles.id || task.user_id,
-          name: task.profiles.full_name || 'Unknown User'
+        assignee: profilesData?.find(profile => profile.id === task.user_id) ? {
+          id: profilesData.find(profile => profile.id === task.user_id)!.id,
+          name: profilesData.find(profile => profile.id === task.user_id)!.full_name || 'Unknown User'
         } : undefined
       }));
     },
