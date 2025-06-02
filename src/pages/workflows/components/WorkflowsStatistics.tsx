@@ -16,7 +16,7 @@ const WorkflowsStatistics: React.FC<WorkflowsStatisticsProps> = ({
   // Calculate metrics
   const totalWorkflows = workflows.length;
   const activeWorkflows = workflows.filter(w => w.status === 'active').length;
-  const completedWorkflows = workflows.filter(w => w.status === 'completed').length;
+  const archivedWorkflows = workflows.filter(w => w.status === 'archived').length;
   const totalActiveJobs = workflows.reduce((sum, w) => sum + (w.active_jobs || 0), 0);
 
   if (isLoading) {
@@ -71,18 +71,18 @@ const WorkflowsStatistics: React.FC<WorkflowsStatisticsProps> = ({
         </CardContent>
       </Card>
       
-      {/* Completed Workflows Card */}
+      {/* Archived Workflows Card */}
       <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-purple-50 to-violet-100 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
         <CardContent className="p-6">
           <div className="flex items-center justify-between mb-4">
-            <div className="text-sm font-semibold text-purple-700 uppercase tracking-wide">Completed</div>
+            <div className="text-sm font-semibold text-purple-700 uppercase tracking-wide">Archived</div>
             <div className="rounded-xl bg-gradient-to-br from-purple-500 to-violet-600 p-3 shadow-lg">
               <CheckCircle className="h-5 w-5 text-white" />
             </div>
           </div>
           <div className="mb-2">
-            <div className="text-4xl font-bold text-purple-800 mb-1">{completedWorkflows}</div>
-            <div className="text-sm text-purple-600 font-medium">Successfully finished</div>
+            <div className="text-4xl font-bold text-purple-800 mb-1">{archivedWorkflows}</div>
+            <div className="text-sm text-purple-600 font-medium">Completed workflows</div>
           </div>
         </CardContent>
       </Card>

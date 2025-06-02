@@ -25,23 +25,6 @@ const Workflows: React.FC = () => {
     importWorkflows
   } = useWorkflows();
 
-  // Calculate statistics
-  const statistics = useMemo(() => {
-    const totalWorkflows = workflows.length;
-    const activeJobs = workflows.reduce((sum, w) => sum + w.active_jobs, 0);
-    const avgStepsPerWorkflow = workflows.length > 0
-      ? workflows.reduce((sum, w) => sum + w.steps.length, 0) / workflows.length
-      : 0;
-    const efficiency = 85; // This would come from actual data in a real implementation
-    
-    return {
-      totalWorkflows,
-      activeJobs,
-      completedJobs: Math.round(activeJobs * 0.7), // Placeholder calculation
-      efficiency
-    };
-  }, [workflows]);
-
   // Filter workflows based on search query
   const getFilteredWorkflows = (trade: string) => {
     const tradeWorkflows = getWorkflowsByTrade(trade);
@@ -80,7 +63,7 @@ const Workflows: React.FC = () => {
       />
 
       {workflows.length > 0 && (
-        <WorkflowsStatistics statistics={statistics} />
+        <WorkflowsStatistics workflows={workflows} isLoading={isLoading} />
       )}
 
       {workflows.length === 0 ? (
