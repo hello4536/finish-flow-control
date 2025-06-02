@@ -1,307 +1,84 @@
 
 import React, { useState } from "react";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
-import { Box, PackageOpen, Search, PlusCircle, Edit, Trash2 } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
+import { useMaterialsData } from "@/hooks/useMaterialsData";
+import MaterialsStats from "./materials/components/MaterialsStats";
+import AddMaterialDialog from "./materials/components/AddMaterial";
+import MaterialsHeader from "./materials/components/MaterialsHeader";
+import MaterialsContent from "./materials/components/MaterialsContent";
+import SuppliersSection from "./materials/components/SuppliersSection";
+import { useMaterialCompliance } from "@/hooks/useMaterialCompliance";
+import { useMaterialUsage } from "@/hooks/useMaterialUsage";
+import { useHazardousWaste } from "@/hooks/useHazardousWaste";
 
 const MaterialsPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState("all");
+  const [addDialogOpen, setAddDialogOpen] = useState(false);
+  
+  const {
+    materials,
+    suppliers,
+    isLoading,
+    filterMaterials,
+    fetchMaterialsData,
+    getHazardousMaterialsCount
+  } = useMaterialsData();
 
-  // Empty arrays instead of mock data
-  const materials: any[] = [];
-  const suppliers: any[] = [];
+  // Load compliance data
+  const { materialCompliance, safetyDataSheets } = useMaterialCompliance();
+  
+  // Load usage data
+  const { usageLogs } = useMaterialUsage();
+  
+  // Load hazardous waste data
+  const { hazardousWaste } = useHazardousWaste();
+  
+  const { toast } = useToast();
 
   // Filter materials based on search term and active tab
-  const filteredMaterials = materials.filter(material => {
-    const matchesSearch = material.name.toLowerCase().includes(searchTerm.toLowerCase()) || material.type.toLowerCase().includes(searchTerm.toLowerCase());
-    if (activeTab === "all") return matchesSearch;
-    if (activeTab === "low") return matchesSearch && (material.status === "Low Stock" || material.status === "Critical Low");
-    if (activeTab === "type") return matchesSearch && material.type.toLowerCase() === activeTab.toLowerCase();
-    return matchesSearch;
-  });
+  const filteredMaterials = filterMaterials(searchTerm, activeTab);
+  
+  // Check if there are hazardous materials
+  const hasHazardousMaterials = getHazardousMaterialsCount() > 0;
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "In Stock":
-        return "bg-finish-green-100 text-finish-green-800";
-      case "Low Stock":
-        return "bg-finish-amber-100 text-finish-amber-800";
-      case "Critical Low":
-        return "bg-finish-red-100 text-finish-red-800";
-      default:
-        return "bg-finish-gray-100 text-finish-gray-800";
-    }
-  };
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+        <div className="flex items-center justify-center h-[calc(100vh-200px)]">
+          <div className="text-lg text-blue-600 font-medium">Loading materials data...</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="container mx-auto">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Materials Management</h1>
-        <Button className="flex items-center gap-2">
-          <PlusCircle className="h-5 w-5" />
-          Add New Material
-        </Button>
-      </div>
-      
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-        <Card className="card-hover rounded">
-          <CardHeader className="pb-2 bg-sky-100">
-            <CardTitle className="flex items-center">
-              <Box className="mr-2 h-5 w-5 text-blue-900" />
-              Total Materials
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="pt-6">
-            <p className="text-3xl font-bold">{materials.length}</p>
-            <p className="text-sm text-muted-foreground mt-1">Across {new Set(materials.map(m => m.type)).size} categories</p>
-          </CardContent>
-        </Card>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+      <div className="container mx-auto px-6 py-8 space-y-8">
+        <MaterialsHeader 
+          onAddNewClick={() => setAddDialogOpen(true)}
+        />
         
-        <Card className="card-hover">
-          <CardHeader className="pb-2 bg-orange-500">
-            <CardTitle className="flex items-center text-slate-50">
-              <PackageOpen className="mr-2 h-5 w-5 text-slate-50" />
-              Low Stock Items
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="pt-6">
-            <p className="text-3xl font-bold">{materials.filter(m => m.status === "Low Stock" || m.status === "Critical Low").length}</p>
-            <p className="text-sm text-muted-foreground mt-1">Requiring reorder soon</p>
-          </CardContent>
-        </Card>
+        <MaterialsStats materials={materials} suppliers={suppliers} />
         
-        <Card className="card-hover">
-          <CardHeader className="pb-2 bg-blue-900">
-            <CardTitle className="flex items-center text-slate-50">
-              <Box className="mr-2 h-5 w-5 text-slate-50" />
-              Suppliers
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="pt-6">
-            <p className="text-3xl font-bold">{suppliers.length}</p>
-            <p className="text-sm text-muted-foreground mt-1">Active material providers</p>
-          </CardContent>
-        </Card>
-      </div>
-      
-      <div className="bg-white rounded-lg shadow-sm border p-6 mb-6">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-          <h2 className="text-xl font-semibold">Materials Inventory</h2>
-          <div className="flex gap-4 w-full md:w-auto">
-            <div className="relative w-full md:w-64">
-              <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Search materials..." className="pl-9" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
-            </div>
-            <Button variant="outline">Filters</Button>
-          </div>
-        </div>
-        
-        <Tabs defaultValue="all" className="w-full" onValueChange={setActiveTab}>
-          <TabsList>
-            <TabsTrigger value="all">All Materials</TabsTrigger>
-            <TabsTrigger value="low">Low Stock</TabsTrigger>
-            <TabsTrigger value="metal">Metals</TabsTrigger>
-            <TabsTrigger value="wood">Wood</TabsTrigger>
-            <TabsTrigger value="chemical">Chemicals</TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="all" className="mt-4">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Type</TableHead>
-                  <TableHead>Quantity</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredMaterials.length === 0 ? (
-                  <TableRow>
-                    <TableCell colSpan={5} className="text-center text-muted-foreground py-8">
-                      No materials found. Add some materials to get started.
-                    </TableCell>
-                  </TableRow>
-                ) : (
-                  filteredMaterials.map(material => (
-                    <TableRow key={material.id}>
-                      <TableCell className="font-medium">{material.name}</TableCell>
-                      <TableCell>{material.type}</TableCell>
-                      <TableCell>{`${material.quantity} ${material.unit}`}</TableCell>
-                      <TableCell>
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(material.status)}`}>
-                          {material.status}
-                        </span>
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex justify-end gap-2">
-                          <Button size="icon" variant="ghost">
-                            <Edit className="h-4 w-4" />
-                          </Button>
-                          <Button size="icon" variant="ghost">
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                )}
-              </TableBody>
-            </Table>
-          </TabsContent>
-          
-          {/* Similar empty state for other tabs */}
-          <TabsContent value="low" className="mt-4">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Type</TableHead>
-                  <TableHead>Quantity</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                <TableRow>
-                  <TableCell colSpan={5} className="text-center text-muted-foreground py-8">
-                    No low stock materials found.
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TabsContent>
-          
-          <TabsContent value="metal" className="mt-4">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Type</TableHead>
-                  <TableHead>Quantity</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                <TableRow>
-                  <TableCell colSpan={5} className="text-center text-muted-foreground py-8">
-                    No metal materials found.
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TabsContent>
-          
-          <TabsContent value="wood" className="mt-4">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Type</TableHead>
-                  <TableHead>Quantity</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                <TableRow>
-                  <TableCell colSpan={5} className="text-center text-muted-foreground py-8">
-                    No wood materials found.
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TabsContent>
-          
-          <TabsContent value="chemical" className="mt-4">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Type</TableHead>
-                  <TableHead>Quantity</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                <TableRow>
-                  <TableCell colSpan={5} className="text-center text-muted-foreground py-8">
-                    No chemical materials found.
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TabsContent>
-        </Tabs>
-      </div>
+        <MaterialsContent
+          searchTerm={searchTerm}
+          activeTab={activeTab}
+          filteredMaterials={filteredMaterials}
+          onSearchChange={setSearchTerm}
+          onTabChange={setActiveTab}
+          hasHazardousMaterials={hasHazardousMaterials}
+        />
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Material Suppliers</CardTitle>
-          <CardDescription>Current active suppliers providing materials to your facility</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Supplier</TableHead>
-                <TableHead>Contact Person</TableHead>
-                <TableHead>Phone</TableHead>
-                <TableHead>Materials Supplied</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {suppliers.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={5} className="text-center text-muted-foreground py-8">
-                    No suppliers found. Add suppliers to manage material sources.
-                  </TableCell>
-                </TableRow>
-              ) : (
-                suppliers.map(supplier => (
-                  <TableRow key={supplier.id}>
-                    <TableCell className="font-medium">{supplier.name}</TableCell>
-                    <TableCell>{supplier.contact}</TableCell>
-                    <TableCell>{supplier.phone}</TableCell>
-                    <TableCell>
-                      <div className="flex flex-wrap gap-1">
-                        {supplier.materials.slice(0, 2).map((material: string, i: number) => (
-                          <span key={i} className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
-                            {material}
-                          </span>
-                        ))}
-                        {supplier.materials.length > 2 && (
-                          <span className="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">
-                            +{supplier.materials.length - 2} more
-                          </span>
-                        )}
-                      </div>
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end gap-2">
-                        <Button size="icon" variant="ghost">
-                          <Edit className="h-4 w-4" />
-                        </Button>
-                        <Button size="icon" variant="ghost">
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+        <SuppliersSection suppliers={suppliers} />
+
+        <AddMaterialDialog 
+          open={addDialogOpen} 
+          onOpenChange={setAddDialogOpen}
+          suppliers={suppliers}
+          onSuccess={fetchMaterialsData}
+        />
+      </div>
     </div>
   );
 };
