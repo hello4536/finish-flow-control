@@ -1,9 +1,7 @@
-
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import { BarChart, Box, Calendar, CheckSquare, ClipboardList, Database, Home, PackageOpen, Settings, Users, Link, Palette, ShieldCheck, CheckCircle, Archive, Paintbrush } from "lucide-react";
-
 export function AppSidebar() {
   const {
     state
@@ -123,28 +121,21 @@ export function AppSidebar() {
       return `${baseClasses} hover:bg-white hover:border-purple-200 hover:text-purple-700 hover:transform hover:-translate-y-0.5`;
     };
   };
-  
-  return (
-    <Sidebar 
-      className={`${collapsed ? "w-14" : "w-60"} bg-gradient-to-b from-slate-50 via-blue-50/50 to-indigo-100/30 shadow-2xl border-r border-slate-200/50`} 
-      collapsible="icon"
-    >
+  return <Sidebar className={`${collapsed ? "w-14" : "w-60"} bg-gradient-to-b from-slate-50 via-blue-50/50 to-indigo-100/30 shadow-2xl border-r border-slate-200/50`} collapsible="icon">
       <SidebarTrigger className="m-3 self-end text-slate-600 hover:bg-white/80 hover:text-purple-600 backdrop-blur-sm border border-slate-200 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md" />
       
       <SidebarContent className="bg-transparent px-2">
         <SidebarGroup className="my-4">
           <SidebarGroupContent>
             <SidebarMenu className="space-y-2">
-              {mainItems.map(item => 
-                <SidebarMenuItem key={item.title}>
+              {mainItems.map(item => <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <NavLink to={item.url} end={item.url === "/dashboard"} className={getNavCls(item)}>
-                      <item.icon className="mr-3 h-5 w-5 flex-shrink-0" />
-                      {!collapsed && <span className="text-sm font-medium truncate">{item.title}</span>}
+                      <item.icon className="mr-3 h-5 w-5 flex-shrink-0 text-white" />
+                      {!collapsed && <span className="text-sm font-medium truncate text-white">{item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
-                </SidebarMenuItem>
-              )}
+                </SidebarMenuItem>)}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -156,20 +147,17 @@ export function AppSidebar() {
 
           <SidebarGroupContent>
             <SidebarMenu className="space-y-2">
-              {adminItems.map(item => 
-                <SidebarMenuItem key={item.title}>
+              {adminItems.map(item => <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <NavLink to={item.url} className={getNavCls(item)}>
-                      <item.icon className="mr-3 h-5 w-5 flex-shrink-0" />
-                      {!collapsed && <span className="text-sm font-medium truncate">{item.title}</span>}
+                      <item.icon className="mr-3 h-5 w-5 flex-shrink-0 text-white" />
+                      {!collapsed && <span className="text-sm font-medium truncate text-white">{item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
-                </SidebarMenuItem>
-              )}
+                </SidebarMenuItem>)}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-    </Sidebar>
-  );
+    </Sidebar>;
 }
