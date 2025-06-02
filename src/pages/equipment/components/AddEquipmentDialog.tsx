@@ -240,7 +240,7 @@ const AddEquipmentDialog: React.FC<AddEquipmentDialogProps> = ({
                 </FormItem>} />
             
             <DialogFooter>
-              <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+              <Button type="button" variant="outline" onClick={() => onOpenChange(false)} className="text-red-600">
                 Cancel
               </Button>
               <Button type="submit" className="text-white bg-blue-600 hover:bg-blue-500">Add Equipment</Button>
