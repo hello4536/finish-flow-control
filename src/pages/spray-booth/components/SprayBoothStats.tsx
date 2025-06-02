@@ -32,7 +32,7 @@ const SprayBoothStats: React.FC<SprayBoothStatsProps> = ({
     return (
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-6">
         {[1, 2, 3, 4].map((i) => (
-          <Card key={i} className="relative overflow-hidden border-0 bg-gradient-to-br from-gray-50 to-slate-100 shadow-lg">
+          <Card key={i} className="relative overflow-hidden border-0 bg-white/80 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300">
             <CardContent className="p-6">
               <div className="animate-pulse">
                 <div className="h-4 bg-gray-200 rounded mb-4"></div>

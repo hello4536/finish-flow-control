@@ -35,58 +35,75 @@ const SprayBoothSchedulerPage = () => {
   }
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold">Spray Booth Scheduler</h1>
-          <p className="text-muted-foreground">
-            Manage spray booth reservations and optimize workflow scheduling
-            {showMockData && (
-              <span className="ml-2 text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
-                Demo Mode
-              </span>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+      <div className="container mx-auto px-6 py-8 space-y-8">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              Spray Booth Scheduler
+            </h1>
+            <p className="text-slate-600 mt-2 font-medium">
+              Manage spray booth reservations and optimize workflow scheduling
+              {showMockData && (
+                <span className="ml-2 text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                  Demo Mode
+                </span>
+              )}
+            </p>
+          </div>
+          <div className="flex gap-2">
+            <Button
+              variant={activeTab === "scheduler" ? "default" : "outline"}
+              onClick={() => setActiveTab("scheduler")}
+              className={activeTab === "scheduler" 
+                ? "bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1" 
+                : "bg-white/80 backdrop-blur-sm border-slate-200 hover:bg-white transition-all duration-300"
+              }
+            >
+              Scheduler
+            </Button>
+            <Button
+              variant={activeTab === "management" ? "default" : "outline"}
+              onClick={() => setActiveTab("management")}
+              className={`flex items-center gap-2 ${activeTab === "management" 
+                ? "bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1" 
+                : "bg-white/80 backdrop-blur-sm border-slate-200 hover:bg-white transition-all duration-300"
+              }`}
+            >
+              <Settings className="h-4 w-4" />
+              Manage Booths
+            </Button>
+          </div>
+        </div>
+
+        <SprayBoothStats 
+          booths={booths} 
+          reservations={reservations} 
+          isLoading={isLoading} 
+        />
+
+        {isLoading ? (
+          <Card className="border-0 bg-white/80 backdrop-blur-sm shadow-lg">
+            <CardContent className="flex justify-center items-center h-64">
+              <div className="text-lg text-slate-600">Loading spray booths...</div>
+            </CardContent>
+          </Card>
+        ) : (
+          <>
+            {activeTab === "scheduler" && (
+              <div className="bg-white/80 backdrop-blur-sm rounded-lg shadow-lg">
+                <SprayBoothScheduler booths={booths} />
+              </div>
             )}
-          </p>
-        </div>
-        <div className="flex gap-2">
-          <Button
-            variant={activeTab === "scheduler" ? "default" : "outline"}
-            onClick={() => setActiveTab("scheduler")}
-          >
-            Scheduler
-          </Button>
-          <Button
-            variant={activeTab === "management" ? "default" : "outline"}
-            onClick={() => setActiveTab("management")}
-            className="flex items-center gap-2"
-          >
-            <Settings className="h-4 w-4" />
-            Manage Booths
-          </Button>
-        </div>
+            
+            {activeTab === "management" && (
+              <div className="bg-white/80 backdrop-blur-sm rounded-lg shadow-lg">
+                <BoothManagement booths={booths} />
+              </div>
+            )}
+          </>
+        )}
       </div>
-
-      <SprayBoothStats 
-        booths={booths} 
-        reservations={reservations} 
-        isLoading={isLoading} 
-      />
-
-      {isLoading ? (
-        <div className="flex justify-center items-center h-64">
-          <div className="text-lg">Loading spray booths...</div>
-        </div>
-      ) : (
-        <>
-          {activeTab === "scheduler" && (
-            <SprayBoothScheduler booths={booths} />
-          )}
-          
-          {activeTab === "management" && (
-            <BoothManagement booths={booths} />
-          )}
-        </>
-      )}
     </div>
   );
 };
