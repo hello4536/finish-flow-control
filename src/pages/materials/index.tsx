@@ -43,36 +43,42 @@ const MaterialsPage: React.FC = () => {
   const hasHazardousMaterials = getHazardousMaterialsCount() > 0;
 
   if (isLoading) {
-    return <div className="flex items-center justify-center h-[calc(100vh-200px)]">
-      <div className="text-lg">Loading materials data...</div>
-    </div>;
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+        <div className="flex items-center justify-center h-[calc(100vh-200px)]">
+          <div className="text-lg text-blue-600 font-medium">Loading materials data...</div>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="container mx-auto">
-      <MaterialsHeader 
-        onAddNewClick={() => setAddDialogOpen(true)}
-      />
-      
-      <MaterialsStats materials={materials} suppliers={suppliers} />
-      
-      <MaterialsContent
-        searchTerm={searchTerm}
-        activeTab={activeTab}
-        filteredMaterials={filteredMaterials}
-        onSearchChange={setSearchTerm}
-        onTabChange={setActiveTab}
-        hasHazardousMaterials={hasHazardousMaterials}
-      />
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+      <div className="container mx-auto px-6 py-8 space-y-8">
+        <MaterialsHeader 
+          onAddNewClick={() => setAddDialogOpen(true)}
+        />
+        
+        <MaterialsStats materials={materials} suppliers={suppliers} />
+        
+        <MaterialsContent
+          searchTerm={searchTerm}
+          activeTab={activeTab}
+          filteredMaterials={filteredMaterials}
+          onSearchChange={setSearchTerm}
+          onTabChange={setActiveTab}
+          hasHazardousMaterials={hasHazardousMaterials}
+        />
 
-      <SuppliersSection suppliers={suppliers} />
+        <SuppliersSection suppliers={suppliers} />
 
-      <AddMaterialDialog 
-        open={addDialogOpen} 
-        onOpenChange={setAddDialogOpen}
-        suppliers={suppliers}
-        onSuccess={fetchMaterialsData}
-      />
+        <AddMaterialDialog 
+          open={addDialogOpen} 
+          onOpenChange={setAddDialogOpen}
+          suppliers={suppliers}
+          onSuccess={fetchMaterialsData}
+        />
+      </div>
     </div>
   );
 };
