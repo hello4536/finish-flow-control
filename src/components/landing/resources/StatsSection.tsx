@@ -11,23 +11,31 @@ interface StatsSectionProps {
 }
 
 const StatsSection: React.FC<StatsSectionProps> = ({ allContent }) => {
+  // Count articles and videos from allContent (which includes woodworking and autobody content)
+  const articleCount = allContent.filter(item => item.type === "article").length;
+  const videoCount = allContent.filter(item => item.type === "video").length;
+  // Count published podcast episodes
+  const podcastCount = podcastEpisodes.filter(episode => episode.status === "published").length;
+
   return (
     <div className="text-center bg-white rounded-2xl p-12 border border-gray-100 shadow-lg">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
         <div>
           <div className="text-3xl font-bold text-blue-600 mb-2">
-            {allContent.filter(item => item.type === "article").length}+
+            {articleCount}+
           </div>
           <div className="text-gray-600 font-medium">Expert Articles</div>
         </div>
         <div>
           <div className="text-3xl font-bold text-red-600 mb-2">
-            {allContent.filter(item => item.type === "video").length}+
+            {videoCount}+
           </div>
           <div className="text-gray-600 font-medium">Video Tutorials</div>
         </div>
         <div>
-          <div className="text-3xl font-bold text-purple-600 mb-2">{podcastEpisodes.length}+</div>
+          <div className="text-3xl font-bold text-purple-600 mb-2">
+            {podcastCount}+
+          </div>
           <div className="text-gray-600 font-medium">Podcast Episodes</div>
         </div>
       </div>
