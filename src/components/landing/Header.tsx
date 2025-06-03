@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -55,7 +54,7 @@ const Header: React.FC = () => {
             to="/resources"
             className="text-gray-600 hover:text-blue-600 font-medium transition-colors duration-200 relative group"
           >
-            Resources
+            Knowledge Hub
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 group-hover:w-full transition-all duration-300"></span>
           </Link>
           
@@ -129,7 +128,7 @@ const Header: React.FC = () => {
               className="px-4 py-2 text-gray-600 hover:bg-blue-50 hover:text-blue-600 rounded-md transition-colors" 
               onClick={() => setMobileMenuOpen(false)}
             >
-              Resources
+              Knowledge Hub
             </Link>
             <button 
               onClick={() => {
