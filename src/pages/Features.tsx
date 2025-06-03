@@ -2,7 +2,7 @@
 import React from "react";
 import Header from "@/components/landing/Header";
 import Footer from "@/components/landing/Footer";
-import FeaturesSection from "@/components/landing/FeaturesSection";
+import ComprehensiveFeaturesSection from "@/components/landing/ComprehensiveFeaturesSection";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
@@ -46,8 +46,8 @@ const Features = () => {
           </div>
         </section>
 
-        {/* Features Section */}
-        <FeaturesSection />
+        {/* Comprehensive Features Sections */}
+        <ComprehensiveFeaturesSection />
         
         {/* Additional Features Benefits */}
         <section className="py-24 bg-white">
@@ -85,35 +85,6 @@ const Features = () => {
                 <h3 className="text-xl font-semibold text-gray-900 mb-3">Expert Support</h3>
                 <p className="text-gray-600">Get dedicated support from finishing industry experts who understand your unique challenges and requirements.</p>
               </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Call to Action */}
-        <section className="py-24 bg-gradient-to-r from-blue-600 via-purple-600 to-teal-600">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-              Ready to Transform Your Finishing Operations?
-            </h2>
-            <p className="text-xl text-blue-100 mb-8">
-              Join thousands of finishing professionals who trust Finivo to streamline their operations.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                asChild 
-                size="lg" 
-                className="bg-white text-blue-600 hover:bg-blue-50 rounded-full px-8 py-3 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
-              >
-                <Link to="/auth/signup">Start Free Trial</Link>
-              </Button>
-              <Button 
-                asChild 
-                variant="outline" 
-                size="lg" 
-                className="border-2 border-white text-white hover:bg-white hover:text-blue-600 rounded-full px-8 py-3 text-lg font-semibold transition-all duration-200"
-              >
-                <Link to="/auth/signin">Watch Demo</Link>
-              </Button>
             </div>
           </div>
         </section>
