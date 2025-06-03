@@ -1,5 +1,7 @@
 
 import React from "react";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 import FeatureSection from "./FeatureSection";
 import { featureTabs } from "./types/featureTypes";
 
