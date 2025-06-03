@@ -7,10 +7,10 @@ import { Search } from "lucide-react";
 interface SearchFiltersProps {
   searchTerm: string;
   setSearchTerm: (value: string) => void;
-  selectedIndustry: "all" | "woodworking" | "autobody";
-  setSelectedIndustry: (value: "all" | "woodworking" | "autobody") => void;
-  selectedContentType: "all" | "article" | "video";
-  setSelectedContentType: (value: "all" | "article" | "video") => void;
+  selectedIndustry: "all" | "woodworking" | "autobody" | "general";
+  setSelectedIndustry: (value: "all" | "woodworking" | "autobody" | "general") => void;
+  selectedContentType: "all" | "article" | "video" | "podcast";
+  setSelectedContentType: (value: "all" | "article" | "video" | "podcast") => void;
   selectedDifficulty: "all" | "Beginner" | "Intermediate" | "Advanced";
   setSelectedDifficulty: (value: "all" | "Beginner" | "Intermediate" | "Advanced") => void;
 }
@@ -45,6 +45,7 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({
             <SelectItem value="all">All Industries</SelectItem>
             <SelectItem value="woodworking">Woodworking & Millwork</SelectItem>
             <SelectItem value="autobody">Auto Body Finishing</SelectItem>
+            <SelectItem value="general">General Finishing</SelectItem>
           </SelectContent>
         </Select>
         <Select value={selectedContentType} onValueChange={(value: any) => setSelectedContentType(value)}>
@@ -55,6 +56,7 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({
             <SelectItem value="all">All Content</SelectItem>
             <SelectItem value="article">Articles</SelectItem>
             <SelectItem value="video">Videos</SelectItem>
+            <SelectItem value="podcast">Podcasts</SelectItem>
           </SelectContent>
         </Select>
         <Select value={selectedDifficulty} onValueChange={(value: any) => setSelectedDifficulty(value)}>

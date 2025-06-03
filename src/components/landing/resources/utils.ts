@@ -3,6 +3,7 @@ import { articles as woodworkingArticles } from "@/components/woodworking/data/a
 import { videoReviews as woodworkingVideos } from "@/components/woodworking/data/videoReviewsData";
 import { autoBodyArticles } from "@/components/autobody/data/articlesData";
 import { autoBodyVideoReviews } from "@/components/autobody/data/videoReviewsData";
+import { podcastEpisodes } from "./data/podcastData";
 import { ContentItem } from "./types";
 
 export const getAllContent = (): ContentItem[] => {
@@ -45,7 +46,8 @@ export const getAllContent = (): ContentItem[] => {
       category: video.category,
       videoLength: video.length,
       creator: video.creator
-    }))
+    })),
+    ...podcastEpisodes
   ];
 };
 
@@ -59,16 +61,19 @@ export const getDifficultyColor = (difficulty?: string) => {
 };
 
 export const getIndustryColor = (industry: string) => {
-  return industry === "woodworking" 
-    ? "bg-amber-100 text-amber-800" 
-    : "bg-blue-100 text-blue-800";
+  switch (industry) {
+    case "woodworking": return "bg-amber-100 text-amber-800";
+    case "autobody": return "bg-blue-100 text-blue-800";
+    case "general": return "bg-purple-100 text-purple-800";
+    default: return "bg-gray-100 text-gray-800";
+  }
 };
 
 export const filterContent = (
   content: ContentItem[],
   searchTerm: string,
-  selectedIndustry: "all" | "woodworking" | "autobody",
-  selectedContentType: "all" | "article" | "video",
+  selectedIndustry: "all" | "woodworking" | "autobody" | "general",
+  selectedContentType: "all" | "article" | "video" | "podcast",
   selectedDifficulty: "all" | "Beginner" | "Intermediate" | "Advanced"
 ) => {
   return content.filter(item => {

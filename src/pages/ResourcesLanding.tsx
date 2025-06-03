@@ -3,17 +3,19 @@ import React, { useState } from "react";
 import { BookOpen } from "lucide-react";
 import { ContentItem } from "@/components/landing/resources/types";
 import { getAllContent, filterContent } from "@/components/landing/resources/utils";
+import { podcastEpisodes } from "@/components/landing/resources/data/podcastData";
 import ContentCard from "@/components/landing/resources/ContentCard";
 import SearchFilters from "@/components/landing/resources/SearchFilters";
 import StatsSection from "@/components/landing/resources/StatsSection";
 import NewsletterSignup from "@/components/landing/resources/NewsletterSignup";
+import PodcastSection from "@/components/landing/resources/PodcastSection";
 import Header from "@/components/landing/Header";
 import Footer from "@/components/landing/Footer";
 
 const ResourcesLanding = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedIndustry, setSelectedIndustry] = useState<"all" | "woodworking" | "autobody">("all");
-  const [selectedContentType, setSelectedContentType] = useState<"all" | "article" | "video">("all");
+  const [selectedIndustry, setSelectedIndustry] = useState<"all" | "woodworking" | "autobody" | "general">("all");
+  const [selectedContentType, setSelectedContentType] = useState<"all" | "article" | "video" | "podcast">("all");
   const [selectedDifficulty, setSelectedDifficulty] = useState<"all" | "Beginner" | "Intermediate" | "Advanced">("all");
 
   const allContent: ContentItem[] = getAllContent();
@@ -53,8 +55,13 @@ const ResourcesLanding = () => {
               </h1>
               
               <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                Explore our comprehensive collection of articles, videos, and tutorials covering woodworking, millwork, and auto body finishing techniques.
+                Explore our comprehensive collection of articles, videos, podcasts, and tutorials covering woodworking, millwork, and auto body finishing techniques.
               </p>
+            </div>
+
+            {/* Podcast Section */}
+            <div className="mb-20">
+              <PodcastSection episodes={podcastEpisodes} />
             </div>
 
             {/* Search and Filters */}
@@ -70,10 +77,15 @@ const ResourcesLanding = () => {
             />
 
             {/* Content Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-              {filteredContent.slice(0, 12).map(item => (
-                <ContentCard key={item.id} item={item} />
-              ))}
+            <div className="mb-16">
+              <h2 className="text-3xl font-bold mb-8 text-center">
+                Browse All Resources
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {filteredContent.slice(0, 12).map(item => (
+                  <ContentCard key={item.id} item={item} />
+                ))}
+              </div>
             </div>
 
             {/* Newsletter Signup Section */}
