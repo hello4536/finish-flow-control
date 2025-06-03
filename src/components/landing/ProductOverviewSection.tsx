@@ -1,12 +1,9 @@
-
 import React from "react";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-
 const ProductOverviewSection = () => {
-  return (
-    <section className="py-24 bg-gradient-to-b from-gray-50 to-white">
+  return <section className="bg-gradient-to-b from-gray-50 to-white py-[66px]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 border border-blue-200/50 text-blue-700 text-sm font-medium mb-6">
@@ -54,11 +51,7 @@ const ProductOverviewSection = () => {
         </div>
 
         <div className="text-center">
-          <Button 
-            asChild 
-            size="lg" 
-            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 group px-8 py-3 text-lg"
-          >
+          <Button asChild size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 group px-8 py-3 text-lg">
             <Link to="/features" className="flex items-center">
               Explore All Features
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
@@ -66,8 +59,6 @@ const ProductOverviewSection = () => {
           </Button>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default ProductOverviewSection;
