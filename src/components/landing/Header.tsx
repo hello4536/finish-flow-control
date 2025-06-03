@@ -39,7 +39,7 @@ const Header: React.FC = () => {
           </Link>
           
           <Link 
-            to="/#pricing" 
+            to="/pricing" 
             className="text-gray-600 hover:text-blue-600 font-medium transition-colors duration-200 relative group"
           >
             Pricing
@@ -113,7 +113,7 @@ const Header: React.FC = () => {
               Features
             </Link>
             <Link 
-              to="/#pricing" 
+              to="/pricing" 
               className="px-4 py-2 text-gray-600 hover:bg-blue-50 hover:text-blue-600 rounded-md transition-colors" 
               onClick={() => setMobileMenuOpen(false)}
             >
