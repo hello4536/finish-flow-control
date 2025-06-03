@@ -6,6 +6,7 @@ import { getAllContent, filterContent } from "@/components/landing/resources/uti
 import ContentCard from "@/components/landing/resources/ContentCard";
 import SearchFilters from "@/components/landing/resources/SearchFilters";
 import StatsSection from "@/components/landing/resources/StatsSection";
+import NewsletterSignup from "@/components/landing/resources/NewsletterSignup";
 import Header from "@/components/landing/Header";
 import Footer from "@/components/landing/Footer";
 
@@ -73,6 +74,11 @@ const ResourcesLanding = () => {
               {filteredContent.slice(0, 12).map(item => (
                 <ContentCard key={item.id} item={item} />
               ))}
+            </div>
+
+            {/* Newsletter Signup Section */}
+            <div className="mb-16">
+              <NewsletterSignup />
             </div>
 
             {/* Stats and CTA */}
