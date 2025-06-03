@@ -2,7 +2,7 @@
 import React from "react";
 import Header from "@/components/landing/Header";
 import HeroSection from "@/components/landing/HeroSection";
-import FeaturesSection from "@/components/landing/FeaturesSection";
+import FeaturesPreviewSection from "@/components/landing/FeaturesPreviewSection";
 import CtaSection from "@/components/landing/CtaSection";
 import BenefitsSection from "@/components/landing/BenefitsSection";
 import HowItWorksSection from "@/components/landing/HowItWorksSection";
@@ -22,7 +22,7 @@ const Index = () => {
         <HeroSection />
         <ProductOverviewSection />
         <BenefitsSection />
-        <FeaturesSection />
+        <FeaturesPreviewSection />
         <HowItWorksSection />
         <CtaSection />
         <PricingSection />
