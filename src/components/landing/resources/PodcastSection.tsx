@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -7,48 +6,45 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Play, Clock, User, Calendar, ArrowRight } from "lucide-react";
 import { PodcastEpisode } from "./types";
 import PodcastCalendar from "./PodcastCalendar";
-
 interface PodcastSectionProps {
   episodes: PodcastEpisode[];
 }
-
-const PodcastSection: React.FC<PodcastSectionProps> = ({ episodes }) => {
+const PodcastSection: React.FC<PodcastSectionProps> = ({
+  episodes
+}) => {
   const [selectedIndustry, setSelectedIndustry] = useState<"all" | "autobody" | "woodworking" | "general">("all");
-
-  const filteredEpisodes = selectedIndustry === "all" 
-    ? episodes 
-    : episodes.filter(ep => ep.industry === selectedIndustry);
-
-  const upcomingEpisodes = episodes
-    .filter(ep => ep.status === "upcoming")
-    .sort((a, b) => new Date(a.releaseDate).getTime() - new Date(b.releaseDate).getTime())
-    .slice(0, 3);
-
-  const recentEpisodes = episodes
-    .filter(ep => ep.status === "published")
-    .sort((a, b) => new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime())
-    .slice(0, 6);
-
+  const filteredEpisodes = selectedIndustry === "all" ? episodes : episodes.filter(ep => ep.industry === selectedIndustry);
+  const upcomingEpisodes = episodes.filter(ep => ep.status === "upcoming").sort((a, b) => new Date(a.releaseDate).getTime() - new Date(b.releaseDate).getTime()).slice(0, 3);
+  const recentEpisodes = episodes.filter(ep => ep.status === "published").sort((a, b) => new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime()).slice(0, 6);
   const getIndustryColor = (industry: string) => {
     switch (industry) {
-      case "autobody": return "bg-blue-100 text-blue-800";
-      case "woodworking": return "bg-amber-100 text-amber-800";
-      case "general": return "bg-purple-100 text-purple-800";
-      default: return "bg-gray-100 text-gray-800";
+      case "autobody":
+        return "bg-blue-100 text-blue-800";
+      case "woodworking":
+        return "bg-amber-100 text-amber-800";
+      case "general":
+        return "bg-purple-100 text-purple-800";
+      default:
+        return "bg-gray-100 text-gray-800";
     }
   };
-
   const getIndustryLabel = (industry: string) => {
     switch (industry) {
-      case "autobody": return "Auto Body";
-      case "woodworking": return "Millwork";
-      case "general": return "General";
-      default: return industry;
+      case "autobody":
+        return "Auto Body";
+      case "woodworking":
+        return "Millwork";
+      case "general":
+        return "General";
+      default:
+        return industry;
     }
   };
-
-  const PodcastCard = ({ episode }: { episode: PodcastEpisode }) => (
-    <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+  const PodcastCard = ({
+    episode
+  }: {
+    episode: PodcastEpisode;
+  }) => <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between mb-2">
           <Badge className={getIndustryColor(episode.industry)}>
@@ -74,29 +70,20 @@ const PodcastSection: React.FC<PodcastSectionProps> = ({ episodes }) => {
               <Calendar className="w-4 h-4 mr-1" />
               {new Date(episode.releaseDate).toLocaleDateString()}
             </div>
-            {episode.guests && episode.guests.length > 0 && (
-              <div className="flex items-center">
+            {episode.guests && episode.guests.length > 0 && <div className="flex items-center">
                 <User className="w-4 h-4 mr-1" />
                 {episode.guests.length} guest{episode.guests.length > 1 ? 's' : ''}
-              </div>
-            )}
+              </div>}
           </div>
         </div>
-        <Button 
-          className="w-full" 
-          variant={episode.status === "published" ? "default" : "secondary"}
-          disabled={episode.status === "upcoming"}
-        >
+        <Button className="w-full" variant={episode.status === "published" ? "default" : "secondary"} disabled={episode.status === "upcoming"}>
           <Play className="w-4 h-4 mr-2" />
           {episode.status === "published" ? "Listen Now" : "Coming Soon"}
           <ArrowRight className="w-4 h-4 ml-2" />
         </Button>
       </CardContent>
-    </Card>
-  );
-
-  return (
-    <div className="space-y-8">
+    </Card>;
+  return <div className="space-y-8">
       {/* Header */}
       <div className="text-center">
         <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-green-100 to-blue-100 border border-green-200/50 text-green-700 text-sm font-medium mb-6">
@@ -118,8 +105,7 @@ const PodcastSection: React.FC<PodcastSectionProps> = ({ episodes }) => {
       </div>
 
       {/* Upcoming Episodes */}
-      {upcomingEpisodes.length > 0 && (
-        <Card className="bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
+      {upcomingEpisodes.length > 0 && <Card className="bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Calendar className="w-5 h-5 text-blue-600" />
@@ -128,40 +114,16 @@ const PodcastSection: React.FC<PodcastSectionProps> = ({ episodes }) => {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {upcomingEpisodes.map(episode => (
-                <PodcastCard key={episode.id} episode={episode} />
-              ))}
+              {upcomingEpisodes.map(episode => <PodcastCard key={episode.id} episode={episode} />)}
             </div>
           </CardContent>
-        </Card>
-      )}
+        </Card>}
 
       {/* Podcast Calendar */}
       <PodcastCalendar episodes={episodes} />
 
       {/* Recent Episodes with Tabs */}
-      <Tabs value={selectedIndustry} onValueChange={(value: any) => setSelectedIndustry(value)}>
-        <div className="flex justify-between items-center mb-6">
-          <h3 className="text-2xl font-bold">Recent Episodes</h3>
-          <TabsList className="bg-white border border-gray-200">
-            <TabsTrigger value="all">All Shows</TabsTrigger>
-            <TabsTrigger value="autobody">Auto Body</TabsTrigger>
-            <TabsTrigger value="woodworking">Millwork</TabsTrigger>
-            <TabsTrigger value="general">General</TabsTrigger>
-          </TabsList>
-        </div>
-
-        <TabsContent value={selectedIndustry}>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredEpisodes
-              .filter(ep => ep.status === "published")
-              .slice(0, 6)
-              .map(episode => (
-                <PodcastCard key={episode.id} episode={episode} />
-              ))}
-          </div>
-        </TabsContent>
-      </Tabs>
+      
 
       {/* Weekly Schedule Info */}
       <Card className="bg-gradient-to-r from-gray-50 to-blue-50">
@@ -195,8 +157,6 @@ const PodcastSection: React.FC<PodcastSectionProps> = ({ episodes }) => {
           </div>
         </CardContent>
       </Card>
-    </div>
-  );
+    </div>;
 };
-
 export default PodcastSection;
