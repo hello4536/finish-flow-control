@@ -4,44 +4,61 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="bg-white border-t">
-      <div className="container px-4 md:px-6 py-12 mx-auto">
-        <div className="grid gap-8 lg:grid-cols-3">
-          <div>
-            <Link to="/" className="flex items-center gap-2 mb-4 h-16 overflow-visible">
-              <img 
-                src="/lovable-uploads/831be762-1da7-4615-9dac-d59cc2386de3.png" 
-                alt="Finivo Logo" 
-                className="h-20 object-contain -my-2" /* Increased to h-20 (80px) with negative margins */
-              />
+    <footer className="bg-gray-900 text-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid gap-12 lg:grid-cols-4">
+          <div className="lg:col-span-2">
+            <Link to="/" className="flex items-center mb-6">
+              <div className="text-3xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-teal-400 bg-clip-text text-transparent">
+                Finivo
+              </div>
             </Link>
-            <p className="text-sm mb-4 text-gray-600">
-              Comprehensive finishing department management platform for modern businesses.
+            <p className="text-gray-400 mb-6 max-w-md leading-relaxed">
+              Comprehensive finishing department management platform for modern businesses. 
+              Streamline operations, improve quality, and boost productivity.
             </p>
-            <p className="text-sm text-gray-500">
-              &copy; {new Date().getFullYear()} Finivi. All rights reserved.
-            </p>
+            <div className="flex space-x-4">
+              <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition-colors cursor-pointer">
+                <span className="text-sm">T</span>
+              </div>
+              <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition-colors cursor-pointer">
+                <span className="text-sm">L</span>
+              </div>
+              <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition-colors cursor-pointer">
+                <span className="text-sm">G</span>
+              </div>
+            </div>
           </div>
           
-          <div className="grid grid-cols-2 gap-8 lg:col-span-2">
-            <div>
-              <h3 className="font-semibold mb-4 text-gray-900">Product</h3>
-              <ul className="space-y-3">
-                <li><Link to="/#features" className="text-sm text-gray-600 hover:text-blue-500">Features</Link></li>
-                <li><Link to="/#pricing" className="text-sm text-gray-600 hover:text-blue-500">Pricing</Link></li>
-                <li><Link to="/#testimonials" className="text-sm text-gray-600 hover:text-blue-500">Testimonials</Link></li>
-                <li><Link to="/#faq" className="text-sm text-gray-600 hover:text-blue-500">FAQ</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-4 text-gray-900">Company</h3>
-              <ul className="space-y-3">
-                <li><Link to="/about" className="text-sm text-gray-600 hover:text-blue-500">About</Link></li>
-                <li><Link to="/contact" className="text-sm text-gray-600 hover:text-blue-500">Contact</Link></li>
-                <li><Link to="/privacy" className="text-sm text-gray-600 hover:text-blue-500">Privacy Policy</Link></li>
-                <li><Link to="/terms" className="text-sm text-gray-600 hover:text-blue-500">Terms of Service</Link></li>
-              </ul>
-            </div>
+          <div>
+            <h3 className="font-semibold mb-6 text-white">Features</h3>
+            <ul className="space-y-4">
+              <li><Link to="/#features" className="text-gray-400 hover:text-white transition-colors">Job Management</Link></li>
+              <li><Link to="/#features" className="text-gray-400 hover:text-white transition-colors">Inventory Tracking</Link></li>
+              <li><Link to="/#features" className="text-gray-400 hover:text-white transition-colors">Quality Control</Link></li>
+              <li><Link to="/#features" className="text-gray-400 hover:text-white transition-colors">Compliance</Link></li>
+            </ul>
+          </div>
+          
+          <div>
+            <h3 className="font-semibold mb-6 text-white">Company</h3>
+            <ul className="space-y-4">
+              <li><Link to="/about" className="text-gray-400 hover:text-white transition-colors">About</Link></li>
+              <li><Link to="/contact" className="text-gray-400 hover:text-white transition-colors">Contact</Link></li>
+              <li><Link to="/privacy" className="text-gray-400 hover:text-white transition-colors">Privacy Policy</Link></li>
+              <li><Link to="/terms" className="text-gray-400 hover:text-white transition-colors">Terms of Service</Link></li>
+            </ul>
+          </div>
+        </div>
+        
+        <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+          <p className="text-gray-400 text-sm">
+            &copy; {new Date().getFullYear()} Finivo. All rights reserved.
+          </p>
+          <div className="flex space-x-6 mt-4 md:mt-0">
+            <Link to="/privacy" className="text-gray-400 hover:text-white text-sm transition-colors">Privacy</Link>
+            <Link to="/terms" className="text-gray-400 hover:text-white text-sm transition-colors">Terms</Link>
+            <Link to="/cookies" className="text-gray-400 hover:text-white text-sm transition-colors">Cookies</Link>
           </div>
         </div>
       </div>
