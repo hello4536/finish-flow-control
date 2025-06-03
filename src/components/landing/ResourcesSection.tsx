@@ -9,8 +9,8 @@ import StatsSection from "./resources/StatsSection";
 
 const ResourcesSection = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedIndustry, setSelectedIndustry] = useState<"all" | "woodworking" | "autobody">("all");
-  const [selectedContentType, setSelectedContentType] = useState<"all" | "article" | "video">("all");
+  const [selectedIndustry, setSelectedIndustry] = useState<"all" | "woodworking" | "autobody" | "general">("all");
+  const [selectedContentType, setSelectedContentType] = useState<"all" | "article" | "video" | "podcast">("all");
   const [selectedDifficulty, setSelectedDifficulty] = useState<"all" | "Beginner" | "Intermediate" | "Advanced">("all");
 
   const allContent: ContentItem[] = getAllContent();
@@ -46,7 +46,7 @@ const ResourcesSection = () => {
           </h2>
           
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Explore our comprehensive collection of articles, videos, and tutorials covering woodworking, millwork, and auto body finishing techniques.
+            Explore our comprehensive collection of articles, videos, podcasts, and tutorials covering woodworking, millwork, and auto body finishing techniques.
           </p>
         </div>
 
