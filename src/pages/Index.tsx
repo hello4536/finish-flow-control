@@ -7,7 +7,6 @@ import CtaSection from "@/components/landing/CtaSection";
 import BenefitsSection from "@/components/landing/BenefitsSection";
 import HowItWorksSection from "@/components/landing/HowItWorksSection";
 import PricingSection from "@/components/landing/PricingSection";
-import ResourcesSection from "@/components/landing/ResourcesSection";
 import Footer from "@/components/landing/Footer";
 import { useAuth } from "@/context/AuthContext";
 import ProductOverviewSection from "@/components/landing/ProductOverviewSection";
@@ -25,7 +24,6 @@ const Index = () => {
         <BenefitsSection />
         <FeaturesPreviewSection />
         <HowItWorksSection />
-        <ResourcesSection />
         <CtaSection />
         <PricingSection />
       </main>

@@ -19,22 +19,6 @@ const Header: React.FC = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
 
-  const scrollToResources = () => {
-    const resourcesSection = document.getElementById('resources');
-    if (resourcesSection) {
-      resourcesSection.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      // If not on home page, navigate to home and then scroll
-      navigate('/', { replace: true });
-      setTimeout(() => {
-        const section = document.getElementById('resources');
-        if (section) {
-          section.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 100);
-    }
-  };
-
   const scrollToCompany = () => {
     // For now, just scroll to bottom of page or implement company section
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
@@ -67,13 +51,13 @@ const Header: React.FC = () => {
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 group-hover:w-full transition-all duration-300"></span>
           </Link>
           
-          <button 
-            onClick={scrollToResources}
+          <Link 
+            to="/resources"
             className="text-gray-600 hover:text-blue-600 font-medium transition-colors duration-200 relative group"
           >
             Resources
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 group-hover:w-full transition-all duration-300"></span>
-          </button>
+          </Link>
           
           <button 
             onClick={scrollToCompany}
@@ -140,15 +124,13 @@ const Header: React.FC = () => {
             >
               Pricing
             </Link>
-            <button 
-              onClick={() => {
-                scrollToResources();
-                setMobileMenuOpen(false);
-              }}
-              className="px-4 py-2 text-gray-600 hover:bg-blue-50 hover:text-blue-600 rounded-md transition-colors text-left" 
+            <Link 
+              to="/resources"
+              className="px-4 py-2 text-gray-600 hover:bg-blue-50 hover:text-blue-600 rounded-md transition-colors" 
+              onClick={() => setMobileMenuOpen(false)}
             >
               Resources
-            </button>
+            </Link>
             <button 
               onClick={() => {
                 scrollToCompany();

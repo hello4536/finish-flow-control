@@ -21,6 +21,7 @@ import Jobs from "./pages/Jobs";
 import Schedule from "./pages/Schedule";
 import Reports from "./pages/Reports";
 import Resources from "./pages/Resources";
+import ResourcesLanding from "./pages/ResourcesLanding";
 import Settings from "./pages/Settings";
 import Users from "./pages/Users";
 import SubscriptionPage from "./pages/SubscriptionPage";
@@ -50,6 +51,7 @@ function App() {
                 <Route path="/" element={<Index />} />
                 <Route path="/features" element={<Features />} />
                 <Route path="/pricing" element={<Pricing />} />
+                <Route path="/resources" element={<ResourcesLanding />} />
                 <Route path="/woodworking-finishing" element={<WoodworkingFinishing />} />
                 <Route path="/auto-body-finishing" element={<AutoBodyFinishing />} />
                 
@@ -72,7 +74,7 @@ function App() {
                     <Route path="/schedule" element={<Schedule />} />
                     <Route path="/spray-booth-scheduler" element={<SprayBoothSchedulerPage />} />
                     <Route path="/reports" element={<Reports />} />
-                    <Route path="/resources" element={<Resources />} />
+                    <Route path="/resources-app" element={<Resources />} />
                     <Route path="/settings" element={<Settings />} />
                     <Route path="/users" element={<Users />} />
                     <Route path="/subscription" element={<SubscriptionPage />} />
