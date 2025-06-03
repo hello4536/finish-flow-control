@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { BookOpen } from "lucide-react";
 import { ContentItem } from "@/components/landing/resources/types";
@@ -65,13 +64,6 @@ const ResourcesLanding = () => {
           </div>
         </section>
 
-        {/* Podcast Section */}
-        <section className="py-20 bg-white">
-          <div className="container px-4 md:px-6 mx-auto">
-            <PodcastSection episodes={podcastEpisodes} />
-          </div>
-        </section>
-
         {/* Browse Resources Section */}
         <section className="py-20 bg-gray-50">
           <div className="container px-4 md:px-6 mx-auto">
@@ -132,6 +124,13 @@ const ResourcesLanding = () => {
                 </button>
               </div>
             )}
+          </div>
+        </section>
+
+        {/* Podcast Section */}
+        <section className="py-20 bg-white">
+          <div className="container px-4 md:px-6 mx-auto">
+            <PodcastSection episodes={podcastEpisodes} />
           </div>
         </section>
 
