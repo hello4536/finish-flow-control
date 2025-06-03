@@ -41,8 +41,7 @@ const ResourcesSection = () => {
       type: "article" as const,
       industry: "woodworking" as const,
       category: article.category,
-      difficulty: article.difficulty,
-      readTime: article.readTime
+      readTime: "5-8 min read" // Default for woodworking articles
     })),
     ...woodworkingVideos.map(video => ({
       id: video.id + 1000,
