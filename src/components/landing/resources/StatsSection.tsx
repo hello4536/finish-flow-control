@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ContentItem } from "./types";
+import { podcastEpisodes } from "./data/podcastData";
 
 interface StatsSectionProps {
   allContent: ContentItem[];
@@ -26,8 +27,8 @@ const StatsSection: React.FC<StatsSectionProps> = ({ allContent }) => {
           <div className="text-gray-600 font-medium">Video Tutorials</div>
         </div>
         <div>
-          <div className="text-3xl font-bold text-purple-600 mb-2">2</div>
-          <div className="text-gray-600 font-medium">Industry Specialties</div>
+          <div className="text-3xl font-bold text-purple-600 mb-2">{podcastEpisodes.length}+</div>
+          <div className="text-gray-600 font-medium">Podcast Episodes</div>
         </div>
       </div>
       
