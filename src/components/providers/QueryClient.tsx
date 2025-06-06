@@ -12,11 +12,11 @@ const queryClient = new QueryClient({
   },
 });
 
-interface QueryClientProps {
+interface QueryProviderProps {
   children: React.ReactNode;
 }
 
-export const QueryClient: React.FC<QueryClientProps> = ({ children }) => {
+export const QueryProvider: React.FC<QueryProviderProps> = ({ children }) => {
   return (
     <QueryClientProvider client={queryClient}>
       {children}

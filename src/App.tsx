@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/context/AuthContext";
 import { DevModeProvider } from "@/context/DevModeContext";
-import { QueryClient } from "@/components/providers/QueryClient";
+import { QueryProvider } from "@/components/providers/QueryClient";
 import Index from "@/pages/Index";
 import Features from "@/pages/Features";
 import Pricing from "@/pages/Pricing";
@@ -42,7 +42,7 @@ function App() {
     <Router>
       <DevModeProvider>
         <AuthProvider>
-          <QueryClient>
+          <QueryProvider>
             <div className="flex h-screen bg-gray-100">
               <Toaster />
               <Routes>
@@ -88,7 +88,7 @@ function App() {
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </div>
-          </QueryClient>
+          </QueryProvider>
         </AuthProvider>
       </DevModeProvider>
     </Router>
