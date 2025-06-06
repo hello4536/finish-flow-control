@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Mail, CheckCircle } from "lucide-react";
+import { Mail, CheckCircle, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const NewsletterSignup: React.FC = () => {
@@ -13,6 +13,7 @@ const NewsletterSignup: React.FC = () => {
   const [finisherType, setFinisherType] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [subscriberData, setSubscriberData] = useState<any>(null);
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -29,19 +30,35 @@ const NewsletterSignup: React.FC = () => {
 
     setIsLoading(true);
     
-    // Simulate API call
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      const response = await fetch('/functions/v1/newsletter-subscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          finisherType,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Subscription failed');
+      }
+
+      setSubscriberData(result.subscriber);
       setIsSubmitted(true);
       toast({
         title: "Successfully Subscribed!",
         description: `Welcome to our newsletter! You'll receive ${finisherType} finishing tips and insights.`,
       });
     } catch (error) {
+      console.error('Newsletter subscription error:', error);
       toast({
         title: "Subscription Failed",
-        description: "Please try again later.",
+        description: error instanceof Error ? error.message : "Please try again later.",
         variant: "destructive"
       });
     } finally {
@@ -59,9 +76,15 @@ const NewsletterSignup: React.FC = () => {
             <p className="text-gray-600 mb-4">
               You're now subscribed to receive expert {finisherType} finishing tips, tutorials, and industry insights.
             </p>
-            <p className="text-sm text-gray-500">
-              Check your email for a confirmation message.
+            <p className="text-sm text-gray-500 mb-4">
+              Subscription confirmed for: <strong>{subscriberData?.email}</strong>
             </p>
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <p className="text-sm text-blue-700">
+                <strong>What's next?</strong> Look out for our weekly newsletter with expert tips, 
+                project ideas, and industry insights tailored for {finisherType} professionals.
+              </p>
+            </div>
           </div>
         </CardContent>
       </Card>

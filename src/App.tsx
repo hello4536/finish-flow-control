@@ -1,98 +1,94 @@
-
-import { Toaster } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/context/AuthContext";
-import Index from "./pages/Index";
-import Features from "./pages/Features";
-import Pricing from "./pages/Pricing";
-import Dashboard from "./pages/Dashboard";
-import SignInPage from "./pages/auth/SignInPage";
-import SignUpPage from "./pages/auth/SignUpPage";
-import VerifyPage from "./pages/auth/VerifyPage";
-import WoodworkingFinishing from "./pages/WoodworkingFinishing";
-import AutoBodyFinishing from "./pages/AutoBodyFinishing";
-import CustomCreations from "./pages/CustomCreations";
-import DailyTasks from "./pages/DailyTasks";
-import Inventory from "./pages/inventory";
-import Materials from "./pages/Materials";
-import Jobs from "./pages/Jobs";
-import Schedule from "./pages/Schedule";
-import Reports from "./pages/Reports";
-import Resources from "./pages/Resources";
-import ResourcesLanding from "./pages/ResourcesLanding";
-import Settings from "./pages/Settings";
-import Users from "./pages/Users";
-import SubscriptionPage from "./pages/SubscriptionPage";
-import EquipmentPage from "./pages/equipment/EquipmentPage";
-import CompliancePage from "./pages/compliance/CompliancePage";
-import QualityPage from "./pages/quality/QualityPage";
-import WorkflowsPage from "./pages/workflows";
-import SprayBoothSchedulerPage from "./pages/spray-booth/SprayBoothSchedulerPage";
-import NotFound from "./pages/NotFound";
-import ProtectedRoute from "./components/auth/ProtectedRoute";
-import MainLayout from "./components/layout/MainLayout";
-import AuthLayout from "./components/layout/AuthLayout";
-import { DevModeProvider } from "./context/DevModeContext";
-
-const queryClient = new QueryClient();
+import { DevModeProvider } from "@/context/DevModeContext";
+import { QueryClient } from "@/components/providers/QueryClient";
+import Index from "@/pages/Index";
+import Features from "@/pages/Features";
+import Pricing from "@/pages/Pricing";
+import ResourcesLanding from "@/pages/ResourcesLanding";
+import SignInPage from "@/pages/auth/SignInPage";
+import SignUpPage from "@/pages/auth/SignUpPage";
+import VerifyPage from "@/pages/auth/VerifyPage";
+import Dashboard from "@/pages/app/Dashboard";
+import Jobs from "@/pages/app/Jobs";
+import DailyTasks from "@/pages/app/DailyTasks";
+import Schedule from "@/pages/app/Schedule";
+import WoodworkingFinishing from "@/pages/app/WoodworkingFinishing";
+import AutoBodyFinishing from "@/pages/app/AutoBodyFinishing";
+import CustomCreations from "@/pages/app/CustomCreations";
+import Materials from "@/pages/app/Materials";
+import InventoryPage from "@/pages/app/InventoryPage";
+import EquipmentPage from "@/pages/app/EquipmentPage";
+import QualityPage from "@/pages/app/QualityPage";
+import CompliancePage from "@/pages/app/CompliancePage";
+import Reports from "@/pages/app/Reports";
+import Resources from "@/pages/app/Resources";
+import WorkflowsPage from "@/pages/app/WorkflowsPage";
+import SprayBoothSchedulerPage from "@/pages/app/SprayBoothSchedulerPage";
+import Settings from "@/pages/app/Settings";
+import Users from "@/pages/app/Users";
+import SubscriptionPage from "@/pages/app/SubscriptionPage";
+import TestingPlan from "@/pages/app/TestingPlan";
+import NotFound from "@/pages/NotFound";
+import ProtectedRoute from "@/components/auth/ProtectedRoute";
+import UnsubscribePage from "@/pages/UnsubscribePage";
+import NewsletterAdmin from "@/pages/admin/NewsletterAdmin";
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
+    <Router>
       <DevModeProvider>
-        <TooltipProvider>
-          <Toaster />
-          <BrowserRouter>
-            <AuthProvider>
+        <AuthProvider>
+          <QueryClient>
+            <div className="flex h-screen bg-gray-100">
+              <Toaster />
               <Routes>
                 {/* Public routes */}
                 <Route path="/" element={<Index />} />
                 <Route path="/features" element={<Features />} />
                 <Route path="/pricing" element={<Pricing />} />
                 <Route path="/resources" element={<ResourcesLanding />} />
-                <Route path="/woodworking-finishing" element={<WoodworkingFinishing />} />
-                <Route path="/auto-body-finishing" element={<AutoBodyFinishing />} />
+                <Route path="/unsubscribe" element={<UnsubscribePage />} />
                 
                 {/* Auth routes */}
-                <Route element={<AuthLayout />}>
-                  <Route path="/auth/signin" element={<SignInPage />} />
-                  <Route path="/auth/signup" element={<SignUpPage />} />
-                  <Route path="/auth/verify" element={<VerifyPage />} />
-                </Route>
+                <Route path="/auth/signin" element={<SignInPage />} />
+                <Route path="/auth/signup" element={<SignUpPage />} />
+                <Route path="/auth/verify" element={<VerifyPage />} />
 
                 {/* Protected routes */}
-                <Route element={<ProtectedRoute />}>
-                  <Route element={<MainLayout />}>
-                    <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/custom-creations" element={<CustomCreations />} />
-                    <Route path="/daily-tasks" element={<DailyTasks />} />
-                    <Route path="/inventory" element={<Inventory />} />
-                    <Route path="/materials" element={<Materials />} />
-                    <Route path="/jobs" element={<Jobs />} />
-                    <Route path="/schedule" element={<Schedule />} />
-                    <Route path="/spray-booth-scheduler" element={<SprayBoothSchedulerPage />} />
-                    <Route path="/reports" element={<Reports />} />
-                    <Route path="/resources-app" element={<Resources />} />
-                    <Route path="/settings" element={<Settings />} />
-                    <Route path="/users" element={<Users />} />
-                    <Route path="/subscription" element={<SubscriptionPage />} />
-                    <Route path="/equipment" element={<EquipmentPage />} />
-                    <Route path="/compliance" element={<CompliancePage />} />
-                    <Route path="/quality" element={<QualityPage />} />
-                    <Route path="/workflows" element={<WorkflowsPage />} />
-                  </Route>
-                </Route>
+                <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+                <Route path="/jobs" element={<ProtectedRoute><Jobs /></ProtectedRoute>} />
+                <Route path="/daily-tasks" element={<ProtectedRoute><DailyTasks /></ProtectedRoute>} />
+                <Route path="/schedule" element={<ProtectedRoute><Schedule /></ProtectedRoute>} />
+                <Route path="/woodworking-finishing" element={<ProtectedRoute><WoodworkingFinishing /></ProtectedRoute>} />
+                <Route path="/autobody-finishing" element={<ProtectedRoute><AutoBodyFinishing /></ProtectedRoute>} />
+                <Route path="/custom-creations" element={<ProtectedRoute><CustomCreations /></ProtectedRoute>} />
+                <Route path="/materials" element={<ProtectedRoute><Materials /></ProtectedRoute>} />
+                <Route path="/inventory" element={<ProtectedRoute><InventoryPage /></ProtectedRoute>} />
+                <Route path="/equipment" element={<ProtectedRoute><EquipmentPage /></ProtectedRoute>} />
+                <Route path="/quality" element={<ProtectedRoute><QualityPage /></ProtectedRoute>} />
+                <Route path="/compliance" element={<ProtectedRoute><CompliancePage /></ProtectedRoute>} />
+                <Route path="/reports" element={<ProtectedRoute><Reports /></ProtectedRoute>} />
+                <Route path="/resources-app" element={<ProtectedRoute><Resources /></ProtectedRoute>} />
+                <Route path="/workflows" element={<ProtectedRoute><WorkflowsPage /></ProtectedRoute>} />
+                <Route path="/spray-booth-scheduler" element={<ProtectedRoute><SprayBoothSchedulerPage /></ProtectedRoute>} />
+                <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+                <Route path="/users" element={<ProtectedRoute><Users /></ProtectedRoute>} />
+                <Route path="/subscription" element={<ProtectedRoute><SubscriptionPage /></ProtectedRoute>} />
+                <Route path="/testing-plan" element={<ProtectedRoute><TestingPlan /></ProtectedRoute>} />
 
-                {/* 404 route */}
+                {/* Admin routes */}
+                <Route path="/admin/newsletter" element={<ProtectedRoute><NewsletterAdmin /></ProtectedRoute>} />
+                
                 <Route path="*" element={<NotFound />} />
               </Routes>
-            </AuthProvider>
-          </BrowserRouter>
-        </TooltipProvider>
+            </div>
+          </QueryClient>
+        </AuthProvider>
       </DevModeProvider>
-    </QueryClientProvider>
+    </Router>
   );
 }
 

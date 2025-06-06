@@ -1190,6 +1190,129 @@ export type Database = {
         }
         Relationships: []
       }
+      newsletter_sends: {
+        Row: {
+          clicked_at: string | null
+          created_at: string
+          delivery_status: string
+          id: string
+          newsletter_id: string
+          opened_at: string | null
+          sent_at: string
+          subscriber_id: string
+        }
+        Insert: {
+          clicked_at?: string | null
+          created_at?: string
+          delivery_status?: string
+          id?: string
+          newsletter_id: string
+          opened_at?: string | null
+          sent_at?: string
+          subscriber_id: string
+        }
+        Update: {
+          clicked_at?: string | null
+          created_at?: string
+          delivery_status?: string
+          id?: string
+          newsletter_id?: string
+          opened_at?: string | null
+          sent_at?: string
+          subscriber_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "newsletter_sends_newsletter_id_fkey"
+            columns: ["newsletter_id"]
+            isOneToOne: false
+            referencedRelation: "newsletters"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "newsletter_sends_subscriber_id_fkey"
+            columns: ["subscriber_id"]
+            isOneToOne: false
+            referencedRelation: "newsletter_subscribers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      newsletter_subscribers: {
+        Row: {
+          confirmation_token: string | null
+          created_at: string
+          email: string
+          id: string
+          status: string
+          subscription_type: string
+          unsubscribe_token: string
+          updated_at: string
+        }
+        Insert: {
+          confirmation_token?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          status?: string
+          subscription_type: string
+          unsubscribe_token?: string
+          updated_at?: string
+        }
+        Update: {
+          confirmation_token?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          status?: string
+          subscription_type?: string
+          unsubscribe_token?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      newsletters: {
+        Row: {
+          content: string
+          created_at: string
+          created_by: string | null
+          id: string
+          newsletter_type: string
+          scheduled_at: string | null
+          sent_at: string | null
+          status: string
+          subject: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          newsletter_type: string
+          scheduled_at?: string | null
+          sent_at?: string | null
+          status?: string
+          subject: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          newsletter_type?: string
+          scheduled_at?: string | null
+          sent_at?: string | null
+          status?: string
+          subject?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       org_members: {
         Row: {
           created_at: string
