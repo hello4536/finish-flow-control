@@ -1,3 +1,4 @@
+
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
@@ -11,26 +12,26 @@ import ResourcesLanding from "@/pages/ResourcesLanding";
 import SignInPage from "@/pages/auth/SignInPage";
 import SignUpPage from "@/pages/auth/SignUpPage";
 import VerifyPage from "@/pages/auth/VerifyPage";
-import Dashboard from "@/pages/app/Dashboard";
-import Jobs from "@/pages/app/Jobs";
-import DailyTasks from "@/pages/app/DailyTasks";
-import Schedule from "@/pages/app/Schedule";
-import WoodworkingFinishing from "@/pages/app/WoodworkingFinishing";
-import AutoBodyFinishing from "@/pages/app/AutoBodyFinishing";
-import CustomCreations from "@/pages/app/CustomCreations";
-import Materials from "@/pages/app/Materials";
-import InventoryPage from "@/pages/app/InventoryPage";
-import EquipmentPage from "@/pages/app/EquipmentPage";
-import QualityPage from "@/pages/app/QualityPage";
-import CompliancePage from "@/pages/app/CompliancePage";
-import Reports from "@/pages/app/Reports";
-import Resources from "@/pages/app/Resources";
-import WorkflowsPage from "@/pages/app/WorkflowsPage";
-import SprayBoothSchedulerPage from "@/pages/app/SprayBoothSchedulerPage";
-import Settings from "@/pages/app/Settings";
-import Users from "@/pages/app/Users";
-import SubscriptionPage from "@/pages/app/SubscriptionPage";
-import TestingPlan from "@/pages/app/TestingPlan";
+import Dashboard from "@/pages/Dashboard";
+import Jobs from "@/pages/Jobs";
+import DailyTasks from "@/pages/DailyTasks";
+import Schedule from "@/pages/Schedule";
+import WoodworkingFinishing from "@/pages/WoodworkingFinishing";
+import AutoBodyFinishing from "@/pages/AutoBodyFinishing";
+import CustomCreations from "@/pages/CustomCreations";
+import Materials from "@/pages/Materials";
+import InventoryPage from "@/pages/inventory";
+import EquipmentPage from "@/pages/equipment";
+import QualityPage from "@/pages/quality";
+import CompliancePage from "@/pages/compliance";
+import Reports from "@/pages/Reports";
+import Resources from "@/pages/Resources";
+import WorkflowsPage from "@/pages/workflows";
+import SprayBoothSchedulerPage from "@/pages/spray-booth/SprayBoothSchedulerPage";
+import Settings from "@/pages/Settings";
+import Users from "@/pages/Users";
+import SubscriptionPage from "@/pages/SubscriptionPage";
+import TestingPlan from "@/pages/TestingPlan";
 import NotFound from "@/pages/NotFound";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import UnsubscribePage from "@/pages/UnsubscribePage";
@@ -58,29 +59,31 @@ function App() {
                 <Route path="/auth/verify" element={<VerifyPage />} />
 
                 {/* Protected routes */}
-                <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-                <Route path="/jobs" element={<ProtectedRoute><Jobs /></ProtectedRoute>} />
-                <Route path="/daily-tasks" element={<ProtectedRoute><DailyTasks /></ProtectedRoute>} />
-                <Route path="/schedule" element={<ProtectedRoute><Schedule /></ProtectedRoute>} />
-                <Route path="/woodworking-finishing" element={<ProtectedRoute><WoodworkingFinishing /></ProtectedRoute>} />
-                <Route path="/autobody-finishing" element={<ProtectedRoute><AutoBodyFinishing /></ProtectedRoute>} />
-                <Route path="/custom-creations" element={<ProtectedRoute><CustomCreations /></ProtectedRoute>} />
-                <Route path="/materials" element={<ProtectedRoute><Materials /></ProtectedRoute>} />
-                <Route path="/inventory" element={<ProtectedRoute><InventoryPage /></ProtectedRoute>} />
-                <Route path="/equipment" element={<ProtectedRoute><EquipmentPage /></ProtectedRoute>} />
-                <Route path="/quality" element={<ProtectedRoute><QualityPage /></ProtectedRoute>} />
-                <Route path="/compliance" element={<ProtectedRoute><CompliancePage /></ProtectedRoute>} />
-                <Route path="/reports" element={<ProtectedRoute><Reports /></ProtectedRoute>} />
-                <Route path="/resources-app" element={<ProtectedRoute><Resources /></ProtectedRoute>} />
-                <Route path="/workflows" element={<ProtectedRoute><WorkflowsPage /></ProtectedRoute>} />
-                <Route path="/spray-booth-scheduler" element={<ProtectedRoute><SprayBoothSchedulerPage /></ProtectedRoute>} />
-                <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
-                <Route path="/users" element={<ProtectedRoute><Users /></ProtectedRoute>} />
-                <Route path="/subscription" element={<ProtectedRoute><SubscriptionPage /></ProtectedRoute>} />
-                <Route path="/testing-plan" element={<ProtectedRoute><TestingPlan /></ProtectedRoute>} />
+                <Route element={<ProtectedRoute />}>
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/jobs" element={<Jobs />} />
+                  <Route path="/daily-tasks" element={<DailyTasks />} />
+                  <Route path="/schedule" element={<Schedule />} />
+                  <Route path="/woodworking-finishing" element={<WoodworkingFinishing />} />
+                  <Route path="/autobody-finishing" element={<AutoBodyFinishing />} />
+                  <Route path="/custom-creations" element={<CustomCreations />} />
+                  <Route path="/materials" element={<Materials />} />
+                  <Route path="/inventory" element={<InventoryPage />} />
+                  <Route path="/equipment" element={<EquipmentPage />} />
+                  <Route path="/quality" element={<QualityPage />} />
+                  <Route path="/compliance" element={<CompliancePage />} />
+                  <Route path="/reports" element={<Reports />} />
+                  <Route path="/resources-app" element={<Resources />} />
+                  <Route path="/workflows" element={<WorkflowsPage />} />
+                  <Route path="/spray-booth-scheduler" element={<SprayBoothSchedulerPage />} />
+                  <Route path="/settings" element={<Settings />} />
+                  <Route path="/users" element={<Users />} />
+                  <Route path="/subscription" element={<SubscriptionPage />} />
+                  <Route path="/testing-plan" element={<TestingPlan />} />
 
-                {/* Admin routes */}
-                <Route path="/admin/newsletter" element={<ProtectedRoute><NewsletterAdmin /></ProtectedRoute>} />
+                  {/* Admin routes */}
+                  <Route path="/admin/newsletter" element={<NewsletterAdmin />} />
+                </Route>
                 
                 <Route path="*" element={<NotFound />} />
               </Routes>
