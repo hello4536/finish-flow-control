@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import { Tabs } from "@/components/ui/tabs";
-import { featureTabs } from "./types/featureTypes";
+import { featureTabs } from "./types";
 import FeatureTabsList from "./FeatureTabsList";
 import FeatureTabContent from "./FeatureTabContent";
 

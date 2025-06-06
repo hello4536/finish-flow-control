@@ -1,7 +1,7 @@
 
 import React from "react";
 import { TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { featureTabs } from "./types/featureTypes";
+import { featureTabs } from "./types";
 import { 
   Calendar, 
   PackageOpen, 

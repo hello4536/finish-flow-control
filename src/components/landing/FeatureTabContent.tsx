@@ -3,7 +3,7 @@ import React from "react";
 import { TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, ArrowRight } from "lucide-react";
-import { FeatureTab } from "./types/featureTypes";
+import { FeatureTab } from "./types";
 import { Link } from "react-router-dom";
 
 interface FeatureTabContentProps {
