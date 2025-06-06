@@ -22,7 +22,7 @@ export const featureTabs: FeatureTab[] = [{
     "View key performance metrics in real-time",
     "Track job progress across departments",
     "Monitor material usage and inventory levels",
-    "Identify bottlenecks and optimization opportunities",,
+    "Identify bottlenecks and optimization opportunities",
     "Increase operational transparency",
     "Enhance resource allocation efficiency"
   ]
@@ -37,7 +37,7 @@ export const featureTabs: FeatureTab[] = [{
     "Track certifications and renewal dates",
     "Manage PPE requirements and inventory",
     "Monitor hazardous waste handling procedures",
-    "Generate compliance reports for audits",,
+    "Generate compliance reports for audits",
     "Streamline audit preparations",
     "Mitigate regulatory risks"
   ]
@@ -53,7 +53,7 @@ export const featureTabs: FeatureTab[] = [{
     "Share recipes across team members",
     "Track ingredient usage and inventory",
     "Document application methods and techniques",
-    "Reduce training time for new staff",
+    "Reduce training time for new staff"
   ]
 }, {
   id: "daily-tasks",
@@ -66,7 +66,7 @@ export const featureTabs: FeatureTab[] = [{
     "Assign tasks to specific team members",
     "Set priorities and due dates",
     "Track task completion in real-time",
-    "Generate productivity reports",,
+    "Generate productivity reports"
   ]
 }, {
   id: "equipment",
@@ -79,8 +79,8 @@ export const featureTabs: FeatureTab[] = [{
     "Track equipment status and availability",
     "Schedule preventive maintenance",
     "Monitor equipment performance metrics",
-    "Manage equipment assignments",,
-    "Extend equipment lifespan by 30%",
+    "Manage equipment assignments",
+    "Extend equipment lifespan by 30%"
   ]
 }, {
   id: "inventory",
@@ -94,7 +94,7 @@ export const featureTabs: FeatureTab[] = [{
     "Track material usage across different jobs",
     "Manage warehouse locations and organization",
     "Generate inventory reports and forecasts",
-    "Reduce inventory shortages"
+    "Reduce inventory shortages",
     "Streamline ordering processes"
   ]
 }, {
@@ -138,7 +138,7 @@ export const featureTabs: FeatureTab[] = [{
     "Track inspections and quality checks",
     "Document quality issues with photos",
     "Assign and monitor corrective actions",
-    "Generate quality performance reports",,
+    "Generate quality performance reports",
     "Enhance customer satisfaction"
   ]
 }, {
@@ -184,7 +184,7 @@ export const featureTabs: FeatureTab[] = [{
     "Monitor booth availability in real-time",
     "Track booth utilization metrics",
     "Manage booth maintenance schedules",
-    "Reduce wait times and conflicts",
+    "Reduce wait times and conflicts"
   ]
 }, {
   id: "workflows",
@@ -199,7 +199,7 @@ export const featureTabs: FeatureTab[] = [{
     "Assign tasks to specific team members",
     "Optimize processes with workflow analytics",
     "Reduce process variation",
-    "Decrease training time"
+    "Decrease training time",
     "Improve production consistency"
   ]
 }, {
