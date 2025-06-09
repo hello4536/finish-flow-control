@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/context/AuthContext";
 import { DevModeProvider } from "@/context/DevModeContext";
 import { QueryProvider } from "@/components/providers/QueryClient";
+import { MainLayout } from "@/components/layout/MainLayout";
 import Index from "@/pages/Index";
 import Features from "@/pages/Features";
 import Pricing from "@/pages/Pricing";
@@ -43,23 +44,23 @@ function App() {
       <DevModeProvider>
         <AuthProvider>
           <QueryProvider>
-            <div className="flex h-screen bg-gray-100">
-              <Toaster />
-              <Routes>
-                {/* Public routes */}
-                <Route path="/" element={<Index />} />
-                <Route path="/features" element={<Features />} />
-                <Route path="/pricing" element={<Pricing />} />
-                <Route path="/resources" element={<ResourcesLanding />} />
-                <Route path="/unsubscribe" element={<UnsubscribePage />} />
-                
-                {/* Auth routes */}
-                <Route path="/auth/signin" element={<SignInPage />} />
-                <Route path="/auth/signup" element={<SignUpPage />} />
-                <Route path="/auth/verify" element={<VerifyPage />} />
+            <Toaster />
+            <Routes>
+              {/* Public routes */}
+              <Route path="/" element={<Index />} />
+              <Route path="/features" element={<Features />} />
+              <Route path="/pricing" element={<Pricing />} />
+              <Route path="/resources" element={<ResourcesLanding />} />
+              <Route path="/unsubscribe" element={<UnsubscribePage />} />
+              
+              {/* Auth routes */}
+              <Route path="/auth/signin" element={<SignInPage />} />
+              <Route path="/auth/signup" element={<SignUpPage />} />
+              <Route path="/auth/verify" element={<VerifyPage />} />
 
-                {/* Protected routes */}
-                <Route element={<ProtectedRoute />}>
+              {/* Protected routes with MainLayout */}
+              <Route element={<ProtectedRoute />}>
+                <Route element={<MainLayout />}>
                   <Route path="/dashboard" element={<Dashboard />} />
                   <Route path="/jobs" element={<Jobs />} />
                   <Route path="/daily-tasks" element={<DailyTasks />} />
@@ -84,10 +85,10 @@ function App() {
                   {/* Admin routes */}
                   <Route path="/admin/newsletter" element={<NewsletterAdmin />} />
                 </Route>
-                
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </div>
+              </Route>
+              
+              <Route path="*" element={<NotFound />} />
+            </Routes>
           </QueryProvider>
         </AuthProvider>
       </DevModeProvider>
