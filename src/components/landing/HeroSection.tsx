@@ -1,12 +1,9 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from "lucide-react";
-
 const HeroSection = () => {
-  return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
+  return <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-32 w-96 h-96 bg-gradient-to-br from-blue-400/20 to-purple-600/20 rounded-full blur-3xl animate-pulse"></div>
@@ -24,10 +21,8 @@ const HeroSection = () => {
           
           {/* Main headline */}
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight">
-            <span className="block text-gray-900 mb-2">Build great products</span>
-            <span className="block bg-gradient-to-r from-blue-600 via-purple-600 to-teal-600 bg-clip-text text-transparent">
-              with confidence
-            </span>
+            <span className="block text-gray-900 mb-2">Your command center</span>
+            <span className="block bg-gradient-to-r from-blue-600 via-purple-600 to-teal-600 bg-clip-text text-transparent">for perfect finishes</span>
           </h1>
           
           {/* Subtitle */}
@@ -41,23 +36,14 @@ const HeroSection = () => {
           
           {/* CTA buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-            <Button 
-              asChild 
-              size="lg" 
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-200 rounded-full px-8 py-3 text-lg group"
-            >
+            <Button asChild size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-200 rounded-full px-8 py-3 text-lg group">
               <Link to="/auth/signup" className="flex items-center">
                 Start free trial
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Link>
             </Button>
             
-            <Button 
-              asChild 
-              variant="outline" 
-              size="lg" 
-              className="border-2 border-gray-300 hover:border-blue-600 hover:bg-blue-50 text-gray-700 hover:text-blue-600 rounded-full px-8 py-3 text-lg group transition-all duration-200"
-            >
+            <Button asChild variant="outline" size="lg" className="border-2 border-gray-300 hover:border-blue-600 hover:bg-blue-50 text-gray-700 hover:text-blue-600 rounded-full px-8 py-3 text-lg group transition-all duration-200">
               <Link to="/auth/signin" className="flex items-center">
                 <Play className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" />
                 Watch demo
@@ -82,11 +68,7 @@ const HeroSection = () => {
           <div className="relative">
             <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-2xl blur-2xl transform rotate-1"></div>
             <div className="relative bg-white rounded-2xl shadow-2xl border border-gray-200/50 overflow-hidden">
-              <img 
-                src="/lovable-uploads/8e9a6ded-9406-4eeb-8af1-b1e83ca9e786.png" 
-                alt="Finivo Dashboard" 
-                className="w-full h-auto"
-              />
+              <img src="/lovable-uploads/8e9a6ded-9406-4eeb-8af1-b1e83ca9e786.png" alt="Finivo Dashboard" className="w-full h-auto" />
             </div>
           </div>
           
@@ -96,8 +78,6 @@ const HeroSection = () => {
           <div className="absolute top-1/2 -right-8 w-12 h-12 bg-gradient-to-br from-pink-400 to-purple-500 rounded-xl rotate-45 animate-bounce delay-300"></div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default HeroSection;
