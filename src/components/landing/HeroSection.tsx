@@ -1,9 +1,12 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from "lucide-react";
+
 const HeroSection = () => {
-  return <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
+  return (
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-32 w-96 h-96 bg-gradient-to-br from-blue-400/20 to-purple-600/20 rounded-full blur-3xl animate-pulse"></div>
@@ -27,11 +30,11 @@ const HeroSection = () => {
           
           {/* Subtitle */}
           <p className="max-w-3xl mx-auto text-xl text-gray-600 leading-relaxed">
-            Make smart finishing decisions, align your team, and tell a compelling product story with{" "}
+            From saving your custom paint formulas to spray booth management and compliance tracking,{" "}
             <span className="font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               Finivo
             </span>
-            . The end-to-end finishing management platform with best practices built-in.
+            {" "}centralizes job planning, resource coordination, real-time updates and KPI insights so you can meet every spec and deadline.
           </p>
           
           {/* CTA buttons */}
@@ -78,6 +81,8 @@ const HeroSection = () => {
           <div className="absolute top-1/2 -right-8 w-12 h-12 bg-gradient-to-br from-pink-400 to-purple-500 rounded-xl rotate-45 animate-bounce delay-300"></div>
         </div>
       </div>
-    </section>;
+    </section>
+  );
 };
+
 export default HeroSection;
