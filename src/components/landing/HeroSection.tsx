@@ -21,8 +21,8 @@ const HeroSection = () => {
           
           {/* Main headline */}
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight">
-            <span className="block text-gray-900 mb-2">Your all-in-one</span>
-            <span className="block bg-gradient-to-r from-blue-600 via-purple-600 to-teal-600 bg-clip-text text-transparent">finishing command center</span>
+            <span className="block text-gray-900 mb-2">The only all-in-one</span>
+            <span className="block bg-gradient-to-r from-blue-600 via-purple-600 to-teal-600 bg-clip-text text-transparent">finishing operating system</span>
           </h1>
           
           {/* Subtitle */}
