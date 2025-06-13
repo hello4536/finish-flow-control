@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -27,9 +28,11 @@ const Header: React.FC = () => {
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
         <Link to="/" className="flex items-center">
-          <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-teal-600 bg-clip-text text-transparent">
-            Finivo
-          </div>
+          <img 
+            src="/lovable-uploads/831be762-1da7-4615-9dac-d59cc2386de3.png" 
+            alt="Finivo Logo" 
+            className="h-16 object-contain" 
+          />
         </Link>
         
         {/* Desktop Navigation */}
