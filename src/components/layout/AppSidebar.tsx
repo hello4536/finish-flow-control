@@ -36,7 +36,7 @@ export function AppSidebar() {
       return `${baseClasses} bg-primary/15 text-primary border-l-4 border-primary shadow-md`;
     }
     
-    return `${baseClasses} text-white hover:bg-primary/8 hover:text-primary hover:translate-x-1`;
+    return `${baseClasses} text-sidebar-foreground hover:bg-primary/8 hover:text-primary hover:translate-x-1`;
   };
 
   return (
@@ -66,7 +66,7 @@ export function AppSidebar() {
         {/* Main Navigation */}
         <SidebarGroup>
           {!collapsed && (
-            <SidebarGroupLabel className="text-white font-semibold uppercase tracking-wider text-xs mb-3 px-3">
+            <SidebarGroupLabel className="text-sidebar-foreground font-semibold uppercase tracking-wider text-xs mb-3 px-3">
               Main Menu
             </SidebarGroupLabel>
           )}
@@ -105,7 +105,7 @@ export function AppSidebar() {
         {/* Admin Section */}
         <SidebarGroup className="mt-8">
           {!collapsed && (
-            <SidebarGroupLabel className="text-white font-semibold uppercase tracking-wider text-xs mb-3 px-3">
+            <SidebarGroupLabel className="text-sidebar-foreground font-semibold uppercase tracking-wider text-xs mb-3 px-3">
               Administration
             </SidebarGroupLabel>
           )}
@@ -143,7 +143,7 @@ export function AppSidebar() {
 
       {/* Toggle Button */}
       <div className="p-3 border-t border-sidebar-border/50">
-        <SidebarTrigger className="w-full justify-center text-white hover:text-primary hover:bg-primary/8 transition-all duration-200 rounded-lg p-2" />
+        <SidebarTrigger className="w-full justify-center text-sidebar-foreground hover:text-primary hover:bg-primary/8 transition-all duration-200 rounded-lg p-2" />
       </div>
     </Sidebar>
   );
