@@ -14,23 +14,13 @@ import SignInPage from "@/pages/auth/SignInPage";
 import SignUpPage from "@/pages/auth/SignUpPage";
 import VerifyPage from "@/pages/auth/VerifyPage";
 import Dashboard from "@/pages/Dashboard";
-import Jobs from "@/pages/Jobs";
-import DailyTasks from "@/pages/DailyTasks";
-import Schedule from "@/pages/Schedule";
-import WoodworkingFinishing from "@/pages/WoodworkingFinishing";
-import AutoBodyFinishing from "@/pages/AutoBodyFinishing";
-import CustomCreations from "@/pages/CustomCreations";
-import Materials from "@/pages/Materials";
-import InventoryPage from "@/pages/inventory";
-import EquipmentPage from "@/pages/equipment";
-import QualityPage from "@/pages/quality";
+import JobManagement from "@/pages/JobManagement";
+import AssetManagement from "@/pages/AssetManagement";
+import Operations from "@/pages/Operations";
+import CreativeHub from "@/pages/CreativeHub";
 import CompliancePage from "@/pages/compliance";
-import Reports from "@/pages/Reports";
-import Resources from "@/pages/Resources";
-import WorkflowsPage from "@/pages/workflows";
-import SprayBoothSchedulerPage from "@/pages/spray-booth/SprayBoothSchedulerPage";
-import Settings from "@/pages/Settings";
-import Users from "@/pages/Users";
+import Analytics from "@/pages/Analytics";
+import Administration from "@/pages/Administration";
 import SubscriptionPage from "@/pages/SubscriptionPage";
 import TestingPlan from "@/pages/TestingPlan";
 import NotFound from "@/pages/NotFound";
@@ -62,28 +52,33 @@ function App() {
               <Route element={<ProtectedRoute />}>
                 <Route element={<MainLayout />}>
                   <Route path="/dashboard" element={<Dashboard />} />
-                  <Route path="/jobs" element={<Jobs />} />
-                  <Route path="/daily-tasks" element={<DailyTasks />} />
-                  <Route path="/schedule" element={<Schedule />} />
-                  <Route path="/woodworking-finishing" element={<WoodworkingFinishing />} />
-                  <Route path="/autobody-finishing" element={<AutoBodyFinishing />} />
-                  <Route path="/custom-creations" element={<CustomCreations />} />
-                  <Route path="/materials" element={<Materials />} />
-                  <Route path="/inventory" element={<InventoryPage />} />
-                  <Route path="/equipment" element={<EquipmentPage />} />
-                  <Route path="/quality" element={<QualityPage />} />
+                  <Route path="/job-management" element={<JobManagement />} />
+                  <Route path="/asset-management" element={<AssetManagement />} />
+                  <Route path="/operations" element={<Operations />} />
+                  <Route path="/creative-hub" element={<CreativeHub />} />
                   <Route path="/compliance" element={<CompliancePage />} />
-                  <Route path="/reports" element={<Reports />} />
-                  <Route path="/resources-app" element={<Resources />} />
-                  <Route path="/workflows" element={<WorkflowsPage />} />
-                  <Route path="/spray-booth-scheduler" element={<SprayBoothSchedulerPage />} />
-                  <Route path="/settings" element={<Settings />} />
-                  <Route path="/users" element={<Users />} />
+                  <Route path="/analytics" element={<Analytics />} />
+                  <Route path="/administration" element={<Administration />} />
                   <Route path="/subscription" element={<SubscriptionPage />} />
                   <Route path="/testing-plan" element={<TestingPlan />} />
 
-                  {/* Admin routes */}
-                  <Route path="/admin/newsletter" element={<NewsletterAdmin />} />
+                  {/* Legacy routes for backward compatibility */}
+                  <Route path="/jobs" element={<JobManagement />} />
+                  <Route path="/daily-tasks" element={<JobManagement />} />
+                  <Route path="/workflows" element={<JobManagement />} />
+                  <Route path="/materials" element={<AssetManagement />} />
+                  <Route path="/inventory" element={<AssetManagement />} />
+                  <Route path="/equipment" element={<AssetManagement />} />
+                  <Route path="/spray-booth-scheduler" element={<AssetManagement />} />
+                  <Route path="/schedule" element={<Operations />} />
+                  <Route path="/quality" element={<Operations />} />
+                  <Route path="/custom-creations" element={<CreativeHub />} />
+                  <Route path="/woodworking-finishing" element={<CreativeHub />} />
+                  <Route path="/autobody-finishing" element={<CreativeHub />} />
+                  <Route path="/reports" element={<Analytics />} />
+                  <Route path="/users" element={<Administration />} />
+                  <Route path="/settings" element={<Administration />} />
+                  <Route path="/resources-app" element={<Administration />} />
                 </Route>
               </Route>
               

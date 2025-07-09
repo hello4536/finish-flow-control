@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
-import { BarChart, Box, Calendar, CheckSquare, ClipboardList, Database, Home, PackageOpen, Settings, Users, Link, Palette, ShieldCheck, CheckCircle, Archive, Paintbrush } from "lucide-react";
+import { BarChart3, Package, Calendar, Briefcase, Home, Settings, Palette, Shield, TrendingUp, Building } from "lucide-react";
 
 export function AppSidebar() {
   const { state } = useSidebar();
@@ -11,24 +11,16 @@ export function AppSidebar() {
 
   const mainItems = [
     { title: "Dashboard", url: "/dashboard", icon: Home, color: "bg-accent/90" },
-    { title: "Compliance", url: "/compliance", icon: ShieldCheck, color: "bg-accent/90" },
-    { title: "Custom Creations", url: "/custom-creations", icon: Palette, color: "bg-accent/90" },
-    { title: "Daily Tasks", url: "/daily-tasks", icon: CheckCircle, color: "bg-accent/90" },
-    { title: "Equipment", url: "/equipment", icon: Archive, color: "bg-accent/90" },
-    { title: "Inventory", url: "/inventory", icon: Database, color: "bg-accent/90" },
-    { title: "Jobs", url: "/jobs", icon: ClipboardList, color: "bg-accent/90" },
-    { title: "Materials", url: "/materials", icon: Box, color: "bg-accent/90" },
-    { title: "Quality Control", url: "/quality", icon: CheckSquare, color: "bg-accent/90" },
-    { title: "Resources", url: "/resources", icon: Link, color: "bg-accent/90" },
-    { title: "Schedule", url: "/schedule", icon: Calendar, color: "bg-accent/90" },
-    { title: "Spray Booths", url: "/spray-booth-scheduler", icon: Paintbrush, color: "bg-accent/90" },
-    { title: "Workflows", url: "/workflows", icon: PackageOpen, color: "bg-accent/90" }
+    { title: "Job Management", url: "/job-management", icon: Briefcase, color: "bg-accent/90" },
+    { title: "Asset Management", url: "/asset-management", icon: Package, color: "bg-accent/90" },
+    { title: "Operations", url: "/operations", icon: Calendar, color: "bg-accent/90" },
+    { title: "Creative Hub", url: "/creative-hub", icon: Palette, color: "bg-accent/90" },
+    { title: "Compliance & Safety", url: "/compliance", icon: Shield, color: "bg-accent/90" },
+    { title: "Analytics", url: "/analytics", icon: BarChart3, color: "bg-accent/90" },
   ];
 
   const adminItems = [
-    { title: "Reports", url: "/reports", icon: BarChart, color: "bg-accent/90" },
-    { title: "Settings", url: "/settings", icon: Settings, color: "bg-accent/90" },
-    { title: "Users", url: "/users", icon: Users, color: "bg-accent/90" }
+    { title: "Administration", url: "/administration", icon: Settings, color: "bg-accent/90" },
   ];
 
   const isActive = (path: string) => {
