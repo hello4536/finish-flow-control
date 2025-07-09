@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
-import { BarChart3, Package, Calendar, Briefcase, Home, Settings, Palette, Shield, TrendingUp, Building } from "lucide-react";
+import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarTrigger, SidebarHeader, useSidebar } from "@/components/ui/sidebar";
+import { BarChart3, Package, Calendar, Briefcase, Home, Settings, Palette, Shield, TrendingUp, Building, Wrench } from "lucide-react";
 
 export function AppSidebar() {
   const { state } = useSidebar();
@@ -10,17 +10,17 @@ export function AppSidebar() {
   const currentPath = location.pathname;
 
   const mainItems = [
-    { title: "Dashboard", url: "/dashboard", icon: Home, color: "bg-accent/90" },
-    { title: "Job Management", url: "/job-management", icon: Briefcase, color: "bg-accent/90" },
-    { title: "Asset Management", url: "/asset-management", icon: Package, color: "bg-accent/90" },
-    { title: "Operations", url: "/operations", icon: Calendar, color: "bg-accent/90" },
-    { title: "Creative Hub", url: "/creative-hub", icon: Palette, color: "bg-accent/90" },
-    { title: "Compliance & Safety", url: "/compliance", icon: Shield, color: "bg-accent/90" },
-    { title: "Analytics", url: "/analytics", icon: BarChart3, color: "bg-accent/90" },
+    { title: "Dashboard", url: "/dashboard", icon: Home },
+    { title: "Job Management", url: "/job-management", icon: Briefcase },
+    { title: "Asset Management", url: "/asset-management", icon: Package },
+    { title: "Operations", url: "/operations", icon: Calendar },
+    { title: "Creative Hub", url: "/creative-hub", icon: Palette },
+    { title: "Compliance & Safety", url: "/compliance", icon: Shield },
+    { title: "Analytics", url: "/analytics", icon: BarChart3 },
   ];
 
   const adminItems = [
-    { title: "Administration", url: "/administration", icon: Settings, color: "bg-accent/90" },
+    { title: "Administration", url: "/administration", icon: Settings },
   ];
 
   const isActive = (path: string) => {
@@ -28,53 +28,80 @@ export function AppSidebar() {
     return currentPath.startsWith(path);
   };
 
-  const isMainExpanded = mainItems.some(i => isActive(i.url));
-  const isAdminExpanded = adminItems.some(i => isActive(i.url));
-
-  // Enhanced function to generate NavLink classes with white background, gradient text, and gradient borders
-  const getNavCls = (item: { color: string; }) => {
-    return ({ isActive }: { isActive: boolean; }) => {
-      // Base classes with white background and gradient border
-      const baseClasses = "flex items-center rounded-lg transition-all duration-300 p-3 bg-white backdrop-blur-sm shadow-md relative";
-      
-      // Gradient border using pseudo-element
-      const gradientBorder = "before:absolute before:inset-0 before:rounded-lg before:p-[2px] before:bg-gradient-to-r before:from-purple-600 before:to-blue-600 before:-z-10";
-      const innerBg = "after:absolute after:inset-[2px] after:rounded-md after:bg-white after:-z-10";
-
-      // Active state with enhanced gradient styling
-      if (isActive) {
-        return `${baseClasses} ${gradientBorder} ${innerBg} shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 font-semibold`;
-      }
-
-      // Inactive state with subtle border and hover effects
-      return `${baseClasses} border-2 border-slate-200 hover:${gradientBorder} hover:${innerBg} hover:border-transparent hover:transform hover:-translate-y-0.5`;
-    };
+  const getNavCls = ({ isActive }: { isActive: boolean; }) => {
+    const baseClasses = "flex items-center gap-3 rounded-lg transition-all duration-300 p-3 group relative overflow-hidden";
+    
+    if (isActive) {
+      return `${baseClasses} bg-sidebar-accent/20 text-sidebar-accent-foreground border-l-4 border-sidebar-accent shadow-sm`;
+    }
+    
+    return `${baseClasses} text-sidebar-foreground/80 hover:bg-sidebar-accent/10 hover:text-sidebar-accent-foreground hover:translate-x-1`;
   };
 
   return (
     <Sidebar 
-      className={`${collapsed ? "w-14" : "w-60"} bg-gradient-to-b from-slate-50 via-blue-50/50 to-indigo-100/30 shadow-2xl border-r border-slate-200/50`} 
+      className={`${collapsed ? "w-16" : "w-64"} bg-sidebar border-r border-sidebar-border shadow-xl`} 
       collapsible="icon"
     >
-      <SidebarTrigger className="m-3 self-end text-slate-600 hover:bg-white/80 hover:text-purple-600 backdrop-blur-sm border border-slate-200 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md" />
+      {/* Brand Header */}
+      {!collapsed && (
+        <SidebarHeader className="p-6 border-b border-sidebar-border/50">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-sidebar-accent rounded-lg flex items-center justify-center shadow-lg">
+              <Wrench className="w-5 h-5 text-sidebar-accent-foreground" />
+            </div>
+            <div>
+              <h2 className="text-lg font-bold text-sidebar-foreground">
+                FinishPro
+              </h2>
+              <p className="text-xs text-sidebar-foreground/60">
+                Management Suite
+              </p>
+            </div>
+          </div>
+        </SidebarHeader>
+      )}
+
+      {/* Collapsed Brand */}
+      {collapsed && (
+        <div className="p-4 border-b border-sidebar-border/50 flex justify-center">
+          <div className="w-8 h-8 bg-sidebar-accent rounded-lg flex items-center justify-center shadow-lg">
+            <Wrench className="w-4 h-4 text-sidebar-accent-foreground" />
+          </div>
+        </div>
+      )}
       
-      <SidebarContent className="bg-transparent px-2">
-        <SidebarGroup className="my-4">
+      <SidebarContent className="px-3 py-4">
+        {/* Main Navigation */}
+        <SidebarGroup>
+          {!collapsed && (
+            <SidebarGroupLabel className="text-sidebar-foreground/60 font-semibold uppercase tracking-wider text-xs mb-3 px-3">
+              Main Menu
+            </SidebarGroupLabel>
+          )}
+          
           <SidebarGroupContent>
-            <SidebarMenu className="space-y-2">
+            <SidebarMenu className="space-y-1">
               {mainItems.map(item => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <NavLink 
                       to={item.url} 
                       end={item.url === "/dashboard"} 
-                      className={getNavCls(item)}
+                      className={getNavCls}
+                      title={collapsed ? item.title : undefined}
                     >
-                      <item.icon className={`mr-3 h-5 w-5 flex-shrink-0 ${isActive(item.url) ? 'text-purple-600' : 'text-slate-600'}`} />
+                      <div className={`w-5 h-5 flex items-center justify-center transition-transform duration-200 ${isActive(item.url) ? 'scale-110' : 'group-hover:scale-105'}`}>
+                        <item.icon className="w-full h-full" />
+                      </div>
                       {!collapsed && (
-                        <span className={`text-sm font-medium truncate ${isActive(item.url) ? 'bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent' : 'text-slate-700'}`}>
+                        <span className="font-medium truncate">
                           {item.title}
                         </span>
+                      )}
+                      {/* Active indicator */}
+                      {isActive(item.url) && (
+                        <div className="absolute right-2 w-2 h-2 bg-sidebar-accent rounded-full animate-pulse" />
                       )}
                     </NavLink>
                   </SidebarMenuButton>
@@ -84,25 +111,35 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        <SidebarGroup className="mt-6">
-          <SidebarGroupLabel className="text-slate-500 font-bold uppercase tracking-wider text-xs px-3 mb-3 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-            Administration
-          </SidebarGroupLabel>
+        {/* Admin Section */}
+        <SidebarGroup className="mt-8">
+          {!collapsed && (
+            <SidebarGroupLabel className="text-sidebar-foreground/60 font-semibold uppercase tracking-wider text-xs mb-3 px-3">
+              Administration
+            </SidebarGroupLabel>
+          )}
 
           <SidebarGroupContent>
-            <SidebarMenu className="space-y-2">
+            <SidebarMenu className="space-y-1">
               {adminItems.map(item => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <NavLink 
                       to={item.url} 
-                      className={getNavCls(item)}
+                      className={getNavCls}
+                      title={collapsed ? item.title : undefined}
                     >
-                      <item.icon className={`mr-3 h-5 w-5 flex-shrink-0 ${isActive(item.url) ? 'text-purple-600' : 'text-slate-600'}`} />
+                      <div className={`w-5 h-5 flex items-center justify-center transition-transform duration-200 ${isActive(item.url) ? 'scale-110' : 'group-hover:scale-105'}`}>
+                        <item.icon className="w-full h-full" />
+                      </div>
                       {!collapsed && (
-                        <span className={`text-sm font-medium truncate ${isActive(item.url) ? 'bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent' : 'text-slate-700'}`}>
+                        <span className="font-medium truncate">
                           {item.title}
                         </span>
+                      )}
+                      {/* Active indicator */}
+                      {isActive(item.url) && (
+                        <div className="absolute right-2 w-2 h-2 bg-sidebar-accent rounded-full animate-pulse" />
                       )}
                     </NavLink>
                   </SidebarMenuButton>
@@ -112,6 +149,11 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+
+      {/* Toggle Button */}
+      <div className="p-3 border-t border-sidebar-border/50">
+        <SidebarTrigger className="w-full justify-center text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent/10 transition-all duration-200 rounded-lg p-2" />
+      </div>
     </Sidebar>
   );
 }
