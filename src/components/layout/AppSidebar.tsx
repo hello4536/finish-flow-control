@@ -2,6 +2,7 @@ import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarTrigger, SidebarHeader, useSidebar } from "@/components/ui/sidebar";
 import { BarChart3, Package, Calendar, Briefcase, Home, Settings, Palette, Shield, TrendingUp, Building, Wrench } from "lucide-react";
+import LogoLink from "./LogoLink";
 
 export function AppSidebar() {
   const { state } = useSidebar();
@@ -35,7 +36,7 @@ export function AppSidebar() {
       return `${baseClasses} bg-primary/15 text-primary border-l-4 border-primary shadow-md`;
     }
     
-    return `${baseClasses} text-sidebar-foreground/95 hover:bg-primary/8 hover:text-primary hover:translate-x-1`;
+    return `${baseClasses} text-white hover:bg-primary/8 hover:text-primary hover:translate-x-1`;
   };
 
   return (
@@ -45,29 +46,19 @@ export function AppSidebar() {
     >
       {/* Brand Header */}
       {!collapsed && (
-        <SidebarHeader className="p-6 border-b border-sidebar-border/50">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-sidebar-accent rounded-lg flex items-center justify-center shadow-lg">
-              <Wrench className="w-5 h-5 text-sidebar-accent-foreground" />
-            </div>
-            <div>
-              <h2 className="text-lg font-bold text-sidebar-foreground">
-                FinishPro
-              </h2>
-              <p className="text-xs text-sidebar-foreground/60">
-                Management Suite
-              </p>
-            </div>
-          </div>
+        <SidebarHeader className="p-4 border-b border-sidebar-border/50">
+          <LogoLink />
         </SidebarHeader>
       )}
 
       {/* Collapsed Brand */}
       {collapsed && (
-        <div className="p-4 border-b border-sidebar-border/50 flex justify-center">
-          <div className="w-8 h-8 bg-sidebar-accent rounded-lg flex items-center justify-center shadow-lg">
-            <Wrench className="w-4 h-4 text-sidebar-accent-foreground" />
-          </div>
+        <div className="p-3 border-b border-sidebar-border/50 flex justify-center">
+          <img 
+            src="/lovable-uploads/831be762-1da7-4615-9dac-d59cc2386de3.png" 
+            alt="Finivo Logo" 
+            className="h-10 w-10 object-contain" 
+          />
         </div>
       )}
       
@@ -75,7 +66,7 @@ export function AppSidebar() {
         {/* Main Navigation */}
         <SidebarGroup>
           {!collapsed && (
-            <SidebarGroupLabel className="text-sidebar-foreground/85 font-semibold uppercase tracking-wider text-xs mb-3 px-3">
+            <SidebarGroupLabel className="text-white font-semibold uppercase tracking-wider text-xs mb-3 px-3">
               Main Menu
             </SidebarGroupLabel>
           )}
@@ -114,7 +105,7 @@ export function AppSidebar() {
         {/* Admin Section */}
         <SidebarGroup className="mt-8">
           {!collapsed && (
-            <SidebarGroupLabel className="text-sidebar-foreground/85 font-semibold uppercase tracking-wider text-xs mb-3 px-3">
+            <SidebarGroupLabel className="text-white font-semibold uppercase tracking-wider text-xs mb-3 px-3">
               Administration
             </SidebarGroupLabel>
           )}
@@ -152,7 +143,7 @@ export function AppSidebar() {
 
       {/* Toggle Button */}
       <div className="p-3 border-t border-sidebar-border/50">
-        <SidebarTrigger className="w-full justify-center text-sidebar-foreground/85 hover:text-primary hover:bg-primary/8 transition-all duration-200 rounded-lg p-2" />
+        <SidebarTrigger className="w-full justify-center text-white hover:text-primary hover:bg-primary/8 transition-all duration-200 rounded-lg p-2" />
       </div>
     </Sidebar>
   );
