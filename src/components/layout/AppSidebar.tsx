@@ -32,10 +32,10 @@ export function AppSidebar() {
     const baseClasses = "flex items-center gap-3 rounded-lg transition-all duration-300 p-3 group relative overflow-hidden";
     
     if (isActive) {
-      return `${baseClasses} bg-sidebar-accent/20 text-sidebar-accent-foreground border-l-4 border-sidebar-accent shadow-sm`;
+      return `${baseClasses} bg-primary/15 text-primary border-l-4 border-primary shadow-md`;
     }
     
-    return `${baseClasses} text-sidebar-foreground/80 hover:bg-sidebar-accent/10 hover:text-sidebar-accent-foreground hover:translate-x-1`;
+    return `${baseClasses} text-sidebar-foreground/95 hover:bg-primary/8 hover:text-primary hover:translate-x-1`;
   };
 
   return (
@@ -75,7 +75,7 @@ export function AppSidebar() {
         {/* Main Navigation */}
         <SidebarGroup>
           {!collapsed && (
-            <SidebarGroupLabel className="text-sidebar-foreground/60 font-semibold uppercase tracking-wider text-xs mb-3 px-3">
+            <SidebarGroupLabel className="text-sidebar-foreground/85 font-semibold uppercase tracking-wider text-xs mb-3 px-3">
               Main Menu
             </SidebarGroupLabel>
           )}
@@ -114,7 +114,7 @@ export function AppSidebar() {
         {/* Admin Section */}
         <SidebarGroup className="mt-8">
           {!collapsed && (
-            <SidebarGroupLabel className="text-sidebar-foreground/60 font-semibold uppercase tracking-wider text-xs mb-3 px-3">
+            <SidebarGroupLabel className="text-sidebar-foreground/85 font-semibold uppercase tracking-wider text-xs mb-3 px-3">
               Administration
             </SidebarGroupLabel>
           )}
@@ -152,7 +152,7 @@ export function AppSidebar() {
 
       {/* Toggle Button */}
       <div className="p-3 border-t border-sidebar-border/50">
-        <SidebarTrigger className="w-full justify-center text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent/10 transition-all duration-200 rounded-lg p-2" />
+        <SidebarTrigger className="w-full justify-center text-sidebar-foreground/85 hover:text-primary hover:bg-primary/8 transition-all duration-200 rounded-lg p-2" />
       </div>
     </Sidebar>
   );
