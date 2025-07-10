@@ -10,6 +10,9 @@ import PricingSection from "@/components/landing/PricingSection";
 import Footer from "@/components/landing/Footer";
 import { useAuth } from "@/context/AuthContext";
 import ProductOverviewSection from "@/components/landing/ProductOverviewSection";
+import InteractiveDemo from "@/components/landing/InteractiveDemo";
+import CompetitiveAdvantage from "@/components/landing/CompetitiveAdvantage";
+import LeadCapture from "@/components/landing/LeadCapture";
 
 const Index = () => {
   const { user } = useAuth();
@@ -20,7 +23,10 @@ const Index = () => {
       
       <main className="flex-1">
         <HeroSection />
+        <LeadCapture />
+        <InteractiveDemo />
         <ProductOverviewSection />
+        <CompetitiveAdvantage />
         <BenefitsSection />
         <FeaturesPreviewSection />
         <HowItWorksSection />
