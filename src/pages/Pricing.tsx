@@ -1,4 +1,3 @@
-
 import React from "react";
 import Header from "@/components/landing/Header";
 import Footer from "@/components/landing/Footer";
@@ -6,10 +5,8 @@ import PricingSection from "@/components/landing/PricingSection";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle2, Star, Zap, Shield } from "lucide-react";
-
 const Pricing = () => {
-  return (
-    <div className="flex min-h-screen flex-col bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
+  return <div className="flex min-h-screen flex-col bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
       <Header />
       
       <main className="flex-1">
@@ -33,11 +30,7 @@ const Pricing = () => {
               All plans include our core finishing management features. Start with a free trial and upgrade as your business grows.
             </p>
             
-            <Button 
-              asChild 
-              size="lg" 
-              className="bg-white text-blue-600 hover:bg-blue-50 rounded-full px-8 py-3 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 group"
-            >
+            <Button asChild size="lg" className="bg-white text-blue-600 hover:bg-blue-50 rounded-full px-8 py-3 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 group">
               <Link to="/auth/signup" className="flex items-center">
                 Start Your Free Trial
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
@@ -149,20 +142,11 @@ const Pricing = () => {
               Join thousands of finishing professionals who trust Finivo to streamline their operations.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                asChild 
-                size="lg" 
-                className="bg-white text-blue-600 hover:bg-blue-50 rounded-full px-8 py-3 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
-              >
+              <Button asChild size="lg" className="bg-white text-blue-600 hover:bg-blue-50 rounded-full px-8 py-3 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200">
                 <Link to="/auth/signup">Start Free Trial</Link>
               </Button>
-              <Button 
-                asChild 
-                variant="outline" 
-                size="lg"
-                className="border-2 border-white text-white hover:bg-white hover:text-blue-600 rounded-full px-8 py-3 text-lg font-semibold transition-all duration-200"
-              >
-                <Link to="/features">View Features</Link>
+              <Button asChild variant="outline" size="lg" className="border-2 border-white text-white hover:bg-white hover:text-blue-600 rounded-full px-8 py-3 text-lg font-semibold transition-all duration-200">
+                
               </Button>
             </div>
           </div>
@@ -170,8 +154,6 @@ const Pricing = () => {
       </main>
       
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default Pricing;
