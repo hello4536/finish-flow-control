@@ -129,7 +129,7 @@ const HeroSection = () => {
           <div className="relative">
             <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-2xl blur-2xl transform rotate-1"></div>
             <div className="relative bg-white rounded-2xl shadow-2xl border border-gray-200/50 overflow-hidden">
-              <img src="/lovable-uploads/8e9a6ded-9406-4eeb-8af1-b1e83ca9e786.png" alt="Finivo Dashboard" className="w-full h-auto" />
+              <img src="/lovable-uploads/1eeae866-4588-4354-bcaf-a5994c8cfbb3.png" alt="Finivo Dashboard" className="w-full h-auto" />
             </div>
           </div>
           
