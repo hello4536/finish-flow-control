@@ -1,17 +1,32 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { FileText, Video, Play, Clock, User, ArrowRight, Calendar } from "lucide-react";
+import { FileText, Video, Play, Clock, User, ArrowRight, Calendar, Star, Eye, ThumbsUp } from "lucide-react";
 import { ContentItem } from "./types";
 import { getDifficultyColor, getIndustryColor } from "./utils";
 
 interface ContentCardProps {
   item: ContentItem;
+  showEngagementStats?: boolean;
+  showSocialProof?: boolean;
 }
 
-const ContentCard: React.FC<ContentCardProps> = ({ item }) => {
+const ContentCard: React.FC<ContentCardProps> = ({ 
+  item, 
+  showEngagementStats = true, 
+  showSocialProof = true 
+}) => {
+  const [isBookmarked, setIsBookmarked] = useState(false);
+
+  // Mock engagement data - in real app, this would come from the backend
+  const engagementStats = {
+    views: Math.floor(Math.random() * 10000) + 1000,
+    likes: Math.floor(Math.random() * 500) + 50,
+    rating: (Math.random() * 2 + 3).toFixed(1), // 3.0 - 5.0
+    completionRate: Math.floor(Math.random() * 30) + 70 // 70-100%
+  };
   const getTypeIcon = () => {
     switch (item.type) {
       case "article":
@@ -76,6 +91,31 @@ const ContentCard: React.FC<ContentCardProps> = ({ item }) => {
         </CardDescription>
       </CardHeader>
       <CardContent className="pt-0">
+        {/* Engagement Stats */}
+        {showEngagementStats && (
+          <div className="flex items-center justify-between text-xs text-gray-500 mb-3 bg-gray-50 rounded-lg p-2">
+            <div className="flex items-center space-x-3">
+              <div className="flex items-center">
+                <Eye className="w-3 h-3 mr-1" />
+                {engagementStats.views.toLocaleString()}
+              </div>
+              <div className="flex items-center">
+                <ThumbsUp className="w-3 h-3 mr-1" />
+                {engagementStats.likes}
+              </div>
+              <div className="flex items-center">
+                <Star className="w-3 h-3 mr-1 text-yellow-500" />
+                {engagementStats.rating}
+              </div>
+            </div>
+            {showSocialProof && (
+              <div className="text-green-600 font-medium">
+                {engagementStats.completionRate}% completed
+              </div>
+            )}
+          </div>
+        )}
+
         <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
           <div className="flex items-center space-x-4">
             {item.readTime && (
