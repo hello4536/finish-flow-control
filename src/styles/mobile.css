@@ -1,0 +1,101 @@
+/* Mobile-specific styles and utilities */
+
+/* Touch target optimization */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Hide scrollbars for mobile swipe */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Smooth scrolling for mobile */
+@media (max-width: 768px) {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Optimize mobile typography */
+  h1 {
+    line-height: 1.2;
+  }
+  
+  h2 {
+    line-height: 1.3;
+  }
+  
+  /* Improve mobile touch interactions */
+  button {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* Mobile-optimized spacing */
+  .mobile-spacing > * + * {
+    margin-top: 1rem;
+  }
+  
+  /* Mobile card optimization */
+  .mobile-card {
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Prevent zoom on input focus */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}
+
+/* Progressive enhancement for mobile */
+@supports (backdrop-filter: blur(10px)) {
+  .mobile-backdrop {
+    backdrop-filter: blur(10px);
+  }
+}
+
+/* Mobile-specific animations */
+@keyframes mobile-slide-up {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.mobile-slide-up {
+  animation: mobile-slide-up 0.3s ease-out;
+}
+
+/* Horizontal scroll snap for mobile carousels */
+.mobile-carousel {
+  scroll-snap-type: x mandatory;
+}
+
+.mobile-carousel > * {
+  scroll-snap-align: center;
+}
+
+/* Mobile-friendly hover states */
+@media (hover: none) {
+  .hover\:scale-105:hover {
+    transform: none;
+  }
+  
+  .hover\:shadow-lg:hover {
+    box-shadow: inherit;
+  }
+}
