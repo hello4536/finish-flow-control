@@ -1,74 +1,41 @@
-
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Check } from "lucide-react";
 import { Link } from "react-router-dom";
-
 const PricingSection = () => {
-  const plans = [
-    {
-      name: "Starter",
-      price: "$29",
-      period: "/month",
-      description: "Perfect for small finishing operations",
-      badge: null,
-      features: [
-        "Up to 50 jobs per month",
-        "Basic material tracking",
-        "Standard reporting",
-        "Email support",
-        "Mobile app access",
-        "2 team members"
-      ],
-      buttonText: "Start Free Trial",
-      buttonVariant: "outline" as const,
-      popular: false
-    },
-    {
-      name: "Professional",
-      price: "$79",
-      period: "/month",
-      description: "Ideal for growing finishing businesses",
-      badge: "Most Popular",
-      features: [
-        "Unlimited jobs",
-        "Advanced material tracking",
-        "Custom workflows",
-        "Priority support",
-        "Advanced reporting & analytics",
-        "Up to 10 team members",
-        "Compliance management",
-        "Quality control tools"
-      ],
-      buttonText: "Start Free Trial",
-      buttonVariant: "default" as const,
-      popular: true
-    },
-    {
-      name: "Enterprise",
-      price: "$199",
-      period: "/month",
-      description: "For large-scale finishing operations",
-      badge: null,
-      features: [
-        "Everything in Professional",
-        "Unlimited team members",
-        "Custom integrations",
-        "Dedicated account manager",
-        "24/7 phone support",
-        "Advanced security features",
-        "Custom training sessions",
-        "API access"
-      ],
-      buttonText: "Contact Sales",
-      buttonVariant: "outline" as const,
-      popular: false
-    }
-  ];
-
-  return (
-    <section className="py-20 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
+  const plans = [{
+    name: "Starter",
+    price: "$29",
+    period: "/month",
+    description: "Perfect for small finishing operations",
+    badge: null,
+    features: ["Up to 50 jobs per month", "Basic material tracking", "Standard reporting", "Email support", "Mobile app access", "2 team members"],
+    buttonText: "Start Free Trial",
+    buttonVariant: "outline" as const,
+    popular: false
+  }, {
+    name: "Professional",
+    price: "$79",
+    period: "/month",
+    description: "Ideal for growing finishing businesses",
+    badge: "Most Popular",
+    features: ["Unlimited jobs", "Advanced material tracking", "Custom workflows", "Priority support", "Advanced reporting & analytics", "Up to 10 team members", "Compliance management", "Quality control tools"],
+    buttonText: "Start Free Trial",
+    buttonVariant: "default" as const,
+    popular: true
+  }, {
+    name: "Enterprise",
+    price: "$199",
+    period: "/month",
+    description: "For large-scale finishing operations",
+    badge: null,
+    features: ["Everything in Professional", "Unlimited team members", "Custom integrations", "Dedicated account manager", "24/7 phone support", "Advanced security features", "Custom training sessions", "API access"],
+    buttonText: "Contact Sales",
+    buttonVariant: "outline" as const,
+    popular: false
+  }];
+  return <section className="py-20 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute top-0 left-0 w-72 h-72 bg-gradient-to-br from-blue-100/40 to-purple-100/40 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-br from-purple-100/40 to-teal-100/40 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
@@ -94,22 +61,12 @@ const PricingSection = () => {
         </div>
 
         <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {plans.map((plan, index) => (
-            <div
-              key={plan.name}
-              className={`relative rounded-2xl border-2 p-8 transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 ${
-                plan.popular
-                  ? 'border-blue-500 bg-white shadow-xl scale-105'
-                  : 'border-gray-200 bg-white shadow-sm hover:border-blue-300'
-              }`}
-            >
-              {plan.badge && (
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+          {plans.map((plan, index) => <div key={plan.name} className={`relative rounded-2xl border-2 p-8 transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 ${plan.popular ? 'border-blue-500 bg-white shadow-xl scale-105' : 'border-gray-200 bg-white shadow-sm hover:border-blue-300'}`}>
+              {plan.badge && <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                   <Badge className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-1 text-sm font-medium">
                     {plan.badge}
                   </Badge>
-                </div>
-              )}
+                </div>}
               
               <div className="text-center mb-8">
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
@@ -122,32 +79,20 @@ const PricingSection = () => {
               </div>
               
               <ul className="space-y-4 mb-8">
-                {plan.features.map((feature, idx) => (
-                  <li key={idx} className="flex items-start gap-3">
+                {plan.features.map((feature, idx) => <li key={idx} className="flex items-start gap-3">
                     <div className="w-5 h-5 bg-gradient-to-r from-green-400 to-teal-500 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0">
                       <Check className="w-3 h-3 text-white" />
                     </div>
                     <span className="text-gray-700">{feature}</span>
-                  </li>
-                ))}
+                  </li>)}
               </ul>
               
-              <Button
-                asChild
-                variant={plan.buttonVariant}
-                size="lg"
-                className={`w-full rounded-full font-semibold transition-all duration-200 ${
-                  plan.popular
-                    ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl'
-                    : 'border-2 border-gray-300 hover:border-blue-500 hover:bg-blue-50'
-                }`}
-              >
+              <Button asChild variant={plan.buttonVariant} size="lg" className={`w-full rounded-full font-semibold transition-all duration-200 ${plan.popular ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl' : 'border-2 border-gray-300 hover:border-blue-500 hover:bg-blue-50'}`}>
                 <Link to="/auth/signup" className="flex items-center justify-center">
                   {plan.buttonText}
                 </Link>
               </Button>
-            </div>
-          ))}
+            </div>)}
         </div>
 
         {/* Additional CTA Section */}
@@ -161,20 +106,11 @@ const PricingSection = () => {
               Upgrade or downgrade at any time with no penalties.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                asChild 
-                size="lg" 
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-full px-8 py-3 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
-              >
+              <Button asChild size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-full px-8 py-3 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200">
                 <Link to="/auth/signup">Start Free Trial</Link>
               </Button>
-              <Button 
-                asChild 
-                variant="outline" 
-                size="lg"
-                className="border-2 border-gray-300 hover:border-blue-500 hover:bg-blue-50 rounded-full px-8 py-3 text-lg font-semibold transition-all duration-200"
-              >
-                <Link to="/contact">Contact Sales</Link>
+              <Button asChild variant="outline" size="lg" className="border-2 border-gray-300 hover:border-blue-500 hover:bg-blue-50 rounded-full px-8 py-3 text-lg font-semibold transition-all duration-200">
+                
               </Button>
             </div>
           </div>
@@ -184,8 +120,6 @@ const PricingSection = () => {
           <div className="absolute bottom-0 left-0 h-24 w-24 rounded-full bg-purple-100/50 -ml-12 -mb-12"></div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default PricingSection;
