@@ -13,6 +13,8 @@ import ProductOverviewSection from "@/components/landing/ProductOverviewSection"
 import InteractiveDemo from "@/components/landing/InteractiveDemo";
 import CompetitiveAdvantage from "@/components/landing/CompetitiveAdvantage";
 import LeadCapture from "@/components/landing/LeadCapture";
+import SocialProofWidget from "@/components/landing/SocialProofWidget";
+import ExitIntentPopup from "@/components/landing/ExitIntentPopup";
 
 const Index = () => {
   const { user } = useAuth();
@@ -35,6 +37,10 @@ const Index = () => {
       </main>
       
       <Footer />
+      
+      {/* Enhanced UX Components */}
+      <SocialProofWidget />
+      <ExitIntentPopup />
     </div>
   );
 };

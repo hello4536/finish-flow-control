@@ -1,10 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Play, ArrowRight, CheckCircle2, Clock, DollarSign, Shield } from "lucide-react";
+import { Play, ArrowRight, CheckCircle2, Clock, DollarSign, Shield, TrendingUp, AlertTriangle, Users } from "lucide-react";
 
 const InteractiveDemo = () => {
-  const [activeDemo, setActiveDemo] = useState<'inventory' | 'compliance' | 'scheduling' | null>(null);
+  const [activeDemo, setActiveDemo] = useState<'inventory' | 'compliance' | 'scheduling' | 'analytics' | null>(null);
+  const [animatedValues, setAnimatedValues] = useState({
+    inventory: 85,
+    lowStock: 15,
+    savings: 12500,
+    efficiency: 87
+  });
+
+  // Simulate real-time updates
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setAnimatedValues(prev => ({
+        inventory: Math.max(80, Math.min(95, prev.inventory + (Math.random() - 0.5) * 2)),
+        lowStock: Math.max(10, Math.min(25, prev.lowStock + (Math.random() - 0.5) * 3)),
+        savings: Math.max(10000, Math.min(15000, prev.savings + (Math.random() - 0.5) * 500)),
+        efficiency: Math.max(80, Math.min(95, prev.efficiency + (Math.random() - 0.5) * 2))
+      }));
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const demoFeatures = [
     {
@@ -30,6 +50,14 @@ const InteractiveDemo = () => {
       icon: <Clock className="h-6 w-6" />,
       benefit: '40% faster jobs',
       color: 'from-purple-500 to-purple-600'
+    },
+    {
+      id: 'analytics' as const,
+      title: 'Real-time Analytics',
+      description: 'Live performance dashboard',
+      icon: <TrendingUp className="h-6 w-6" />,
+      benefit: 'Data-driven decisions',
+      color: 'from-orange-500 to-red-600'
     }
   ];
 
@@ -38,25 +66,54 @@ const InteractiveDemo = () => {
       case 'inventory':
         return (
           <div className="space-y-4">
-            <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+            <div className="bg-green-50 p-4 rounded-lg border border-green-200 transition-all duration-300 hover:shadow-md">
               <div className="flex justify-between items-center mb-2">
                 <span className="font-medium">Clear Coat - Premium</span>
-                <span className="text-green-600 font-bold">In Stock: 85%</span>
+                <span className="text-green-600 font-bold">In Stock: {Math.round(animatedValues.inventory)}%</span>
               </div>
-              <div className="bg-green-200 h-2 rounded-full">
-                <div className="bg-green-500 h-2 rounded-full w-4/5"></div>
+              <div className="bg-green-200 h-3 rounded-full overflow-hidden">
+                <div 
+                  className="bg-green-500 h-3 rounded-full transition-all duration-1000" 
+                  style={{ width: `${animatedValues.inventory}%` }}
+                ></div>
               </div>
-              <p className="text-sm text-green-700 mt-2">Auto-reorder triggered at 20%</p>
+              <p className="text-sm text-green-700 mt-2 flex items-center">
+                <CheckCircle2 className="w-4 h-4 mr-1" />
+                Auto-reorder triggered at 20%
+              </p>
+              <div className="mt-3 text-xs text-green-600 bg-green-100 px-2 py-1 rounded-full inline-block">
+                💰 Cost per gallon: $45.99 • Last order: 5 days ago
+              </div>
             </div>
-            <div className="bg-red-50 p-4 rounded-lg border border-red-200">
+            
+            <div className="bg-red-50 p-4 rounded-lg border border-red-200 transition-all duration-300 hover:shadow-md animate-pulse">
               <div className="flex justify-between items-center mb-2">
                 <span className="font-medium">Primer - Base White</span>
-                <span className="text-red-600 font-bold">Low: 15%</span>
+                <span className="text-red-600 font-bold">Low: {Math.round(animatedValues.lowStock)}%</span>
               </div>
-              <div className="bg-red-200 h-2 rounded-full">
-                <div className="bg-red-500 h-2 rounded-full w-1/6"></div>
+              <div className="bg-red-200 h-3 rounded-full overflow-hidden">
+                <div 
+                  className="bg-red-500 h-3 rounded-full transition-all duration-1000" 
+                  style={{ width: `${animatedValues.lowStock}%` }}
+                ></div>
               </div>
-              <p className="text-sm text-red-700 mt-2">⚠️ Order immediately - 2 days remaining</p>
+              <p className="text-sm text-red-700 mt-2 flex items-center">
+                <AlertTriangle className="w-4 h-4 mr-1" />
+                Order immediately - 2 days remaining
+              </p>
+              <div className="mt-3">
+                <Button size="sm" className="bg-red-600 hover:bg-red-700 text-white text-xs">
+                  Auto-Order Now
+                </Button>
+              </div>
+            </div>
+
+            <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+              <div className="flex justify-between items-center">
+                <span className="font-medium text-blue-900">Monthly Savings</span>
+                <span className="text-blue-600 font-bold text-lg">${animatedValues.savings.toLocaleString()}</span>
+              </div>
+              <p className="text-sm text-blue-700 mt-1">From waste reduction & smart ordering</p>
             </div>
           </div>
         );
@@ -83,19 +140,94 @@ const InteractiveDemo = () => {
       case 'scheduling':
         return (
           <div className="space-y-3">
-            <div className="bg-purple-50 p-3 rounded-lg border border-purple-200">
-              <div className="flex justify-between items-center">
+            <div className="bg-purple-50 p-4 rounded-lg border border-purple-200 transition-all duration-300">
+              <div className="flex justify-between items-center mb-2">
                 <span className="font-medium text-purple-900">Booth A - Job #2024-156</span>
-                <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded">In Progress</span>
+                <span className="text-xs bg-purple-100 text-purple-700 px-3 py-1 rounded-full">In Progress</span>
               </div>
-              <div className="text-sm text-purple-700 mt-1">Est. Complete: 2:30 PM</div>
+              <div className="bg-purple-200 h-2 rounded-full mb-2">
+                <div className="bg-purple-600 h-2 rounded-full w-3/4 transition-all duration-1000"></div>
+              </div>
+              <div className="flex justify-between text-sm text-purple-700">
+                <span>Est. Complete: 2:30 PM</span>
+                <span>75% Done</span>
+              </div>
+              <div className="mt-2 text-xs text-purple-600">
+                👤 Mike Johnson • 🎨 Metallic Silver • 🚗 2023 Honda Civic
+              </div>
             </div>
-            <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
-              <div className="flex justify-between items-center">
+            
+            <div className="bg-blue-50 p-4 rounded-lg border border-blue-200 transition-all duration-300">
+              <div className="flex justify-between items-center mb-2">
                 <span className="font-medium text-blue-900">Booth B - Job #2024-157</span>
-                <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">Queued</span>
+                <span className="text-xs bg-blue-100 text-blue-700 px-3 py-1 rounded-full animate-pulse">Queued</span>
               </div>
-              <div className="text-sm text-blue-700 mt-1">Start: 2:45 PM (Auto-optimized)</div>
+              <div className="text-sm text-blue-700 mb-2">Start: 2:45 PM (Auto-optimized)</div>
+              <div className="text-xs text-blue-600">
+                👤 Sarah Wilson • 🎨 Candy Apple Red • 🚗 2022 Ford F-150
+              </div>
+            </div>
+
+            <div className="bg-green-50 p-3 rounded-lg border border-green-200">
+              <div className="flex items-center justify-between text-sm">
+                <span className="font-medium text-green-900">Today's Efficiency</span>
+                <span className="text-green-600 font-bold">{Math.round(animatedValues.efficiency)}%</span>
+              </div>
+              <p className="text-xs text-green-700 mt-1">+12% vs last week • AI optimization active</p>
+            </div>
+          </div>
+        );
+      case 'analytics':
+        return (
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-3 rounded-lg border border-blue-200">
+                <div className="text-2xl font-bold text-blue-900">{Math.round(animatedValues.efficiency)}%</div>
+                <div className="text-xs text-blue-700">Shop Efficiency</div>
+                <div className="flex items-center text-xs text-blue-600 mt-1">
+                  <TrendingUp className="w-3 h-3 mr-1" />
+                  +5% this week
+                </div>
+              </div>
+              <div className="bg-gradient-to-r from-green-50 to-green-100 p-3 rounded-lg border border-green-200">
+                <div className="text-2xl font-bold text-green-900">${(animatedValues.savings/1000).toFixed(1)}K</div>
+                <div className="text-xs text-green-700">Monthly Savings</div>
+                <div className="flex items-center text-xs text-green-600 mt-1">
+                  <TrendingUp className="w-3 h-3 mr-1" />
+                  +15% vs goal
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-orange-50 p-4 rounded-lg border border-orange-200">
+              <div className="flex items-center justify-between mb-2">
+                <span className="font-medium text-orange-900">Active Jobs</span>
+                <span className="text-orange-600 font-bold">7</span>
+              </div>
+              <div className="grid grid-cols-3 gap-2 text-xs">
+                <div className="text-center">
+                  <div className="font-bold text-purple-600">3</div>
+                  <div className="text-purple-700">In Progress</div>
+                </div>
+                <div className="text-center">
+                  <div className="font-bold text-blue-600">2</div>
+                  <div className="text-blue-700">Queued</div>
+                </div>
+                <div className="text-center">
+                  <div className="font-bold text-green-600">2</div>
+                  <div className="text-green-700">Drying</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-red-50 p-3 rounded-lg border border-red-200">
+              <div className="flex items-center text-red-700">
+                <AlertTriangle className="w-4 h-4 mr-2" />
+                <span className="font-medium text-sm">2 compliance alerts require attention</span>
+              </div>
+              <Button size="sm" className="mt-2 bg-red-600 hover:bg-red-700 text-white text-xs">
+                View Alerts
+              </Button>
             </div>
           </div>
         );
