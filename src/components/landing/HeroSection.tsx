@@ -55,7 +55,7 @@ const HeroSection = () => {
           
           {/* CTA buttons with urgency */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-6">
-            <Button asChild size="lg" className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white shadow-xl hover:shadow-2xl transition-all duration-200 rounded-full px-10 py-4 text-lg font-semibold group hover:scale-105">\
+            <Button asChild size="lg" className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white shadow-xl hover:shadow-2xl transition-all duration-200 rounded-full px-10 py-4 text-lg font-semibold group hover:scale-105">
               <Link to="/auth/signup" className="flex items-center">
                 Start Free Trial • Save $1000s
                 <ArrowRight className="ml-3 h-6 w-6 group-hover:translate-x-1 transition-transform" />
