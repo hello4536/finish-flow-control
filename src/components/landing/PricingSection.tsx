@@ -5,32 +5,22 @@ import { Check } from "lucide-react";
 import { Link } from "react-router-dom";
 const PricingSection = () => {
   const plans = [{
-    name: "Starter",
-    price: "$29",
+    name: "Professional Plan",
+    price: "$75",
     period: "/month",
-    description: "Perfect for small finishing operations",
-    badge: null,
-    features: ["Up to 50 jobs per month", "Basic material tracking", "Standard reporting", "Email support", "Mobile app access", "2 team members"],
-    buttonText: "Start Free Trial",
-    buttonVariant: "outline" as const,
-    popular: false
-  }, {
-    name: "Professional",
-    price: "$79",
-    period: "/month",
-    description: "Ideal for growing finishing businesses",
+    description: "Complete finishing management solution",
     badge: "Most Popular",
-    features: ["Unlimited jobs", "Advanced material tracking", "Custom workflows", "Priority support", "Advanced reporting & analytics", "Up to 10 team members", "Compliance management", "Quality control tools"],
-    buttonText: "Start Free Trial",
+    features: ["Admin dashboard access", "Unlimited jobs", "Advanced material tracking", "Equipment management", "Compliance tools", "Priority support", "Advanced reporting & analytics", "Email support"],
+    buttonText: "Subscribe Now",
     buttonVariant: "default" as const,
     popular: true
   }, {
-    name: "Enterprise",
-    price: "$199",
-    period: "/month",
-    description: "For large-scale finishing operations",
+    name: "Additional Employee",
+    price: "$25",
+    period: "/month per user",
+    description: "Add team members to your plan",
     badge: null,
-    features: ["Everything in Professional", "Unlimited team members", "Custom integrations", "Dedicated account manager", "24/7 phone support", "Advanced security features", "Custom training sessions", "API access"],
+    features: ["Employee dashboard access", "Job participation", "Material usage tracking", "Equipment assignments", "Task management", "Mobile app access"],
     buttonText: "Contact Sales",
     buttonVariant: "outline" as const,
     popular: false
@@ -56,11 +46,11 @@ const PricingSection = () => {
           </h2>
           
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Start with a free trial on any plan. No setup fees, no hidden costs. Scale as you grow.
+            Professional-grade finishing management. $75/month base + $25 per additional team member.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {plans.map((plan, index) => <div key={plan.name} className={`relative rounded-2xl border-2 p-8 transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 ${plan.popular ? 'border-blue-500 bg-white shadow-xl scale-105' : 'border-gray-200 bg-white shadow-sm hover:border-blue-300'}`}>
               {plan.badge && <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                   <Badge className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-1 text-sm font-medium">
@@ -99,18 +89,15 @@ const PricingSection = () => {
         <div className="mt-20 text-center bg-white rounded-2xl p-10 border border-gray-100 shadow-lg relative overflow-hidden">
           <div className="relative z-10">
             <h3 className="text-2xl md:text-3xl font-bold mb-4 text-gray-900">
-              Not sure which plan is right for you?
+              Ready to get started?
             </h3>
             <p className="text-lg text-gray-600 mb-6 max-w-2xl mx-auto">
-              Start with our free trial and experience the full power of Finivo. 
-              Upgrade or downgrade at any time with no penalties.
+              Join finishing professionals who use Finivo to streamline their operations.
+              Start your subscription today.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-full px-8 py-3 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200">
-                <Link to="/auth/signup">Start Free Trial</Link>
-              </Button>
-              <Button asChild variant="outline" size="lg" className="border-2 border-gray-300 hover:border-blue-500 hover:bg-blue-50 rounded-full px-8 py-3 text-lg font-semibold transition-all duration-200">
-                
+                <Link to="/auth/signup">Get Started</Link>
               </Button>
             </div>
           </div>

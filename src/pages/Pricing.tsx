@@ -19,20 +19,20 @@ const Pricing = () => {
             </div>
             
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-              Choose Your Perfect Plan
+              Professional Finishing
               <br />
               <span className="bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent">
-                Start Free Today
+                Management Platform
               </span>
             </h1>
             
             <p className="text-xl text-blue-100 max-w-3xl mx-auto leading-relaxed mb-8">
-              All plans include our core finishing management features. Start with a free trial and upgrade as your business grows.
+              $75/month base subscription + $25 per additional team member. Professional-grade tools for finishing operations.
             </p>
             
             <Button asChild size="lg" className="bg-white text-blue-600 hover:bg-blue-50 rounded-full px-8 py-3 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 group">
               <Link to="/auth/signup" className="flex items-center">
-                Start Your Free Trial
+                Get Started Today
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Link>
             </Button>
@@ -57,8 +57,8 @@ const Pricing = () => {
             <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
               <div className="space-y-6">
                 <div className="p-6 rounded-2xl border border-gray-100 hover:shadow-lg transition-shadow duration-200">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">How does the free trial work?</h3>
-                  <p className="text-gray-600">All plans include a 14-day free trial with full access to features. No credit card required to start.</p>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">How does pricing work?</h3>
+                  <p className="text-gray-600">Simple pricing: $75/month for the base subscription + $25/month for each additional team member.</p>
                 </div>
                 
                 <div className="p-6 rounded-2xl border border-gray-100 hover:shadow-lg transition-shadow duration-200">
@@ -143,10 +143,7 @@ const Pricing = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild size="lg" className="bg-white text-blue-600 hover:bg-blue-50 rounded-full px-8 py-3 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200">
-                <Link to="/auth/signup">Start Free Trial</Link>
-              </Button>
-              <Button asChild variant="outline" size="lg" className="border-2 border-white text-white hover:bg-white hover:text-blue-600 rounded-full px-8 py-3 text-lg font-semibold transition-all duration-200">
-                
+                <Link to="/auth/signup">Get Started</Link>
               </Button>
             </div>
           </div>

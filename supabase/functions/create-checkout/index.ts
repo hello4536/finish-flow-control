@@ -154,20 +154,43 @@ serve(async (req) => {
       }
     }
     
-    // Create checkout session with both admin and employee prices
+    // Create line items for new pricing structure
+    const lineItems = [
+      {
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: "Professional Plan - Base Subscription",
+            description: "Complete finishing management solution for your organization"
+          },
+          unit_amount: 7500, // $75.00 in cents
+          recurring: { interval: "month" }
+        },
+        quantity: 1,
+      }
+    ];
+
+    // Add employee seats if needed
+    if (employeeSeats > 0) {
+      lineItems.push({
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: "Additional Employee",
+            description: "Per additional team member"
+          },
+          unit_amount: 2500, // $25.00 in cents
+          recurring: { interval: "month" }
+        },
+        quantity: employeeSeats,
+      });
+    }
+
+    // Create checkout session
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
       payment_method_types: ["card"],
-      line_items: [
-        {
-          price: "price_admin_monthly", // Admin price
-          quantity: 1,
-        },
-        {
-          price: "price_employee_monthly", // Employee price
-          quantity: employeeSeats
-        }
-      ],
+      line_items: lineItems,
       mode: "subscription",
       subscription_data: {
         metadata: {

@@ -13,35 +13,24 @@ const MobilePricingCards = () => {
 
   const plans = [
     {
-      name: "Starter",
-      price: "$29",
+      name: "Professional Plan",
+      price: "$75",
       period: "/month",
-      description: "Perfect for small finishing operations",
-      badge: null,
-      features: ["Up to 50 jobs per month", "Basic material tracking", "Standard reporting", "Email support"],
-      extraFeatures: ["Mobile app access", "2 team members"],
-      buttonText: "Start Free Trial",
-      popular: false
-    },
-    {
-      name: "Professional",
-      price: "$79",
-      period: "/month",
-      description: "Ideal for growing finishing businesses",
+      description: "Complete finishing management solution",
       badge: "Most Popular",
-      features: ["Unlimited jobs", "Advanced material tracking", "Custom workflows", "Priority support"],
-      extraFeatures: ["Advanced reporting & analytics", "Up to 10 team members", "Compliance management", "Quality control tools"],
-      buttonText: "Start Free Trial",
+      features: ["Admin dashboard access", "Unlimited jobs", "Advanced material tracking", "Equipment management"],
+      extraFeatures: ["Compliance tools", "Priority support", "Advanced reporting & analytics", "Email support"],
+      buttonText: "Subscribe Now",
       popular: true
     },
     {
-      name: "Enterprise",
-      price: "$199",
-      period: "/month",
-      description: "For large-scale finishing operations",
+      name: "Additional Employee",
+      price: "$25",
+      period: "/month per user",
+      description: "Add team members to your plan",
       badge: null,
-      features: ["Everything in Professional", "Unlimited team members", "Custom integrations", "24/7 phone support"],
-      extraFeatures: ["Advanced security features", "Custom training sessions", "API access", "Dedicated account manager"],
+      features: ["Employee dashboard access", "Job participation", "Material usage tracking", "Equipment assignments"],
+      extraFeatures: ["Task management", "Mobile app access"],
       buttonText: "Contact Sales",
       popular: false
     }
@@ -63,7 +52,7 @@ const MobilePricingCards = () => {
             </span>
           </h2>
           <p className="text-sm text-gray-600">
-            Start with a free trial. No setup fees, no hidden costs.
+            Professional-grade finishing management. $75 base + $25 per additional user.
           </p>
         </div>
 
@@ -161,17 +150,17 @@ const MobilePricingCards = () => {
         {/* Mobile CTA */}
         <div className="mt-8 text-center bg-white rounded-2xl p-6 border border-gray-100 shadow-lg">
           <h3 className="text-lg font-bold mb-2 text-gray-900">
-            Not sure which plan is right?
+            Ready to get started?
           </h3>
           <p className="text-sm text-gray-600 mb-4">
-            Start with our free trial and upgrade anytime.
+            Join finishing professionals using Finivo today.
           </p>
           <Button
             asChild
             size="lg"
             className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-full font-semibold h-12"
           >
-            <Link to="/auth/signup">Start Free Trial</Link>
+            <Link to="/auth/signup">Get Started</Link>
           </Button>
         </div>
       </div>

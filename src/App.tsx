@@ -48,8 +48,15 @@ function App() {
               <Route path="/auth/signup" element={<SignUpPage />} />
               <Route path="/auth/verify" element={<VerifyPage />} />
 
-              {/* Protected routes with MainLayout */}
+              {/* Subscription page - auth required but no subscription */}
               <Route element={<ProtectedRoute />}>
+                <Route element={<MainLayout />}>
+                  <Route path="/subscription" element={<SubscriptionPage />} />
+                </Route>
+              </Route>
+
+              {/* Protected routes with MainLayout - require subscription */}
+              <Route element={<ProtectedRoute requireSubscription />}>
                 <Route element={<MainLayout />}>
                   <Route path="/dashboard" element={<Dashboard />} />
                   <Route path="/job-management" element={<JobManagement />} />
@@ -59,7 +66,6 @@ function App() {
                   <Route path="/compliance" element={<CompliancePage />} />
                   <Route path="/analytics" element={<Analytics />} />
                   <Route path="/administration" element={<Administration />} />
-                  <Route path="/subscription" element={<SubscriptionPage />} />
                   <Route path="/testing-plan" element={<TestingPlan />} />
 
                   {/* Legacy routes for backward compatibility */}
