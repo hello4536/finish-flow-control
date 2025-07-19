@@ -39,7 +39,7 @@ const Features = () => {
               className="bg-white text-blue-600 hover:bg-blue-50 rounded-full px-8 py-3 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 group"
             >
               <Link to="/auth/signup" className="flex items-center">
-                Start Your Free Trial
+                Get Started
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Link>
             </Button>

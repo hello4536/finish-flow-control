@@ -54,7 +54,7 @@ const ComprehensiveFeaturesSection = () => {
               size="lg" 
               className="bg-white text-blue-600 hover:bg-blue-50 rounded-full px-8 py-3 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
             >
-              <Link to="/auth/signup">Start Free Trial</Link>
+              <Link to="/auth/signup">Get Started</Link>
             </Button>
           </div>
         </div>

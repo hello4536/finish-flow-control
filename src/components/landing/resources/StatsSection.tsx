@@ -54,7 +54,7 @@ const StatsSection: React.FC<StatsSectionProps> = ({ allContent }) => {
           className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-full px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 group"
         >
           <Link to="/auth/signup" className="flex items-center">
-            Start Free Trial
+            Get Started
             <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
           </Link>
         </Button>

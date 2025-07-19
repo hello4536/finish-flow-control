@@ -62,7 +62,7 @@ const MobileOptimizedHero = () => {
             className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-full font-semibold text-base h-12 shadow-lg"
           >
             <Link to="/auth/signup" className="flex items-center justify-center">
-              Start Free Trial
+              Get Started
               <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
           </Button>
