@@ -82,16 +82,22 @@ serve(async (req) => {
     
     if (countError) throw new Error(`Error counting employees: ${countError.message}`);
     
-    // Calculate number of admin users
+    // Get org member user IDs first
+    const { data: orgMembers, error: orgMembersError } = await supabaseClient
+      .from("org_members")
+      .select("user_id")
+      .eq("organization_id", org.id);
+    
+    if (orgMembersError) throw new Error(`Error fetching org members: ${orgMembersError.message}`);
+    
+    const orgMemberIds = orgMembers.map(member => member.user_id);
+    
+    // Calculate number of admin users in this organization
     const { count: adminCount, error: adminCountError } = await supabaseClient
       .from("user_roles")
       .select("*", { count: 'exact', head: true })
       .eq("role", "admin")
-      .in("user_id", 
-        supabaseClient.from("org_members")
-          .select("user_id")
-          .eq("organization_id", org.id)
-      );
+      .in("user_id", orgMemberIds);
     
     if (adminCountError) throw new Error(`Error counting admins: ${adminCountError.message}`);
     
