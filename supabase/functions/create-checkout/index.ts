@@ -154,34 +154,53 @@ serve(async (req) => {
       }
     }
     
-    // Create line items for new pricing structure
+    // Get subscription tiers with actual Stripe price IDs
+    logStep("Fetching subscription tiers from database");
+    const { data: subscriptionTiers, error: tiersError } = await supabaseClient
+      .from("subscription_tiers")
+      .select("*")
+      .in("name", ["Professional Plan", "Additional Employee"]);
+
+    if (tiersError) {
+      logStep("Error fetching subscription tiers", tiersError);
+      throw new Error(`Failed to fetch subscription tiers: ${tiersError.message}`);
+    }
+
+    if (!subscriptionTiers || subscriptionTiers.length === 0) {
+      logStep("No subscription tiers found");
+      throw new Error("No subscription tiers configured");
+    }
+
+    const professionalPlan = subscriptionTiers.find(tier => tier.name === "Professional Plan");
+    const employeePlan = subscriptionTiers.find(tier => tier.name === "Additional Employee");
+
+    if (!professionalPlan) {
+      logStep("Professional Plan not found");
+      throw new Error("Professional Plan not configured");
+    }
+
+    logStep("Found subscription tiers", { 
+      professionalPlan: professionalPlan.stripe_price_id,
+      employeePlan: employeePlan?.stripe_price_id 
+    });
+
+    // Create line items using actual Stripe price IDs
     const lineItems = [
       {
-        price_data: {
-          currency: "usd",
-          product_data: {
-            name: "Professional Plan - Base Subscription",
-            description: "Complete finishing management solution for your organization"
-          },
-          unit_amount: 7500, // $75.00 in cents
-          recurring: { interval: "month" }
-        },
+        price: professionalPlan.stripe_price_id,
         quantity: 1,
       }
     ];
 
     // Add employee seats if needed
     if (employeeSeats > 0) {
+      if (!employeePlan) {
+        logStep("Employee plan not found but employee seats needed");
+        throw new Error("Employee plan not configured but employee seats are required");
+      }
+      
       lineItems.push({
-        price_data: {
-          currency: "usd",
-          product_data: {
-            name: "Additional Employee",
-            description: "Per additional team member"
-          },
-          unit_amount: 2500, // $25.00 in cents
-          recurring: { interval: "month" }
-        },
+        price: employeePlan.stripe_price_id,
         quantity: employeeSeats,
       });
     }
