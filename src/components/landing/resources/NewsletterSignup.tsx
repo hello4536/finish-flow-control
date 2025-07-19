@@ -7,6 +7,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Mail, CheckCircle, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const NewsletterSignup: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -31,21 +32,15 @@ const NewsletterSignup: React.FC = () => {
     setIsLoading(true);
     
     try {
-      const response = await fetch('/functions/v1/newsletter-subscribe', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+      const { data: result, error } = await supabase.functions.invoke('newsletter-subscribe', {
+        body: {
           email,
           finisherType,
-        }),
+        },
       });
 
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.error || 'Subscription failed');
+      if (error) {
+        throw error;
       }
 
       setSubscriberData(result.subscriber);
